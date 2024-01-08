@@ -1807,6 +1807,10 @@ div#layout-3 {
     -webkit-mask-image: url(./html/favicon.svg);
 }
 
+.icon-anapnoe {
+    -webkit-mask-image: url(./html/svg/anapnoe.svg);
+}
+
 .icon-txt2img {
     -webkit-mask-image: url(./html/svg/t-box-line.svg);
 }

@@ -1234,7 +1234,7 @@ function getNestedTemplates(container) {
 	return nestedData;
 }
 
-function loadCurrentTemplate(data, i, callback) {
+function 	loadCurrentTemplate(data, i, callback) {
 	const curr_data = data[i];
 	const xmlHttp = new XMLHttpRequest();
 	const next = i < data.length;
@@ -1382,19 +1382,11 @@ function setupLogger() {
             logger.innerHTML += output + "</div>";
             console.old.apply(undefined, arguments);
         };
-    })(document.getElementById("logger"));
-    
+    })(document.getElementById("logger"));		
 
-	console.log(
-	'\n',"╔═╗╔═╦╦═╗╔═╦═╦╦═╦═╗",
-	'\n',"║╬╚╣║║║╬╚╣╬║║║║╬║╩╣",
-	'\n',"╚══╩╩═╩══╣╔╩╩═╩═╩═╝",
-	'\n',"─────────╚╝"
-	);
-
-	console.log("Initialize Anapnoe UI/UX runtime engine version 0.0.1");
+	console.log("Initialize SDNext UI/UX runtime engine version 0.0.1");
 	console.log(navigator.userAgent);
-    // const versions = gradioApp().querySelector(".versions");
+    // const versions = gradioApp().querySelector(".versions"); todo
 	// console.log(versions.innerHTML);
 
     console.log("Console log enabled: ", window.opts.uiux_enable_console_log);
