@@ -1803,6 +1803,14 @@ div#layout-3 {
     -webkit-mask-image: url(./html/SDNext_Logo.svg);
 }
 
+.icon-sdnext {
+    -webkit-mask-image: url(./html/favicon.svg);
+}
+
+.icon-txt2img {
+    -webkit-mask-image: url(./html/svg/t-box-line.svg);
+}
+
 .icon-txt2img {
     -webkit-mask-image: url(./html/svg/t-box-line.svg);
 }
@@ -3420,4 +3428,10 @@ input[type="range"]::-ms-fill-lower {
 
 input[type="range"]::-ms-fill-upper {
     background-color: var(--ae-input-bg-color);
+}
+
+
+/* SDNEXT */
+.tooltip {
+    background-color: var(--ae-primary-color);
 }
