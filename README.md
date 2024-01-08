@@ -4,6 +4,7 @@
 ## Installaton
 1. `cd SDNEXTPATH/extensions`
 2. `git clone https://github.com/BinaryQuantumSoul/sdnext-ui-ux`
+3. Set SD.Next theme to `gradio/base`
 
 ## Credits
 `Anapnoe. (2023). Stable Diffusion Web UI-UX [Computer software]. https://github.com/anapnoe/stable-diffusion-webui-ux`
