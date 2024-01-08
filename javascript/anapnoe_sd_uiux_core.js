@@ -87,8 +87,8 @@ async function getAllContributorsRecursive(repoName, page = 1, allContributors =
    
 localStorage.setItem('UiUxReady', "false");
 localStorage.setItem('UiUxComplete', "false");
-const default_ext_path = './file=extensions-builtin/anapnoe-sd-uiux/html/templates/';
-const default_libs_path = './file=extensions-builtin/anapnoe-sd-uiux/html/libs/';
+const default_ext_path = './file=extensions/sdnext-ui-ux/html/templates/'; //todo change
+const default_libs_path = './file=extensions/sdnext-ui-ux/html/libs/';
 let total = 0;
 let active_main_tab;// = document.querySelector("#tab_txt2img");//null
 let loggerUiUx;
@@ -1394,8 +1394,8 @@ function setupLogger() {
 
 	console.log("Initialize Anapnoe UI/UX runtime engine version 0.0.1");
 	console.log(navigator.userAgent);
-    const versions = gradioApp().querySelector(".versions");
-	console.log(versions.innerHTML);
+    // const versions = gradioApp().querySelector(".versions");
+	// console.log(versions.innerHTML);
 
     console.log("Console log enabled: ", window.opts.uiux_enable_console_log);
     console.log("Maximum resolution output: ", window.opts.uiux_max_resolution_output);
@@ -1425,7 +1425,7 @@ function setupLogger() {
 		link.rel = 'icon';
 		document.head.appendChild(link);
 	}
-	link.href = './file=extensions-builtin/anapnoe-sd-uiux/html/favicon.svg';
+	link.href = './file=extensions/sdnext-ui-ux/html/favicon.svg';
 
 	removeStyleAssets(); 
 

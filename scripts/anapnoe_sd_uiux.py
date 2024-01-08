@@ -4,7 +4,7 @@ import gradio as gr
 import modules.scripts as scripts
 from modules import script_callbacks, shared
 
-mapping = [(info.infotext, k) for k, info in shared.opts.data_labels.items() if info.infotext]
+mapping = [(info.label, k) for k, info in shared.opts.data_labels.items() if info.label]
 shared.options_templates.update(shared.options_section(('uiux_core', "Anapnoe UI-UX"), {
     "uiux_enable_console_log": shared.OptionInfo(False, "Enable console log"),
     "uiux_max_resolution_output": shared.OptionInfo(2048, "Max resolution output for txt2img and img2img"),
@@ -19,10 +19,8 @@ shared.options_templates.update(shared.options_section(('uiux_core', "Anapnoe UI
     "uiux_ignore_overrides": shared.OptionInfo([], "Ignore Overrides", gr.CheckboxGroup, lambda: {"choices": list(mapping)})
 }))
 
-
 basedir = scripts.basedir() 
 html_folder = os.path.join(basedir, "html") 
-
 layouts_folder = os.path.join(basedir, "layouts") 
 javascript_folder = os.path.join(basedir, "javascript")
 
