@@ -499,10 +499,9 @@ function showContributors(){
 	contributors_view.append(temp);	
 
 	contributors_btn.addEventListener('click', function(e) {
-		//console.log(getAllContributors("anapnoe/stable-diffusion-webui-ux"));
 		if(!contributors_btn.getAttribute("data-visited")){
 			contributors_btn.setAttribute("data-visited", "true");
-			const promise = getAllContributorsRecursive("anapnoe/stable-diffusion-webui-ux");
+			const promise = getAllContributorsRecursive("vladmandic/automatic");
 			promise.then(function (result) {
 				//console.log(result)
 				temp.innerHTML = "";

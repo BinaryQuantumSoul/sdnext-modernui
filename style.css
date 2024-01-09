@@ -3439,3 +3439,18 @@ input[type="range"]::-ms-fill-upper {
 .tooltip {
     background-color: var(--ae-primary-color);
 }
+
+#about-content img {
+    max-width: 100px;
+    max-height: 100px;
+}
+
+#about-content div {
+    display: flex;
+    flex-direction: row;
+}
+
+#about-content div:first-of-type {
+    display: flex;
+    flex-direction: column;
+}
