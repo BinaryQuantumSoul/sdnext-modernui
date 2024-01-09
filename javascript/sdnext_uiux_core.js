@@ -522,6 +522,30 @@ function showContributors(){
 	});
 }
 
+function showReadMeAbout() {
+	const about_btn = document.querySelector("#readme_about");
+	about_btn.addEventListener('click', function(){
+		if(!about_btn.getAttribute("data-visited")){
+			about_btn.setAttribute("data-visited", "true");
+
+			fetch('https://raw.githubusercontent.com/vladmandic/automatic/master/README.md')
+				.then(response => {
+					if (!response.ok) {
+						throw new Error('ReadMe generation network error');
+					}
+					return response.text();
+				})
+				.then(markdownText => {
+					document.getElementById('about-content').innerHTML = marked.parse(markdownText);
+				})
+				.catch(error => {
+					console.error('ReadMe generation markdown error', error);
+				});
+		}
+	});
+}
+
+
 function onUiUxReady(content_div){
 
 	const interval = setInterval(() => {
@@ -602,7 +626,8 @@ function onUiUxReady(content_div){
 			//const main_nav_content = document.querySelector('#main_nav_content');
 			//const sidebar_tabs = document.querySelector('#sidebar_tabs');
 			//main_nav_content.append(sidebar_tabs);
-			showContributors()           
+			showContributors();      
+			showReadMeAbout();     
             switchMobile();
             
             
@@ -1145,7 +1170,7 @@ function setupOnLoadResources() {
 		onUiUxReady(content_div);
 	}
 
-	const script = document.createElement('script');
+	var script = document.createElement('script');
 	script.id = 'splitjs-main';
 	script.setAttribute("data-scope", "#anapnoe_app");
 	script.onload = initSplitLib;
@@ -1153,6 +1178,10 @@ function setupOnLoadResources() {
 
 	content_div.appendChild(script);
 
+	var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = 'https://cdn.jsdelivr.net/npm/marked/marked.min.js';
+	content_div.appendChild(script);
 }
 
 function removeStyleAssets(){

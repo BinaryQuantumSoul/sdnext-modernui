@@ -4,21 +4,3 @@
         </div>
     </div>
 </div>
-
-<!-- todo find away to execute below script -->
-<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-<script>
-    // var script = document.createElement('script');
-    // script.type = 'text/javascript';
-    // script.src = 'https://cdn.jsdelivr.net/npm/marked/marked.min.js';
-    // document.head.appendChild(script);
-    (async () => {
-        try {
-            const response = await fetch('https://raw.githubusercontent.com/vladmandic/automatic/master/README.md');
-            const markdownText = await response.text();
-            document.getElementById('about-content').innerHTML = marked.parse(markdownText);
-        } catch (error) {
-            console.error('Error fetching or rendering Markdown:', error);
-        }
-    })();
-</script>
