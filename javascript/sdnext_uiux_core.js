@@ -1290,12 +1290,8 @@ function 	loadCurrentTemplate(data, i, callback) {
 		console.log("Template files merged successfully");
 		console.log("Init runtime components");
 		callback();
-		//setupOnLoadResources();
-		
+		//setupOnLoadResources();	
 	}
-	
-
-
 }
 
 function templateData() {
