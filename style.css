@@ -1359,7 +1359,7 @@ li.item span {
 }
 
 .invisible *.gradio-button {
-    min-width: var(--ae-input-height);
+    min-width: var(--ae-input-height) !important;
     min-height: var(--ae-input-height);
     font-size: 0;
     line-height: 0;
