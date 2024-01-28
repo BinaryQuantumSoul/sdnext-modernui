@@ -68,7 +68,6 @@ async function getContributors(repoName, page = 1) {
         }
     });
 
-    // print data from the fetch on screen
     let contributorsList = await request.json();
     return contributorsList;
 }
@@ -81,13 +80,12 @@ async function getAllContributorsRecursive(repoName, page = 1, allContributors =
         return getAllContributorsRecursive(repoName, page + 1, allContributors);
     }
 
-    // The base case: when the list is empty, return allContributors
     return allContributors;
 }
    
 localStorage.setItem('UiUxReady', "false");
 localStorage.setItem('UiUxComplete', "false");
-const default_ext_path = './file=extensions/sdnext-ui-ux/html/templates/'; //todo change
+const template_path = './file=extensions/sdnext-ui-ux/html/templates/'; //todo change
 const default_libs_path = './file=extensions/sdnext-ui-ux/html/libs/';
 let total = 0;
 let active_main_tab;// = document.querySelector("#tab_txt2img");//null
@@ -503,7 +501,6 @@ function showContributors(){
 			contributors_btn.setAttribute("data-visited", "true");
 			const promise = getAllContributorsRecursive("vladmandic/automatic");
 			promise.then(function (result) {
-				//console.log(result)
 				temp.innerHTML = "";
 				for (let i = 0; i < result.length; i++) {
 					const login = result[i].login;
@@ -1156,6 +1153,7 @@ function uiuxOptionSettings(){
 }
 
 function setupOnLoadResources() {
+	console.log("Init runtime components");
 
 	const content_div = document.querySelector("#anapnoe_app");
 	gradioApp().insertAdjacentElement('afterbegin', content_div);
@@ -1164,7 +1162,6 @@ function setupOnLoadResources() {
 	createButtons4Extensions();
 	setupAnimationEventListeners();
 
-	//const tempDiv = document.createElement('div');
 	const initSplitLib = function () {
 		initDefaultComponents(content_div);
 		onUiUxReady(content_div);
@@ -1184,163 +1181,124 @@ function setupOnLoadResources() {
 	content_div.appendChild(script);
 }
 
-function removeStyleAssets(){
-	
-	//console.log("Starting optimizations for Extra Networks");
-	console.log("Starting optimizations");
-	document.querySelector("#img2img_textual_inversion_cards_html")?.remove();
-	document.querySelector("#img2img_checkpoints_cards_html")?.remove();
-	document.querySelector("#img2img_hypernetworks_cards_html")?.remove();
-	document.querySelector("#img2img_lora_cards_html")?.remove();
-
-	console.log("Remove element #img2img_textual_inversion_cards_html");
-	console.log("Remove element #img2img_checkpoints_cards_html");
-	console.log("Remove element #img2img_hypernetworks_cards_html");
-	console.log("Remove element #img2img_lora_cards_html");
-
-	document.querySelectorAll(`
-	[rel="stylesheet"][href*="/assets/"], 
-	[rel="stylesheet"][href*="theme.css"],
-	[rel="stylesheet"][href*="file=style.css"]`
-			).forEach((c) => {
-				c.remove();
-				//loggerUiUx.innerHTML = `Remove stylesheets ${c.getAttribute("href")}`;
-				console.log("Remove stylesheet", c.getAttribute("href"));	
-				
-			});
-
-	const styler = document.querySelectorAll('.styler, [class*="svelte"]:not(input)');
-	const count = styler.length;
-	let s = 0;
-	styler.forEach((c) => {
-		if(c.style.display !== "none" && c.style.display !== "block"){
-			//if(c.className.indexOf('hidden') === -1 && c.className.indexOf('hide') === -1){
-				c.removeAttribute("style");
-				s++;
-			//}
-		}
-
-		[...c.classList].filter(c => {
-		return c.match(/^svelte.*/)
-		}).forEach(e => {			
-			c.classList.remove(e)
-		});
-		
-	});
-	//loggerUiUx.innerHTML = `Remove inline styles from DOM selectors:${count} removed:${s}`;
-	console.log("Remove inline styles from DOM", "Total Selectors:", count, "Removed Selectors:", s);	
-	console.log("Finishing optimizations");
-	//console.log("Loading template files");
-	templateData();
-}
-
+//======================= TEMPLATES =======================
 function getNestedTemplates(container) {
 	const nestedData = [];	
-	container.querySelectorAll(`.template:not([status])`).forEach((el, j) => {
-		//console.log(el, j)
-		const obj = {};	
+	container.querySelectorAll(`.template:not([status])`).forEach((el) => {
 		const url = el.getAttribute('url');
-		if(url){
-			obj.url = url;
-		}else{
-			obj.url = default_ext_path;
-		}
 		const key = el.getAttribute('key');
-		if(key){
-			obj.key = key;
-		} 
 		const template = el.getAttribute('template');
-		if(template){
-			obj.template = `${template}.html`;
-		}else{
-			obj.template = `${el.id}.html`;
-		}
-		obj.id = el.id;
-		nestedData.push(obj);
-	});
 
+		nestedData.push({
+			url: url ? url : template_path,
+			key: key ? key : undefined,
+			template: template ? `${template}.html` : `${el.id}.html`,
+			id: el.id
+		});
+	});
 	return nestedData;
 }
 
-function 	loadCurrentTemplate(data, i, callback) {
-	const curr_data = data[i];
-	const xmlHttp = new XMLHttpRequest();
-	const next = i < data.length;
-	let target;
+async function loadCurrentTemplate(data) {
+	const curr_data = data.shift();
 
-	if(next){
+	if (curr_data) {
+        let target;
 
-		if(curr_data?.parent){
-			target = curr_data.parent;
-		}else if(curr_data?.id){
-			target = document.querySelector(`#${curr_data.id}`);
-		}
+        if (curr_data.parent) {
+            target = curr_data.parent;
+        } else if (curr_data.id) {
+            target = document.querySelector(`#${curr_data.id}`);
+        }
 
-		if(target){
-		
-			xmlHttp.onreadystatechange = function () {
-				
-				if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
-					let tempDiv = document.createElement('div');				
-					if(curr_data.key){
-						const filtered = xmlHttp.responseText.replace(/\s*\{\{.*?\}\}\s*/g, curr_data.key);					
-						tempDiv.innerHTML = filtered;
-					}else{
-						tempDiv.innerHTML = xmlHttp.responseText;
-					}
+        if (target) {
+			console.log(`Loading template: ${curr_data.template}`);
+			const response = await fetch(`${curr_data.url}${curr_data.template}`);
 
-					const nestedData =  getNestedTemplates(tempDiv);
-					if(nestedData.length > 0){
-						data = data.concat(nestedData);	
-					}
-					
-					//console.log(data)
-					target.setAttribute("status", "true");
-					target.append(tempDiv.firstElementChild);
-					
-					loadCurrentTemplate(data, i+1, callback);
-					
-				}else if (xmlHttp.readyState == 4 && xmlHttp.status == 404) {
-					target.setAttribute("status", "error");	
-					loadCurrentTemplate(data, i+1, callback)	
-				}
-			};
+			if (!response.ok) {
+				console.log(`Failed to load template: ${curr_data.template}`);
+				target.setAttribute('status', 'error');
+			}
+			else
+			{
+				const text = await response.text();
+				const tempDiv = document.createElement('div');
+				tempDiv.innerHTML = curr_data.key ? text.replace(/\s*\{\{.*?\}\}\s*/g, curr_data.key) : text;
 
-			const url = `${curr_data.url}${curr_data.template}`;
-			console.log("Loading template", url);	
-			xmlHttp.open("GET", url, true); // true for asynchronous
-			xmlHttp.send(null);
+				const nestedData = await getNestedTemplates(tempDiv);
+				data.push(...nestedData);
 
-		}
+				target.setAttribute('status', 'true');
+				target.append(tempDiv.firstElementChild);
+			}
 
-	}else{
-		//console.log("InitScripts")
-		//loggerUiUx.innerHTML = `Finished`;
-		console.log("Template files merged successfully");
-		console.log("Init runtime components");
-		callback();
-		//setupOnLoadResources();	
-	}
+			return loadCurrentTemplate(data);
+        }
+    }
+
+	return Promise.resolve();
 }
 
-function templateData() {
-	
-	const path = default_ext_path;
+async function loadAllTemplates() {
 	const data = [
 		{
-			url: path,
-			template:'template-app-root.html',
+			url: template_path,
+			template: 'template-app-root.html',
 			parent: getRootContainer()
 		}
 	];
 
-	loadCurrentTemplate(data, 0, setupOnLoadResources);
-	
+	await loadCurrentTemplate(data);
+	console.log('Template files merged successfully');
 }
 
+function removeStyleAssets(){
+	console.log("Starting optimizations");
 
+	//Remove extra networks
+	["#img2img_textual_inversion_cards_html", "#img2img_checkpoints_cards_html", "#img2img_hypernetworks_cards_html", "#img2img_lora_cards_html"].forEach(selector => {
+		const element = document.querySelector(selector);
+		if (element) {
+			element.remove();
+			console.log(`Removed element ${selector}`);
+		}
+	});
+
+	//Remove specific stylesheets
+	document.querySelectorAll(`
+		[rel="stylesheet"][href*="/assets/"], 
+		[rel="stylesheet"][href*="theme.css"],
+		[rel="stylesheet"][href*="file=style.css"]
+	`).forEach(stylesheet => {
+		stylesheet.remove();
+		console.log("Removed stylesheet", stylesheet.getAttribute("href"));  
+	});
+
+	//Remove inline styles and svelte classes
+	const stylers = document.querySelectorAll('.styler, [class*="svelte"]:not(input)');
+	let count = 0;
+	let removedCount = 0;
+
+	stylers.forEach(element => {
+		if (element.style.display !== "none" && element.style.display !== "block") {
+			element.removeAttribute("style");
+			removedCount++;
+		}
+
+		[...element.classList].filter(className => className.match(/^svelte.*/)).forEach(svelteClass => {
+			element.classList.remove(svelteClass);
+		});
+
+		count++;
+	});
+
+	console.log("Removed inline styles and svelte classes from DOM elements:", "Total Elements:", count, "Removed Elements:", removedCount);
+	console.log("Finishing optimizations");
+}
+
+//======================= INITIALIZATION =======================
 function setupLogger() {
-
+	//setup logger
 	const tempDiv = document.createElement('div');
 	tempDiv.id = "logger_screen";
 	tempDiv.style = `
@@ -1350,68 +1308,66 @@ function setupLogger() {
 	z-index: 99999;
 	display: flex;
     flex-direction: column;
-	overflow:auto;
+	overflow: auto;
 	`;
 	
 	loggerUiUx = document.createElement('div');
 	loggerUiUx.id = "logger";
+
 	tempDiv.append(loggerUiUx);
 	document.body.append(tempDiv);
+	const logger = document.getElementById("logger")
 
-    (function (logger) {
-        console.old = console.log;
-        console.log = function () {
-            var output = "", arg, i;
-            
-            output += `
-            <div class="log-row"><span class="log-date">${new Date().toLocaleString().replace(',','')}</span>`;
-            for (i = 0; i < arguments.length; i++) {
-                arg = arguments[i];
-                const argstr = arg.toString().toLowerCase();
-                let acolor = "";
-                if(argstr.indexOf("remove") !== -1 || argstr.indexOf("error") !== -1){
-                    acolor += " log-remove"
-                }else if(argstr.indexOf("loading") !== -1 
-                || argstr.indexOf("| ref") !== -1 
-                || argstr.indexOf("initial") !== -1 
-                || argstr.indexOf("optimiz") !== -1 
-                || argstr.indexOf("python") !== -1 				
-                || argstr.indexOf("success") !== -1){
-                    acolor += " log-load";
-                }else if(argstr.indexOf("[") !== -1){			
-                    acolor += " log-object";
-                }
-                
-                if(arg.toString().indexOf(".css") !== -1 || arg.toString().indexOf(".html") !== -1 ){
-                    acolor += " log-url";
-                }else if(arg.toString().indexOf("\n") !== -1 ){
-                    output += "<br />"
-                }
+	//override default console.log
+	console.old = console.log;
+	console.log = function () {
+		var output = "", arg, i;
+		
+		output += `<div class="log-row"><span class="log-date">${new Date().toLocaleString().replace(',','')}</span>`;
+		
+		for (i = 0; i < arguments.length; i++) {
+			arg = arguments[i] || "undefined";
+			const argstr = arg.toString().toLowerCase();
+			let acolor = "";
 
-                output += `
-                <span class="log-${(typeof arg)} ${acolor}">`;				
-                if (
-                    typeof arg === "object" &&
-                    typeof JSON === "object" &&
-                    typeof JSON.stringify === "function"
-                ) {
-                    output += JSON.stringify(arg);   
-                } else {
-                    output += arg;   
-                }
+			if (argstr.indexOf("remove") !== -1 || argstr.indexOf("error") !== -1) {
+				acolor += " log-remove";
+			} else if (argstr.indexOf("loading") !== -1 
+					|| argstr.indexOf("| ref") !== -1 
+					|| argstr.indexOf("initial") !== -1 
+					|| argstr.indexOf("optimiz") !== -1 
+					|| argstr.indexOf("python") !== -1  
+					|| argstr.indexOf("success") !== -1) {
+				acolor += " log-load";
+			} else if (argstr.indexOf("[") !== -1) {            
+				acolor += " log-object";
+			}
 
-                output += " </span>";
-            }
+			if (arg.toString().indexOf(".css") !== -1 || arg.toString().indexOf(".html") !== -1) {
+				acolor += " log-url";
+			} else if (arg.toString().indexOf("\n") !== -1) {
+				output += "<br />";
+			}
 
-            logger.innerHTML += output + "</div>";
-            console.old.apply(undefined, arguments);
-        };
-    })(document.getElementById("logger"));		
+			output += `<span class="log-${(typeof arg)} ${acolor}">`;              
+			
+			if (typeof arg === "object" && typeof JSON === "object" && typeof JSON.stringify === "function") {
+				output += JSON.stringify(arg);   
+			} else {
+				output += arg;   
+			}
 
+			output += " </span>";
+		}
+
+		logger.innerHTML += output + "</div>";
+		console.old.apply(undefined, arguments);
+	};
+}
+
+function startLogger() {
 	console.log("Initialize SDNext UI/UX runtime engine version 0.0.1");
 	console.log(navigator.userAgent);
-    // const versions = gradioApp().querySelector(".versions"); todo
-	// console.log(versions.innerHTML);
 
     console.log("Console log enabled: ", window.opts.uiux_enable_console_log);
     console.log("Maximum resolution output: ", window.opts.uiux_max_resolution_output);
@@ -1422,8 +1378,6 @@ function setupLogger() {
     console.log("Aside labels: ", window.opts.uiux_show_labels_aside);
     console.log("Main labels: ", window.opts.uiux_show_labels_main);
     console.log("Tabs labels: ", window.opts.uiux_show_labels_tabs);
- 
-
 
 	const isFirefox = navigator.userAgent.toLowerCase().includes('firefox');
 	if(isFirefox){
@@ -1433,8 +1387,9 @@ function setupLogger() {
     if(!window.opts.uiux_enable_console_log){
         console.log = function() {}
     }
-	
+}
 
+function setFavicon() {
 	let link = document.querySelector("link[rel~='icon']");
 	if (!link) {
 		link = document.createElement('link');
@@ -1442,38 +1397,31 @@ function setupLogger() {
 		document.head.appendChild(link);
 	}
 	link.href = './file=extensions/sdnext-ui-ux/html/favicon.svg';
-
-	removeStyleAssets(); 
-
 }
 
+function initalizeUiUx() {
+	setupLogger();
+	startLogger();
+	setFavicon();
 
+	removeStyleAssets();
+	loadAllTemplates().then(setupOnLoadResources);
+}
+
+//======================= WAIT FOR INIT =======================
 function observeGradioInit() {
 	const observer = new MutationObserver(() => {
 		const block = gradioApp().querySelector("#tab_anapnoe_sd_uiux_core");			
-		//const t = gradioApp().querySelector("#txt2img_textual_inversion_cards_html .card:last-child");	
-		//const c = gradioApp().querySelector("#txt2img_checkpoints_cards_html .card:last-child");	
-		//const h = gradioApp().querySelector("#txt2img_hypernetworks_cards_html > div:first-child");	
-		//const l = gradioApp().querySelector("#txt2img_lora_cards_html .card:last-child");	       
-		if (block) {
-		//if (block && t && c && h && l) {
-            if (window.opts && Object.keys(window.opts).length) {
-                observer.disconnect();
-                setTimeout(() => {
-				    setupLogger();
-			    }, 1000);
-            }
-			
-        
+		
+		if (block && window.opts && Object.keys(window.opts).length) {
+			observer.disconnect();
+			setTimeout(() => {
+				initalizeUiUx();
+			}, 1000);
 		}
 	});
 	observer.observe(gradioApp(), { childList: true, subtree: true });
 } 
-
-
-/* onUiLoaded(function() {
- 	setupLogger();
-});  */
 
 document.addEventListener("DOMContentLoaded", () => {
 	observeGradioInit();

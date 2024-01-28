@@ -28,52 +28,6 @@ def get_files(folder, file_filter=[], file_list=[], split=False):
     file_list = [file_name if not split else os.path.splitext(file_name)[0] for file_name in os.listdir(folder) if os.path.isfile(os.path.join(folder, file_name)) and file_name not in file_filter] 
     return file_list
 
-html = """
-<html>
-  <body>
-    <h1>My First JavaScript</h1>
-    <button type="testButton" onclick="testFn()"> Start </button>
-    <div id="root-dock-no"></div>
-  </body>
-</html>
-"""
-
-scripts = """
-async () => {
-   // set testFn() function on globalThis, so you html onlclick can access it
-    globalThis.testFn = () => {
-      document.getElementById('demo').innerHTML = "Hello"
-    }
-}
-"""
-
-# with gr.Blocks() as demo:   
-    # input_mic = gr.HTML(html)
-    # out_text  = gr.Textbox()
-    # # run script function on load,
-    # demo.load(None,None,None,_js=scripts)
-# static_dir = Path('./static')
-# static_dir.mkdir(parents=True, exist_ok=True)    
-    
-# def predict(text_input):
-    # file_name = f"{datetime.utcnow().strftime('%s')}.html"
-    # file_path = html_folder / file_name
-    # print(file_path)
-    # with open(file_path, "w") as f:
-        # f.write(f"""
-        # <script src="https://cdn.tailwindcss.com"></script>
-        # <body>
-        # <div id=q-app></div>
-        # <h1 class="text-3xl font-bold">Hello <i>{text_input}</i> From Gradio Iframe</h1>
-        # <h3>Filename: {file_name}</h3>
-        # </body>
-        # """)
-    # iframe = f"""<iframe src="file={file_path}" width="100%" height="500px"></iframe>"""
-    # link = f'<a href="file={file_path}" target="_blank">{file_name}</a>'
-    # return link, iframe
-
-
-
 def on_ui_tabs():
 
     #print(mapping)
@@ -116,9 +70,7 @@ def on_ui_tabs():
             inputs=[layouts_dropdown],
             outputs=[layout_json, layout_save_as_filename]
         )      """
-                         
-
-
+    
     return (anapnoe_sd_uiux_core, 'UI-UX Core', 'anapnoe_sd_uiux_core'),
 
 
