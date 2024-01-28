@@ -9,29 +9,27 @@
                 </button>
             </div>
             <div id="main_nav_content" class="layout-content">
-				<!-- 
-				<button title="Workspace" id="workspace_nav" tabItemId="#no-split-app, #workspaces_tabitem" tabGroup="main_group"
-					data-click="#tabs" onclick="mainTabs(this, '#tab_anapnoe_dock')" class="xtabs-tab">
-					<div class="mask-icon icon-dock">
-					</div>
-					<span>Workspace</span>
-				</button> 
-				-->
                 <div id="main-nav-bar" class="flexbox col shrink">
 
-                    <button title="Txt2img" id="txt2img_nav" tabItemId="#split-app, #txt2img_tabitem" tabGroup="main_group"
+                    <button title="Text" id="txt2img_nav" tabItemId="#split-app, #txt2img_tabitem" tabGroup="main_group"
                         active="true" data-click="#tabs" onclick="mainTabs(this, '#tab_txt2img')" class="xtabs-tab">
                         <div class="mask-icon icon-txt2img">
                         </div>
                         <span>Txt2img</span>
                     </button>
-                    <button title="Img2img" id="img2img_nav" tabItemId="#split-app, #img2img_tabitem" tabGroup="main_group"
+                    <button title="Image" id="img2img_nav" tabItemId="#split-app, #img2img_tabitem" tabGroup="main_group"
                         data-click="#tabs" onclick="mainTabs(this, '#tab_img2img')" class="xtabs-tab">
                         <div class="mask-icon icon-img2img">
                         </div>
                         <span>Img2img</span>
                     </button>
-                    <button title="Extras" id="extras_nav" tabItemId="#split-app, #extras_tabitem" tabGroup="main_group"
+                    <button title="Control" id="control_nav" tabItemId="#split-app, #control_tabitem" tabGroup="main_group"
+                        data-click="#tabs" onclick="mainTabs(this, '#tab_control')" class="xtabs-tab">
+                        <div class="mask-icon icon-control">
+                        </div>
+                        <span>Control</span>
+                    </button>
+                    <button title="Process" id="extras_nav" tabItemId="#split-app, #extras_tabitem" tabGroup="main_group"
                         data-click="#tabs" onclick="mainTabs(this, '#tab_process')" class="xtabs-tab">
                         <div class="mask-icon icon-extras">
                         </div>

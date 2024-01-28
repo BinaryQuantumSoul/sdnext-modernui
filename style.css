@@ -1823,6 +1823,10 @@ div#layout-3 {
     -webkit-mask-image: url(./html/svg/image-line.svg);
 }
 
+.icon-control {
+    -webkit-mask-image: url(./html/svg/equalizer-line.svg);
+}
+
 .icon-extras {
     transform: scaleX(-1);
     -webkit-mask-image: url(./html/svg/picture-in-picture-exit-line.svg);

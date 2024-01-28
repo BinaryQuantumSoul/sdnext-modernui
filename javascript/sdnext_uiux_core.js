@@ -300,12 +300,11 @@ function createButtons4Extensions() {
 		const nid = cid.split('tab_')[1];
 		if( cid !== "tab_txt2img" &&
 			cid !== "tab_img2img" &&
-			cid !== "tab_extras" &&
-			cid !== "tab_pnginfo" &&
+			cid !== "tab_process" &&
+			cid !== "tab_interrogate" &&
 			cid !== "tab_train" &&
-			cid !== "tab_modelmerger" &&
-			cid !== "tab_settings" &&
-			cid !== "tab_extensions" &&
+			cid !== "tab_models" && //todo tabs system, extensions, agentscheduler, imagebrowser
+
 			cid !== "tab_ui_theme" &&
 			cid !== "tab_anapnoe_dock" &&
 			cid !== "tab_anapnoe_sd_uiux_core")
@@ -1212,11 +1211,11 @@ async function loadCurrentTemplate(data) {
         }
 
         if (target) {
-			console.log(`Loading template: ${curr_data.template}`);
+			console.log('Loading template', curr_data.template);
 			const response = await fetch(`${curr_data.url}${curr_data.template}`);
 
 			if (!response.ok) {
-				console.log(`Failed to load template: ${curr_data.template}`);
+				console.log('Failed to load template', curr_data.template);
 				target.setAttribute('status', 'error');
 			}
 			else
