@@ -118,10 +118,14 @@
         <div template="template-extra-networks" key="txt2img_textual_inversion" id="en_txt2img_textual_inversion" class="template"></div>
         <div template="template-extra-networks" key="txt2img_hypernetworks" id="en_txt2img_hypernetworks" class="template"></div>
         <div template="template-extra-networks" key="txt2img_lora" id="en_txt2img_lora" class="template"></div>
-        <div id="template-pnginfo" class="template"></div>
-        <!-- <div id="layout-pnginfo-group" class="flexbox col padding">
-            <div data-selector="#tab_interrogate > div" data-parent-selector="gradio-app" class="portal no-bg"></div>
-        </div> -->
+        <!-- <div id="template-pnginfo" class="template"></div> -->
+        <div id="layout-pnginfo-group" class="flexbox col">
+            <div id="layout-pnginfo" class="layout">
+                <div class="layout-content">
+                    <div data-selector="#tab_interrogate > div" data-parent-selector="gradio-app" class="portal no-bg"></div>
+                </div>
+            </div>
+        </div>
         <div id="template-quicksettings" class="template"></div>
 		<div id="template-extensions" class="template"></div>
         <div id="template-settings" class="template"></div>
@@ -134,7 +138,5 @@
 			<div show-button="#btn_theme_editor" data-selector="#tab_ui_theme > div" data-parent-selector="gradio-app" class="portal no-bg">
 			</div>
         </div>
-
-		
     </div>
 </div>
