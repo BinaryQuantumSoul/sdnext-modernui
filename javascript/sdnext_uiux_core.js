@@ -303,7 +303,8 @@ function createButtons4Extensions() {
 			cid !== "tab_process" &&
 			cid !== "tab_interrogate" &&
 			cid !== "tab_train" &&
-			cid !== "tab_models" && //todo tabs system, extensions, agentscheduler, imagebrowser
+			cid !== "tab_models" &&
+			cid !== "tab_extensions" && //todo tabs system, agentscheduler, imagebrowser
 
 			cid !== "tab_ui_theme" &&
 			cid !== "tab_anapnoe_dock" &&

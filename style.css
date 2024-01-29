@@ -201,6 +201,7 @@ body {
     font-size: 0;
     line-height: 0;
     background-color: var(--ae-input-bg-color);
+    min-width: var(--ae-input-height);
 }
 
 .invisible *.gradio-button.tool:hover {
@@ -1359,7 +1360,7 @@ li.item span {
 }
 
 .invisible *.gradio-button {
-    min-width: var(--ae-input-height) !important;
+    min-width: var(--ae-input-height);
     min-height: var(--ae-input-height);
     font-size: 0;
     line-height: 0;
@@ -3465,4 +3466,8 @@ input[type="range"]::-ms-fill-upper {
 #about-content div:first-of-type {
     display: flex;
     flex-direction: column;
+}
+
+.modification-indicator {
+    display: none; /*todo*/
 }
