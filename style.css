@@ -1497,8 +1497,16 @@ h1 {
     padding: 0;
 }
 
+.extra-networks .buttons {
+    position: absolute;
+    right: 0;
+    margin-right: calc(2*var(--ae-panel-padding));
+}
+
 *.extra-network-cards {
-    display: grid;
+    display: flex;
+    justify-content: space-evenly;
+    max-height: 86vh;
     grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
     gap: var(--ae-gap-size);
   /*   content-visibility: auto; */
@@ -2036,6 +2044,10 @@ div#main-nav {
     gap: 1px;
     display: flex;
     flex-direction: column;
+}
+
+.extra-network-subdirs br{
+    display: none;
 }
 
 .split-container[data-initsize="25"] {
@@ -2595,11 +2607,12 @@ td.gridjs-td[data-column-id="description"] {
 }
 .layout-extra-networks{
     gap:2px;
-
 }
 .layout-extra-networks > div:first-child{
     padding-bottom:0 !important;
-    
+}
+#layout-extra-networks{
+    overflow: hidden;
 }
 
 /* tab extensions */
