@@ -18,7 +18,10 @@ function logPrettyPrint() {
 	output += `<div class="log-row"><span class="log-date">${new Date().toLocaleString().replace(',','')}</span>`;
 	
 	for (i = 0; i < arguments.length; i++) {
-		arg = arguments[i] || "undefined";
+		arg = arguments[i];
+		if (arg === undefined) {
+			arg = "undefined";
+		}
 		const argstr = arg.toString().toLowerCase();
 		let acolor = "";
 

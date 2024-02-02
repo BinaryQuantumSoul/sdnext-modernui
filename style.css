@@ -3464,6 +3464,8 @@ input[type="range"]::-ms-fill-upper {
 /* SDNEXT */
 .tooltip {
     background-color: var(--ae-primary-color);
+    right: unset;
+    left: 1em;
 }
 
 #about-content img {
