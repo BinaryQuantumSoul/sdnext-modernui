@@ -364,8 +364,6 @@ function updateExtraNetworksCards(el){
 }
 
 function initExtraNetworks() {
-	return;
-
 	const content_div = anapnoe_app;
 	
 	console.log("Starting optimizations for Extra Networks");
@@ -732,7 +730,7 @@ function attachLoggerScreen() {
 function onUiUxReady() {
 	attachLoggerScreen();
 
-	initExtraNetworks();
+	//initExtraNetworks(); disabled
 
 	setupGenerateObservers();
 	uiuxOptionSettings();
