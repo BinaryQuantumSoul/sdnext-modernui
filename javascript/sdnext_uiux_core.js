@@ -807,6 +807,9 @@ function setAttrSelector(parent_elem, content_div, count, index, length) {
 
 	} else {
 		console.log("error | Ref", index, sp, s);
+		if(window.opts.uiux_enable_console_log) {
+			parent_elem.style.backgroundColor = 'pink'
+		}
 		total += 1;	
 
 	}
