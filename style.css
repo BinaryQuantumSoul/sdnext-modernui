@@ -3524,3 +3524,20 @@ input[type="range"]::-ms-fill-upper {
 .modification-indicator {
     display: none; /*todo*/
 }
+
+#system .tab-nav button:first-child {
+    display: none;
+}
+
+#system .tab-nav button:nth-child(2) {
+    border-top-left-radius: var(--ae-border-radius);
+}
+
+.other .tab-nav {
+    margin-left: var(--ae-outside-gap-size);
+}
+
+#system_row {
+    width: fit-content;
+    margin: var(--ae-gap-size-val) auto;
+}

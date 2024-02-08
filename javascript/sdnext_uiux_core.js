@@ -122,33 +122,33 @@ function showContributors(){
 	});
 }
 
-async function getReadMeContent() {
-    try {
-		const response = await fetch('https://raw.githubusercontent.com/vladmandic/automatic/master/README.md');
-		if (!response.ok) {
-			throw new Error();
-		}
-		return marked.parse(await response.text());
-	} catch (error) {
-		return `
-			<p>Error loading content. Please checkout our <a title="Github" target="_blank" href="https://github.com/vladmandic/automatic">Github</a>.</p>
-			<p>${error}</p>
-		`;
-	}
-}
+// async function getReadMeContent() {
+//     try {
+// 		const response = await fetch('https://raw.githubusercontent.com/vladmandic/automatic/master/README.md');
+// 		if (!response.ok) {
+// 			throw new Error();
+// 		}
+// 		return marked.parse(await response.text());
+// 	} catch (error) {
+// 		return `
+// 			<p>Error loading content. Please checkout our <a title="Github" target="_blank" href="https://github.com/vladmandic/automatic">Github</a>.</p>
+// 			<p>${error}</p>
+// 		`;
+// 	}
+// }
 
-function showReadMeAbout() {
-    const about_btn = document.querySelector("#readme_about");
-    about_btn.addEventListener('click', function(){
-        if(!about_btn.getAttribute("data-visited")){
-            about_btn.setAttribute("data-visited", "true");
+// function showReadMeAbout() {
+//     const about_btn = document.querySelector("#readme_about");
+//     about_btn.addEventListener('click', function(){
+//         if(!about_btn.getAttribute("data-visited")){
+//             about_btn.setAttribute("data-visited", "true");
 
-            getReadMeContent().then(content => {
-				document.getElementById('about-content').innerHTML = content;
-			});
-        }
-    });
-}
+//             getReadMeContent().then(content => {
+// 				document.getElementById('about-content').innerHTML = content;
+// 			});
+//         }
+//     });
+// }
 
 //======================= EXTRA_NETWORKS =======================
 //var orig_all_gallery_buttons = window.all_gallery_buttons;
@@ -739,7 +739,7 @@ function onUiUxReady() {
 	uiuxOptionSettings();
 
 	showContributors();      
-	showReadMeAbout();     
+	// showReadMeAbout(); disabled
 	switchMobile();
 
 	localStorage.setItem('UiUxComplete', true);
@@ -1111,11 +1111,11 @@ function initDefaultComponents() {
 function setupScripts(callback) {
 	const content_div = anapnoe_app;
 
-	//markdown
-	var script = document.createElement('script');
-    script.type = 'text/javascript';
-    script.src = 'https://cdn.jsdelivr.net/npm/marked/marked.min.js';
-	content_div.appendChild(script);
+	// //markdown
+	// var script = document.createElement('script');
+    // script.type = 'text/javascript';
+    // script.src = 'https://cdn.jsdelivr.net/npm/marked/marked.min.js';
+	// content_div.appendChild(script);
 
 	//split views
 	var script = document.createElement('script');
@@ -1151,7 +1151,7 @@ function createButtonsForExtensions() {
 	const other_views = document.querySelector(`#split-left`);
 	//const other_views = document.querySelector(`#no-split-app`);
 	const no_button_tabs = [
-		"tab_txt2img", "tab_img2img", "tab_process", "tab_interrogate", "tab_train", "tab_models", "tab_extensions",
+		"tab_txt2img", "tab_img2img", "tab_process", "tab_control", "tab_interrogate", "tab_train", "tab_models", "tab_extensions",
     	"tab_ui_theme", "tab_anapnoe_dock",
     	"tab_anapnoe_sd_uiux_core"
 	]
