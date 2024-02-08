@@ -95,11 +95,11 @@
                 <div class="flexbox col spacer-v">
 				</div> 
 				-->				
-                <button  style="display: none;" title="Sponsors & Supporters" id="sponsors" tabItemId="#no-split-app, #sponsors_tabitem" tabGroup="main_group" class="xtabs-tab no-drag">
-                    <div class="mask-icon icon-vip"> <!-- todo find a better way to keep indexes without display:none -->
+                <!-- <button  style="display: none;" title="Sponsors & Supporters" id="sponsors" tabItemId="#no-split-app, #sponsors_tabitem" tabGroup="main_group" class="xtabs-tab no-drag">
+                    <div class="mask-icon icon-vip">
                     </div>
                     <span>Sponsors</span>
-                </button>
+                </button> -->
                 <button title="Contributors" id="contributors" tabItemId="#no-split-app, #contributors_tabitem" tabGroup="main_group" class="xtabs-tab no-drag">
                     <div class="mask-icon icon-contributors">
                     </div>
@@ -135,7 +135,7 @@
 				<div class="flexbox row relative">
 			
 					<div id="no-split-app" class="xtabs-item">
-						<div id="about_tabitem_parent">
+						<!-- <div id="about_tabitem_parent">
 							<div title="About" id="about_tabitem" class="xtabs-item no-padding">
 								<div id="template-about" class="template"></div>
 							</div>
@@ -144,7 +144,7 @@
 							<div title="Sponsors & Supporters" id="sponsors_tabitem" class="xtabs-item no-padding">
 								<div id="template-sponsors" class="template"></div>
 							</div>
-						</div>
+						</div> -->
                         <div id="contributors_tabitem_parent">
 							<div title="Contributors" id="contributors_tabitem" class="xtabs-item no-padding">
 								
@@ -210,6 +210,10 @@
                                 </div>
                             </div>
 							</div>
+                            <div id="control_tabitem" class="xtabs-item other">
+                                <div data-parent-selector="gradio-app" data-selector="#tab_control > div" class="portal">
+                                </div>
+                            </div>
                             <!--  
                             <div id="model_merger_tabitem" class="xtabs-item">
                                 <div id="template-model-merger" class="template"></div>

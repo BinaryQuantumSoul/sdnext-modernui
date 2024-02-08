@@ -3502,11 +3502,12 @@ input[type="range"]::-ms-fill-upper {
 /* SDNEXT */
 .tooltip {
     background-color: var(--ae-primary-color);
+    color: var(--ae-input-hover-text-color);
     right: unset;
     left: 1em;
 }
 
-#about-content img {
+/* #about-content img {
     max-width: 100px;
     max-height: 100px;
 }
@@ -3519,7 +3520,7 @@ input[type="range"]::-ms-fill-upper {
 #about-content div:first-of-type {
     display: flex;
     flex-direction: column;
-}
+} */
 
 .modification-indicator {
     display: none; /*todo*/

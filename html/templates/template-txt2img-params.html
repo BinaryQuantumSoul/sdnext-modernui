@@ -80,14 +80,19 @@
                                     <div class="flexbox no-border no-bg row">
                                         <div data-parent-selector="#txt2img_styles_row" data-selector="#txt2img_styles" class="portal no-min-width">
                                         </div>
-                                        <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_styles_edit_button" droppable="true"
+                                        <!-- <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_styles_edit_button" droppable="true"
                                             class="portal shrink invisible">
                                             <div class="mask-icon icon-styles-edit">
                                             </div>
-                                        </div>
-										<div data-parent-selector="#tab_txt2img" data-selector="#txt2img_style_apply" droppable="true"
+                                        </div> -->
+										<!-- <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_style_apply" droppable="true"
                                             class="portal shrink invisible">
                                             <div class="mask-icon icon-styles-apply">
+                                            </div>
+                                        </div> -->
+                                        <div data-parent-selector="#txt2img_styles_row" data-selector="#txt2img_styles_refresh" droppable="true"
+                                            class="portal shrink invisible">
+                                            <div class="mask-icon refresh">
                                             </div>
                                         </div>
                                     </div>
@@ -101,11 +106,11 @@
                                               <!--   <div class="layout-header">
                                                 </div> -->
                                                 <div class="layout-content">
-                                                    <div data-selector="#txt2img_prompt" data-parent-selector="#tab_txt2img" class="portal no-bg" >
+                                                    <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_prompt" class="portal no-bg" >
                                                     </div>
                                                 </div>
                                                 <div class="layout-footer">
-                                                    <div data-parent-selector="#txt2img_prompt" data-selector="#txt2img_token_counter" class="portal relative" data-timeout="1000">
+                                                    <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_token_counter" class="portal relative" data-timeout="1000">
                                                     </div>
                                                 </div>
                                             </div>
@@ -115,11 +120,11 @@
                                                <!--  <div class="layout-header">
                                                 </div> -->
                                                 <div class="layout-content">
-                                                    <div data-selector="#txt2img_neg_prompt" data-parent-selector="#tab_txt2img" class="portal no-bg" >
+                                                    <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_neg_prompt" class="portal no-bg" >
                                                     </div>
                                                 </div>  
                                                 <div class="layout-footer">
-                                                    <div data-parent-selector="#txt2img_neg_prompt" data-selector="#txt2img_negative_token_counter" data-timeout="1000"
+                                                    <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_negative_token_counter" data-timeout="1000"
                                                         class="portal relative">
                                                     </div>
                                                 </div>
@@ -154,8 +159,13 @@
                                                 <div class="mask-icon icon-res-switch">
                                                 </div>
                                             </div>
-                                            <div data-selector="#txt2img_dimensions_row" data-parent-selector="#tab_img2img" class="portal invisible tool">
+                                            <div data-selector="#txt2img_batch_switch_btn" data-parent-selector="#tab_txt2img" droppable="true"
+                                                class="portal invisible tool">
+                                                <div class="mask-icon icon-res-switch">
+                                                </div>
                                             </div>
+                                            <!-- <div data-selector="#txt2img_dimensions_row" data-parent-selector="#tab_img2img" class="portal invisible tool">
+                                            </div> -->
                                         </div>
                                     </div>
                                     <div class="flexbox group col fb-40">
@@ -170,9 +180,13 @@
                                 <div class="flexbox group row">
                                     <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_sampling" class="portal min-width">
                                     </div>
-                                    <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_cfg_scale" class="portal min-width">
-                                    </div>
+                                    <!-- <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_cfg_scale" class="portal min-width">
+                                    </div> -->
                                     <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_steps" class="portal min-width">
+                                    </div>
+                                </div>
+                                <div class="flexbox group row">
+                                    <div data-parent-selector="#tab_txt2img" data-selector="#component-113" class="portal no-min-width">
                                     </div>
                                 </div>
                                 <div class="flexbox group col">
@@ -190,13 +204,13 @@
                                                 <div class="mask-icon icon-recycle">
                                                 </div>
                                             </div>
-                                            <button toggle="true" class="ae-button shrink toggle-seed">
+                                            <!-- <button toggle="true" class="ae-button shrink toggle-seed">
                                                 <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_subseed_show" droppable="true"
                                                     class="portal shrink invisible tool">
                                                     <div class="mask-icon icon-equalize">
                                                     </div>
                                                 </div>
-                                            </button>
+                                            </button> -->
                                         </div>
                                     </div>
                                     <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_seed_extras" droppable="true" class="portal sub-group">
@@ -231,7 +245,13 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div data-selector="#txt2img_enable" data-parent-selector="#tab_txt2img" class="portal">
+                                <div data-selector="#component-136" data-parent-selector="#tab_txt2img" class="portal"></div>
+                                <div data-selector="#component-149" data-parent-selector="#tab_txt2img" class="portal"></div>
+                                <div data-selector="#component-157" data-parent-selector="#tab_txt2img" class="portal"></div>
+                                <div data-selector="#component-182" data-parent-selector="#tab_txt2img" class="portal"></div>
+                                <div data-selector="#component-201" data-parent-selector="#tab_txt2img" class="portal"></div>
+
+                                <!-- <div data-selector="#txt2img_enable" data-parent-selector="#tab_txt2img" class="portal">
                                 </div>
                                 <div data-selector="#txt2img_hr" data-parent-selector="#tab_txt2img" class="portal">
                                 </div>
@@ -243,7 +263,7 @@
                                     class="portal hide-empty">
                                 </div>
                                 <div data-selector="#txt2img_container_aspect_ratio" data-parent-selector="#tab_txt2img" class="portal hide-empty">
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
