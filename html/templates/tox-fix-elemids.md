@@ -17,7 +17,6 @@
 <!-- 16: "#txt2img_send_to_inpaint"
 17: "#txt2img_send_to_extras"
 18: "#txt2img_send_to_img2img" -->
-
 <!-- 19: "#img2img_tools #paste"
 20: "#img2img_clear_prompt" -->
 21: "#img2img_styles_edit_button"
@@ -42,7 +41,6 @@
 <!-- 40: "#img2img_send_to_inpaint" -->
 <!-- 41: "#img2img_send_to_extras" -->
 <!-- 42: "#img2img_send_to_img2img" -->
-
 <!-- 43: "#tab_extras" -->
 <!-- 44: "#extras_open_folder" -->
 <!-- 45: "#extras_send_to_inpaint" -->
@@ -61,7 +59,6 @@
 58: "#tab_agent_scheduler > div"
 59: "#tab_image_browser > div"
 60: "#tab_system > div"
-
 61: "#txt2img_checkpoints_subdirs"
 62: "#txt2img_checkpoints_cards"
 63: "#txt2img_textual_inversion_subdirs"
@@ -74,7 +71,6 @@
 70: "#settings_restart_gradio"
 71: "#tab_settings .tab-nav"
 72: "#tab_settings > div"
-
 73: "#modelmerger_merge"
 74: "#modelmerger_interp_description"
 75: "#modelmerger_primary_model_name"
@@ -91,20 +87,15 @@
 86: "#tab_modelmerger .gradio-accordion"
 87: "#modelmerger_results_container"
 88: "#tab_ui_theme > div"
-
-
 (() => {
   const elements = document.querySelectorAll('[data-selector]');
   const filteredElements = Array.from(elements).filter(element => {
     const selector = element.getAttribute('data-selector');
     const childElement = element.querySelector(selector);
-
     return ! (childElement && childElement.id === selector.substring(1));
   });
-
   filteredElements.forEach(element => {
     element.style.backgroundColor = 'pink';
   });
-
   return filteredElements.map(element => element.getAttribute('data-selector'));
 })();
