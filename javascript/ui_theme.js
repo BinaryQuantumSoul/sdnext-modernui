@@ -1,3 +1,5 @@
+// Originally from Anapnoe@https://github.com/anapnoe/stable-diffusion-webui-ux/blob/8307896c59032a9cdac1ab24c975102ff9a674d3/extensions-builtin/anapnoe-sd-theme-editor/javascript/ui_theme.js
+
 function hexToRgb(color) {
   var hex = color[0] === "#" ? color.slice(1) : color;
   var c; // expand the short hex by doubling each character, fc0 -> ffcc00

@@ -1,3 +1,5 @@
+// Originally from Anapnoe@https://github.com/anapnoe/stable-diffusion-webui-ux/blob/8307896c59032a9cdac1ab24c975102ff9a674d3/extensions-builtin/anapnoe-sd-uiux/javascript/anapnoe_sd_uiux_core.js
+
 localStorage.setItem('UiUxReady', "false");
 localStorage.setItem('UiUxComplete', "false");
 

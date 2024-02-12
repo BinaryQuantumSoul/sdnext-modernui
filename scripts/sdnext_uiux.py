@@ -1,3 +1,5 @@
+# Originally from Anapnoe@https://github.com/anapnoe/stable-diffusion-webui-ux/blob/8307896c59032a9cdac1ab24c975102ff9a674d3/extensions-builtin/anapnoe-sd-uiux/scripts/anapnoe_sd_uiux.py
+
 import os
 from pathlib import Path
 import gradio as gr

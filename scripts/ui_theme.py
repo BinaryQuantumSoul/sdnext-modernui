@@ -1,3 +1,5 @@
+# Originally from Anapnoe@https://github.com/anapnoe/stable-diffusion-webui-ux/blob/8307896c59032a9cdac1ab24c975102ff9a674d3/extensions-builtin/anapnoe-sd-theme-editor/scripts/ui_theme.py
+
 import os
 import shutil
 from pathlib import Path
