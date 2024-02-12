@@ -239,7 +239,9 @@ function updateTheme(vars) {
 }
 
 function applyTheme() {
-  console.log("apply");
+  document.querySelectorAll("link[rel=stylesheet][href*='user.css']").forEach(link => link.href = link.href.replace(/\?.*|$/, "?" + Date.now()));
+  console.log("appliedTheme");
+  return [arguments[0], arguments[1]];
 }
 
 function initTheme(styles) {

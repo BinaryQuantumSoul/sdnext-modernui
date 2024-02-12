@@ -25,7 +25,6 @@ def on_ui_tabs():
                     save_as_filename = gr.Text(label="Save / Save as")
                 with gr.Row(): 
                     reset_button = gr.Button(elem_id="theme_reset_btn", value="Reset", variant="primary")
-                    #apply_button = gr.Button(elem_id="theme_apply_btn", value="Apply", variant="primary")                   
                     save_button = gr.Button(value="Save", variant="primary")           
                     delete_button = gr.Button(value="Delete", variant="primary")
                        
@@ -64,7 +63,6 @@ def on_ui_tabs():
                 gr.Slider(elem_id="--ae-border-size", label='Panel border size', minimum=0, maximum=4, step=1)
 
             with gr.Accordion(label="Component", open=False):                   
-               
                 gr.Slider(elem_id="--ae-input-height", label='Component size', minimum=28, maximum=45, step=1)
                 gr.Slider(elem_id="--ae-input-slider-height", label='Slider height', minimum=0.1, maximum=1, step=0.1)
                 gr.Slider(elem_id="--ae-input-padding", label='Padding', minimum=0, maximum=10, step=1)
@@ -129,15 +127,10 @@ def on_ui_tabs():
         
         themes_dropdown.change(
             fn=open_theme,
-            #_js = "applyTheme",
+            _js = "applyTheme",
             inputs=[themes_dropdown, css_text],
             outputs=[vars_text, save_as_filename]
         )
-        
-        # apply_button.click(
-        #     fn=None,
-        #     _js = "applyTheme"
-        # )
         
         # vars_text.change(
         #     fn=None,
