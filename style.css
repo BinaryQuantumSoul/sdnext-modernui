@@ -1902,6 +1902,9 @@ button.active .icon-sort {
 .icon-terminal {
     -webkit-mask-image: url(./html/svg/terminal-box-line.svg);
 }
+.icon-cpu {
+    -webkit-mask-image: url(./html/svg/cpu-line.svg);
+}
 
 .icon-dock {
     -webkit-mask-image: url(./html/svg/layout-2-line.svg);

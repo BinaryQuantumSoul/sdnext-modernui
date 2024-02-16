@@ -1153,7 +1153,7 @@ function createButtonsForExtensions() {
 	const other_views = document.querySelector(`#split-left`);
 	//const other_views = document.querySelector(`#no-split-app`);
 	const no_button_tabs = [
-		"tab_txt2img", "tab_img2img", "tab_process", "tab_control", "tab_interrogate", "tab_train", "tab_models", "tab_extensions",
+		"tab_txt2img", "tab_img2img", "tab_process", "tab_control", "tab_interrogate", "tab_train", "tab_models", "tab_extensions", "tab_system", "tab_image_browser",
     	"tab_ui_theme", "tab_anapnoe_dock",
     	"tab_anapnoe_sd_uiux_core"
 	]
