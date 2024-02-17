@@ -10,23 +10,19 @@
             </div>
             <div id="main_nav_content" class="layout-content">
                 <div id="main-nav-bar" class="flexbox col shrink">
-                    <button title="Text" id="txt2img_nav" tabItemId="#split-app, #txt2img_tabitem" tabGroup="main_group"
-                        active="true" data-click="#tabs" onclick="mainTabs(this, '#tab_txt2img')" class="xtabs-tab">
+                    <button title="Text" id="txt2img_nav" tabItemId="#split-app, #txt2img_tabitem" tabGroup="main_group" active="true" data-click="#tabs" onclick="mainTabs(this, '#tab_txt2img')" class="xtabs-tab">
                         <div class="mask-icon icon-txt2img"></div>
                         <span>Txt2img</span>
                     </button>
-                    <button title="Image" id="img2img_nav" tabItemId="#split-app, #img2img_tabitem" tabGroup="main_group"
-                        data-click="#tabs" onclick="mainTabs(this, '#tab_img2img')" class="xtabs-tab">
+                    <button title="Image" id="img2img_nav" tabItemId="#split-app, #img2img_tabitem" tabGroup="main_group" data-click="#tabs" onclick="mainTabs(this, '#tab_img2img')" class="xtabs-tab">
                         <div class="mask-icon icon-img2img"></div>
                         <span>Img2img</span>
                     </button>
-                    <button title="Control" id="control_nav" tabItemId="#split-app, #control_tabitem" tabGroup="main_group"
-                        data-click="#tabs" onclick="mainTabs(this, '#tab_control')" class="xtabs-tab">
+                    <button title="Control" id="control_nav" tabItemId="#split-app, #control_tabitem" tabGroup="main_group" data-click="#tabs" onclick="mainTabs(this, '#tab_control')" class="xtabs-tab">
                         <div class="mask-icon icon-control"></div>
                         <span>Control</span>
                     </button>
-                    <button title="Process" id="extras_nav" tabItemId="#split-app, #extras_tabitem" tabGroup="main_group"
-                        data-click="#tabs" onclick="mainTabs(this, '#tab_process')" class="xtabs-tab">
+                    <button title="Process" id="extras_nav" tabItemId="#split-app, #extras_tabitem" tabGroup="main_group" data-click="#tabs" onclick="mainTabs(this, '#tab_process')" class="xtabs-tab">
                         <div class="mask-icon icon-extras"></div>
                         <span>Extras</span>
                     </button>
@@ -43,63 +39,72 @@
             </div>
         </div>
         <div id="layout_main_wrapper" class="layout grow initial">
-			<div class="layout-content">
-				<div class="flexbox row relative">
-					<div id="no-split-app" class="xtabs-item">
+            <div class="layout-content">
+                <div class="flexbox row relative">
+                    <div id="no-split-app" class="xtabs-item">
                         <div id="contributors_tabitem_parent">
-							<div title="Contributors" id="contributors_tabitem" class="xtabs-item no-padding"></div>
-						</div>
-					</div>
-                    <div id="split-app" gutterSize="8" direction="horizontal" class="split">
-                        <div data-minSize="0" data-initSize="100" id="split-left" class="split-container">
-						<div id="txt2img_tabitem_parent">
-                            <div id="txt2img_tabitem" class="xtabs-item  no-padding">
-                                <div id="split" direction="horizontal" gutterSize="8" class="split">
-                                    <div title="txt2img params" data-minSize="0" data-initSize="50" id="iwse" class="split-container params">
-                                        <div id="template-txt2img-params" class="template"></div>
-                                    </div>
-                                    <div title="txt2img results" data-minSize="0" data-initSize="50" id="icly88" class="split-container">
-                                        <div id="template-txt2img-results" class="template"></div>
-                                    </div>
-                                </div>
-                            </div>
-							</div>
-							<div id="img2img_tabitem_parent">
-                            <div id="img2img_tabitem" class="xtabs-item  no-padding">
-                                <div id="split-img2img" direction="horizontal" gutterSize="8" class="split">
-                                    <div title="img2img params" title="txt2img" data-minSize="0" data-initSize="50" id="iwsei" class="split-container params">
-                                        <div id="template-img2img-params" class="template"></div>
-                                    </div>
-                                    <div title="img2img results" title="txt2img results" data-minSize="0" data-initSize="50" id="icly88i" class="split-container">
-                                        <div id="template-img2img-results" class="template"></div>
-                                    </div>
-                                </div>
-                            </div>
-							</div>
-							<div id="extras_tabitem_parent">
-                            <div id="extras_tabitem" class="xtabs-item  no-padding">
-                                <div id="split-extras" direction="horizontal" gutterSize="8" class="split">
-                                    <div title="Extras params" id="esp-c1" data-minSize="0" data-initSize="50" id="iwsee"
-                                        class="split-container params">
-                                        <div id="template-extras-params" class="template"></div>
-                                    </div>
-                                    <div title="Extras results" id="esp-c2" data-minSize="0" data-initSize="50" id="icly88e"
-                                        class="split-container">
-                                        <div id="template-extras-results" class="template"></div>
-                                    </div>
-                                </div>
-                            </div>
-							</div>
-                            <div id="control_tabitem" class="xtabs-item other">
-                                <div data-parent-selector="gradio-app" data-selector="#tab_control > div" class="portal">
-                                </div>
-                            </div>
-                        </div>
-                        <div data-minSize="0" data-initSize="50" id="split-right" class="split-container no-drag">                           
-							<div id="template-aside-extra-networks" class="template"></div>
+                            <div title="Contributors" id="contributors_tabitem" class="xtabs-item no-padding"></div>
                         </div>
                     </div>
-                </div>				
+                    <div id="split-app" gutterSize="8" direction="horizontal" class="split">
+                        <div data-minSize="0" data-initSize="100" id="split-left" class="split-container">
+                            <div id="txt2img_tabitem_parent">
+                                <div id="txt2img_tabitem" class="xtabs-item  no-padding">
+                                    <div id="split" direction="horizontal" gutterSize="8" class="split">
+                                        <div title="txt2img params" data-minSize="0" data-initSize="50" id="iwse" class="split-container params">
+                                            <div id="template-txt2img-params" class="template"></div>
+                                        </div>
+                                        <div title="txt2img results" data-minSize="0" data-initSize="50" id="icly88" class="split-container">
+                                            <div id="template-txt2img-results" class="template"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="img2img_tabitem_parent">
+                                <div id="img2img_tabitem" class="xtabs-item  no-padding">
+                                    <div id="split-img2img" direction="horizontal" gutterSize="8" class="split">
+                                        <div title="img2img params" title="txt2img" data-minSize="0" data-initSize="50" id="iwsei" class="split-container params">
+                                            <div id="template-img2img-params" class="template"></div>
+                                        </div>
+                                        <div title="img2img results" title="txt2img results" data-minSize="0" data-initSize="50" id="icly88i" class="split-container">
+                                            <div id="template-img2img-results" class="template"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="extras_tabitem_parent">
+                                <div id="extras_tabitem" class="xtabs-item  no-padding">
+                                    <div id="split-extras" direction="horizontal" gutterSize="8" class="split">
+                                        <div title="Extras params" id="esp-c1" data-minSize="0" data-initSize="50" id="iwsee" class="split-container params">
+                                            <div id="template-extras-params" class="template"></div>
+                                        </div>
+                                        <div title="Extras results" id="esp-c2" data-minSize="0" data-initSize="50" id="icly88e" class="split-container">
+                                            <div id="template-extras-results" class="template"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="control_tabitem_parent">
+                                <div id="control_tabitem" class="xtabs-item no-padding">
+                                    <div id="split-control" direction="horizontal" gutterSize="8" class="split">
+                                        <div title="control params" title="txt2img" data-minSize="0" data-initSize="50" id="iwseie" class="split-container params">
+                                            <div id="template-control-params" class="template"></div>
+                                        </div>
+                                        <div title="control results" title="txt2img results" data-minSize="0" data-initSize="50" id="icly88ie" class="split-container">
+                                            <div id="template-control-results" class="template"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div id="control_tabitem" class="xtabs-item other">
+                                <div data-parent-selector="gradio-app" data-selector="#tab_control > div" class="portal"></div>
+                            </div> -->
+                        </div>
+                        <div data-minSize="0" data-initSize="50" id="split-right" class="split-container no-drag">
+                            <div id="template-aside-extra-networks" class="template"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
