@@ -1619,8 +1619,8 @@ div#iobp {
     height: 90vh;
 }
 
-[id$="2img_neg_prompt"] textarea,
-[id$="2img_prompt"] textarea {
+[id$="2img_neg_prompt"] textarea, [id$="control_neg_prompt"] textarea,
+[id$="2img_prompt"] textarea, [id$="control_prompt"] textarea {
     position: absolute;
     inset: 0;
     resize: none;
@@ -2380,6 +2380,7 @@ button:hover svg {
 .portal>button {
     align-items: center;
     justify-content: center;
+    height: min-content;
 }
 
 #sp-ac1>.xtabs-item {
@@ -3544,4 +3545,17 @@ input[type="range"]::-ms-fill-upper {
 #system_row {
     width: fit-content;
     margin: var(--ae-gap-size-val) auto;
+}
+
+#control-columns {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+#control-columns > div {
+    min-width: 20rem;
+    min-height: 20rem;
+    flex: 1 0 0;
+    margin: calc(var(--ae-gap-size) / 2);
 }
