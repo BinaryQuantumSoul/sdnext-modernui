@@ -1135,8 +1135,8 @@ li.item span {
 * .gutter.gutter-vertical {
     background: linear-gradient(0deg,
             rgba(0, 0, 0, 0) 40%,
-            var(--ae-panel-bg-color) 45%,
-            var(--ae-panel-bg-color) 55%,
+            var(--ae-input-bg-color) 45%,
+            var(--ae-input-bg-color) 55%,
             rgba(0, 0, 0, 0) 60%);
 }
 
@@ -3558,4 +3558,13 @@ input[type="range"]::-ms-fill-upper {
     min-height: 20rem;
     flex: 1 0 0;
     margin: calc(var(--ae-gap-size) / 2);
+}
+
+#split-console > div:not(.gutter) {
+    margin: 4px;
+    background-color: var(--ae-input-bg-color);
+}
+
+#logMonitorData {
+    height: 100% !important;
 }

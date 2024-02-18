@@ -6,6 +6,7 @@ localStorage.setItem('UiUxComplete', "false");
 const template_path = './file=extensions/sdnext-ui-ux/html/templates/';
 const anapnoe_app_id = "#anapnoe_app";
 const anapnoe_tab_id = "#tab_anapnoe_sd_uiux_core";
+const console_js_id = "#console-log-js";
 
 const split_instances = [];
 let total = 0;
@@ -726,7 +727,7 @@ function setupGenerateObservers() {
 function attachLoggerScreen() {
 	const logger_screen = document.querySelector("#logger_screen");
 	if(logger_screen){
-		const asideconsole = document.querySelector("#layout-console-log");
+		const asideconsole = document.querySelector(console_js_id);
 		asideconsole.append(loggerUiUx);
 		logger_screen.remove();
 	}
@@ -1105,7 +1106,7 @@ function initDefaultComponents() {
 
 
 	// try to attach Logger Screen to main before full UIUXReady
-	const asideconsole = document.querySelector("#layout-console-log");
+	const asideconsole = document.querySelector(console_js_id);
 	asideconsole.append(loggerUiUx);
 	document.querySelector("#logger_screen")?.remove();
 }
