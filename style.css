@@ -3551,13 +3551,13 @@ input[type="range"]::-ms-fill-upper {
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
+    gap: 9px;
 }
 
 #control-columns > div {
     min-width: 20rem;
     min-height: 20rem;
     flex: 1 0 0;
-    margin: calc(var(--ae-gap-size) / 2);
 }
 
 #split-console > div:not(.gutter) {
@@ -3567,4 +3567,8 @@ input[type="range"]::-ms-fill-upper {
 
 #logMonitorData {
     height: 100% !important;
+}
+
+#system textarea {
+    overflow-y: auto !important;
 }

@@ -125,300 +125,272 @@ function showContributors(){
 	});
 }
 
-// async function getReadMeContent() {
-//     try {
-// 		const response = await fetch('https://raw.githubusercontent.com/vladmandic/automatic/master/README.md');
-// 		if (!response.ok) {
-// 			throw new Error();
-// 		}
-// 		return marked.parse(await response.text());
-// 	} catch (error) {
-// 		return `
-// 			<p>Error loading content. Please checkout our <a title="Github" target="_blank" href="https://github.com/vladmandic/automatic">Github</a>.</p>
-// 			<p>${error}</p>
-// 		`;
-// 	}
-// }
-
-// function showReadMeAbout() {
-//     const about_btn = document.querySelector("#readme_about");
-//     about_btn.addEventListener('click', function(){
-//         if(!about_btn.getAttribute("data-visited")){
-//             about_btn.setAttribute("data-visited", "true");
-
-//             getReadMeContent().then(content => {
-// 				document.getElementById('about-content').innerHTML = content;
-// 			});
-//         }
-//     });
-// }
-
 //======================= EXTRA_NETWORKS =======================
-//var orig_all_gallery_buttons = window.all_gallery_buttons;
-window.all_gallery_buttons = function(){
-    //orig_all_gallery_buttons();
-	var tabitem = gradioApp().querySelector('#main-nav-bar button.active')?.getAttribute('tabitemid');
-	var visibleGalleryButtons = [];
-	if(tabitem){
-		//console.log(tabitem, allGalleryButtons);
-		var allGalleryButtons = gradioApp().querySelectorAll(tabitem+' .gradio-gallery .thumbnails > .thumbnail-small');
-		allGalleryButtons?.forEach(function(elem) {
-			if (elem.parentElement.offsetParent && elem.parentElement.offsetParent !== document.body) {               
-				visibleGalleryButtons.push(elem);
-			}
-		});
-	}
-	return visibleGalleryButtons;
-}
+// //var orig_all_gallery_buttons = window.all_gallery_buttons;
+// window.all_gallery_buttons = function(){
+//     //orig_all_gallery_buttons();
+// 	var tabitem = gradioApp().querySelector('#main-nav-bar button.active')?.getAttribute('tabitemid');
+// 	var visibleGalleryButtons = [];
+// 	if(tabitem){
+// 		//console.log(tabitem, allGalleryButtons);
+// 		var allGalleryButtons = gradioApp().querySelectorAll(tabitem+' .gradio-gallery .thumbnails > .thumbnail-small');
+// 		allGalleryButtons?.forEach(function(elem) {
+// 			if (elem.parentElement.offsetParent && elem.parentElement.offsetParent !== document.body) {               
+// 				visibleGalleryButtons.push(elem);
+// 			}
+// 		});
+// 	}
+// 	return visibleGalleryButtons;
+// }
 
-window.extraNetworksSearchButton = function(tabs_id, e) {
-	var  button = e.target;
-	const attr = e.target.parentElement.parentElement.getAttribute("search-field"); 
-    var searchTextarea = gradioApp().querySelector(attr);
-	//console.log(button, searchTextarea)
-	var text = button.classList.contains("search-all") ? "" : button.textContent.trim();
-	searchTextarea.value = text;
-	window.updateInput(searchTextarea);
-}
+// window.extraNetworksSearchButton = function(tabs_id, e) {
+// 	var  button = e.target;
+// 	const attr = e.target.parentElement.parentElement.getAttribute("search-field"); 
+//     var searchTextarea = gradioApp().querySelector(attr);
+// 	//console.log(button, searchTextarea)
+// 	var text = button.classList.contains("search-all") ? "" : button.textContent.trim();
+// 	searchTextarea.value = text;
+// 	window.updateInput(searchTextarea);
+// }
 
-window.imageMaskResize = function(){
-	// override function empty we dont need any fix here
-}
+// window.imageMaskResize = function(){
+// 	// override function empty we dont need any fix here
+// }
 
-window.extraNetworksEditUserMetadata = function(event, tabname, extraPage, cardName) {
-    //var id = tabname + '_' + extraPage + '_edit_user_metadata';
-	var tid = 'txt2img_' + extraPage + '_edit_user_metadata';
-    var editor = extraPageUserMetadataEditors[tid];
-    if (!editor) {
-        editor = {};
-        editor.page = gradioApp().getElementById(tid);
-        editor.nameTextarea = gradioApp().querySelector("#" + tid + "_name" + ' textarea');
-        editor.button = gradioApp().querySelector("#" + tid + "_button");
-        extraPageUserMetadataEditors[tid] = editor;
-    }
+// window.extraNetworksEditUserMetadata = function(event, tabname, extraPage, cardName) {
+//     //var id = tabname + '_' + extraPage + '_edit_user_metadata';
+// 	var tid = 'txt2img_' + extraPage + '_edit_user_metadata';
+//     var editor = extraPageUserMetadataEditors[tid];
+//     if (!editor) {
+//         editor = {};
+//         editor.page = gradioApp().getElementById(tid);
+//         editor.nameTextarea = gradioApp().querySelector("#" + tid + "_name" + ' textarea');
+//         editor.button = gradioApp().querySelector("#" + tid + "_button");
+//         extraPageUserMetadataEditors[tid] = editor;
+//     }
 
-    editor.nameTextarea.value = cardName;
-    updateInput(editor.nameTextarea);
+//     editor.nameTextarea.value = cardName;
+//     updateInput(editor.nameTextarea);
 
-    editor.button.click();
+//     editor.button.click();
 
-    popup(editor.page);
+//     popup(editor.page);
 
-    //event.stopPropagation();
-}
+//     //event.stopPropagation();
+// }
 
-window.get_uiCurrentTabContent = function(){
-    //console.log(active_main_tab);
-    if(active_main_tab.id === "tab_txt2img"){
-        return document.getElementById("txt2img_tabitem");
-    }else if(active_main_tab.id === "tab_img2img"){
-        return document.getElementById("img2img_tabitem");
-    }
-}
+// window.get_uiCurrentTabContent = function(){
+//     //console.log(active_main_tab);
+//     if(active_main_tab.id === "tab_txt2img"){
+//         return document.getElementById("txt2img_tabitem");
+//     }else if(active_main_tab.id === "tab_img2img"){
+//         return document.getElementById("img2img_tabitem");
+//     }
+// }
 
-function testpopup(){
-	const content_div = document.querySelector('#popup_tabitem');
-	//const meta_id = document.querySelector('.global-popup-inner > div')?.id;
-	content_div.querySelectorAll(`.portal`).forEach((el, index, array) => {				
-		/*
-		const childs = Array.from(el.children);
-		childs.forEach((c) => {
-			const ac = c.getAttribute("meta-Id");	
-			if(ac){
-				if(ac === meta_id){
-					c.style.display = "";
-					el.style.display = "";										
+// function testpopup(){
+// 	const content_div = document.querySelector('#popup_tabitem');
+// 	//const meta_id = document.querySelector('.global-popup-inner > div')?.id;
+// 	content_div.querySelectorAll(`.portal`).forEach((el, index, array) => {				
+// 		/*
+// 		const childs = Array.from(el.children);
+// 		childs.forEach((c) => {
+// 			const ac = c.getAttribute("meta-Id");	
+// 			if(ac){
+// 				if(ac === meta_id){
+// 					c.style.display = "";
+// 					el.style.display = "";										
 					
-				}else{
-					c.style.display = "none";
-					if(childs.length === 1){
-						el.style.display = "none";						
-					}
-				}
-			}else{
-				c.setAttribute("meta-id", meta_id);
-			}
-		}); 
-		*/
-		setAttrSelector(el, content_div, 0, index, array.length);
-	});
+// 				}else{
+// 					c.style.display = "none";
+// 					if(childs.length === 1){
+// 						el.style.display = "none";						
+// 					}
+// 				}
+// 			}else{
+// 				c.setAttribute("meta-id", meta_id);
+// 			}
+// 		}); 
+// 		*/
+// 		setAttrSelector(el, content_div, 0, index, array.length);
+// 	});
 
-	/* 	
-	content_div.querySelectorAll(`.ae-popup .edit-user-metadata-buttons button`).forEach((el) => {
-	} 
-	*/
-}
+// 	/* 	
+// 	content_div.querySelectorAll(`.ae-popup .edit-user-metadata-buttons button`).forEach((el) => {
+// 	} 
+// 	*/
+// }
 
-function setupExtraNetworksSearchSort(){
+// function setupExtraNetworksSearchSort(){
 
-	const applyFilter = function(e) {
-        const search_term = e.target.value.toLowerCase();
-		const cards = e.target.getAttribute("data-target"); 
-		//console.log(search_term, cards )
-        gradioApp().querySelectorAll(cards).forEach(function(elem) {
-            //const text = elem.querySelector(".search_term").textContent;//elem.getAttribute("data-path").toLowerCase().split("\\").join("/");
-			const text = elem.querySelector('.name').textContent.toLowerCase() + " " + elem.querySelector('.search_term').textContent.toLowerCase();
-			let visible = text.indexOf(search_term) != -1;
-			if (search_term.length < 3) {			
-                visible = true;
-            }
-            elem.style.display = visible ? "" : "none";
-        });
-    };
+// 	const applyFilter = function(e) {
+//         const search_term = e.target.value.toLowerCase();
+// 		const cards = e.target.getAttribute("data-target"); 
+// 		//console.log(search_term, cards )
+//         gradioApp().querySelectorAll(cards).forEach(function(elem) {
+//             //const text = elem.querySelector(".search_term").textContent;//elem.getAttribute("data-path").toLowerCase().split("\\").join("/");
+// 			const text = elem.querySelector('.name').textContent.toLowerCase() + " " + elem.querySelector('.search_term').textContent.toLowerCase();
+// 			let visible = text.indexOf(search_term) != -1;
+// 			if (search_term.length < 3) {			
+//                 visible = true;
+//             }
+//             elem.style.display = visible ? "" : "none";
+//         });
+//     };
 
-	document.querySelectorAll('.search_extra_networks').forEach((el) => {
-		el.addEventListener("input", applyFilter);
-	})
+// 	document.querySelectorAll('.search_extra_networks').forEach((el) => {
+// 		el.addEventListener("input", applyFilter);
+// 	})
 	  
-	function applySort(el, sortKey) { 
+// 	function applySort(el, sortKey) { 
 
-		function comparator(cardA, cardB) { 
-			var a = cardA.getAttribute(sortKey);
-			var b = cardB.getAttribute(sortKey);
-			if (!isNaN(a) && !isNaN(b)) {
-				return parseInt(a) - parseInt(b);
-			}	
-			return (a < b ? -1 : (a > b ? 1 : 0));
-		} 
+// 		function comparator(cardA, cardB) { 
+// 			var a = cardA.getAttribute(sortKey);
+// 			var b = cardB.getAttribute(sortKey);
+// 			if (!isNaN(a) && !isNaN(b)) {
+// 				return parseInt(a) - parseInt(b);
+// 			}	
+// 			return (a < b ? -1 : (a > b ? 1 : 0));
+// 		} 
 
-		const cards_selector = el.getAttribute("data-target"); 
-		const cards = gradioApp().querySelectorAll(cards_selector); 
-		const cards_parent = cards[0].parentElement;	
-		const cardsArray = Array.from(cards); 
-		let sorted = cardsArray.sort(comparator);
+// 		const cards_selector = el.getAttribute("data-target"); 
+// 		const cards = gradioApp().querySelectorAll(cards_selector); 
+// 		const cards_parent = cards[0].parentElement;	
+// 		const cardsArray = Array.from(cards); 
+// 		let sorted = cardsArray.sort(comparator);
 
-		const reverse_button = el.nextElementSibling;//closest(".reverse-order");
-		const reverse = reverse_button.className.indexOf("active") !== -1;
-		if (reverse) {
-            sorted.reverse();
-        }
-		sorted.forEach(e => cards_parent.appendChild(e)); 
+// 		const reverse_button = el.nextElementSibling;//closest(".reverse-order");
+// 		const reverse = reverse_button.className.indexOf("active") !== -1;
+// 		if (reverse) {
+//             sorted.reverse();
+//         }
+// 		sorted.forEach(e => cards_parent.appendChild(e)); 
 
-	} 
+// 	} 
 	
-	document.querySelectorAll('.extra_networks_order_by').forEach((el) => {	
-		el.addEventListener('change', function(e) {
-			applySort(e.target, this.value);
-			//console.log('You selected: ', this.value);
-		});
-		el.nextElementSibling.addEventListener('click', function(e) {
-			applySort(el, el.value);	
-			console.log('You selected: ', el.value);
-		});
-	})
+// 	document.querySelectorAll('.extra_networks_order_by').forEach((el) => {	
+// 		el.addEventListener('change', function(e) {
+// 			applySort(e.target, this.value);
+// 			//console.log('You selected: ', this.value);
+// 		});
+// 		el.nextElementSibling.addEventListener('click', function(e) {
+// 			applySort(el, el.value);	
+// 			console.log('You selected: ', el.value);
+// 		});
+// 	})
 
-}
+// }
 
-function updateExtraNetworksCards(el){
+// function updateExtraNetworksCards(el){
 
-	console.log("Starting optimizations for", el.id);
-	el.querySelectorAll(".card, .card-button").forEach((card) => {
-		const onclick_data = card.getAttribute("onClick");
-		card.setAttribute("data-apply", onclick_data);			
-		card.removeAttribute("onClick");
-		if(card.getAttribute("data-name")){
-			console.log("Remove EventListener", card.getAttribute("data-name"))
-		}else{
-			const card_closest = card.closest(".card");			
-			console.log("Remove EventListener", `${card_closest.getAttribute("data-name")} - ${card.getAttribute("title")}`)
-		}
+// 	console.log("Starting optimizations for", el.id);
+// 	el.querySelectorAll(".card, .card-button").forEach((card) => {
+// 		const onclick_data = card.getAttribute("onClick");
+// 		card.setAttribute("data-apply", onclick_data);			
+// 		card.removeAttribute("onClick");
+// 		if(card.getAttribute("data-name")){
+// 			console.log("Remove EventListener", card.getAttribute("data-name"))
+// 		}else{
+// 			const card_closest = card.closest(".card");			
+// 			console.log("Remove EventListener", `${card_closest.getAttribute("data-name")} - ${card.getAttribute("title")}`)
+// 		}
 					
-	})
+// 	})
 	
-	console.log("Attach EventListener", el.id);
-	el.addEventListener("click", function(e) {
-		const ctarget = e.target;				
-		if(ctarget && ctarget.className.indexOf("card") !== -1) {
-			let data_apply = ctarget.getAttribute("data-apply");
-			if(!data_apply){
-				const onclick_data = ctarget.getAttribute("onClick");
-				if(onclick_data){
-					ctarget.setAttribute("data-apply", onclick_data);			
-					ctarget.removeAttribute("onClick");
-				}
-			}
+// 	console.log("Attach EventListener", el.id);
+// 	el.addEventListener("click", function(e) {
+// 		const ctarget = e.target;				
+// 		if(ctarget && ctarget.className.indexOf("card") !== -1) {
+// 			let data_apply = ctarget.getAttribute("data-apply");
+// 			if(!data_apply){
+// 				const onclick_data = ctarget.getAttribute("onClick");
+// 				if(onclick_data){
+// 					ctarget.setAttribute("data-apply", onclick_data);			
+// 					ctarget.removeAttribute("onClick");
+// 				}
+// 			}
 
-			const tabkey = active_main_tab.id.split("tab_")[1];
-			if(tabkey === "img2img"){
-				data_apply = data_apply?.replace("txt2img", "img2img");
-			}else{
-				data_apply = data_apply?.replace("img2img", "txt2img");
-			}
+// 			const tabkey = active_main_tab.id.split("tab_")[1];
+// 			if(tabkey === "img2img"){
+// 				data_apply = data_apply?.replace("txt2img", "img2img");
+// 			}else{
+// 				data_apply = data_apply?.replace("img2img", "txt2img");
+// 			}
 			
-			ctarget.setAttribute("onClick", data_apply );
-			ctarget.click();					
-			ctarget.removeAttribute("onClick");
+// 			ctarget.setAttribute("onClick", data_apply );
+// 			ctarget.click();					
+// 			ctarget.removeAttribute("onClick");
 
-			if(ctarget.className.indexOf("card-button") !== -1){						
-				data_apply = data_apply?.replace("img2img", "txt2img");
-				popup_trigger.click();					
-				testpopup();
-			}
+// 			if(ctarget.className.indexOf("card-button") !== -1){						
+// 				data_apply = data_apply?.replace("img2img", "txt2img");
+// 				popup_trigger.click();					
+// 				testpopup();
+// 			}
 
-		}
-	})
+// 		}
+// 	})
 
-	document.querySelectorAll("#txt2img_styles_edit_button, #img2img_styles_edit_button").forEach((elm) => {
-		elm.addEventListener("click", function(e) {
-			popup_trigger.click();					
-			testpopup();	
-		})
-	})
+// 	document.querySelectorAll("#txt2img_styles_edit_button, #img2img_styles_edit_button").forEach((elm) => {
+// 		elm.addEventListener("click", function(e) {
+// 			popup_trigger.click();					
+// 			testpopup();	
+// 		})
+// 	})
 	
 	
 
-}
+// }
 
-function initExtraNetworks() {
-	const content_div = anapnoe_app;
+// function initExtraNetworks() {
+// 	const content_div = anapnoe_app;
 	
-	console.log("Starting optimizations for Extra Networks");
+// 	console.log("Starting optimizations for Extra Networks");
 
-	content_div.querySelectorAll(".extra-network-cards").forEach((el) => {
-		updateExtraNetworksCards(el);
-	}); 
+// 	content_div.querySelectorAll(".extra-network-cards").forEach((el) => {
+// 		updateExtraNetworksCards(el);
+// 	}); 
 
-	console.log("Finishing optimizations for Extra Networks");
+// 	console.log("Finishing optimizations for Extra Networks");
 
-	setupExtraNetworksSearchSort();
+// 	setupExtraNetworksSearchSort();
 
-	const ch_input = document.querySelector ("#setting_sd_model_checkpoint .secondary-wrap input");
-	//const hash_target = document.querySelector('#sd_checkpoint_hash');
-	//const hash_old_value = hash_target.textContent;
-	const hash_old_value = ch_input.value;
-	let oldcard = document.querySelector(`#txt2img_checkpoints_cards .card[data-apply*="${hash_old_value}"]`);
-	if(oldcard){
-		oldcard?.classList.add("selected");
-		console.log("Checkpoint name:", oldcard.getAttribute("data-name"), "<br>");
-	}
+// 	const ch_input = document.querySelector ("#setting_sd_model_checkpoint .secondary-wrap input");
+// 	//const hash_target = document.querySelector('#sd_checkpoint_hash');
+// 	//const hash_old_value = hash_target.textContent;
+// 	const hash_old_value = ch_input.value;
+// 	let oldcard = document.querySelector(`#txt2img_checkpoints_cards .card[data-apply*="${hash_old_value}"]`);
+// 	if(oldcard){
+// 		oldcard?.classList.add("selected");
+// 		console.log("Checkpoint name:", oldcard.getAttribute("data-name"), "<br>");
+// 	}
 
-	const ch_footer_preload = document.querySelector("#txt2img_checkpoints_main_footer .model-preloader");
-	const ch_footer_selected = document.querySelector("#txt2img_checkpoints_main_footer .model-selected");
+// 	const ch_footer_preload = document.querySelector("#txt2img_checkpoints_main_footer .model-preloader");
+// 	const ch_footer_selected = document.querySelector("#txt2img_checkpoints_main_footer .model-selected");
 	
-	const ch_preload = document.querySelector ("#setting_sd_model_checkpoint .wrap");
-	ch_footer_preload.append(ch_preload);	
+// 	const ch_preload = document.querySelector ("#setting_sd_model_checkpoint .wrap");
+// 	ch_footer_preload.append(ch_preload);	
 
-	const preload_model_observer = new MutationObserver(function (mutations) {
-		mutations.forEach(function (m) {
-			if(oldcard){
-				const hash_target = document.querySelector('#sd_checkpoint_hash');
-				const hash_value = hash_target.textContent;
-				const card = document.querySelector(`#txt2img_checkpoints_cards .card[data-apply*="${hash_value}"]`);	
-				if(card){
-					if(oldcard !== card){
-						oldcard.classList.remove("selected");
-						card.classList.add("selected");
-						oldcard = card;	
-						ch_footer_selected.textContent = ch_input.value;
-						console.log("Checkpoint:", ch_input.value)
-					}	
-				}					
-			}						
-		});
-	});
+// 	const preload_model_observer = new MutationObserver(function (mutations) {
+// 		mutations.forEach(function (m) {
+// 			if(oldcard){
+// 				const hash_target = document.querySelector('#sd_checkpoint_hash');
+// 				const hash_value = hash_target.textContent;
+// 				const card = document.querySelector(`#txt2img_checkpoints_cards .card[data-apply*="${hash_value}"]`);	
+// 				if(card){
+// 					if(oldcard !== card){
+// 						oldcard.classList.remove("selected");
+// 						card.classList.add("selected");
+// 						oldcard = card;	
+// 						ch_footer_selected.textContent = ch_input.value;
+// 						console.log("Checkpoint:", ch_input.value)
+// 					}	
+// 				}					
+// 			}						
+// 		});
+// 	});
 
-	preload_model_observer.observe(ch_preload, { childList: true, subtree: false });
-}
+// 	preload_model_observer.observe(ch_preload, { childList: true, subtree: false });
+// }
 
 //======================= MOBILE =======================
 function detectMobile() {
@@ -427,7 +399,6 @@ function detectMobile() {
 
 function applyDefaultLayout(isMobile){
     anapnoe_app.querySelectorAll("[mobile]").forEach((tabItem) => {   
-        //console.log(tabItem);     
         if(isMobile){
             if(tabItem.childElementCount === 0){
                 const mobile_attr = tabItem.getAttribute("mobile");              
@@ -436,7 +407,6 @@ function applyDefaultLayout(isMobile){
                     if(mobile_target){
                         tabItem.setAttribute("mobile-restore", `#${mobile_target.parentElement.id}`);
                         tabItem.append(mobile_target);
-                        
                     }           
                 }
             }
@@ -463,15 +433,8 @@ function applyDefaultLayout(isMobile){
 
 function switchMobile(){
     const optslayout = window.opts.uiux_default_layout;
-    //console.log(optslayout);
     anapnoe_app.classList.add(`default-${optslayout.toLowerCase()}`);
     if(optslayout === "Auto"){           
-        /*  
-        window.addEventListener("resize", debounce(function(e){
-            const isMobile = detectMobile();
-            applyDefaultLayout(isMobile);
-        })); 
-        */
         window.addEventListener('resize', function(event){
             const isMobile = detectMobile();
             applyDefaultLayout(isMobile);
@@ -496,7 +459,6 @@ function mainTabs(element, tab) {
 		}
 		new_tab.style.display = 'block';
 		active_main_tab = new_tab;
-		//console.log(tab, ntab);
 	}
 }
 
@@ -735,14 +697,9 @@ function attachLoggerScreen() {
 
 function onUiUxReady() {
 	attachLoggerScreen();
-
-	//initExtraNetworks(); disabled
-
 	setupGenerateObservers();
 	uiuxOptionSettings();
-
 	showContributors();      
-	// showReadMeAbout(); disabled
 	switchMobile();
 
 	localStorage.setItem('UiUxComplete', true);
@@ -798,7 +755,7 @@ function setAttrSelector(parent_elem, content_div, count, index, length) {
 		const hb = parent_elem.getAttribute("show-button");
 		if(hb){document.querySelector(hb)?.classList.remove("hidden");}
 
-	} else if (count < 4) {
+	} else if (count < 2) {
 
 		const t = parent_elem.getAttribute("data-timeout");
 		const delay = t ? parseInt(t) : 500;
@@ -1114,13 +1071,6 @@ function initDefaultComponents() {
 function setupScripts(callback) {
 	const content_div = anapnoe_app;
 
-	// //markdown
-	// var script = document.createElement('script');
-    // script.type = 'text/javascript';
-    // script.src = 'https://cdn.jsdelivr.net/npm/marked/marked.min.js';
-	// content_div.appendChild(script);
-
-	//split views
 	var script = document.createElement('script');
 	script.id = 'splitjs-main';
 	script.setAttribute("data-scope", anapnoe_app_id);
@@ -1152,7 +1102,7 @@ function setupAnimationEventListeners(){
 function createButtonsForExtensions() {
 	const other_extensions = document.querySelector(`#other_extensions`);
 	const other_views = document.querySelector(`#split-left`);
-	//const other_views = document.querySelector(`#no-split-app`);
+
 	const no_button_tabs = [
 		"tab_txt2img", "tab_img2img", "tab_process", "tab_control", "tab_interrogate", "tab_train", "tab_models", "tab_extensions", "tab_system", "tab_image_browser",
     	"tab_ui_theme", "tab_anapnoe_dock",
@@ -1179,7 +1129,6 @@ function createButtonsForExtensions() {
 				</button>
 			`;
 			other_extensions.append(temp.firstElementChild);
-			//console.log(other_extensions, temp.firstElementChild);
 
 			temp.innerHTML= `
 				<div id="${cid}_tabitem" class="xtabs-item other">
@@ -1187,7 +1136,6 @@ function createButtonsForExtensions() {
 					</div>
 				</div>
 			`;
-			//console.log(other_views, temp.firstElementChild);
 			other_views.append(temp.firstElementChild);
 		}
 	});
@@ -1211,7 +1159,7 @@ function setupUiUx() {
 
 	const content_div = document.querySelector(anapnoe_app_id);
 	gradioApp().insertAdjacentElement('afterbegin', content_div);
-	active_main_tab = document.querySelector("#tab_txt2img");
+	active_main_tab = document.querySelector("#tab_control");
 	anapnoe_app = content_div;
 
 	createButtonsForExtensions();
