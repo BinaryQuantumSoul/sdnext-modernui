@@ -873,8 +873,13 @@ function initDefaultComponents() {
 					acc_split.setAttribute('data-sizes', JSON.stringify(sizes));
 
 					//console.log(sizes)
-					sizes[sizes.length-1] = 0;
-					sizes[sizes.length-2] = 100;
+					if (acc.className.indexOf('left') !== -1) {
+						sizes[sizes.length-1] = 100;
+						sizes[sizes.length-2] = 0;
+					} else {
+						sizes[sizes.length-1] = 0;
+						sizes[sizes.length-2] = 100;
+					}
 
 					const padding = parseFloat(window.getComputedStyle(c, null).getPropertyValue('padding-left')) * 2;
 					acc_split.style.minWidth = c.offsetWidth+padding+"px";

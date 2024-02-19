@@ -176,7 +176,7 @@ body {
 }
 
 *.gradio-button.tool {
-    padding: 0;
+    padding: 0px 4px;
     align-self: flex-end;
 }
 
@@ -772,8 +772,6 @@ button:hover .mask-icon{
     min-height: 15vh;
     width: 100%;
     height: 100%;
-    position: absolute !important;
-    top:0;
 }
 :not(.portal)>.gradio-video .wrap{
     position: relative !important;
@@ -1149,7 +1147,11 @@ li.item span {
     cursor: row-resize;
 }
 
-.gutter:has(+ .split-container .accordion-vertical:not(.expand)) {
+.gutter:has(+ #split-right .accordion-vertical:not(.expand)) {
+    display: none;
+}
+
+#split-control-left:has(.accordion-vertical:not(.expand)) + .gutter {
     display: none;
 }
 
@@ -1220,6 +1222,14 @@ li.item span {
 
 .accordion-vertical.expand .accordion-icon {
     transform: rotate(-90deg);
+}
+
+.accordion-vertical.left .accordion-icon {
+    transform: rotate(-90deg);
+}
+
+.accordion-vertical.left.expand .accordion-icon {
+    transform: rotate(90deg);
 }
 
 .accordion-vertical {
@@ -2031,8 +2041,6 @@ div#main-nav {
     border-bottom-left-radius: 0 !important;
 }
 
-
-
 .extra-network-subdirs>button,
 .settings-tabs button {
     text-align: left;
@@ -2040,6 +2048,10 @@ div#main-nav {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+}
+
+.extra-network-subdirs {
+    max-width: 20%;
 }
 
 .extra-network-subdirs,
@@ -2620,9 +2632,10 @@ td.gridjs-td[data-column-id="description"] {
 }
 
 /* tab extensions */
-.tabs_extensions .gradio-column.gap{
+.tabs_extensions .gradio-column{
     display: flex;
     flex-direction: row;
+    justify-content: center;
 }
 
 .tabs_extensions colgroup {
@@ -2953,6 +2966,7 @@ span.star_count b {
 [id*="_copy_to_"].gradio-row button{
 flex-grow:1;
 }
+
 .group-row{
     gap: 1px !important;
 }
@@ -2970,6 +2984,25 @@ flex-grow:1;
 .group-row > *:first-child{
     border-top-left-radius: var(--ae-border-radius) !important;
     border-bottom-left-radius: var(--ae-border-radius) !important;
+}
+
+.group-col{
+    gap: 1px !important;
+}
+.group-col > * button,
+.group-col > *{
+    border-radius: 0 !important;
+}
+
+.group-col > *:last-child button,
+.group-col > *:last-child {
+    border-bottom-left-radius: var(--ae-border-radius) !important;
+    border-bottom-right-radius: var(--ae-border-radius) !important;
+}
+.group-col > *:first-child button,
+.group-col > *:first-child{
+    border-top-left-radius: var(--ae-border-radius) !important;
+    border-top-right-radius: var(--ae-border-radius) !important;
 }
 
 .progress-flex {
@@ -3510,21 +3543,6 @@ input[type="range"]::-ms-fill-upper {
     right: unset;
     left: 1em;
 }
-
-/* #about-content img {
-    max-width: 100px;
-    max-height: 100px;
-}
-
-#about-content div {
-    display: flex;
-    flex-direction: row;
-}
-
-#about-content div:first-of-type {
-    display: flex;
-    flex-direction: column;
-} */
 
 .modification-indicator {
     display: none; /*todo*/
