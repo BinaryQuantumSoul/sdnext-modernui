@@ -1065,11 +1065,9 @@ function initDefaultComponents() {
 		}
 
 	});
-
-
+	
 	// try to attach Logger Screen to main before full UIUXReady
-	const asideconsole = document.querySelector(console_js_id);
-	asideconsole.append(loggerUiUx);
+	document.querySelector(console_js_id)?.append(loggerUiUx);
 	document.querySelector("#logger_screen")?.remove();
 }
 
