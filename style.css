@@ -2608,7 +2608,10 @@ td.gridjs-td[data-column-id="description"] {
     min-width: 135px;
 }
 #split-right:not(.v-expand){
-   min-width:512px;
+    min-width: 512px;
+}
+#split-control-left:not(.v-expand) {
+    min-width: 512px;
 }
 .layout-extra-networks:has( .show-dirs) .gutter,
 .layout-extra-networks:has( .show-dirs) .split-container:first-child {
@@ -3412,10 +3415,11 @@ input[type="checkbox"] {
 .default-mobile .template > .full-height {
     padding: var(--ae-panel-padding);
 }
-.tabitem > .gap{
+.tabitem > .gap {
     overflow:hidden;
+    padding: var(--ae-panel-padding);
 }
-.pointer-events-none{
+.pointer-events-none {
     pointer-events: none;
 }
 .pointer-events-none button{

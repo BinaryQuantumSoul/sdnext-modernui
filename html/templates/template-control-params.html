@@ -47,6 +47,11 @@
                 <span>Video</span>
             </button>
 
+            <button title="Elements" tabItemId="#control_params_elements_tabitem" tabGroup="control" id="control_params_elements" class="xtabs-tab shrink">
+                <div class="mask-icon icon-equalize"></div>
+                <span>Elements</span>
+            </button>
+
             <button title="Scripts / Extensions" tabItemId="#control_scripts_tabitem" tabGroup="control" id="control_scripts" class="xtabs-tab">
                 <div class="mask-icon icon-scripts"></div>
                 <span>Scripts</span>
@@ -156,13 +161,18 @@
                         <div data-parent-selector="#control_settings" data-selector="#control_video div:last-child > div" class="portal"></div>
                     </div>
                 </div>
+                <div id="control_params_elements_tabitem_group" class="flexbox col">
+                    <div id="control_params_elements_tabitem" class="xtabs-item">
+                        <div data-parent-selector="#tab_control" data-selector="#control_elements div:last-child > div" class="portal"></div>
+                    </div>
+                </div>
 
                 <div id="control_scripts_tabitem_group" class="flexbox col">
                     <div id="control_scripts_tabitem" class="xtabs-item">
-                        <div data-selector="#control_elements" data-parent-selector="#tab_control" class="portal no-bg"></div>
-                        <div data-selector="#control_script_container" data-parent-selector="#tab_control" class="portal no-bg"></div>
+                        <div data-parent-selector="#tab_control" data-selector="#control_script_container" class="portal no-bg"></div>
                     </div>
                 </div>
+
                 <div id="control_results_mobile_tabitem_group" class="flexbox col mobile">
                     <div id="control_results_mobile_tabitem" mobile="#template-control-results" class="xtabs-item"></div>
                 </div>

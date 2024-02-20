@@ -866,6 +866,7 @@ function initDefaultComponents() {
 				//acc_gutter.classList.toggle('pointer-events-none');
 				if (acc_split.className.indexOf('v-expand') !== -1) {
 					acc_split.classList.remove('v-expand');
+					acc_split.style.removeProperty("min-width");
 					split_instance.setSizes(JSON.parse(acc_split.getAttribute('data-sizes')))
 				} else {
 					acc_split.classList.add('v-expand');
