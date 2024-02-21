@@ -1,7 +1,6 @@
 // Originally from Anapnoe@https://github.com/anapnoe/stable-diffusion-webui-ux/blob/8307896c59032a9cdac1ab24c975102ff9a674d3/extensions-builtin/anapnoe-sd-uiux/javascript/anapnoe_sd_uiux_core.js
 
 localStorage.setItem('UiUxReady', "false");
-localStorage.setItem('UiUxComplete', "false");
 
 const template_path = './file=extensions/sdnext-ui-ux/html/templates/';
 const anapnoe_app_id = "#anapnoe_app";
@@ -689,21 +688,9 @@ function setupGenerateObservers() {
 function attachLoggerScreen() {
 	const logger_screen = document.querySelector("#logger_screen");
 	if(logger_screen){
-		const asideconsole = document.querySelector(console_js_id);
-		asideconsole.append(loggerUiUx);
+		document.querySelector(console_js_id)?.append(loggerUiUx);
 		logger_screen.remove();
 	}
-}
-
-function onUiUxReady() {
-	attachLoggerScreen();
-	setupGenerateObservers();
-	uiuxOptionSettings();
-	showContributors();      
-	switchMobile();
-
-	localStorage.setItem('UiUxComplete', true);
-	console.log('UiUxComplete');
 }
 
 //======================= SETUP =======================
@@ -755,7 +742,7 @@ function setAttrSelector(parent_elem, content_div, count, index, length) {
 		const hb = parent_elem.getAttribute("show-button");
 		if(hb){document.querySelector(hb)?.classList.remove("hidden");}
 
-	} else if (count < 2) {
+	} else if (count < 4) {
 
 		const t = parent_elem.getAttribute("data-timeout");
 		const delay = t ? parseInt(t) : 500;
@@ -776,7 +763,6 @@ function setAttrSelector(parent_elem, content_div, count, index, length) {
 
 	if(total === length){				
 		localStorage.setItem('UiUxReady', true);
-		console.log('UiUxReady');
 	}
 
 	//}, delay );
@@ -1067,20 +1053,32 @@ function initDefaultComponents() {
 
 	});
 	
-	// try to attach Logger Screen to main before full UIUXReady
-	document.querySelector(console_js_id)?.append(loggerUiUx);
-	document.querySelector("#logger_screen")?.remove();
+	// try to attach LoggerScreen to main before full UIUXReady
+	attachLoggerScreen();
 }
 
-function setupScripts(callback) {
-	const content_div = anapnoe_app;
+function waitForUiUxReady() {
+	return new Promise((resolve, reject) => {
+		const interval = setInterval(() => {
+			if (localStorage.getItem('UiUxReady') === "true") {
+				clearInterval(interval);
+				resolve();
+			}
+		}, 500);
+	});
+}
 
-	var script = document.createElement('script');
-	script.id = 'splitjs-main';
-	script.setAttribute("data-scope", anapnoe_app_id);
-	script.onload = callback;
-	script.src = 'https://unpkg.com/split.js/dist/split.js';
-	content_div.appendChild(script);
+function setupScripts() {
+	return new Promise((resolve, reject) => {
+		const script = document.createElement('script');
+		script.id = 'splitjs-main';
+		script.setAttribute("data-scope", anapnoe_app_id);
+
+		script.src = 'https://unpkg.com/split.js/dist/split.js';
+		script.onload = resolve;
+		script.onerror = reject;
+		anapnoe_app.appendChild(script);
+	});
 }
 
 function setupAnimationEventListeners(){
@@ -1145,33 +1143,14 @@ function createButtonsForExtensions() {
 	});
 }
 
-function setupUiUxAfterScripts() {
-	initDefaultComponents();
-
-	const interval = setInterval(() => {
-		if(localStorage.getItem('UiUxReady') === "true") {
-			clearInterval(interval);
-
-			console.log("Runtime components initialized");
-			onUiUxReady();
-		}
-	}, 500); 
-}
-
-function setupUiUx() {
-	console.log("Init runtime components");
-
+//======================= TEMPLATES =======================
+function replaceRootTemplate() {
 	const content_div = document.querySelector(anapnoe_app_id);
 	gradioApp().insertAdjacentElement('afterbegin', content_div);
 	active_main_tab = document.querySelector("#tab_control");
 	anapnoe_app = content_div;
-
-	createButtonsForExtensions();
-	setupAnimationEventListeners();
-	setupScripts(setupUiUxAfterScripts);
 }
 
-//======================= TEMPLATES =======================
 function getNestedTemplates(container) {
 	const nestedData = [];	
 	container.querySelectorAll(`.template:not([status])`).forEach((el) => {
@@ -1278,18 +1257,51 @@ function removeStyleAssets(){
 }
 
 //======================= INITIALIZATION =======================
+function setFavicon() {
+	let link = document.querySelector("link[rel~='icon']");
+	if (!link) {
+		link = document.createElement('link');
+		link.rel = 'icon';
+		document.head.appendChild(link);
+	}
+	link.href = './file=extensions/sdnext-ui-ux/html/favicon.svg';
+}
+
+function startLogger() {
+	console.log("User agent: ", navigator.userAgent);
+
+	console.log("==== SETTINGS ====");
+    console.log("Console log enabled: ", window.opts.uiux_enable_console_log);
+    console.log("Maximum resolution output: ", window.opts.uiux_max_resolution_output);
+    console.log("Ignore overrides: ", window.opts.uiux_ignore_overrides);
+    console.log("Show ticks for input range slider: ", window.opts.uiux_show_input_range_ticks);
+    console.log("Default layout: ", window.opts.uiux_default_layout);
+    console.log("Disable transitions: ", window.opts.uiux_disable_transitions);
+    console.log("Aside labels: ", window.opts.uiux_show_labels_aside);
+    console.log("Main labels: ", window.opts.uiux_show_labels_main);
+    console.log("Tabs labels: ", window.opts.uiux_show_labels_tabs);
+
+	if(navigator.userAgent.toLowerCase().includes('firefox')){
+		console.log("Go to the Firefox about:config page, then search and toggle layout. css.has-selector. enabled")
+	}
+
+    if(!window.opts.uiux_enable_console_log){
+        console.log = function() {}
+    }
+}
+
 function setupLogger() {
 	//create logger
 	const loggerScreen = document.createElement('div');
 	loggerScreen.id = "logger_screen";
 	loggerScreen.style = `
-	position: fixed; 
-	inset: 0; 
-	background-color: black; 
-	z-index: 99999;
-	display: flex;
-    flex-direction: column;
-	overflow: auto;
+		position: fixed; 
+		inset: 0; 
+		background-color: black; 
+		z-index: 99999;
+		display: flex;
+		flex-direction: column;
+		overflow: auto;
 	`;
 	
 	loggerUiUx = document.createElement('div');
@@ -1309,64 +1321,52 @@ function setupLogger() {
 	};
 }
 
-function startLogger() {
-	console.log("Initialize SDNext UI/UX");
-	console.log(navigator.userAgent);
-
-    console.log("Console log enabled: ", window.opts.uiux_enable_console_log);
-    console.log("Maximum resolution output: ", window.opts.uiux_max_resolution_output);
-    console.log("Ignore overrides: ", window.opts.uiux_ignore_overrides);
-    console.log("Show ticks for input range slider: ", window.opts.uiux_show_input_range_ticks);
-    console.log("Default layout: ", window.opts.uiux_default_layout);
-    console.log("Disable transitions: ", window.opts.uiux_disable_transitions);
-    console.log("Aside labels: ", window.opts.uiux_show_labels_aside);
-    console.log("Main labels: ", window.opts.uiux_show_labels_main);
-    console.log("Tabs labels: ", window.opts.uiux_show_labels_tabs);
-
-	const isFirefox = navigator.userAgent.toLowerCase().includes('firefox');
-	if(isFirefox){
-		console.log("Go to the Firefox about:config page, then search and toggle layout. css.has-selector. enabled")
-	}
-
-    if(!window.opts.uiux_enable_console_log){
-        console.log = function() {}
-    }
-}
-
-function setFavicon() {
-	let link = document.querySelector("link[rel~='icon']");
-	if (!link) {
-		link = document.createElement('link');
-		link.rel = 'icon';
-		document.head.appendChild(link);
-	}
-	link.href = './file=extensions/sdnext-ui-ux/html/favicon.svg';
-}
-
-function initalizeUiUx() {
+//======================= MAIN ROUTINE =======================
+async function mainUiUx() {
 	setupLogger();
-	startLogger();
-	setFavicon();
 
+	//INITIALIZATION
+	console.log("Initialize SDNext UiUx");
+	startLogger();
+
+	setFavicon();
 	removeStyleAssets();
-	loadAllTemplates().then(setupUiUx);
+	await loadAllTemplates();
+	replaceRootTemplate();
+
+	//SETUP
+	console.log("Init runtime components");
+
+	createButtonsForExtensions();
+	setupAnimationEventListeners();
+	await setupScripts();
+	
+	initDefaultComponents();
+	await waitForUiUxReady();
+
+	//UIUX READY
+	console.log("Runtime components initialized");
+
+	attachLoggerScreen();
+	setupGenerateObservers();
+	uiuxOptionSettings();
+	showContributors();      
+	switchMobile();
+
+	//UIUX COMPLETE
+	console.log("UiUx complete");
 }
 
-//======================= WAIT FOR INIT =======================
-function observeGradioInit() {
+document.addEventListener("DOMContentLoaded", () => {
 	const observer = new MutationObserver(() => {
 		const block = gradioApp().querySelector(anapnoe_tab_id);			
 		
 		if (block && window.opts && Object.keys(window.opts).length) {
 			observer.disconnect();
 			setTimeout(() => {
-				initalizeUiUx();
+				mainUiUx();
 			}, 1000);
 		}
 	});
-	observer.observe(gradioApp(), { childList: true, subtree: true });
-} 
-
-document.addEventListener("DOMContentLoaded", () => {
-	observeGradioInit();
+	observer.observe(gradioApp(), {childList: true, subtree: true});
 });
