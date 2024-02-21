@@ -197,7 +197,7 @@ function mainTabs(element, tab) {
 }
 
 function uiuxOptionSettings() {
-    // sd max resolution output
+    // settings max output resolution
     function sdMaxOutputResolution(value) {
         gradioApp().querySelectorAll('[id$="2img_width"] input,[id$="2img_height"] input').forEach((elem) => {
             elem.max = value;
@@ -210,11 +210,10 @@ function uiuxOptionSettings() {
     })	
     sdMaxOutputResolution(window.opts.uiux_max_resolution_output);
 
-	// step ticks for performant input range
+	// settings input ranges
 	function uiux_show_input_range_ticks(value, interactive) {
 		if (value) {
 			const range_selectors = "input[type='range']";
-			//const range_selectors = "[id$='_clone']:is(input[type='range'])";
 			gradioApp()
 				.querySelectorAll(range_selectors)
 				.forEach(function (elem) {
@@ -242,128 +241,37 @@ function uiuxOptionSettings() {
 				});
 		}
 	}
-	 
 	gradioApp().querySelector("#setting_uiux_show_input_range_ticks input").addEventListener("click", function (e) {
 		uiux_show_input_range_ticks(e.target.checked, true);
 	});
 	uiux_show_input_range_ticks(window.opts.uiux_show_input_range_ticks);
-
-
-    function remove_overrides(){	
-		let checked_overrides = [];
-		gradioApp().querySelectorAll("#setting_uiux_ignore_overrides input").forEach(function (elem, i){
-			if(elem.checked){
-				checked_overrides[i] = elem.nextElementSibling.innerHTML;
-			}			
-		})
-		//console.log(checked_overrides);
-		gradioApp().querySelectorAll("[id$='2img_override_settings'] .token").forEach(function (token){
-			let token_arr = token.querySelector("span").innerHTML.split(":");
-			let token_name = token_arr[0];
-			let token_value = token_arr[1];
-			token_value = token_value.replaceAll(" ", "");	
-			
-			/* if(token_name.indexOf("Model hash") != -1){
-				const info_label = gradioApp().querySelector("[id$='2img_override_settings'] label span");
-				info_label.innerHTML = "Override settings MDL: unknown";
-				for (let m=0; m<sdCheckpointModels.length; m++) {						
-					let m_str = sdCheckpointModels[m];					
-					if(m_str.indexOf(token_value) != -1 ){
-						info_label.innerHTML = "Override settings <i>MDL: " +  m_str.split("[")[0] + "</i>";
-						break;
-					}
-				}	
-			} */
-			if(checked_overrides.indexOf(token_name) != -1){				
-				token.querySelector(".token-remove").click();
-				gradioApp().querySelector("[id$='2img_override_settings']").classList.add("show");				
-			}else{
-				// maybe we add them again, for now we can select and add the removed tokens manually from the drop down
-			}			
-		})
+    
+	// settings looks
+	function setupUiUxSetting(settingId, className) {
+		function updateUiUxClass(className, value) {
+			if (value) {
+				appUiUx.classList.add(className);
+			} else {
+				appUiUx.classList.remove(className);
+			}
+		}
+		gradioApp().querySelector(`#${settingId} input`).addEventListener("click", function (e) {
+			updateUiUxClass(className, e.target.checked);
+		});
+		updateUiUxClass(className, window.opts[settingId]);
 	}
-	gradioApp().querySelector("#setting_uiux_ignore_overrides").addEventListener('click', function (e) {
-		setTimeout(function() { remove_overrides(); }, 100);		
-	})
-    /*     
-    gradioApp().querySelectorAll("#pnginfo_send_buttons button, #paste").forEach(function (elem) {
-      elem.addEventListener("click", function (e) {     
-        setTimeout(function () {
-            remove_overrides();
-        }, 500);
-      });
-    }); 
-    */
-    const overrides_observer = new MutationObserver(function(mutations) {
-        mutations.forEach(function(mutation) {
-            if(mutation.addedNodes){
-                //console.log(mutation.addedNodes.length + ' nodes added');
-                setTimeout(function() { remove_overrides(); }, 100);
-            }
-        });
-    });
+
+	setupUiUxSetting("setting_uiux_no_slider_layout", "no-slider-layout");
+	setupUiUxSetting("setting_uiux_show_labels_aside", "aside-labels");
+	setupUiUxSetting("setting_uiux_show_labels_main", "main-labels");
+	setupUiUxSetting("setting_uiux_show_labels_tabs", "tab-labels");
+	setupUiUxSetting("setting_uiux_show_labels_control", "control-labels");
     
-    gradioApp().querySelectorAll("#txt2img_override_settings .wrap-inner, #img2img_override_settings .wrap_inner").forEach(function (elem) {
-        overrides_observer.observe(elem, { childList: true });
-    }); 
-    
-
-    function uiux_no_slider_layout(value) {
-        if (value) {
-            appUiUx.classList.add("no-slider-layout");
-        } else {
-            appUiUx.classList.remove("no-slider-layout");
-        }
-    }
-
-    gradioApp().querySelector("#setting_uiux_no_slider_layout input").addEventListener("click", function (e) {
-        uiux_no_slider_layout(e.target.checked, true);
-    });
-
-    uiux_no_slider_layout(window.opts.uiux_no_slider_layout);
-
-    function uiux_show_labels_aside(value) {
-        if (value) {
-            appUiUx.classList.add("aside-labels");
-        } else {
-            appUiUx.classList.remove("aside-labels");
-        }
-    }
-    gradioApp().querySelector("#setting_uiux_show_labels_aside input").addEventListener("click", function (e) {
-        uiux_show_labels_aside(e.target.checked, true);
-    });
-    uiux_show_labels_aside(window.opts.uiux_show_labels_aside);
-
-
-    function uiux_show_labels_main(value) {
-        if (value) {
-            appUiUx.classList.add("main-labels");
-        } else {
-            appUiUx.classList.remove("main-labels");
-        }
-    }
-    gradioApp().querySelector("#setting_uiux_show_labels_main input").addEventListener("click", function (e) {
-        uiux_show_labels_main(e.target.checked, true);
-    });
-    uiux_show_labels_main(window.opts.uiux_show_labels_main);
-
-
-    function uiux_show_labels_tabs(value) {
-        if (value) {
-            appUiUx.classList.add("tab-labels");
-        } else {
-            appUiUx.classList.remove("tab-labels");
-        }
-    }
-    gradioApp().querySelector("#setting_uiux_show_labels_tabs input").addEventListener("click", function (e) {
-        uiux_show_labels_tabs(e.target.checked, true);
-    });
-    uiux_show_labels_tabs(window.opts.uiux_show_labels_tabs);
-
-    
+	// settings mobile
     const comp_mobile_scale_range = gradioApp().querySelector("#setting_uiux_mobile_scale input[type=range]");
     comp_mobile_scale_range.classList.add("hidden");
     const comp_mobile_scale = gradioApp().querySelector("#setting_uiux_mobile_scale input[type=number]");
+
     function uiux_mobile_scale(value) {
         const viewport = document.head.querySelector('meta[name="viewport"]');
         viewport.setAttribute("content", `width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=${value}`);      
@@ -376,7 +284,6 @@ function uiuxOptionSettings() {
         console.log('change', e.target.value);
         uiux_mobile_scale(e.target.value);   
     });
-    
     uiux_mobile_scale(window.opts.uiux_mobile_scale);
 }
 
@@ -1003,10 +910,10 @@ function setFavicon() {
 }
 
 function startLogger() {
-	console.log("User agent: ", navigator.userAgent);
+	console.log(navigator.userAgent);
 
 	console.log("==== SETTINGS ====");
-    console.log("Console log enabled: ", window.opts.uiux_enable_console_log);
+    console.log("Debug log enabled: ", window.opts.uiux_enable_console_log);
     console.log("Maximum resolution output: ", window.opts.uiux_max_resolution_output);
     console.log("Ignore overrides: ", window.opts.uiux_ignore_overrides);
     console.log("Show ticks for input range slider: ", window.opts.uiux_show_input_range_ticks);

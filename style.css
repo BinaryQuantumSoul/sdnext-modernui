@@ -3355,19 +3355,24 @@ input[type="checkbox"] {
 #img2img_results_generate_tabitem .generate{
     flex-grow: 1;
 }
+
 .aside-labels #sidebar_secondary_tabs a span,
 .main-labels #main-nav .xtabs-tab span,
 .tab-labels [id$="2img_header"] span ,
-.aside-labels #accordion-aside .xtabs-tab span {
+.aside-labels #accordion-aside .xtabs-tab span,
+.control-labels #accordion-control .xtabs-tab span {
     display: flex !important;
     text-transform: capitalize;
 }
 .main-labels #main-nav .xtabs-tab,
 .tab-labels [id$="2img_header"] .xtabs-tab,
-.aside-labels #accordion-aside .xtabs-tab {
+.aside-labels #accordion-aside .xtabs-tab,
+.control-labels #accordion-control .xtabs-tab {
     justify-content: flex-start;
 }
+
 #acc-arrow-button,
+#acc-arrow-button-control,
 .aside-labels .accordion-bar > div{
     width:100%;
 }
