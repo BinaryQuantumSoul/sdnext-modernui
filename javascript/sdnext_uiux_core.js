@@ -3,15 +3,16 @@
 localStorage.setItem('UiUxReady', "false");
 
 const template_path = './file=extensions/sdnext-ui-ux/html/templates/';
-const anapnoe_app_id = "#anapnoe_app";
-const anapnoe_tab_id = "#tab_anapnoe_sd_uiux_core";
+const uiux_app_id = "#sdnext_app";
+const uiux_tab_id = "#tab_sdnext_uiux_core";
 const console_js_id = "#console-log-js";
 
 const split_instances = [];
 let total = 0;
 let active_main_tab;
 let loggerUiUx;
-let anapnoe_app;
+let appUiUx;
+
 
 //======================= UTILS =======================
 function logPrettyPrint() {
@@ -124,272 +125,6 @@ function showContributors(){
 	});
 }
 
-//======================= EXTRA_NETWORKS =======================
-// //var orig_all_gallery_buttons = window.all_gallery_buttons;
-// window.all_gallery_buttons = function(){
-//     //orig_all_gallery_buttons();
-// 	var tabitem = gradioApp().querySelector('#main-nav-bar button.active')?.getAttribute('tabitemid');
-// 	var visibleGalleryButtons = [];
-// 	if(tabitem){
-// 		//console.log(tabitem, allGalleryButtons);
-// 		var allGalleryButtons = gradioApp().querySelectorAll(tabitem+' .gradio-gallery .thumbnails > .thumbnail-small');
-// 		allGalleryButtons?.forEach(function(elem) {
-// 			if (elem.parentElement.offsetParent && elem.parentElement.offsetParent !== document.body) {               
-// 				visibleGalleryButtons.push(elem);
-// 			}
-// 		});
-// 	}
-// 	return visibleGalleryButtons;
-// }
-
-// window.extraNetworksSearchButton = function(tabs_id, e) {
-// 	var  button = e.target;
-// 	const attr = e.target.parentElement.parentElement.getAttribute("search-field"); 
-//     var searchTextarea = gradioApp().querySelector(attr);
-// 	//console.log(button, searchTextarea)
-// 	var text = button.classList.contains("search-all") ? "" : button.textContent.trim();
-// 	searchTextarea.value = text;
-// 	window.updateInput(searchTextarea);
-// }
-
-// window.imageMaskResize = function(){
-// 	// override function empty we dont need any fix here
-// }
-
-// window.extraNetworksEditUserMetadata = function(event, tabname, extraPage, cardName) {
-//     //var id = tabname + '_' + extraPage + '_edit_user_metadata';
-// 	var tid = 'txt2img_' + extraPage + '_edit_user_metadata';
-//     var editor = extraPageUserMetadataEditors[tid];
-//     if (!editor) {
-//         editor = {};
-//         editor.page = gradioApp().getElementById(tid);
-//         editor.nameTextarea = gradioApp().querySelector("#" + tid + "_name" + ' textarea');
-//         editor.button = gradioApp().querySelector("#" + tid + "_button");
-//         extraPageUserMetadataEditors[tid] = editor;
-//     }
-
-//     editor.nameTextarea.value = cardName;
-//     updateInput(editor.nameTextarea);
-
-//     editor.button.click();
-
-//     popup(editor.page);
-
-//     //event.stopPropagation();
-// }
-
-// window.get_uiCurrentTabContent = function(){
-//     //console.log(active_main_tab);
-//     if(active_main_tab.id === "tab_txt2img"){
-//         return document.getElementById("txt2img_tabitem");
-//     }else if(active_main_tab.id === "tab_img2img"){
-//         return document.getElementById("img2img_tabitem");
-//     }
-// }
-
-// function testpopup(){
-// 	const content_div = document.querySelector('#popup_tabitem');
-// 	//const meta_id = document.querySelector('.global-popup-inner > div')?.id;
-// 	content_div.querySelectorAll(`.portal`).forEach((el, index, array) => {				
-// 		/*
-// 		const childs = Array.from(el.children);
-// 		childs.forEach((c) => {
-// 			const ac = c.getAttribute("meta-Id");	
-// 			if(ac){
-// 				if(ac === meta_id){
-// 					c.style.display = "";
-// 					el.style.display = "";										
-					
-// 				}else{
-// 					c.style.display = "none";
-// 					if(childs.length === 1){
-// 						el.style.display = "none";						
-// 					}
-// 				}
-// 			}else{
-// 				c.setAttribute("meta-id", meta_id);
-// 			}
-// 		}); 
-// 		*/
-// 		setAttrSelector(el, content_div, 0, index, array.length);
-// 	});
-
-// 	/* 	
-// 	content_div.querySelectorAll(`.ae-popup .edit-user-metadata-buttons button`).forEach((el) => {
-// 	} 
-// 	*/
-// }
-
-// function setupExtraNetworksSearchSort(){
-
-// 	const applyFilter = function(e) {
-//         const search_term = e.target.value.toLowerCase();
-// 		const cards = e.target.getAttribute("data-target"); 
-// 		//console.log(search_term, cards )
-//         gradioApp().querySelectorAll(cards).forEach(function(elem) {
-//             //const text = elem.querySelector(".search_term").textContent;//elem.getAttribute("data-path").toLowerCase().split("\\").join("/");
-// 			const text = elem.querySelector('.name').textContent.toLowerCase() + " " + elem.querySelector('.search_term').textContent.toLowerCase();
-// 			let visible = text.indexOf(search_term) != -1;
-// 			if (search_term.length < 3) {			
-//                 visible = true;
-//             }
-//             elem.style.display = visible ? "" : "none";
-//         });
-//     };
-
-// 	document.querySelectorAll('.search_extra_networks').forEach((el) => {
-// 		el.addEventListener("input", applyFilter);
-// 	})
-	  
-// 	function applySort(el, sortKey) { 
-
-// 		function comparator(cardA, cardB) { 
-// 			var a = cardA.getAttribute(sortKey);
-// 			var b = cardB.getAttribute(sortKey);
-// 			if (!isNaN(a) && !isNaN(b)) {
-// 				return parseInt(a) - parseInt(b);
-// 			}	
-// 			return (a < b ? -1 : (a > b ? 1 : 0));
-// 		} 
-
-// 		const cards_selector = el.getAttribute("data-target"); 
-// 		const cards = gradioApp().querySelectorAll(cards_selector); 
-// 		const cards_parent = cards[0].parentElement;	
-// 		const cardsArray = Array.from(cards); 
-// 		let sorted = cardsArray.sort(comparator);
-
-// 		const reverse_button = el.nextElementSibling;//closest(".reverse-order");
-// 		const reverse = reverse_button.className.indexOf("active") !== -1;
-// 		if (reverse) {
-//             sorted.reverse();
-//         }
-// 		sorted.forEach(e => cards_parent.appendChild(e)); 
-
-// 	} 
-	
-// 	document.querySelectorAll('.extra_networks_order_by').forEach((el) => {	
-// 		el.addEventListener('change', function(e) {
-// 			applySort(e.target, this.value);
-// 			//console.log('You selected: ', this.value);
-// 		});
-// 		el.nextElementSibling.addEventListener('click', function(e) {
-// 			applySort(el, el.value);	
-// 			console.log('You selected: ', el.value);
-// 		});
-// 	})
-
-// }
-
-// function updateExtraNetworksCards(el){
-
-// 	console.log("Starting optimizations for", el.id);
-// 	el.querySelectorAll(".card, .card-button").forEach((card) => {
-// 		const onclick_data = card.getAttribute("onClick");
-// 		card.setAttribute("data-apply", onclick_data);			
-// 		card.removeAttribute("onClick");
-// 		if(card.getAttribute("data-name")){
-// 			console.log("Remove EventListener", card.getAttribute("data-name"))
-// 		}else{
-// 			const card_closest = card.closest(".card");			
-// 			console.log("Remove EventListener", `${card_closest.getAttribute("data-name")} - ${card.getAttribute("title")}`)
-// 		}
-					
-// 	})
-	
-// 	console.log("Attach EventListener", el.id);
-// 	el.addEventListener("click", function(e) {
-// 		const ctarget = e.target;				
-// 		if(ctarget && ctarget.className.indexOf("card") !== -1) {
-// 			let data_apply = ctarget.getAttribute("data-apply");
-// 			if(!data_apply){
-// 				const onclick_data = ctarget.getAttribute("onClick");
-// 				if(onclick_data){
-// 					ctarget.setAttribute("data-apply", onclick_data);			
-// 					ctarget.removeAttribute("onClick");
-// 				}
-// 			}
-
-// 			const tabkey = active_main_tab.id.split("tab_")[1];
-// 			if(tabkey === "img2img"){
-// 				data_apply = data_apply?.replace("txt2img", "img2img");
-// 			}else{
-// 				data_apply = data_apply?.replace("img2img", "txt2img");
-// 			}
-			
-// 			ctarget.setAttribute("onClick", data_apply );
-// 			ctarget.click();					
-// 			ctarget.removeAttribute("onClick");
-
-// 			if(ctarget.className.indexOf("card-button") !== -1){						
-// 				data_apply = data_apply?.replace("img2img", "txt2img");
-// 				popup_trigger.click();					
-// 				testpopup();
-// 			}
-
-// 		}
-// 	})
-
-// 	document.querySelectorAll("#txt2img_styles_edit_button, #img2img_styles_edit_button").forEach((elm) => {
-// 		elm.addEventListener("click", function(e) {
-// 			popup_trigger.click();					
-// 			testpopup();	
-// 		})
-// 	})
-	
-	
-
-// }
-
-// function initExtraNetworks() {
-// 	const content_div = anapnoe_app;
-	
-// 	console.log("Starting optimizations for Extra Networks");
-
-// 	content_div.querySelectorAll(".extra-network-cards").forEach((el) => {
-// 		updateExtraNetworksCards(el);
-// 	}); 
-
-// 	console.log("Finishing optimizations for Extra Networks");
-
-// 	setupExtraNetworksSearchSort();
-
-// 	const ch_input = document.querySelector ("#setting_sd_model_checkpoint .secondary-wrap input");
-// 	//const hash_target = document.querySelector('#sd_checkpoint_hash');
-// 	//const hash_old_value = hash_target.textContent;
-// 	const hash_old_value = ch_input.value;
-// 	let oldcard = document.querySelector(`#txt2img_checkpoints_cards .card[data-apply*="${hash_old_value}"]`);
-// 	if(oldcard){
-// 		oldcard?.classList.add("selected");
-// 		console.log("Checkpoint name:", oldcard.getAttribute("data-name"), "<br>");
-// 	}
-
-// 	const ch_footer_preload = document.querySelector("#txt2img_checkpoints_main_footer .model-preloader");
-// 	const ch_footer_selected = document.querySelector("#txt2img_checkpoints_main_footer .model-selected");
-	
-// 	const ch_preload = document.querySelector ("#setting_sd_model_checkpoint .wrap");
-// 	ch_footer_preload.append(ch_preload);	
-
-// 	const preload_model_observer = new MutationObserver(function (mutations) {
-// 		mutations.forEach(function (m) {
-// 			if(oldcard){
-// 				const hash_target = document.querySelector('#sd_checkpoint_hash');
-// 				const hash_value = hash_target.textContent;
-// 				const card = document.querySelector(`#txt2img_checkpoints_cards .card[data-apply*="${hash_value}"]`);	
-// 				if(card){
-// 					if(oldcard !== card){
-// 						oldcard.classList.remove("selected");
-// 						card.classList.add("selected");
-// 						oldcard = card;	
-// 						ch_footer_selected.textContent = ch_input.value;
-// 						console.log("Checkpoint:", ch_input.value)
-// 					}	
-// 				}					
-// 			}						
-// 		});
-// 	});
-
-// 	preload_model_observer.observe(ch_preload, { childList: true, subtree: false });
-// }
 
 //======================= MOBILE =======================
 function detectMobile() {
@@ -397,12 +132,12 @@ function detectMobile() {
 }
 
 function applyDefaultLayout(isMobile){
-    anapnoe_app.querySelectorAll("[mobile]").forEach((tabItem) => {   
+    appUiUx.querySelectorAll("[mobile]").forEach((tabItem) => {   
         if(isMobile){
             if(tabItem.childElementCount === 0){
                 const mobile_attr = tabItem.getAttribute("mobile");              
                 if(mobile_attr){
-                    const mobile_target = anapnoe_app.querySelector(mobile_attr);      
+                    const mobile_target = appUiUx.querySelector(mobile_attr);      
                     if(mobile_target){
                         tabItem.setAttribute("mobile-restore", `#${mobile_target.parentElement.id}`);
                         tabItem.append(mobile_target);
@@ -413,7 +148,7 @@ function applyDefaultLayout(isMobile){
             if(tabItem.childElementCount > 0){
                 const mobile_restore_attr = tabItem.getAttribute("mobile-restore");              
                 if(mobile_restore_attr){                  
-                    const mobile_restore_target = anapnoe_app.querySelector(mobile_restore_attr);      
+                    const mobile_restore_target = appUiUx.querySelector(mobile_restore_attr);      
                     if(mobile_restore_target){
                         mobile_restore_target.append(tabItem.firstElementChild);
                     }           
@@ -423,16 +158,16 @@ function applyDefaultLayout(isMobile){
     });
 
     if(isMobile){ 
-        anapnoe_app.querySelector(".accordion-vertical.expand #mask-icon-acc-arrow")?.click();
-        anapnoe_app.classList.add("default-mobile");
+        appUiUx.querySelector(".accordion-vertical.expand #mask-icon-acc-arrow")?.click();
+        appUiUx.classList.add("default-mobile");
     }else{
-        anapnoe_app.classList.remove("default-mobile");
+        appUiUx.classList.remove("default-mobile");
     }
 }
 
 function switchMobile(){
     const optslayout = window.opts.uiux_default_layout;
-    anapnoe_app.classList.add(`default-${optslayout.toLowerCase()}`);
+    appUiUx.classList.add(`default-${optslayout.toLowerCase()}`);
     if(optslayout === "Auto"){           
         window.addEventListener('resize', function(event){
             const isMobile = detectMobile();
@@ -575,9 +310,9 @@ function uiuxOptionSettings() {
 
     function uiux_no_slider_layout(value) {
         if (value) {
-            anapnoe_app.classList.add("no-slider-layout");
+            appUiUx.classList.add("no-slider-layout");
         } else {
-            anapnoe_app.classList.remove("no-slider-layout");
+            appUiUx.classList.remove("no-slider-layout");
         }
     }
 
@@ -589,9 +324,9 @@ function uiuxOptionSettings() {
 
     function uiux_show_labels_aside(value) {
         if (value) {
-            anapnoe_app.classList.add("aside-labels");
+            appUiUx.classList.add("aside-labels");
         } else {
-            anapnoe_app.classList.remove("aside-labels");
+            appUiUx.classList.remove("aside-labels");
         }
     }
     gradioApp().querySelector("#setting_uiux_show_labels_aside input").addEventListener("click", function (e) {
@@ -602,9 +337,9 @@ function uiuxOptionSettings() {
 
     function uiux_show_labels_main(value) {
         if (value) {
-            anapnoe_app.classList.add("main-labels");
+            appUiUx.classList.add("main-labels");
         } else {
-            anapnoe_app.classList.remove("main-labels");
+            appUiUx.classList.remove("main-labels");
         }
     }
     gradioApp().querySelector("#setting_uiux_show_labels_main input").addEventListener("click", function (e) {
@@ -615,9 +350,9 @@ function uiuxOptionSettings() {
 
     function uiux_show_labels_tabs(value) {
         if (value) {
-            anapnoe_app.classList.add("tab-labels");
+            appUiUx.classList.add("tab-labels");
         } else {
-            anapnoe_app.classList.remove("tab-labels");
+            appUiUx.classList.remove("tab-labels");
         }
     }
     gradioApp().querySelector("#setting_uiux_show_labels_tabs input").addEventListener("click", function (e) {
@@ -770,7 +505,7 @@ function setAttrSelector(parent_elem, content_div, count, index, length) {
 }
 
 function initDefaultComponents() {
-	const content_div = anapnoe_app;
+	const content_div = appUiUx;
 
 	content_div.querySelectorAll(`div.split`).forEach((el) => {
 
@@ -923,7 +658,7 @@ function initDefaultComponents() {
 			function hideActive(tab) {
 				tab.classList.remove('active');
 				const tids = tab.getAttribute("tabItemId");
-				anapnoe_app.querySelectorAll(tids).forEach((tabItem) => {
+				appUiUx.querySelectorAll(tids).forEach((tabItem) => {
 					//tabItem.classList.add('hidden');
 					tabItem.classList.remove('fade-in');
 					tabItem.classList.add('fade-out');
@@ -931,7 +666,7 @@ function initDefaultComponents() {
 			}
 
 			if (tgroup) {
-				anapnoe_app.querySelectorAll(`[tabGroup="${tgroup}"]`)
+				appUiUx.querySelectorAll(`[tabGroup="${tgroup}"]`)
 					.forEach((tab) => {
 						if (tab.className.indexOf('active') !== -1) {
 							hideActive(tab);
@@ -948,7 +683,7 @@ function initDefaultComponents() {
 			}
 
 			const tids = el.getAttribute("tabItemId");
-			anapnoe_app.querySelectorAll(tids).forEach((tabItem) => {
+			appUiUx.querySelectorAll(tids).forEach((tabItem) => {
 				//tabItem.classList.remove('hidden');
 				tabItem.classList.remove('fade-out');
 				tabItem.classList.add('fade-in');
@@ -963,7 +698,7 @@ function initDefaultComponents() {
 		const active = el.getAttribute("active");
 		if (!active) {
 			const tids = el.getAttribute("tabItemId");
-			anapnoe_app.querySelectorAll(tids).forEach((tabItem) => {
+			appUiUx.querySelectorAll(tids).forEach((tabItem) => {
 				//tabItem.classList.add('hidden');
 				tabItem.classList.remove('fade-in');
 				tabItem.classList.add('fade-out');
@@ -976,7 +711,7 @@ function initDefaultComponents() {
 		el.classList.add('active');
 		const tids = el.getAttribute("tabItemId");
 		const pid = el.getAttribute("data-click");
-		anapnoe_app.querySelectorAll(tids).forEach((tabItem) => {
+		appUiUx.querySelectorAll(tids).forEach((tabItem) => {
 			//tabItem.classList.remove('hidden');
 			tabItem.classList.remove('fade-out');
 			tabItem.classList.add('fade-in');
@@ -1072,12 +807,12 @@ function setupScripts() {
 	return new Promise((resolve, reject) => {
 		const script = document.createElement('script');
 		script.id = 'splitjs-main';
-		script.setAttribute("data-scope", anapnoe_app_id);
+		script.setAttribute("data-scope", uiux_app_id);
 
 		script.src = 'https://unpkg.com/split.js/dist/split.js';
 		script.onload = resolve;
 		script.onerror = reject;
-		anapnoe_app.appendChild(script);
+		appUiUx.appendChild(script);
 	});
 }
 
@@ -1108,7 +843,7 @@ function createButtonsForExtensions() {
 	const no_button_tabs = [
 		"tab_txt2img", "tab_img2img", "tab_process", "tab_control", "tab_interrogate", "tab_train", "tab_models", "tab_extensions", "tab_system", "tab_image_browser",
     	"tab_ui_theme", "tab_anapnoe_dock",
-    	"tab_anapnoe_sd_uiux_core"
+    	"tab_sdnext_uiux_core"
 	]
 
 	document.querySelectorAll(`#tabs > .tabitem`).forEach((c) => {
@@ -1145,10 +880,10 @@ function createButtonsForExtensions() {
 
 //======================= TEMPLATES =======================
 function replaceRootTemplate() {
-	const content_div = document.querySelector(anapnoe_app_id);
+	const content_div = document.querySelector(uiux_app_id);
 	gradioApp().insertAdjacentElement('afterbegin', content_div);
 	active_main_tab = document.querySelector("#tab_control");
-	anapnoe_app = content_div;
+	appUiUx = content_div;
 }
 
 function getNestedTemplates(container) {
@@ -1213,7 +948,7 @@ async function loadAllTemplates() {
 		{
 			url: template_path,
 			template: 'template-app-root.html',
-			parent: document.querySelector(anapnoe_tab_id)
+			parent: document.querySelector(uiux_tab_id)
 		}
 	];
 
@@ -1359,7 +1094,7 @@ async function mainUiUx() {
 
 document.addEventListener("DOMContentLoaded", () => {
 	const observer = new MutationObserver(() => {
-		const block = gradioApp().querySelector(anapnoe_tab_id);			
+		const block = gradioApp().querySelector(uiux_tab_id);			
 		
 		if (block && window.opts && Object.keys(window.opts).length) {
 			observer.disconnect();
