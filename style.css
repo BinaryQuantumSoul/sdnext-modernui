@@ -3594,3 +3594,7 @@ input[type="range"]::-ms-fill-upper {
 #system textarea {
     overflow-y: auto !important;
 }
+
+.gradio-row:has(> .hidden:only-child) {
+    display: none;
+}
