@@ -753,6 +753,8 @@ function createButtonsForExtensions() {
     	"tab_sdnext_uiux_core"
 	]
 
+	const snakeToCamel = str => str.replace(/(_\w)/g, match => match[1].toUpperCase());
+
 	document.querySelectorAll(`#tabs > .tabitem`).forEach((c) => {
 		const cid = c.id;
 		const nid = cid.split('tab_')[1];
@@ -769,7 +771,7 @@ function createButtonsForExtensions() {
 					class="xtabs-tab"
 				>
 					<div class="icon-letters">${nid.slice(0, 2)}</div>
-					<span>${nid}</span>
+					<span>${snakeToCamel(nid)}</span>
 				</button>
 			`;
 			other_extensions.append(temp.firstElementChild);
