@@ -11,11 +11,18 @@
                     <span>Results</span>
                 </button>
             </div>
-            <div class="flexbox row flex-end">
-                <button class="ae-button">
-                    <div data-selector="#extras_generate" data-parent-selector="#tab_process" droppable="true" class="portal no-bg shrink invisible">
+            <div id="extras_generate_group" class="flexbox row flex-end group-row">
+                <div title="Skip" data-selector="#extras_skip" data-parent-selector="#tab_extras" droppable="true" class="portal invisible shrink no-bg no-padding-one disable">
+                    <div class="mask-icon icon-skip"></div>
+                </div>
+                <div title="Interrupt" data-selector="#extras_interrupt" data-parent-selector="#tab_extras" droppable="true"
+                    class="portal invisible shrink no-bg no-padding-one disable">
+                    <div class="mask-icon icon-stop"></div>
+                </div>
+                <button title="Generate" class="ae-button generate">
+                    <div data-selector="#extras_generate" data-parent-selector="#tab_extras" droppable="true" class="portal no-bg shrink invisible">
                         <div class="mask-icon icon-generate"></div>
-                        <span>Upscale</span>
+                        <span>Generate</span>
                     </div>
                 </button>
             </div>

@@ -197,18 +197,18 @@ function mainTabs(element, tab) {
 }
 
 function uiuxOptionSettings() {
-    // settings max output resolution
-    function sdMaxOutputResolution(value) {
-        gradioApp().querySelectorAll('[id$="2img_width"] input,[id$="2img_height"] input').forEach((elem) => {
-            elem.max = value;
-        })
-    }
-    gradioApp().querySelector("#setting_uiux_max_resolution_output").addEventListener('input', function (e) {
-        let intvalue = parseInt(e.target.value);
-        intvalue = Math.min(Math.max(intvalue, 512), 16384);
-        sdMaxOutputResolution(intvalue);					
-    })	
-    sdMaxOutputResolution(window.opts.uiux_max_resolution_output);
+	// settings max output resolution
+	function sdMaxOutputResolution(value) {
+		gradioApp().querySelectorAll('[id$="2img_width"] input,[id$="2img_height"] input').forEach((elem) => {
+			elem.max = value;
+		})
+	}
+	gradioApp().querySelector("#setting_uiux_max_resolution_output").addEventListener('input', function (e) {
+		let intvalue = parseInt(e.target.value);
+		intvalue = Math.min(Math.max(intvalue, 512), 16384);
+		sdMaxOutputResolution(intvalue);					
+	})	
+	sdMaxOutputResolution(window.opts.uiux_max_resolution_output);
 
 	// settings input ranges
 	function uiux_show_input_range_ticks(value, interactive) {
@@ -245,7 +245,7 @@ function uiuxOptionSettings() {
 		uiux_show_input_range_ticks(e.target.checked, true);
 	});
 	uiux_show_input_range_ticks(window.opts.uiux_show_input_range_ticks);
-    
+
 	// settings looks
 	function setupUiUxSetting(settingId, className) {
 		function updateUiUxClass(className, value) {
@@ -266,85 +266,67 @@ function uiuxOptionSettings() {
 	setupUiUxSetting("setting_uiux_show_labels_main", "main-labels");
 	setupUiUxSetting("setting_uiux_show_labels_tabs", "tab-labels");
 	setupUiUxSetting("setting_uiux_show_labels_control", "control-labels");
-    
-	// settings mobile
-    const comp_mobile_scale_range = gradioApp().querySelector("#setting_uiux_mobile_scale input[type=range]");
-    comp_mobile_scale_range.classList.add("hidden");
-    const comp_mobile_scale = gradioApp().querySelector("#setting_uiux_mobile_scale input[type=number]");
 
-    function uiux_mobile_scale(value) {
-        const viewport = document.head.querySelector('meta[name="viewport"]');
-        viewport.setAttribute("content", `width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=${value}`);      
-    }
-    comp_mobile_scale.addEventListener("change", function (e) { 
-        //e.preventDefault();
-        //e.stopImmediatePropagation()
-        comp_mobile_scale.value = e.target.value;
-        window.updateInput(comp_mobile_scale);
-        console.log('change', e.target.value);
-        uiux_mobile_scale(e.target.value);   
-    });
-    uiux_mobile_scale(window.opts.uiux_mobile_scale);
+	// settings mobile
+	const comp_mobile_scale_range = gradioApp().querySelector("#setting_uiux_mobile_scale input[type=range]");
+	comp_mobile_scale_range.classList.add("hidden");
+	const comp_mobile_scale = gradioApp().querySelector("#setting_uiux_mobile_scale input[type=number]");
+
+	function uiux_mobile_scale(value) {
+		const viewport = document.head.querySelector('meta[name="viewport"]');
+		viewport.setAttribute("content", `width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=${value}`);      
+	}
+	comp_mobile_scale.addEventListener("change", function (e) { 
+		//e.preventDefault();
+		//e.stopImmediatePropagation()
+		comp_mobile_scale.value = e.target.value;
+		window.updateInput(comp_mobile_scale);
+		console.log('change', e.target.value);
+		uiux_mobile_scale(e.target.value);   
+	});
+	uiux_mobile_scale(window.opts.uiux_mobile_scale);
 }
 
 function setupGenerateObservers() {
-	const keys = ["#txt2img", "#img2img", "#control"]; //added control
+	const keys = ["#txt2img", "#img2img", "#extras", "#control"];
+
 	keys.forEach((key) => {
-	 
 		const tib = document.querySelector(key+'_interrupt');
 		const tgb = document.querySelector(key+'_generate');
 		const ti = tib.closest('.portal');
 		const tg = tgb.closest('.ae-button');
 		const ts = document.querySelector(key+'_skip').closest('.portal');
+
 		const loop = document.querySelector(key+'_loop');
+		if(loop) {
+			tib.addEventListener("click", function () {
+				loop.classList.add('stop');
+			});
+		}
 
-		tib.addEventListener("click", function () {
-			loop.classList.add('stop');
-		});
+		const gen_observer = new MutationObserver(() => {
+			if (tgb.textContent && !tgb.querySelector('span')) {
+				if (tgb.textContent === "Generate"){
+					ti.classList.add('disable');
+					ts.classList.add('disable');
+					tg.classList.remove('active');
 
-		const gen_observer = new MutationObserver(function (mutations) {
-			mutations.forEach(function (m) {
-
-		// 		if (tib.style.display === 'none') {
-
-		// 			if (loop.className.indexOf('stop') !== -1 || loop.className.indexOf('active') === -1) {
-		// 				loop.classList.remove('stop');
-		// 				ti.classList.add('disable');
-		// 				ts.classList.add('disable');
-		// 				tg.classList.remove('active');
-		// 			} else if (loop.className.indexOf('active') !== -1) {
-		// 				tgb.click();
-		// 			}
-		// 		} else {
-		// 			ti.classList.remove('disable');
-		// 			ts.classList.remove('disable');
-		// 			tg.classList.add('active');
-		// 		}
-				/* The above does not work with SDnext process */
-				if (tgb.textContent && !tgb.querySelector('span')) {
+					const icon = document.createElement('div');
+					icon.classList.add('mask-icon','icon-generate');
+					tgb.appendChild(icon);
+				} else {
 					ti.classList.remove('disable');
 					ts.classList.remove('disable');
 					tg.classList.add('active');
-					const span = document.createElement('span');
-					const icon = document.createElement('div')
-					icon.classList.add('mask-icon','icon-generate')
-					span.textContent = tgb.textContent;	
-					tgb.textContent = ''; 	// removes the text content from the button ('invisible' style hides the font regardless)
-					if (span.textContent === "Generate"){
-						tgb.appendChild(icon)
-						ti.classList.add('disable');
-						ts.classList.add('disable');
-						tg.classList.remove('active');
-					} 
-					tgb.appendChild(span);
-				} 
-				/*replaces the original code to achieve the same result, re-adds the 'disable' style and removes the 'active' once generation is finished */
-		 	});
+				}
+
+				const span = document.createElement('span');
+				span.textContent = tgb.textContent;	
+				tgb.appendChild(span);
+			}
 		});
 		
-		
-		// gen_observer.observe(tib, { attributes: true, attributeFilter: ['style'] }); unneeded with new process
-		gen_observer.observe(tgb, { childList: true, subtree: true });
+		gen_observer.observe(tgb, {childList: true, subtree: true});
 	});
 }
 
