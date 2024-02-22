@@ -288,7 +288,7 @@ function uiuxOptionSettings() {
 }
 
 function setupGenerateObservers() {
-	const keys = ["#txt2img", "#img2img"];
+	const keys = ["#txt2img", "#img2img", "#control"]; //added control
 	keys.forEach((key) => {
 	 
 		const tib = document.querySelector(key+'_interrupt');
@@ -305,25 +305,46 @@ function setupGenerateObservers() {
 		const gen_observer = new MutationObserver(function (mutations) {
 			mutations.forEach(function (m) {
 
-				if (tib.style.display === 'none') {
+		// 		if (tib.style.display === 'none') {
 
-					if (loop.className.indexOf('stop') !== -1 || loop.className.indexOf('active') === -1) {
-						loop.classList.remove('stop');
-						ti.classList.add('disable');
-						ts.classList.add('disable');
-						tg.classList.remove('active');
-					} else if (loop.className.indexOf('active') !== -1) {
-						tgb.click();
-					}
-				} else {
+		// 			if (loop.className.indexOf('stop') !== -1 || loop.className.indexOf('active') === -1) {
+		// 				loop.classList.remove('stop');
+		// 				ti.classList.add('disable');
+		// 				ts.classList.add('disable');
+		// 				tg.classList.remove('active');
+		// 			} else if (loop.className.indexOf('active') !== -1) {
+		// 				tgb.click();
+		// 			}
+		// 		} else {
+		// 			ti.classList.remove('disable');
+		// 			ts.classList.remove('disable');
+		// 			tg.classList.add('active');
+		// 		}
+				/* The above does not work with SDnext process */
+				if (tgb.textContent && !tgb.querySelector('span')) {
 					ti.classList.remove('disable');
 					ts.classList.remove('disable');
 					tg.classList.add('active');
-				}
-			});
+					const span = document.createElement('span');
+					const icon = document.createElement('div')
+					icon.classList.add('mask-icon','icon-generate')
+					span.textContent = tgb.textContent;	
+					tgb.textContent = ''; 	// removes the text content from the button ('invisible' style hides the font regardless)
+					if (span.textContent === "Generate"){
+						tgb.appendChild(icon)
+						ti.classList.add('disable');
+						ts.classList.add('disable');
+						tg.classList.remove('active');
+					} 
+					tgb.appendChild(span);
+				} 
+				/*replaces the original code to achieve the same result, re-adds the 'disable' style and removes the 'active' once generation is finished */
+		 	});
 		});
 		
-		gen_observer.observe(tib, { attributes: true, attributeFilter: ['style'] });
+		
+		// gen_observer.observe(tib, { attributes: true, attributeFilter: ['style'] }); unneeded with new process
+		gen_observer.observe(tgb, { childList: true, subtree: true });
 	});
 }
 
