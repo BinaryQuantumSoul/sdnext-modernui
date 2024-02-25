@@ -293,6 +293,9 @@ function setupGenerateObservers() {
 	keys.forEach((key) => {
 		const tib = document.querySelector(key+'_interrupt');
 		const tgb = document.querySelector(key+'_generate');
+		if(!tib || !tgb) {
+			return;
+		}
 		const ti = tib.closest('.portal');
 		const tg = tgb.closest('.ae-button');
 		const ts = document.querySelector(key+'_skip').closest('.portal');
@@ -746,6 +749,12 @@ function setupAnimationEventListeners(){
 	}); 
 }
 
+function backendControlTab() {
+	if(window.opts.sd_backend === 'original') {
+		appUiUx.classList.add('backend-original');
+	}
+}
+
 function createButtonsForExtensions() {
 	const other_extensions = document.querySelector(`#other_extensions`);
 	const other_views = document.querySelector(`#split-left`);
@@ -985,6 +994,7 @@ async function mainUiUx() {
 	console.log("Init runtime components");
 
 	createButtonsForExtensions();
+	backendControlTab();
 	setupAnimationEventListeners();
 	await setupScripts();
 	

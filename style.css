@@ -3611,3 +3611,7 @@ input[type="range"]::-ms-fill-upper {
 #split-console > div > div {
     direction: ltr;
 }
+
+.backend-original .control-diffusers {
+    display: none;
+}
