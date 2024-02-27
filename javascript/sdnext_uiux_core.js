@@ -35,8 +35,8 @@ function logPrettyPrint() {
 		if (argstr.indexOf("remove") !== -1 || argstr.indexOf("error") !== -1) {
 			acolor += " log-remove";
 		} else if (argstr.indexOf("loading") !== -1 
-				|| argstr.indexOf("| ref") !== -1 
-				|| argstr.indexOf("initial") !== -1 
+				|| argstr.indexOf("register") !== -1 
+				|| argstr.indexOf("init") !== -1 
 				|| argstr.indexOf("optimiz") !== -1 
 				|| argstr.indexOf("python") !== -1  
 				|| argstr.indexOf("success") !== -1) {
@@ -376,15 +376,11 @@ function movePortal(portalElem, tries, index, length) {
 
 	const sp = portalElem.getAttribute("data-parent-selector");
 	const s = portalElem.getAttribute("data-selector");
-
-	if (tries > 1) {
-		console.log("try " + tries + "/" + MAX_TRIES + " | Ref", index, sp, s);
-	}
 	
 	let targetElem = (tries % 2 == 0) ? document.querySelector(`${sp} ${s}`) : appUiUx.querySelector(`${s}`);
 	
 	if (portalElem && targetElem) {
-		console.log("register | Ref", index, sp, s);
+		console.log("register [try " + tries + "/" + MAX_TRIES + "] | Ref", index, sp, s);
 
 		portalElem.append(targetElem);
 		portalTotal += 1;
@@ -407,6 +403,8 @@ function movePortal(portalElem, tries, index, length) {
 			document.querySelector(showButton)?.classList.remove("hidden");
 		}
 	} else if (tries < MAX_TRIES) {
+		console.log("not found [try " + tries + "/" + MAX_TRIES + "] | Ref", index, sp, s);
+
 		const timeout = portalElem.getAttribute("data-timeout");
 		const delay = timeout ? parseInt(timeout) : 500;
 		
@@ -414,7 +412,7 @@ function movePortal(portalElem, tries, index, length) {
 			movePortal(portalElem, tries + 1, index, length);
 		}, delay);
 	} else {
-		console.log("error | Ref", index, sp, s);
+		console.log("error [try " + tries + "/" + MAX_TRIES + "] | Ref", index, sp, s);
 
 		if(window.opts.uiux_enable_console_log) {
 			portalElem.style.backgroundColor = 'pink';
@@ -608,7 +606,6 @@ function initTabComponents() {
 	});
 
 	appUiUx.querySelectorAll(`.xtabs-tab[active]`).forEach((elem) => {
-		console.log("Second active", elem);
 		showActive(elem);
 		callToAction(elem);
 	});
@@ -946,9 +943,9 @@ async function mainUiUx() {
 	extraTweaks();
 	setupAnimationEventListeners();
 	await setupScripts();
-	loadAllPortals();
 	initSplitComponents();
 	initAccordionComponents();
+	loadAllPortals();
 	initTabComponents();
 	initButtonComponents();
 	attachLoggerScreen();
