@@ -79,15 +79,34 @@ async function getContributors(repoName, page = 1) {
     return contributorsList;
 }
 
-async function getAllContributorsRecursive(repoName, page = 1, allContributors = []) {
+async function getAllContributors(repoName, page = 1, allContributors = []) {
     const list = await getContributors(repoName, page);
     allContributors = allContributors.concat(list);
 
     if (list.length === 100) {
-        return getAllContributorsRecursive(repoName, page + 1, allContributors);
+        return getAllContributors(repoName, page + 1, allContributors);
     }
 
     return allContributors;
+}
+
+async function getContributorsMultiple(repoNames) {
+	const results = await Promise.all(repoNames.map((repoName) => getAllContributors(repoName)));
+
+	const mergedMap = new Map();
+	for (const contributors of results) {
+		for (const {login, contributions, ...otherAttributes} of contributors) {
+			if (!mergedMap.has(login)) {
+				mergedMap.set(login, {login, contributions, ...otherAttributes});
+			} else {
+				mergedMap.get(login).contributions += contributions;
+			}
+		}
+	}
+
+	const mergedArray = Array.from(mergedMap.values());
+	mergedArray.sort((a, b) => b.contributions - a.contributions);
+	return mergedArray;
 }
 
 function showContributors(){
@@ -107,7 +126,7 @@ function showContributors(){
 	contributors_btn.addEventListener('click', function(e) {
 		if(!contributors_btn.getAttribute("data-visited")){
 			contributors_btn.setAttribute("data-visited", "true");
-			const promise = getAllContributorsRecursive("vladmandic/automatic");
+			const promise = getContributorsMultiple(["vladmandic/automatic", "BinaryQuantumSoul/sdnext-ui-ux"]);
 			promise.then(function (result) {
 				temp.innerHTML = "";
 				temp.style = "";
