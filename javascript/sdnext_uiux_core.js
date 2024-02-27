@@ -8,7 +8,7 @@ const uiux_tab_id = "#tab_sdnext_uiux_core";
 const console_js_id = "#console-log-js";
 
 const split_instances = [];
-let total = 0;
+let portalTotal = 0;
 let active_main_tab;
 let loggerUiUx;
 let appUiUx;
@@ -25,6 +25,10 @@ function logPrettyPrint() {
 		if (arg === undefined) {
 			arg = "undefined";
 		}
+		if (arg === null) {
+			arg = "null";
+		}
+
 		const argstr = arg.toString().toLowerCase();
 		let acolor = "";
 
@@ -342,118 +346,108 @@ function attachLoggerScreen() {
 }
 
 //======================= SETUP =======================
-function setAttrSelector(parent_elem, content_div, count, index, length) {
+function loadAllPortals() {
+	appUiUx.querySelectorAll(`.portal`).forEach((elem, index, array) => {
+		movePortal(elem, 1, index, array.length);
+	});	
+}
 
-	//const t = parent_elem.getAttribute("data-timeout");
-	//const delay = t ? parseInt(t) : 0;
-	
-	//setTimeout(() => {
+function movePortal(portalElem, tries, index, length) {
+	const MAX_TRIES = 4;
 
-	const mcount = count % 2;
-	//const parent_elem = this.el;
+	const sp = portalElem.getAttribute("data-parent-selector");
+	const s = portalElem.getAttribute("data-selector");
 
-	const s = parent_elem.getAttribute("data-selector");
-	const sp = parent_elem.getAttribute("data-parent-selector");
-	
-
-	let target_elem;
-	
-	switch (mcount) {
-		case 0:
-			target_elem = document.querySelector(`${sp} ${s}`);
-			break;
-		case 1:
-			target_elem = content_div.querySelector(`${s}`);
-			break;
+	if (tries > 1) {
+		console.log("try " + tries + "/" + MAX_TRIES + " | Ref", index, sp, s);
 	}
-
-	if (target_elem && parent_elem) {
-		parent_elem.append(target_elem);  
-		total += 1;
+	
+	let targetElem = (tries % 2 == 0) ? document.querySelector(`${sp} ${s}`) : appUiUx.querySelector(`${s}`);
+	
+	if (portalElem && targetElem) {
 		console.log("register | Ref", index, sp, s);
-		const d = parent_elem.getAttribute('droppable');
 
-		if (d) {
-			const childs = Array.from(parent_elem.children);
-			//console.log("droppable", target_elem, parent_elem, childs);
-			childs.forEach((c) => {
-				if (c !== target_elem) {
-					if (target_elem.className.indexOf('gradio-accordion') !== -1) {
-						target_elem.children[2].append(c);
+		portalElem.append(targetElem);
+		portalTotal += 1;
+
+		const droppable = portalElem.getAttribute('droppable');
+		if (droppable) {
+			Array.from(portalElem.children).forEach((child) => {
+				if (child !== targetElem) {
+					if (targetElem.className.indexOf('gradio-accordion') !== -1) {
+						targetElem.children[2].append(child);
 					} else {
-						target_elem.append(c);
+						targetElem.append(child);
 					}
 				}
 			});
 		}
 
-		const hb = parent_elem.getAttribute("show-button");
-		if(hb){document.querySelector(hb)?.classList.remove("hidden");}
-
-	} else if (count < 4) {
-
-		const t = parent_elem.getAttribute("data-timeout");
-		const delay = t ? parseInt(t) : 500;
+		const showButton = portalElem.getAttribute("show-button");
+		if(showButton) {
+			document.querySelector(showButton)?.classList.remove("hidden");
+		}
+	} else if (tries < MAX_TRIES) {
+		const timeout = portalElem.getAttribute("data-timeout");
+		const delay = timeout ? parseInt(timeout) : 500;
 		
 		setTimeout(() => {
-			console.log( count + 1, "retry | ", delay, " | Ref", index, sp, s);
-			setAttrSelector(parent_elem, content_div, count + 1, index, length);
+			movePortal(portalElem, tries + 1, index, length);
 		}, delay);
-
 	} else {
 		console.log("error | Ref", index, sp, s);
-		if(window.opts.uiux_enable_console_log) {
-			parent_elem.style.backgroundColor = 'pink'
-		}
-		total += 1;	
 
+		if(window.opts.uiux_enable_console_log) {
+			portalElem.style.backgroundColor = 'pink';
+		}
+		portalTotal += 1;	
 	}
 
-	if(total === length){				
+	if(portalTotal === length) {				
 		localStorage.setItem('UiUxReady', true);
 	}
-
-	//}, delay );
-
 }
 
-function initDefaultComponents() {
-	const content_div = appUiUx;
+function waitForUiUxReady() {
+	return new Promise((resolve, reject) => {
+		const interval = setInterval(() => {
+			if (localStorage.getItem('UiUxReady') === "true") {
+				clearInterval(interval);
+				resolve();
+			}
+		}, 500);
+	});
+}
 
-	content_div.querySelectorAll(`div.split`).forEach((el) => {
+function initSplitComponents() {
+	appUiUx.querySelectorAll(`div.split`).forEach((elem) => {
+		let id = elem.id;
+		let nid = appUiUx.querySelector(`#${id}`);
 
-		let id = el.id;
-		let nid = content_div.querySelector(`#${id}`);
+		const direction = nid?.getAttribute('direction') === 'vertical' ? 'vertical' : 'horizontal';
+		const gutterSize = nid?.getAttribute('gutterSize') || '8';
 
-		const dir = nid?.getAttribute('direction') === 'vertical' ? 'vertical' : 'horizontal';
-		const gutter = nid?.getAttribute('gutterSize') || '8';
-
-		const containers = content_div.querySelectorAll(`#${id} > div.split-container`);
-		const len = containers.length;
-		const r = 100 / len;
-		const ids = [], isize = [], msize = [];
-
-		for (let j = 0; j < len; j++) {
-			const c = containers[j];
-			ids.push(`#${c.id}`);
+		const ids = [], initSizes = [], minSizes = [];
+		const containers = appUiUx.querySelectorAll(`#${id} > div.split-container`);
+		containers.forEach((c => {
 			const ji = c.getAttribute('data-initSize');
 			const jm = c.getAttribute('data-minSize');
-			isize.push(ji ? parseInt(ji) : r);
-			msize.push(jm ? parseInt(jm) : Infinity);
-		}
 
-		console.log("Split component", ids, isize, msize, dir, gutter);
+			ids.push(`#${c.id}`);
+			initSizes.push(ji ? parseInt(ji) : 100 / containers.length);
+			minSizes.push(jm ? parseInt(jm) : Infinity);
+		}));
+
+		console.log("Split component", ids, initSizes, minSizes, direction, gutterSize);
 
 		split_instances[id] = Split(ids, {
-			sizes: isize,
-			minSize: msize,
-			direction: dir,
-			gutterSize: parseInt(gutter),
+			sizes: initSizes,
+			minSize: minSizes,
+			direction: direction,
+			gutterSize: parseInt(gutterSize),
 			snapOffset: 0,
 			dragInterval: 1,
-			//expandToMin: true,         
 			elementStyle: function (dimension, size, gutterSize) {
-				//console.log(dimension, size, gutterSize);
 				return {
 					'flex-basis': 'calc(' + size + '% - ' + gutterSize + 'px)',
 				}
@@ -466,48 +460,38 @@ function initDefaultComponents() {
 				}
 			},
 		});
-
 	});
-	
-	content_div.querySelectorAll(`.portal`).forEach((el, index, array) => {
-		setAttrSelector(el, content_div, 0, index, array.length);
-	});
+}
 
-	content_div.querySelectorAll(`.accordion-bar`).forEach((c) => {
-		const acc = c.parentElement;
-		const acc_split = acc.closest('.split-container');
+function initAccordionComponents() {
+	appUiUx.querySelectorAll(`.accordion-bar`).forEach((elem) => {
+		const acc = elem.parentElement;
+		const accSplit = acc.closest('.split-container');
 
-		let ctrg = c;
-		const atg = acc.getAttribute('iconTrigger');
-		if (atg) {
-			const icn = content_div.querySelector(atg);
-			if (icn) {
-				ctrg = icn;
-				c.classList.add('pointer-events-none');
-			}
+		let accTrigger = appUiUx.querySelector(acc.getAttribute('iconTrigger'));
+		if (accTrigger) {
+			elem.classList.add('pointer-events-none');
 		}
 
-		if (acc.className.indexOf('accordion-vertical') !== -1 && acc_split.className.indexOf('split') !== -1) {
-
+		if (acc.className.indexOf('accordion-vertical') !== -1 && accSplit.className.indexOf('split') !== -1) {
 			acc.classList.add('expand');
-			//const acc_gutter = acc_split.previousElementSibling;
-			const acc_split_id = acc_split.parentElement.id;
-			const split_instance = split_instances[acc_split_id];
-			acc_split.setAttribute('data-sizes', JSON.stringify(split_instance.getSizes()));
 
-			ctrg?.addEventListener("click", () => {
+			const splitInstance = split_instances[accSplit.parentElement.id];
+			accSplit.setAttribute('data-sizes', JSON.stringify(splitInstance.getSizes()));
+
+			accTrigger?.addEventListener("click", () => {
 				acc.classList.toggle('expand');
-				//acc_gutter.classList.toggle('pointer-events-none');
-				if (acc_split.className.indexOf('v-expand') !== -1) {
-					acc_split.classList.remove('v-expand');
-					acc_split.style.removeProperty("min-width");
-					split_instance.setSizes(JSON.parse(acc_split.getAttribute('data-sizes')))
-				} else {
-					acc_split.classList.add('v-expand');
-					let sizes = split_instance.getSizes();
-					acc_split.setAttribute('data-sizes', JSON.stringify(sizes));
 
-					//console.log(sizes)
+				if (accSplit.className.indexOf('v-expand') !== -1) {
+					accSplit.classList.remove('v-expand');
+					accSplit.style.removeProperty("min-width");
+
+					splitInstance.setSizes(JSON.parse(accSplit.getAttribute('data-sizes')));
+				} else {
+					accSplit.classList.add('v-expand');
+					let sizes = splitInstance.getSizes();
+					accSplit.setAttribute('data-sizes', JSON.stringify(sizes));
+
 					if (acc.className.indexOf('left') !== -1) {
 						sizes[sizes.length-1] = 100;
 						sizes[sizes.length-2] = 0;
@@ -516,127 +500,106 @@ function initDefaultComponents() {
 						sizes[sizes.length-2] = 100;
 					}
 
-					const padding = parseFloat(window.getComputedStyle(c, null).getPropertyValue('padding-left')) * 2;
-					acc_split.style.minWidth = c.offsetWidth+padding+"px";
+					const padding = parseFloat(window.getComputedStyle(elem, null).getPropertyValue('padding-left')) * 2;
+					accSplit.style.minWidth = elem.offsetWidth + padding + "px";
 
-					split_instance.setSizes(sizes)
+					splitInstance.setSizes(sizes);
 				}
 			});
-
 		} else {
-			ctrg?.addEventListener("click", () => { acc.classList.toggle('expand') });
+			accTrigger?.addEventListener("click", () => {acc.classList.toggle('expand')});
 		}
 	});
+}
 
-
-	function callToAction(el, tids, pid) {
-
-		const acc_bar = el.closest(".accordion-bar");
-		if (acc_bar) {
-			const acc = acc_bar.parentElement;
+function initTabComponents() {
+	function callToAction(elem) {
+		//Expand closest accordion
+		const accBar = elem.closest(".accordion-bar");
+		if (accBar) {
+			const acc = accBar.parentElement;
 			if (acc.className.indexOf('expand') === -1) {
-				let ctrg = acc_bar;
-				const atg = acc.getAttribute('iconTrigger');
-				if (atg) {
-					const icn = content_div.querySelector(atg);
-					if (icn) {
-						ctrg = icn;
-					}
+				let accTrigger = appUiUx.querySelector(acc.getAttribute('iconTrigger'));
+				if (accTrigger) {
+					accTrigger.click();
+				} else {
+					accBar.click();
 				}
-				ctrg.click();
 			}
 		}
 
-		const txt = el.querySelector('span')?.innerHTML.toLowerCase();
-		//console.log(txt, pid)
-		if (txt && pid) {				
-			document.querySelectorAll(`${pid} .tab-nav button, [data-parent-selector="${pid}"] .tab-nav button`).forEach(function (elm) {
-				/* console.log(elm.innerHTML, txt) */
-				if (elm.innerHTML.toLowerCase().indexOf(txt) !== -1) {
-					elm.click();
-				}
-			});
-		}
-
-        
+		//No idea what it's supposed to do, but makes ui extremely slow
+		// const pid = elem.getAttribute("data-click");
+		// const txt = elem.querySelector('span')?.innerHTML.toLowerCase();
+		// if (txt && pid) {	
+		// 	console.log("callToAction", txt, pid)			
+		// 	document.querySelectorAll(`${pid} .tab-nav button, [data-parent-selector="${pid}"] .tab-nav button`).forEach(function (el) {
+		// 		if (el.innerHTML.toLowerCase().indexOf(txt) !== -1) {
+		// 			el.click();
+		// 		}
+		// 	});
+		// }
 	}
 
-	content_div.querySelectorAll(`.xtabs-tab`).forEach((el) => {
+	function hideActive(tab) {
+		tab.classList.remove('active');
+		const tabItemId = tab.getAttribute("tabItemId");
+		appUiUx.querySelectorAll(tabItemId).forEach((tabItem) => {
+			tabItem.classList.remove('fade-in');
+			tabItem.classList.add('fade-out');
+		});
+	}
 
-		el.addEventListener('click', () => {
-			const tabParent = el.parentElement;
-			const tgroup = el.getAttribute("tabGroup");
-			const pid = el.getAttribute("data-click");
+	function showActive(tab) {
+		tab.classList.add('active');
+		const tabItemId = tab.getAttribute("tabItemId");
+		appUiUx.querySelectorAll(tabItemId).forEach((tabItem) => {
+			tabItem.classList.add('fade-in');
+			tabItem.classList.remove('fade-out');
+		});
+	}
 
-			function hideActive(tab) {
-				tab.classList.remove('active');
-				const tids = tab.getAttribute("tabItemId");
-				appUiUx.querySelectorAll(tids).forEach((tabItem) => {
-					//tabItem.classList.add('hidden');
-					tabItem.classList.remove('fade-in');
-					tabItem.classList.add('fade-out');
+	appUiUx.querySelectorAll(`.xtabs-tab`).forEach((elem) => {
+		elem.addEventListener('click', () => {
+			const tabParent = elem.parentElement;
+			const tabGroup = elem.getAttribute("tabGroup");
+
+			if (tabGroup) {
+				appUiUx.querySelectorAll(`[tabGroup="${tabGroup}"]`).forEach((tab) => {
+					if (tab.className.indexOf('active') !== -1) {
+						hideActive(tab);
+					}
 				});
-			}
-
-			if (tgroup) {
-				appUiUx.querySelectorAll(`[tabGroup="${tgroup}"]`)
-					.forEach((tab) => {
-						if (tab.className.indexOf('active') !== -1) {
-							hideActive(tab);
-						}
-					});
-
 			} else if (tabParent) {
-				const tabs = [].slice.call(tabParent.children);
-				tabs.forEach((tab) => {
+				Array.from(tabParent.children).forEach((tab) => {
 					if (tab.className.indexOf('active') !== -1) {
 						hideActive(tab);
 					}
 				});
 			}
 
-			const tids = el.getAttribute("tabItemId");
-			appUiUx.querySelectorAll(tids).forEach((tabItem) => {
-				//tabItem.classList.remove('hidden');
-				tabItem.classList.remove('fade-out');
-				tabItem.classList.add('fade-in');
-				//console.log('tab', tids, tabItem);
-			});
-
-			el.classList.add('active');
-			callToAction(el, tids, pid);
-
+			showActive(elem);
+			callToAction(elem);
 		});
 
-		const active = el.getAttribute("active");
+		const active = elem.getAttribute("active");
 		if (!active) {
-			const tids = el.getAttribute("tabItemId");
-			appUiUx.querySelectorAll(tids).forEach((tabItem) => {
-				//tabItem.classList.add('hidden');
-				tabItem.classList.remove('fade-in');
-				tabItem.classList.add('fade-out');
-			});
+			hideActive(elem);
 		}
-
 	});
 
-	content_div.querySelectorAll(`.xtabs-tab[active]`).forEach((el) => {
-		el.classList.add('active');
-		const tids = el.getAttribute("tabItemId");
-		const pid = el.getAttribute("data-click");
-		appUiUx.querySelectorAll(tids).forEach((tabItem) => {
-			//tabItem.classList.remove('hidden');
-			tabItem.classList.remove('fade-out');
-			tabItem.classList.add('fade-in');
-		});
-		callToAction(el, tids, pid);
-		//console.log('tab', tids, el);
+	appUiUx.querySelectorAll(`.xtabs-tab[active]`).forEach((elem) => {
+		console.log("Second active", elem);
+		showActive(elem);
+		callToAction(elem);
 	});
+}
 
-	content_div.querySelectorAll(`.ae-button`).forEach((el) => {
-		const toggle = el.getAttribute("toggle");
-		const active = el.getAttribute("active");
-		const input = el.querySelector('input');
+function initButtonComponents() {
+	appUiUx.querySelectorAll(`.ae-button`).forEach((elem) => {
+		const toggle = elem.getAttribute("toggle");
+		const active = elem.getAttribute("active");
+		const input = elem.querySelector('input');
 
 		if (input) {
 			if (input.checked === true && !active) {
@@ -647,72 +610,36 @@ function initDefaultComponents() {
 		}
 
 		if (active) {
-			el.classList.add('active');
+			elem.classList.add('active');
 		} else {
-			el.classList.remove('active');
+			elem.classList.remove('active');
 		}
 
-
 		if (toggle) {
-			el.addEventListener('click', (e) => {					
-				const input = el.querySelector('input');				
+			elem.addEventListener('click', (e) => {					
+				const input = elem.querySelector('input');				
 				if (input) {
 					input.click();
 					if (input.checked === true) {
-						el.classList.add('active');
+						elem.classList.add('active');
 					} else if (input.checked === false) {
-						el.classList.remove('active');
+						elem.classList.remove('active');
 					}
 				} else {
-					el.classList.toggle('active');
+					elem.classList.toggle('active');
 				}
 			});
 		}
 
-		const adc = el.getAttribute("data-click");
-		if(adc){
-			el.addEventListener('click', (e) => {
-
-					if(el.className.indexOf("refresh-extra-networks") !== -1){						
-					const ctemp = el.closest(".template");
-					const ckey = ctemp?.getAttribute("key") || "txt2img";
-					//console.log(ckey);
-					setTimeout(() => {
-						const tempnet = document.querySelector(`#txt2img_temp_tabitem #${ckey}_cards`);
-						if(tempnet){
-							ctemp.querySelector(".extra-network-cards")?.remove();
-							ctemp.querySelector(".extra-network-subdirs")?.remove();
-							ctemp.querySelectorAll(`.portal`).forEach((el, index, array) => {
-								setAttrSelector(el, ctemp, 0, index, array.length);
-							});
-							updateExtraNetworksCards(ctemp);
-						}
-					}, 1000);
-					
-				}
-
-				//}else{
-					document.querySelectorAll(adc).forEach((el) => {
-						el.click();
-					})	
-				//}
+		//Useful to switch tab after button click
+		const extraClicks = elem.getAttribute("data-click");
+		if(extraClicks){
+			elem.addEventListener('click', () => {
+				document.querySelectorAll(extraClicks).forEach((el) => {
+					el.click();
+				})	
 			})
 		}
-
-	});
-	
-	// try to attach LoggerScreen to main before full UIUXReady
-	attachLoggerScreen();
-}
-
-function waitForUiUxReady() {
-	return new Promise((resolve, reject) => {
-		const interval = setInterval(() => {
-			if (localStorage.getItem('UiUxReady') === "true") {
-				clearInterval(interval);
-				resolve();
-			}
-		}, 500);
 	});
 }
 
@@ -749,10 +676,14 @@ function setupAnimationEventListeners(){
 	}); 
 }
 
-function backendControlTab() {
+function extraTweaks() {
+	//Control tab remove when original backend
 	if(window.opts.sd_backend === 'original') {
 		appUiUx.classList.add('backend-original');
 	}
+
+	//System tab click second tab
+	document.querySelectorAll("#system .tab-nav button")[1].click(); 
 }
 
 function createButtonsForExtensions() {
@@ -801,10 +732,9 @@ function createButtonsForExtensions() {
 
 //======================= TEMPLATES =======================
 function replaceRootTemplate() {
-	const content_div = document.querySelector(uiux_app_id);
-	gradioApp().insertAdjacentElement('afterbegin', content_div);
-	active_main_tab = document.querySelector("#tab_control");
-	appUiUx = content_div;
+	appUiUx = document.querySelector(uiux_app_id);
+	gradioApp().insertAdjacentElement('afterbegin', appUiUx);
+	active_main_tab = document.querySelector("#tab_txt2img");
 }
 
 function getNestedTemplates(container) {
@@ -994,11 +924,15 @@ async function mainUiUx() {
 	console.log("Init runtime components");
 
 	createButtonsForExtensions();
-	backendControlTab();
+	extraTweaks();
 	setupAnimationEventListeners();
 	await setupScripts();
-	
-	initDefaultComponents();
+	loadAllPortals();
+	initSplitComponents();
+	initAccordionComponents();
+	initTabComponents();
+	initButtonComponents();
+	attachLoggerScreen();
 	await waitForUiUxReady();
 
 	//UIUX READY
