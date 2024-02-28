@@ -10,7 +10,24 @@
                 <span>Prompts</span>
             </button>
 
-            <button title="Input" tabItemId="#control_params_input_tabitem" tabGroup="control" id="control_params_input" class="xtabs-tab shrink">
+            <button title="Base" tabItemId="#control_params_size_tabitem" tabGroup="control" id="control_params_size" class="xtabs-tab shrink">
+                <div class="mask-icon icon-equalize"></div>
+                <span>Base</span>
+            </button>
+            <button title="Input & Mask" tabItemId="#control_params_mask_tabitem" tabGroup="control" id="control_params_mask" class="xtabs-tab shrink">
+                <div class="mask-icon icon-equalize"></div>
+                <span>Input & Mask</span>
+            </button>
+            <button title="Advanced" tabItemId="#control_params_advanced_tabitem" tabGroup="control" id="control_params_advanced" class="xtabs-tab shrink">
+                <div class="mask-icon icon-equalize"></div>
+                <span>Advanced</span>
+            </button>
+            <button title="Control" tabItemId="#control_params_elements_tabitem" tabGroup="control" id="control_params_elements" class="xtabs-tab shrink">
+                <div class="mask-icon icon-equalize"></div>
+                <span>Control</span>
+            </button>
+
+            <!-- <button title="Input" tabItemId="#control_params_input_tabitem" tabGroup="control" id="control_params_input" class="xtabs-tab shrink">
                 <div class="mask-icon icon-equalize"></div>
                 <span>Input</span>
             </button>
@@ -46,11 +63,10 @@
                 <div class="mask-icon icon-equalize"></div>
                 <span>Video</span>
             </button>
-
             <button title="Elements" tabItemId="#control_params_elements_tabitem" tabGroup="control" id="control_params_elements" class="xtabs-tab shrink">
                 <div class="mask-icon icon-equalize"></div>
                 <span>Elements</span>
-            </button>
+            </button> -->
 
             <button title="Scripts / Extensions" tabItemId="#control_scripts_tabitem" tabGroup="control" id="control_scripts" class="xtabs-tab">
                 <div class="mask-icon icon-scripts"></div>
@@ -116,7 +132,38 @@
                     </div>
                 </div>
 
-                <div id="control_params_input_tabitem_group" class="flexbox col">
+                <div id="control_params_size_tabitem_group" class="flexbox col">
+                    <div id="control_params_size_tabitem" class="xtabs-item">
+                        <div data-parent-selector="#control_settings" data-selector="#control_size div:last-child > div" class="portal"></div>
+                        <div data-parent-selector="#control_settings" data-selector="#control_batch div:last-child > div" class="portal"></div>
+                        <div data-parent-selector="#control_settings" data-selector="#control_sampler div:last-child > div" class="portal"></div>
+                        <div data-parent-selector="#control_settings" data-selector="#control_seed_group div:last-child > div" class="portal"></div>
+                        <div data-parent-selector="#control_settings" data-selector="#control_video div:last-child > div" class="portal"></div>
+                    </div>
+                </div>
+
+                <div id="control_params_mask_tabitem_group" class="flexbox col">
+                    <div id="control_params_mask_tabitem" class="xtabs-item">
+                        <div data-parent-selector="#control_settings" data-selector="#control_input div:last-child > div" class="portal"></div>
+                        <div data-parent-selector="#control_settings" data-selector="#control_mask div:last-child > div" class="portal"></div>
+                    </div>
+                </div>
+
+                <div id="control_params_advanced_tabitem_group" class="flexbox col">
+                    <div id="control_params_advanced_tabitem" class="xtabs-item">
+                        <div data-parent-selector="#control_settings" data-selector="#control_advanced div:last-child > div" class="portal"></div>
+                        <div data-parent-selector="#control_settings" data-selector="#control_corrections div:last-child > div" class="portal"></div>
+
+                    </div>
+                </div>
+
+                <div id="control_params_elements_tabitem_group" class="flexbox col">
+                    <div id="control_params_elements_tabitem" class="xtabs-item">
+                        <div data-parent-selector="#tab_control" data-selector="#control_elements div:last-child > div" class="portal"></div>
+                    </div>
+                </div>
+
+                <!-- <div id="control_params_input_tabitem_group" class="flexbox col">
                     <div id="control_params_input_tabitem" class="xtabs-item">
                         <div data-parent-selector="#control_settings" data-selector="#control_input div:last-child > div" class="portal"></div>
                     </div>
@@ -165,7 +212,7 @@
                     <div id="control_params_elements_tabitem" class="xtabs-item">
                         <div data-parent-selector="#tab_control" data-selector="#control_elements div:last-child > div" class="portal"></div>
                     </div>
-                </div>
+                </div> -->
 
                 <div id="control_scripts_tabitem_group" class="flexbox col">
                     <div id="control_scripts_tabitem" class="xtabs-item">
