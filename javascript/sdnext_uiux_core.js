@@ -377,7 +377,7 @@ function movePortal(portalElem, tries, index, length) {
 	const sp = portalElem.getAttribute("data-parent-selector");
 	const s = portalElem.getAttribute("data-selector");
 	
-	let targetElem = (tries % 2 == 0) ? document.querySelector(`${sp} ${s}`) : appUiUx.querySelector(`${s}`);
+	let targetElem = document.querySelector(`${sp} ${s}`); //(tries % 2 == 0) ? document.querySelector(`${sp} ${s}`) : appUiUx.querySelector(`${s}`);
 	
 	if (portalElem && targetElem) {
 		console.log("register [try " + tries + "/" + MAX_TRIES + "] | Ref", index, sp, s);

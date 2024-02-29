@@ -1841,8 +1841,8 @@ div#layout-3 {
     -webkit-mask-image: url(./html/svg/image-line.svg);
 }
 
-.icon-control {
-    -webkit-mask-image: url(./html/svg/equalizer-line.svg);
+.icon-control, .icon-2control {
+    -webkit-mask-image: url(./html/svg/robot-2-line.svg);
 }
 
 .icon-extras {
