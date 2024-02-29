@@ -2111,6 +2111,7 @@ div#main-nav {
     max-height: var(--ae-input-border-size);
     min-height: var(--ae-input-border-size);
     background-color: var(--ae-primary-color);
+    opacity: 50%;
 }
 
 * button[aria-label] {

@@ -72,8 +72,8 @@
                             </div>
                             <div class="layout-content">
                                 <div class="flexbox col">
-                                    <div id="split-2" direction="vertical" gutterSize="8" class="split">
-                                        <div data-minSize="0" data-initSize="50" id="iubsl" class="split-container">
+                                    <div id="split-txt2img-prompt" direction="vertical" gutterSize="8" class="split">
+                                        <div data-minSize="0" data-initSize="50" id="split-txt2img-prompt-up" class="split-container">
                                             <div class="layout">
                                                 <div class="layout-content">
                                                     <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_prompt" class="portal no-bg"></div>
@@ -83,7 +83,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div data-minSize="0" data-initSize="50" id="idyyf" class="split-container">
+                                        <div data-minSize="0" data-initSize="50" id="split-txt2img-prompt-down" class="split-container">
                                             <div class="layout">
                                                 <div class="layout-content">
                                                     <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_neg_prompt" class="portal no-bg"></div>
@@ -102,8 +102,8 @@
                 <div id="txt2img_params_tabitem_group" class="flexbox col">
                     <div id="txt2img_params_tabitem" class="xtabs-item">
                         <div class="flexbox col auto-scroll">
-                            <div class="flexbox row wrap">
-                                <div class="flexbox row no-wrap group fb-60">
+                            <div class="flexbox row group wrap">
+                                <div class="flexbox row no-wrap fb-60">
                                     <div class="flexbox col">
                                         <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_width" class="portal"></div>
                                         <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_height" class="portal"></div>
@@ -117,7 +117,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="flexbox group col fb-40">
+                                <div class="flexbox col fb-40">
                                     <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_batch_size" class="portal"></div>
                                     <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_batch_count" class="portal"></div>
                                 </div>
@@ -214,7 +214,7 @@
                                 </div>
                             </div>
 
-                            <div class="flexbox col spacer-group"></div>
+                            <div class="flexbox col spacer-group only-diffusers"></div>
 
                             <div class="flexbox group col">
                                 <div class="flexbox row">
