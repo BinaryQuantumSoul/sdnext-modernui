@@ -2107,6 +2107,12 @@ div#main-nav {
     background-color: var(--ae-input-border-color);
 }
 
+.spacer-group {
+    max-height: var(--ae-input-border-size);
+    min-height: var(--ae-input-border-size);
+    background-color: var(--ae-primary-color);
+}
+
 * button[aria-label] {
     width: var(--ae-input-height);
     height: var(--ae-input-height);
@@ -3610,6 +3616,10 @@ input[type="range"]::-ms-fill-upper {
     direction: ltr;
 }
 
-.backend-original .control-diffusers {
+.backend-original .only-diffusers {
+    display: none;
+}
+
+.backend-diffusers .only-original {
     display: none;
 }

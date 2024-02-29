@@ -399,7 +399,7 @@ function movePortal(portalElem, tries, index, length) {
 		}
 
 		const showButton = portalElem.getAttribute("show-button");
-		if(showButton) {
+		if (showButton) {
 			document.querySelector(showButton)?.classList.remove("hidden");
 		}
 	} else if (tries < MAX_TRIES) {
@@ -694,8 +694,10 @@ function setupAnimationEventListeners(){
 
 function extraTweaks() {
 	//Control tab remove when original backend
-	if(window.opts.sd_backend === 'original') {
+	if (window.opts.sd_backend === 'original') {
 		appUiUx.classList.add('backend-original');
+	} else if (window.opts.sd_backend === 'diffusers') {
+		appUiUx.classList.add('backend-diffusers');
 	}
 
 	//System tab click second tab
