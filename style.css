@@ -2984,7 +2984,8 @@ flex-grow:1;
 }
 
 .group-row > *:last-child button,
-.group-row > *:last-child{
+.group-row > *:last-child,
+.media-desktop .group-row > button:has(+ .only-mobile) {
     border-top-right-radius: var(--ae-border-radius) !important;
     border-bottom-right-radius: var(--ae-border-radius) !important;
 }
@@ -3003,7 +3004,8 @@ flex-grow:1;
 }
 
 .group-col > *:last-child button,
-.group-col > *:last-child {
+.group-col > *:last-child,
+.media-desktop .group-col > button:has(+ .only-mobile) {
     border-bottom-left-radius: var(--ae-border-radius) !important;
     border-bottom-right-radius: var(--ae-border-radius) !important;
 }
@@ -3341,36 +3343,59 @@ input[type="checkbox"] {
     }
 }
 
-#sidebar_secondary_tabs a span,
-.default-desktop .mobile,
-.default-auto .mobile{
-    display:none;
+.media-desktop .only-mobile,
+.media-mobile .only-desktop {
+    display: none;
 }
-.default-mobile .mobile{
+.media-mobile .only-mobile,
+.media-desktop .only-desktop {
     display: flex;
 }
-.default-mobile .split-container.params{
-    min-width:100% !important;
+
+.media-mobile .split-container.params {
+    min-width: 100% !important;
 }
-.default-mobile .split-container.params ~ div{
-    display:none;
+.media-mobile .split-container.params ~ div{
+    display: none;
+}
+.media-mobile #split-right:not(.v-expand) { 
+    position: fixed;
+    inset: var(--ae-panel-padding);
+    z-index: 999;
+    background-color: var(--ae-main-bg-color);
+    outline: var(--ae-border-size) solid var(--ae-main-bg-color);
+}
+.media-mobile #split-right:not(.v-expand) #accordion-aside {
+    margin-left: var(--ae-panel-padding);
+}
+.media-mobile .template > .full-height {
+    padding: var(--ae-panel-padding);
+}
+.media-mobile .xtabs-tab span {
+    display: none;
+}
+
+#setting_uiux_mobile_scale input[type="range"] {
+    display: none;
 }
 
 #txt2img_results_generate_tabitem .generate,
-#img2img_results_generate_tabitem .generate{
+#img2img_results_generate_tabitem .generate,
+#control_results_generate_tabitem .generate,
+#extras_results_generate_tabitem .generate {
     flex-grow: 1;
 }
 
 .aside-labels #sidebar_secondary_tabs a span,
 .main-labels #main-nav .xtabs-tab span,
-.tab-labels [id$="2img_header"] span ,
+.tab-labels [id$="_header"] span ,
 .aside-labels #accordion-aside .xtabs-tab span,
 .control-labels #accordion-control .xtabs-tab span {
     display: flex !important;
     text-transform: capitalize;
 }
 .main-labels #main-nav .xtabs-tab,
-.tab-labels [id$="2img_header"] .xtabs-tab,
+.tab-labels [id$="_header"] .xtabs-tab,
 .aside-labels #accordion-aside .xtabs-tab,
 .control-labels #accordion-control .xtabs-tab {
     justify-content: flex-start;
@@ -3379,7 +3404,14 @@ input[type="checkbox"] {
 #acc-arrow-button,
 #acc-arrow-button-control,
 .aside-labels .accordion-bar > div{
-    width:100%;
+    width: 100%;
+}
+
+.media-desktop #accordion-control {
+    margin: var(--ae-panel-padding) calc(2* var(--ae-border-size));
+}
+.media-mobile #accordion-control {
+    margin: 0;
 }
 
 .aside-labels div#sidebar_secondary_tabs button {
@@ -3412,19 +3444,6 @@ input[type="checkbox"] {
     display:none;
 }
 
-.default-mobile #split-right:not(.v-expand) { 
-    position: fixed;
-    inset: var(--ae-panel-padding);
-    z-index: 999;
-    background-color: var(--ae-main-bg-color);
-    outline: var(--ae-border-size) solid var(--ae-main-bg-color);
-}
-.default-mobile #split-right:not(.v-expand) #accordion-aside {
-    margin-left: var(--ae-panel-padding);
-}
-.default-mobile .template > .full-height {
-    padding: var(--ae-panel-padding);
-}
 .tabitem > .gap {
     overflow:hidden;
     padding: var(--ae-panel-padding);
@@ -3434,22 +3453,6 @@ input[type="checkbox"] {
 }
 .pointer-events-none button{
     pointer-events: all;
-}
-
-@media (max-width: 768px) {
-    .xtabs-tab span {
-        display: none;
-    }
-
-    .default-auto .mobile{
-        display: flex;
-    }
-    .default-auto .split-container.params{
-        min-width:100% !important;
-    }
-    .default-auto .split-container.params ~ div{
-        display:none;
-    }
 }
 
 /* Firefox */

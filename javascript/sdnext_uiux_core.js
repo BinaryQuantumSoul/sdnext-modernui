@@ -150,57 +150,60 @@ function showContributors(){
 
 
 //======================= MOBILE =======================
-function detectMobile() {
-    return (window.innerWidth <= 768);
-}
-
-function applyDefaultLayout(isMobile){
+function applyDefaultLayout(isMobile) {
     appUiUx.querySelectorAll("[mobile]").forEach((tabItem) => {   
-        if(isMobile){
-            if(tabItem.childElementCount === 0){
-                const mobile_attr = tabItem.getAttribute("mobile");              
-                if(mobile_attr){
-                    const mobile_target = appUiUx.querySelector(mobile_attr);      
-                    if(mobile_target){
-                        tabItem.setAttribute("mobile-restore", `#${mobile_target.parentElement.id}`);
-                        tabItem.append(mobile_target);
-                    }           
+        if (isMobile) {
+			if(tabItem.childElementCount === 0) {
+                const mobile_target = appUiUx.querySelector(tabItem.getAttribute("mobile"));
+				if(mobile_target) {
+					const target_parent_id = mobile_target.parentElement.id;
+					if (target_parent_id) {
+						tabItem.setAttribute("mobile-restore", `#${target_parent_id}`);
+					} else {
+						console.log(`Missing id for parent: ${mobile_target.id}`);
+					}
+					tabItem.append(mobile_target);
                 }
             }
-        }else{
-            if(tabItem.childElementCount > 0){
-                const mobile_restore_attr = tabItem.getAttribute("mobile-restore");              
-                if(mobile_restore_attr){                  
-                    const mobile_restore_target = appUiUx.querySelector(mobile_restore_attr);      
-                    if(mobile_restore_target){
-                        mobile_restore_target.append(tabItem.firstElementChild);
-                    }           
-                }
+        } else {
+            if(tabItem.childElementCount > 0) {               
+				const mobile_restore_target = appUiUx.querySelector(tabItem.getAttribute("mobile-restore"));      
+				if(mobile_restore_target) {
+					tabItem.removeAttribute("mobile-restore");
+					mobile_restore_target.append(tabItem.firstElementChild);
+				}  
             }
         }           
     });
 
-    if(isMobile){ 
+    if (isMobile) { 
         appUiUx.querySelector(".accordion-vertical.expand #mask-icon-acc-arrow")?.click();
-        appUiUx.classList.add("default-mobile");
-    }else{
-        appUiUx.classList.remove("default-mobile");
+		if (!appUiUx.querySelector(".accordion-vertical.expand #mask-icon-acc-arrow-control")) {
+			appUiUx.querySelector(".accordion-vertical #mask-icon-acc-arrow-control").click();
+		}
+
+        appUiUx.classList.add("media-mobile");
+		appUiUx.classList.remove("media-desktop");
+    } else {
+        appUiUx.classList.add("media-desktop");
+		appUiUx.classList.remove("media-mobile");
     }
 }
 
 function switchMobile(){
-    const optslayout = window.opts.uiux_default_layout;
-    appUiUx.classList.add(`default-${optslayout.toLowerCase()}`);
-    if(optslayout === "Auto"){           
-        window.addEventListener('resize', function(event){
-            const isMobile = detectMobile();
-            applyDefaultLayout(isMobile);
-        });
-        applyDefaultLayout(detectMobile());
+	function detectMobile() {
+		return (window.innerWidth <= 768);
+	}
 
-    }else if(optslayout === "Mobile"){
+	const optslayout = window.opts.uiux_default_layout;
+    if (optslayout === "Auto") {
+        window.addEventListener('resize', () => {
+			applyDefaultLayout(detectMobile());
+		});
+        applyDefaultLayout(detectMobile());
+    } else if (optslayout === "Mobile") {
         applyDefaultLayout(true);
-    }else{
+    } else if (optslayout === "Desktop") {
         applyDefaultLayout(false);
     }   
 }
@@ -236,32 +239,18 @@ function uiuxOptionSettings() {
 	// settings input ranges
 	function uiux_show_input_range_ticks(value, interactive) {
 		if (value) {
-			const range_selectors = "input[type='range']";
-			gradioApp()
-				.querySelectorAll(range_selectors)
-				.forEach(function (elem) {
-					let spacing = (elem.step / (elem.max - elem.min)) * 100.0;
-					let tsp = "max(3px, calc(" + spacing + "% - 1px))";
-					let fsp = "max(4px, calc(" + spacing + "% + 0px))";
-					var style = elem.style;
-					style.setProperty(
-						"--ae-slider-bg-overlay",
-						"repeating-linear-gradient( 90deg, transparent, transparent " +
-						tsp +
-						", var(--ae-input-border-color) " +
-						tsp +
-						", var(--ae-input-border-color) " +
-						fsp +
-						" )"
-					);
-				});
+			gradioApp().querySelectorAll("input[type='range']").forEach((elem) => {
+				let spacing = (elem.step / (elem.max - elem.min)) * 100.0;
+				let tsp = "max(3px, calc(" + spacing + "% - 1px))";
+				let fsp = "max(4px, calc(" + spacing + "% + 0px))";
+
+				const overlay = `repeating-linear-gradient(90deg, transparent, transparent ${tsp}, var(--ae-input-border-color) ${tsp}, var(--ae-input-border-color) ${fsp})`;
+				elem.style.setProperty("--ae-slider-bg-overlay", overlay);
+			});
 		} else if (interactive) {
-			gradioApp()
-				.querySelectorAll("input[type='range']")
-				.forEach(function (elem) {
-					var style = elem.style;
-					style.setProperty("--ae-slider-bg-overlay", "transparent");
-				});
+			gradioApp().querySelectorAll("input[type='range']").forEach((elem) => {
+				elem.style.setProperty("--ae-slider-bg-overlay", "transparent");
+			});
 		}
 	}
 	gradioApp().querySelector("#setting_uiux_show_input_range_ticks input").addEventListener("click", function (e) {
@@ -290,21 +279,12 @@ function uiuxOptionSettings() {
 	setupUiUxSetting("setting_uiux_show_labels_tabs", "tab-labels");
 	setupUiUxSetting("setting_uiux_show_labels_control", "control-labels");
 
-	// settings mobile
-	const comp_mobile_scale_range = gradioApp().querySelector("#setting_uiux_mobile_scale input[type=range]");
-	comp_mobile_scale_range.classList.add("hidden");
-	const comp_mobile_scale = gradioApp().querySelector("#setting_uiux_mobile_scale input[type=number]");
-
+	// settings mobile scale
 	function uiux_mobile_scale(value) {
 		const viewport = document.head.querySelector('meta[name="viewport"]');
 		viewport.setAttribute("content", `width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=${value}`);      
 	}
-	comp_mobile_scale.addEventListener("change", function (e) { 
-		//e.preventDefault();
-		//e.stopImmediatePropagation()
-		comp_mobile_scale.value = e.target.value;
-		window.updateInput(comp_mobile_scale);
-		console.log('change', e.target.value);
+	gradioApp().querySelector("#setting_uiux_mobile_scale input[type=number]").addEventListener("change", function (e) {
 		uiux_mobile_scale(e.target.value);   
 	});
 	uiux_mobile_scale(window.opts.uiux_mobile_scale);

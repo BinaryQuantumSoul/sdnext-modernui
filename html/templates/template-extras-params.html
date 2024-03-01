@@ -1,12 +1,12 @@
 <div id="layout-extras" class="layout">
     <div class="layout-header">
-        <div class="flexbox row shrink panel padding no-br">
+        <div id="extras_header_panel" class="flexbox row shrink panel padding no-br">
             <div id="extras_header" class="flexbox row no-wrap shrink no-labels flex-start group-row">
                 <button title="Parameters" tabItemId="#extras_params_tabitem" tabGroup="extras" id="extras_params" active="true" class="xtabs-tab shrink">
                     <div class="mask-icon icon-equalize"></div>
                     <span>Params</span>
                 </button>
-                <button title="Extras Results" tabItemId="#extras_results_mobile_tabitem" tabGroup="extras" id="extras_results_mobile" class="xtabs-tab mobile">
+                <button title="Extras Results" tabItemId="#extras_results_mobile_tabitem" tabGroup="extras" id="extras_results_mobile" class="xtabs-tab only-mobile">
                     <div class="mask-icon icon-results"></div>
                     <span>Results</span>
                 </button>
@@ -142,17 +142,14 @@
                     </div>
                 </div>
 
-                <div id="extras_results_mobile_tabitem_group" class="flexbox col mobile">
+                <div id="extras_results_mobile_tabitem_group" class="flexbox col only-mobile">
                     <div id="extras_results_mobile_tabitem" mobile="#template-extras-results" class="xtabs-item"></div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="layout-footer hidden">
-        <div class="xtabs-tabs row panel">
-            <div data-parent-selector="gradio-app" data-selector="#tab_process" class="portal"></div>
-            <div data-selector="#extras_resize_mode" data-parent-selector="#tab_process" class="portal"></div>
+        <div id="extras_results_generate_tabitem_group" class="flexbox col panel no-grow only-mobile">
+            <div id="extras_results_generate_tabitem" mobile="#extras_generate_group" class="xtabs-item"></div>
         </div>
     </div>
 </div>

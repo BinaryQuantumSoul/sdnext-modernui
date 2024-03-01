@@ -1,33 +1,34 @@
-<div id="accordion-control" iconTrigger="#acc-arrow-button-control" class="accordion accordion-vertical left no-drag">
-    <div class="accordion-bar">
-        <button id="acc-arrow-button-control" class="ae-button">
-            <div id="mask-icon-acc-arrow-control" class="mask-icon accordion-icon icon-arrow-down"></div>
-        </button>
-        <div class="flexbox col"></div>
-        <div id="sidebar_control" class="flexbox col shrink group-col">
-            <button title="Prompts" tabItemId="#control_prompts_tabitem" tabGroup="control" id="control_prompts" active="true" class="xtabs-tab shrink">
-                <div class="mask-icon icon-prompt"></div>
-                <span>Prompts</span>
+<div class="full-height flexbox col">
+    <div id="accordion-control" iconTrigger="#acc-arrow-button-control" class="accordion accordion-vertical left no-drag">
+        <div class="accordion-bar">
+            <button id="acc-arrow-button-control" class="ae-button only-desktop">
+                <div id="mask-icon-acc-arrow-control" class="mask-icon accordion-icon icon-arrow-down"></div>
             </button>
+            <div class="flexbox col"></div>
+            <div id="sidebar_control" class="flexbox col shrink group-col">
+                <button title="Prompts" tabItemId="#control_prompts_tabitem" tabGroup="control" id="control_prompts" active="true" class="xtabs-tab shrink">
+                    <div class="mask-icon icon-prompt"></div>
+                    <span>Prompts</span>
+                </button>
 
-            <button title="Base" tabItemId="#control_params_size_tabitem" tabGroup="control" id="control_params_size" class="xtabs-tab shrink">
-                <div class="mask-icon icon-equalize"></div>
-                <span>Base</span>
-            </button>
-            <button title="Input & Mask" tabItemId="#control_params_mask_tabitem" tabGroup="control" id="control_params_mask" class="xtabs-tab shrink">
-                <div class="mask-icon icon-equalize"></div>
-                <span>Input & Mask</span>
-            </button>
-            <button title="Advanced" tabItemId="#control_params_advanced_tabitem" tabGroup="control" id="control_params_advanced" class="xtabs-tab shrink">
-                <div class="mask-icon icon-equalize"></div>
-                <span>Advanced</span>
-            </button>
-            <button title="Control" tabItemId="#control_params_elements_tabitem" tabGroup="control" id="control_params_elements" class="xtabs-tab shrink">
-                <div class="mask-icon icon-equalize"></div>
-                <span>Control</span>
-            </button>
+                <button title="Base" tabItemId="#control_params_size_tabitem" tabGroup="control" id="control_params_size" class="xtabs-tab shrink">
+                    <div class="mask-icon icon-equalize"></div>
+                    <span>Base</span>
+                </button>
+                <button title="Input & Mask" tabItemId="#control_params_mask_tabitem" tabGroup="control" id="control_params_mask" class="xtabs-tab shrink">
+                    <div class="mask-icon icon-equalize"></div>
+                    <span>Input & Mask</span>
+                </button>
+                <button title="Advanced" tabItemId="#control_params_advanced_tabitem" tabGroup="control" id="control_params_advanced" class="xtabs-tab shrink">
+                    <div class="mask-icon icon-equalize"></div>
+                    <span>Advanced</span>
+                </button>
+                <button title="Control" tabItemId="#control_params_elements_tabitem" tabGroup="control" id="control_params_elements" class="xtabs-tab shrink">
+                    <div class="mask-icon icon-equalize"></div>
+                    <span>Control</span>
+                </button>
 
-            <!-- <button title="Input" tabItemId="#control_params_input_tabitem" tabGroup="control" id="control_params_input" class="xtabs-tab shrink">
+                <!-- <button title="Input" tabItemId="#control_params_input_tabitem" tabGroup="control" id="control_params_input" class="xtabs-tab shrink">
                 <div class="mask-icon icon-equalize"></div>
                 <span>Input</span>
             </button>
@@ -68,60 +69,61 @@
                 <span>Elements</span>
             </button> -->
 
-            <button title="Scripts / Extensions" tabItemId="#control_scripts_tabitem" tabGroup="control" id="control_scripts" class="xtabs-tab">
-                <div class="mask-icon icon-scripts"></div>
-                <span>Scripts</span>
-            </button>
-            <button title="control Results" tabItemId="#control_results_mobile_tabitem" tabGroup="control" id="control_results_mobile" class="xtabs-tab mobile">
-                <div class="mask-icon icon-results"></div>
-                <span>Results</span>
-            </button>
+                <button title="Scripts / Extensions" tabItemId="#control_scripts_tabitem" tabGroup="control" id="control_scripts" class="xtabs-tab">
+                    <div class="mask-icon icon-scripts"></div>
+                    <span>Scripts</span>
+                </button>
+                <button title="Results" tabItemId="#control_results_mobile_tabitem" tabGroup="control" id="control_results_mobile" class="xtabs-tab only-mobile">
+                    <div class="mask-icon icon-results"></div>
+                    <span>Results</span>
+                </button>
+            </div>
         </div>
-    </div>
-    <div class="accordion-container">
-        <div id="control-params" id="layout-control" class="layout">
-            <div class="layout-content">
-                <div id="control_prompts_tabitem_group" class="flexbox col">
-                    <div id="control_prompts_tabitem" class="xtabs-item">
-                        <div class="layout">
-                            <div class="layout-header">
-                                <div class="flexbox no-padding row">
-                                    <div class="flexbox no-border no-bg shrink row">
-                                        <div data-parent-selector="#tab_control" data-selector="#control_paste" droppable="true" class="portal shrink invisible">
-                                            <div class="mask-icon icon-magic"></div>
+        <div class="accordion-container">
+            <div id="control-params" class="layout">
+                <div class="layout-content">
+                    <div id="control_prompts_tabitem_group" class="flexbox col">
+                        <div id="control_prompts_tabitem" class="xtabs-item">
+                            <div class="layout">
+                                <div class="layout-header">
+                                    <div class="flexbox no-padding row">
+                                        <div class="flexbox no-border no-bg shrink row">
+                                            <div data-parent-selector="#tab_control" data-selector="#control_paste" droppable="true" class="portal shrink invisible">
+                                                <div class="mask-icon icon-magic"></div>
+                                            </div>
+                                            <div data-parent-selector="#control_tools" data-selector="#control_clear_prompt_btn" droppable="true" class="portal shrink invisible">
+                                                <div class="mask-icon icon-delete"></div>
+                                            </div>
                                         </div>
-                                        <div data-parent-selector="#control_tools" data-selector="#control_clear_prompt_btn" droppable="true" class="portal shrink invisible">
-                                            <div class="mask-icon icon-delete"></div>
-                                        </div>
-                                    </div>
-                                    <div class="flexbox no-border no-bg row">
-                                        <div data-parent-selector="#control_styles_row" data-selector="#control_styles" class="portal no-min-width"></div>
-                                        <div data-parent-selector="#control_styles_row" data-selector="#control_styles_refresh" droppable="true" class="portal shrink invisible">
-                                            <div class="mask-icon refresh"></div>
+                                        <div class="flexbox no-border no-bg row">
+                                            <div data-parent-selector="#control_styles_row" data-selector="#control_styles" class="portal no-min-width"></div>
+                                            <div data-parent-selector="#control_styles_row" data-selector="#control_styles_refresh" droppable="true" class="portal shrink invisible">
+                                                <div class="mask-icon refresh"></div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="layout-content">
-                                <div class="flexbox col">
-                                    <div id="split-2a" direction="vertical" gutterSize="8" class="split">
-                                        <div data-minSize="0" data-initSize="50" id="iubsla" class="split-container">
-                                            <div class="layout">
-                                                <div class="layout-content">
-                                                    <div data-parent-selector="#tab_control" data-selector="#control_prompt" class="portal no-bg"></div>
-                                                </div>
-                                                <div class="layout-footer">
-                                                    <div data-parent-selector="#tab_control" data-selector="#control_token_counter" class="portal relative" data-timeout="1000"></div>
+                                <div class="layout-content">
+                                    <div class="flexbox col">
+                                        <div id="split-2a" direction="vertical" gutterSize="8" class="split">
+                                            <div data-minSize="0" data-initSize="50" id="iubsla" class="split-container">
+                                                <div class="layout">
+                                                    <div class="layout-content">
+                                                        <div data-parent-selector="#tab_control" data-selector="#control_prompt" class="portal no-bg"></div>
+                                                    </div>
+                                                    <div class="layout-footer">
+                                                        <div data-parent-selector="#tab_control" data-selector="#control_token_counter" class="portal relative" data-timeout="1000"></div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div data-minSize="0" data-initSize="50" id="idyyfa" class="split-container">
-                                            <div class="layout">
-                                                <div class="layout-content">
-                                                    <div data-parent-selector="#tab_control" data-selector="#control_neg_prompt" class="portal no-bg"></div>
-                                                </div>
-                                                <div class="layout-footer">
-                                                    <div data-parent-selector="#tab_control" data-selector="#control_negative_token_counter" data-timeout="1000" class="portal relative"></div>
+                                            <div data-minSize="0" data-initSize="50" id="idyyfa" class="split-container">
+                                                <div class="layout">
+                                                    <div class="layout-content">
+                                                        <div data-parent-selector="#tab_control" data-selector="#control_neg_prompt" class="portal no-bg"></div>
+                                                    </div>
+                                                    <div class="layout-footer">
+                                                        <div data-parent-selector="#tab_control" data-selector="#control_negative_token_counter" data-timeout="1000" class="portal relative"></div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -130,45 +132,44 @@
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div id="control_params_size_tabitem_group" class="flexbox col">
-                    <div id="control_params_size_tabitem" class="xtabs-item">
-                        <div data-parent-selector="#control_settings" data-selector="#control_size div:last-child > div" class="portal"></div>
-                        <div class="flexbox col spacer-group"></div>
-                        <div data-parent-selector="#control_settings" data-selector="#control_batch div:last-child > div" class="portal"></div>
-                        <div class="flexbox col spacer-group"></div>
-                        <div data-parent-selector="#control_settings" data-selector="#control_sampler div:last-child > div" class="portal"></div>
-                        <div class="flexbox col spacer-group"></div>
-                        <div data-parent-selector="#control_settings" data-selector="#control_seed_group div:last-child > div" class="portal"></div>
-                        <div class="flexbox col spacer-group"></div>
-                        <div data-parent-selector="#control_settings" data-selector="#control_video div:last-child > div" class="portal"></div>
+                    <div id="control_params_size_tabitem_group" class="flexbox col">
+                        <div id="control_params_size_tabitem" class="xtabs-item">
+                            <div data-parent-selector="#control_settings" data-selector="#control_size div:last-child > div" class="portal"></div>
+                            <div class="flexbox col spacer-group"></div>
+                            <div data-parent-selector="#control_settings" data-selector="#control_batch div:last-child > div" class="portal"></div>
+                            <div class="flexbox col spacer-group"></div>
+                            <div data-parent-selector="#control_settings" data-selector="#control_sampler div:last-child > div" class="portal"></div>
+                            <div class="flexbox col spacer-group"></div>
+                            <div data-parent-selector="#control_settings" data-selector="#control_seed_group div:last-child > div" class="portal"></div>
+                            <div class="flexbox col spacer-group"></div>
+                            <div data-parent-selector="#control_settings" data-selector="#control_video div:last-child > div" class="portal"></div>
+                        </div>
                     </div>
-                </div>
 
-                <div id="control_params_mask_tabitem_group" class="flexbox col">
-                    <div id="control_params_mask_tabitem" class="xtabs-item">
-                        <div data-parent-selector="#control_settings" data-selector="#control_input div:last-child > div" class="portal"></div>
-                        <div class="flexbox col spacer-group"></div>
-                        <div data-parent-selector="#control_settings" data-selector="#control_mask div:last-child > div" class="portal"></div>
+                    <div id="control_params_mask_tabitem_group" class="flexbox col">
+                        <div id="control_params_mask_tabitem" class="xtabs-item">
+                            <div data-parent-selector="#control_settings" data-selector="#control_input div:last-child > div" class="portal"></div>
+                            <div class="flexbox col spacer-group"></div>
+                            <div data-parent-selector="#control_settings" data-selector="#control_mask div:last-child > div" class="portal"></div>
+                        </div>
                     </div>
-                </div>
 
-                <div id="control_params_advanced_tabitem_group" class="flexbox col">
-                    <div id="control_params_advanced_tabitem" class="xtabs-item">
-                        <div data-parent-selector="#control_settings" data-selector="#control_advanced div:last-child > div" class="portal"></div>
-                        <div class="flexbox col spacer-group"></div>
-                        <div data-parent-selector="#control_settings" data-selector="#control_corrections div:last-child > div" class="portal"></div>
+                    <div id="control_params_advanced_tabitem_group" class="flexbox col">
+                        <div id="control_params_advanced_tabitem" class="xtabs-item">
+                            <div data-parent-selector="#control_settings" data-selector="#control_advanced div:last-child > div" class="portal"></div>
+                            <div class="flexbox col spacer-group"></div>
+                            <div data-parent-selector="#control_settings" data-selector="#control_corrections div:last-child > div" class="portal"></div>
+                        </div>
                     </div>
-                </div>
 
-                <div id="control_params_elements_tabitem_group" class="flexbox col">
-                    <div id="control_params_elements_tabitem" class="xtabs-item">
-                        <div data-parent-selector="#tab_control" data-selector="#control_elements div:last-child > div" class="portal"></div>
+                    <div id="control_params_elements_tabitem_group" class="flexbox col">
+                        <div id="control_params_elements_tabitem" class="xtabs-item">
+                            <div data-parent-selector="#tab_control" data-selector="#control_elements div:last-child > div" class="portal"></div>
+                        </div>
                     </div>
-                </div>
 
-                <!-- <div id="control_params_input_tabitem_group" class="flexbox col">
+                    <!-- <div id="control_params_input_tabitem_group" class="flexbox col">
                     <div id="control_params_input_tabitem" class="xtabs-item">
                         <div data-parent-selector="#control_settings" data-selector="#control_input div:last-child > div" class="portal"></div>
                     </div>
@@ -219,20 +220,20 @@
                     </div>
                 </div> -->
 
-                <div id="control_scripts_tabitem_group" class="flexbox col">
-                    <div id="control_scripts_tabitem" class="xtabs-item">
-                        <div data-parent-selector="#tab_control" data-selector="#control_script_container" class="portal no-bg"></div>
+                    <div id="control_scripts_tabitem_group" class="flexbox col">
+                        <div id="control_scripts_tabitem" class="xtabs-item">
+                            <div data-parent-selector="#tab_control" data-selector="#control_script_container" class="portal no-bg"></div>
+                        </div>
                     </div>
-                </div>
 
-                <div id="control_results_mobile_tabitem_group" class="flexbox col mobile">
-                    <div id="control_results_mobile_tabitem" mobile="#template-control-results" class="xtabs-item"></div>
+                    <div id="control_results_mobile_tabitem_group" class="flexbox col only-mobile">
+                        <div id="control_results_mobile_tabitem" mobile="#template-control-results" class="xtabs-item"></div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-
-<div id="control_results_generate_tabitem_group" class="flexbox col panel no-grow mobile">
-    <div id="control_results_generate_tabitem" mobile="#control_generate_group" class="xtabs-item"></div>
+    <div id="control_results_generate_tabitem_group" class="flexbox col panel no-grow only-mobile">
+        <div id="control_results_generate_tabitem" mobile="#control_generate_group" class="xtabs-item"></div>
+    </div>
 </div>
