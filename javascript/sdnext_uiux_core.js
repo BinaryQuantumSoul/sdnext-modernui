@@ -114,13 +114,13 @@ function showContributors(){
 	const contributors_view = document.querySelector('#contributors_tabitem');
 	const temp = document.createElement('div');
 	temp.id = 'contributors_grid';
-	temp.innerHTML = `<p>Kindly allow us a moment to retrieve the contributors. 
-	We're grateful for the many individuals who have generously put their time and effort to make this possible.</p>`;
+	temp.innerHTML = `<p>Kindly allow us a moment to retrieve the contributors. We're grateful for the many individuals who have generously put their time and effort to make this possible.</p>`;
 	temp.style.display = 'flex';
 	temp.style.flexDirection = 'column';
 	temp.style.justifyContent = 'center';
 	temp.style.alignItems = 'center';	
 	temp.style.height = '100%';
+	temp.style.whiteSpace = 'normal';
 	contributors_view.append(temp);	
 
 	contributors_btn.addEventListener('click', function(e) {
