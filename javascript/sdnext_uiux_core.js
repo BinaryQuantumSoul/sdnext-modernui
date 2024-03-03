@@ -12,6 +12,7 @@ let portalTotal = 0;
 let active_main_tab;
 let loggerUiUx;
 let appUiUx;
+let isBackendDiffusers;
 
 
 //======================= UTILS =======================
@@ -347,12 +348,19 @@ function attachLoggerScreen() {
 //======================= SETUP =======================
 function loadAllPortals() {
 	appUiUx.querySelectorAll(`.portal`).forEach((elem, index, array) => {
-		movePortal(elem, 1, index, array.length);
-	});	
+		const onlyDiffusers = elem.classList.contains("only-diffusers");
+		const onlyOriginal = elem.classList.contains("only-original");
+
+		if ((onlyDiffusers && !isBackendDiffusers) || (onlyOriginal && isBackendDiffusers)) {
+			portalTotal += 1;
+		} else {
+			movePortal(elem, 1, index, array.length);
+		}
+	});
 }
 
 function movePortal(portalElem, tries, index, length) {
-	const MAX_TRIES = 4;
+	const MAX_TRIES = 3;
 
 	const sp = portalElem.getAttribute("data-parent-selector");
 	const s = portalElem.getAttribute("data-selector");
@@ -397,7 +405,7 @@ function movePortal(portalElem, tries, index, length) {
 		if(window.opts.uiux_enable_console_log) {
 			portalElem.style.backgroundColor = 'pink';
 		}
-		portalTotal += 1;	
+		portalTotal += 1;
 	}
 
 	if(portalTotal === length) {				
@@ -676,8 +684,10 @@ function extraTweaks() {
 	//Control tab remove when original backend
 	if (window.opts.sd_backend === 'original') {
 		appUiUx.classList.add('backend-original');
+		isBackendDiffusers = false;
 	} else if (window.opts.sd_backend === 'diffusers') {
 		appUiUx.classList.add('backend-diffusers');
+		isBackendDiffusers = true;
 	}
 
 	//System tab click second tab
@@ -870,7 +880,7 @@ function startLogger() {
 	}
 
     if(!window.opts.uiux_enable_console_log){
-        console.log = function() {}
+        console.log = console.old;
     }
 }
 

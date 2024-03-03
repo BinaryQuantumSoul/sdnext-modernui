@@ -88,16 +88,16 @@
                                 <div class="layout-header">
                                     <div class="flexbox no-padding row">
                                         <div class="flexbox no-border no-bg shrink row">
-                                            <div data-parent-selector="#tab_control" data-selector="#control_paste" droppable="true" class="portal shrink invisible">
+                                            <div data-parent-selector="#tab_control" data-selector="#control_paste" droppable="true" class="portal only-diffusers shrink invisible">
                                                 <div class="mask-icon icon-magic"></div>
                                             </div>
-                                            <div data-parent-selector="#control_tools" data-selector="#control_clear_prompt_btn" droppable="true" class="portal shrink invisible">
+                                            <div data-parent-selector="#control_tools" data-selector="#control_clear_prompt_btn" droppable="true" class="portal only-diffusers shrink invisible">
                                                 <div class="mask-icon icon-delete"></div>
                                             </div>
                                         </div>
                                         <div class="flexbox no-border no-bg row">
-                                            <div data-parent-selector="#control_styles_row" data-selector="#control_styles" class="portal no-min-width"></div>
-                                            <div data-parent-selector="#control_styles_row" data-selector="#control_styles_refresh" droppable="true" class="portal shrink invisible">
+                                            <div data-parent-selector="#control_styles_row" data-selector="#control_styles" class="portal only-diffusers no-min-width"></div>
+                                            <div data-parent-selector="#control_styles_row" data-selector="#control_styles_refresh" droppable="true" class="portal only-diffusers shrink invisible">
                                                 <div class="mask-icon refresh"></div>
                                             </div>
                                         </div>
@@ -106,23 +106,23 @@
                                 <div class="layout-content">
                                     <div class="flexbox col">
                                         <div id="split-2a" direction="vertical" gutterSize="8" class="split">
-                                            <div data-minSize="0" data-initSize="50" id="iubsla" class="split-container">
+                                            <div data-minSize="0" data-initSize="50" id="split-control-prompt-up" class="split-container">
                                                 <div class="layout">
                                                     <div class="layout-content">
-                                                        <div data-parent-selector="#tab_control" data-selector="#control_prompt" class="portal no-bg"></div>
+                                                        <div data-parent-selector="#tab_control" data-selector="#control_prompt" class="portal only-diffusers no-bg"></div>
                                                     </div>
                                                     <div class="layout-footer">
-                                                        <div data-parent-selector="#tab_control" data-selector="#control_token_counter" class="portal relative" data-timeout="1000"></div>
+                                                        <div data-parent-selector="#tab_control" data-selector="#control_token_counter" class="portal only-diffusers relative" data-timeout="1000"></div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div data-minSize="0" data-initSize="50" id="idyyfa" class="split-container">
+                                            <div data-minSize="0" data-initSize="50" id="split-control-prompt-down" class="split-container">
                                                 <div class="layout">
                                                     <div class="layout-content">
-                                                        <div data-parent-selector="#tab_control" data-selector="#control_neg_prompt" class="portal no-bg"></div>
+                                                        <div data-parent-selector="#tab_control" data-selector="#control_neg_prompt" class="portal only-diffusers no-bg"></div>
                                                     </div>
                                                     <div class="layout-footer">
-                                                        <div data-parent-selector="#tab_control" data-selector="#control_negative_token_counter" data-timeout="1000" class="portal relative"></div>
+                                                        <div data-parent-selector="#tab_control" data-selector="#control_negative_token_counter" data-timeout="1000" class="portal only-diffusers relative"></div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -135,94 +135,94 @@
 
                     <div id="control_params_size_tabitem_group" class="flexbox col">
                         <div id="control_params_size_tabitem" class="xtabs-item">
-                            <div data-parent-selector="#control_settings" data-selector="#control_size div:last-child > div" class="portal"></div>
+                            <div data-parent-selector="#control_settings" data-selector="#control_size div:last-child > div" class="portal only-diffusers"></div>
                             <div class="flexbox col spacer-group"></div>
-                            <div data-parent-selector="#control_settings" data-selector="#control_batch div:last-child > div" class="portal"></div>
+                            <div data-parent-selector="#control_settings" data-selector="#control_batch div:last-child > div" class="portal only-diffusers"></div>
                             <div class="flexbox col spacer-group"></div>
-                            <div data-parent-selector="#control_settings" data-selector="#control_sampler div:last-child > div" class="portal"></div>
+                            <div data-parent-selector="#control_settings" data-selector="#control_sampler div:last-child > div" class="portal only-diffusers"></div>
                             <div class="flexbox col spacer-group"></div>
-                            <div data-parent-selector="#control_settings" data-selector="#control_seed_group div:last-child > div" class="portal"></div>
+                            <div data-parent-selector="#control_settings" data-selector="#control_seed_group div:last-child > div" class="portal only-diffusers"></div>
                             <div class="flexbox col spacer-group"></div>
-                            <div data-parent-selector="#control_settings" data-selector="#control_video div:last-child > div" class="portal"></div>
+                            <div data-parent-selector="#control_settings" data-selector="#control_video div:last-child > div" class="portal only-diffusers"></div>
                         </div>
                     </div>
 
                     <div id="control_params_mask_tabitem_group" class="flexbox col">
                         <div id="control_params_mask_tabitem" class="xtabs-item">
-                            <div data-parent-selector="#control_settings" data-selector="#control_input div:last-child > div" class="portal"></div>
+                            <div data-parent-selector="#control_settings" data-selector="#control_input div:last-child > div" class="portal only-diffusers"></div>
                             <div class="flexbox col spacer-group"></div>
-                            <div data-parent-selector="#control_settings" data-selector="#control_mask div:last-child > div" class="portal"></div>
+                            <div data-parent-selector="#control_settings" data-selector="#control_mask div:last-child > div" class="portal only-diffusers"></div>
                         </div>
                     </div>
 
                     <div id="control_params_advanced_tabitem_group" class="flexbox col">
                         <div id="control_params_advanced_tabitem" class="xtabs-item">
-                            <div data-parent-selector="#control_settings" data-selector="#control_advanced div:last-child > div" class="portal"></div>
+                            <div data-parent-selector="#control_settings" data-selector="#control_advanced div:last-child > div" class="portal only-diffusers"></div>
                             <div class="flexbox col spacer-group"></div>
-                            <div data-parent-selector="#control_settings" data-selector="#control_corrections div:last-child > div" class="portal"></div>
+                            <div data-parent-selector="#control_settings" data-selector="#control_corrections div:last-child > div" class="portal only-diffusers"></div>
                         </div>
                     </div>
 
                     <div id="control_params_elements_tabitem_group" class="flexbox col">
                         <div id="control_params_elements_tabitem" class="xtabs-item">
-                            <div data-parent-selector="#tab_control" data-selector="#control_elements div:last-child > div" class="portal"></div>
+                            <div data-parent-selector="#tab_control" data-selector="#control_elements div:last-child > div" class="portal only-diffusers"></div>
                         </div>
                     </div>
 
                     <!-- <div id="control_params_input_tabitem_group" class="flexbox col">
                     <div id="control_params_input_tabitem" class="xtabs-item">
-                        <div data-parent-selector="#control_settings" data-selector="#control_input div:last-child > div" class="portal"></div>
+                        <div data-parent-selector="#control_settings" data-selector="#control_input div:last-child > div" class="portal only-diffusers"></div>
                     </div>
                 </div>
                 <div id="control_params_size_tabitem_group" class="flexbox col">
                     <div id="control_params_size_tabitem" class="xtabs-item">
-                        <div data-parent-selector="#control_settings" data-selector="#control_size div:last-child > div" class="portal"></div>
+                        <div data-parent-selector="#control_settings" data-selector="#control_size div:last-child > div" class="portal only-diffusers"></div>
                     </div>
                 </div>
                 <div id="control_params_sampler_tabitem_group" class="flexbox col">
                     <div id="control_params_sampler_tabitem" class="xtabs-item">
-                        <div data-parent-selector="#control_settings" data-selector="#control_sampler div:last-child > div" class="portal"></div>
+                        <div data-parent-selector="#control_settings" data-selector="#control_sampler div:last-child > div" class="portal only-diffusers"></div>
                     </div>
                 </div>
                 <div id="control_params_batch_tabitem_group" class="flexbox col">
                     <div id="control_params_batch_tabitem" class="xtabs-item">
-                        <div data-parent-selector="#control_settings" data-selector="#control_batch div:last-child > div" class="portal"></div>
+                        <div data-parent-selector="#control_settings" data-selector="#control_batch div:last-child > div" class="portal only-diffusers"></div>
                     </div>
                 </div>
                 <div id="control_params_seed_tabitem_group" class="flexbox col">
                     <div id="control_params_seed_tabitem" class="xtabs-item">
-                        <div data-parent-selector="#control_settings" data-selector="#control_seed_group div:last-child > div" class="portal"></div>
+                        <div data-parent-selector="#control_settings" data-selector="#control_seed_group div:last-child > div" class="portal only-diffusers"></div>
                     </div>
                 </div>
                 <div id="control_params_mask_tabitem_group" class="flexbox col">
                     <div id="control_params_mask_tabitem" class="xtabs-item">
-                        <div data-parent-selector="#control_settings" data-selector="#control_mask div:last-child > div" class="portal"></div>
+                        <div data-parent-selector="#control_settings" data-selector="#control_mask div:last-child > div" class="portal only-diffusers"></div>
                     </div>
                 </div>
                 <div id="control_params_advanced_tabitem_group" class="flexbox col">
                     <div id="control_params_advanced_tabitem" class="xtabs-item">
-                        <div data-parent-selector="#control_settings" data-selector="#control_advanced div:last-child > div" class="portal"></div>
+                        <div data-parent-selector="#control_settings" data-selector="#control_advanced div:last-child > div" class="portal only-diffusers"></div>
                     </div>
                 </div>
                 <div id="control_params_corrections_tabitem_group" class="flexbox col">
                     <div id="control_params_corrections_tabitem" class="xtabs-item">
-                        <div data-parent-selector="#control_settings" data-selector="#control_corrections div:last-child > div" class="portal"></div>
+                        <div data-parent-selector="#control_settings" data-selector="#control_corrections div:last-child > div" class="portal only-diffusers"></div>
                     </div>
                 </div>
                 <div id="control_params_video_tabitem_group" class="flexbox col">
                     <div id="control_params_video_tabitem" class="xtabs-item">
-                        <div data-parent-selector="#control_settings" data-selector="#control_video div:last-child > div" class="portal"></div>
+                        <div data-parent-selector="#control_settings" data-selector="#control_video div:last-child > div" class="portal only-diffusers"></div>
                     </div>
                 </div>
                 <div id="control_params_elements_tabitem_group" class="flexbox col">
                     <div id="control_params_elements_tabitem" class="xtabs-item">
-                        <div data-parent-selector="#tab_control" data-selector="#control_elements div:last-child > div" class="portal"></div>
+                        <div data-parent-selector="#tab_control" data-selector="#control_elements div:last-child > div" class="portal only-diffusers"></div>
                     </div>
                 </div> -->
 
                     <div id="control_scripts_tabitem_group" class="flexbox col">
                         <div id="control_scripts_tabitem" class="xtabs-item">
-                            <div data-parent-selector="#tab_control" data-selector="#control_script_container" class="portal no-bg"></div>
+                            <div data-parent-selector="#tab_control" data-selector="#control_script_container" class="portal only-diffusers no-bg"></div>
                         </div>
                     </div>
 
