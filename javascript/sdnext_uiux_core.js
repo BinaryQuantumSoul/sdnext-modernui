@@ -244,12 +244,12 @@ function uiuxOptionSettings() {
 				let tsp = "max(3px, calc(" + spacing + "% - 1px))";
 				let fsp = "max(4px, calc(" + spacing + "% + 0px))";
 
-				const overlay = `repeating-linear-gradient(90deg, transparent, transparent ${tsp}, var(--ae-input-border-color) ${tsp}, var(--ae-input-border-color) ${fsp})`;
-				elem.style.setProperty("--ae-slider-bg-overlay", overlay);
+				const overlay = `repeating-linear-gradient(90deg, transparent, transparent ${tsp}, var(--sd-input-border-color) ${tsp}, var(--sd-input-border-color) ${fsp})`;
+				elem.style.setProperty("--sd-slider-bg-overlay", overlay);
 			});
 		} else if (interactive) {
 			gradioApp().querySelectorAll("input[type='range']").forEach((elem) => {
-				elem.style.setProperty("--ae-slider-bg-overlay", "transparent");
+				elem.style.setProperty("--sd-slider-bg-overlay", "transparent");
 			});
 		}
 	}
@@ -300,7 +300,7 @@ function setupGenerateObservers() {
 			return;
 		}
 		const ti = tib.closest('.portal');
-		const tg = tgb.closest('.ae-button');
+		const tg = tgb.closest('.sd-button');
 		const ts = document.querySelector(key+'_skip').closest('.portal');
 
 		const loop = document.querySelector(key+'_loop');
@@ -592,7 +592,7 @@ function initTabComponents() {
 }
 
 function initButtonComponents() {
-	appUiUx.querySelectorAll(`.ae-button`).forEach((elem) => {
+	appUiUx.querySelectorAll(`.sd-button`).forEach((elem) => {
 		const toggle = elem.getAttribute("toggle");
 		const active = elem.getAttribute("active");
 		const input = elem.querySelector('input');
