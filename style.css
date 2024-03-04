@@ -1664,6 +1664,7 @@ div#layout-3 {
 .icon-2inpaint {
     -webkit-mask-image: url(./html/svg/paint-brush-line.svg);
 }
+
 .gradio-button:has( [class*="icon-2"])::before,
 .gradio-button:has( [class*="icon-2"])::after{
     content: "";
@@ -1686,6 +1687,21 @@ div#layout-3 {
     padding: 1px;
     border-radius: 50%;
     z-index: 1;
+}
+
+#btn_console {
+    position: relative;
+}
+#btn_console::after {
+    content: attr(error-count);
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    padding: 0 0.5em;
+    font-size: 0.9em;
 }
 
 .icon-2extras {

@@ -291,6 +291,31 @@ function uiuxOptionSettings() {
 	uiux_mobile_scale(window.opts.uiux_mobile_scale);
 }
 
+function setupErrorObserver() {
+	const console = appUiUx.querySelector('#logMonitorData');
+	const consoleBtn = appUiUx.querySelector('#btn_console');
+	
+	if (console && consoleBtn) {
+		observer = new MutationObserver((mutations) => {
+			mutations.forEach((mutation) => {
+				mutation.addedNodes.forEach((node) => {
+					var secondTd = node.querySelector('td:nth-child(2)');
+					if (secondTd && secondTd.textContent == "ERROR") {
+						const errorCountAttr = consoleBtn.getAttribute("error-count");
+						const errorCount = errorCountAttr ? parseInt(errorCountAttr) : 0;
+						consoleBtn.setAttribute("error-count", errorCount + 1);
+					}
+				})
+			});
+		});
+		observer.observe(console, {childList: true});
+
+		consoleBtn.addEventListener("click", () => {
+			consoleBtn.removeAttribute("error-count");
+		});
+	}
+}
+
 function setupGenerateObservers() {
 	const keys = ["#txt2img", "#img2img", "#extras", "#control"];
 
@@ -948,6 +973,7 @@ async function mainUiUx() {
 
 	attachLoggerScreen();
 	setupGenerateObservers();
+	setupErrorObserver();
 	uiuxOptionSettings();
 	showContributors();      
 	switchMobile();
