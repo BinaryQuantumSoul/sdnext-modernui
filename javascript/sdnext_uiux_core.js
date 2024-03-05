@@ -19,7 +19,7 @@ let isBackendDiffusers;
 function logPrettyPrint() {
 	var output = "", arg, i;
 		
-	output += `<div class="log-row"><span class="log-date">${new Date().toLocaleString().replace(',','')}</span>`;
+	output += `<div class="log-row"><span class="log-date">${new Date().toISOString().replace('T',' ').replace('Z','')}</span>`;
 	
 	for (i = 0; i < arguments.length; i++) {
 		arg = arguments[i];
