@@ -622,6 +622,29 @@ function initTabComponents() {
 		showActive(elem);
 		callToAction(elem);
 	});
+
+	function showHideAnchors(anchor, index) {
+		Array.from(anchor.children).forEach((elem) => {
+			if (elem.matches(`[anchor*="${index}"]`)) {
+				elem.style.display = 'flex';
+			} else {
+				elem.style.display = 'none';
+			}
+		});
+	}
+
+	appUiUx.querySelectorAll(`.xtabs-anchor`).forEach((anchor) => {
+		const tabNav = document.querySelector(anchor.getAttribute('anchorNav'));
+		if (tabNav) {
+			const observer = new MutationObserver(() => {
+				const index = Array.from(tabNav.children).findIndex((btn) => btn.classList.contains('selected')) + 1;
+				showHideAnchors(anchor, index);
+			});
+			observer.observe(tabNav, {attributes: true, attributeFilter: ['class'], childList: true});			
+		}
+
+		showHideAnchors(anchor, 1);
+	});
 }
 
 function initButtonComponents() {
