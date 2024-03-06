@@ -1630,6 +1630,14 @@ div#layout-3 {
     -webkit-mask-image: url(./html/svg/paint-brush-line.svg);
 }
 
+.icon-2sketch {
+    -webkit-mask-image: url(./html/svg/brush-line.svg);
+}
+
+.icon-2composite {
+    -webkit-mask-image: url(./html/svg/brush-paint-line.svg);
+}
+
 .gradio-button:has( [class*="icon-2"])::before,
 .gradio-button:has( [class*="icon-2"])::after{
     content: "";
