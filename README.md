@@ -7,8 +7,7 @@
 
 </div>
 
-More than a simple port, most of it has been rethought and rebuilt specifically for SDNext unique control tab workflow.
-It also supports all the UI-UX colored themes.
+More than a simple port, all of it has been rethought and rebuilt specifically for SDNext and its unique control tab and advanced workflows. It is shipped with many user themes to try out.
 
 > [!NOTE]
 > This project is still a Work In Progress, please report issues.
