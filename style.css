@@ -738,6 +738,15 @@ button:hover .mask-icon{
     width: 100%;
     height: 100%;
 }
+:not(.portal)>.gradio-image .wrap:has(canvas) {
+    position: absolute !important;
+    top: 0;
+}
+.gradio-video video{
+    height: auto;
+    width: 100%;
+    object-fit: contain;
+}
 :not(.portal)>.gradio-video .wrap{
     position: relative !important;
     z-index: 0;
@@ -2314,9 +2323,9 @@ button:hover svg {
     position: initial !important;
 }
 
-*.fade-in > div:not(.layout-content) {
+/* *.fade-in > div:not(.layout-content) {
     flex-grow:0;
-}
+} */
 
 *.fade-out {
     animation: fade-out 0.25s;
@@ -2408,7 +2417,8 @@ button:hover svg {
     justify-content: flex-end;
 }
 
-#txt2img_header span {
+#txt2img_header span,
+#control_output_group span {
     display: none;
 }
 
@@ -3377,7 +3387,8 @@ input[type="checkbox"] {
 
 .aside-labels #sidebar_secondary_tabs a span,
 .main-labels #main-nav .xtabs-tab span,
-.tab-labels [id$="_header"] span ,
+.tab-labels [id$="_header"] span,
+.tab-labels #control_output_group span,
 .aside-labels #accordion-aside .xtabs-tab span,
 .control-labels #accordion-control .xtabs-tab span {
     display: flex !important;
@@ -3385,6 +3396,7 @@ input[type="checkbox"] {
 }
 .main-labels #main-nav .xtabs-tab,
 .tab-labels [id$="_header"] .xtabs-tab,
+.tab-labels #control_output_group .xtabs-tab,
 .aside-labels #accordion-aside .xtabs-tab,
 .control-labels #accordion-control .xtabs-tab {
     justify-content: flex-start;
@@ -3397,7 +3409,7 @@ input[type="checkbox"] {
 }
 
 .media-desktop #accordion-control {
-    margin: var(--sd-panel-padding) calc(2* var(--sd-border-size));
+    margin: var(--sd-panel-padding) 0 var(--sd-panel-padding) calc(2* var(--sd-border-size));
 }
 .media-mobile #accordion-control {
     margin: 0;
@@ -3571,12 +3583,12 @@ input[type="range"]::-ms-fill-upper {
     margin: var(--sd-gap-size-val) auto;
 }
 
-#control-columns {
+/* #control-columns {
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
     gap: 9px;
-}
+} */
 
 #control-columns > div {
     min-width: 20rem;
