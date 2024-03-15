@@ -2323,9 +2323,9 @@ button:hover svg {
     position: initial !important;
 }
 
-/* *.fade-in > div:not(.layout-content) {
+*.fade-in > div:not(.layout-content) {
     flex-grow:0;
-} */
+}
 
 *.fade-out {
     animation: fade-out 0.25s;
