@@ -320,14 +320,16 @@ function setupGenerateObservers() {
 	const keys = ["#txt2img", "#img2img", "#extras", "#control"];
 
 	keys.forEach((key) => {
-		const tib = document.querySelector(key+'_interrupt');
 		const tgb = document.querySelector(key+'_generate');
-		if(!tib || !tgb) {
+		const tib = document.querySelector(key+'_interrupt');
+		const tsb = document.querySelector(key+'_skip');
+		if (!tgb || !tib || !tsb){
 			return;
 		}
-		const ti = tib.closest('.portal');
+
 		const tg = tgb.closest('.sd-button');
-		const ts = document.querySelector(key+'_skip').closest('.portal');
+		const ti = tib.closest('.portal');
+		const ts = tsb.closest('.portal');
 
 		const loop = document.querySelector(key+'_loop');
 		if(loop) {
@@ -359,6 +361,34 @@ function setupGenerateObservers() {
 		});
 		
 		gen_observer.observe(tgb, {childList: true, subtree: true});
+	});
+
+	keys.forEach((key) => {
+		const teb = document.querySelector(key+'_enqueue');
+		if(!teb) {
+			return;
+		}
+		const te = teb.closest('.sd-button');
+
+		const gen_observer = new MutationObserver(() => {
+			if (teb.textContent && !teb.querySelector('span')) {
+				if (teb.textContent === "Enqueue"){
+					te.classList.remove('active');
+
+					const icon = document.createElement('div');
+					icon.classList.add('mask-icon','icon-arrow-up-circle-line');
+					teb.appendChild(icon);
+				} else {
+					te.classList.add('active');
+				}
+
+				const span = document.createElement('span');
+				span.textContent = teb.textContent;	
+				teb.appendChild(span);
+			}
+		});
+		
+		gen_observer.observe(teb, {childList: true, subtree: true});
 	});
 }
 

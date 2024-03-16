@@ -1837,6 +1837,9 @@ div#layout-3 {
     -webkit-mask-image: url(./html/svg/arrow-up-s-line.svg);
 }
 
+.icon-arrow-up-circle-line {
+    -webkit-mask-image: url(./html/svg/arrow-up-circle-line.svg);
+}
 
 .icon-checkpoints {
     -webkit-mask-image: url(./html/svg/sparkling-line.svg);

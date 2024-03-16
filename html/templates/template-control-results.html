@@ -117,14 +117,20 @@
                 <div title="Interrupt" data-selector="#control_interrupt" data-parent-selector="#tab_control" droppable="true" class="portal only-diffusers invisible shrink no-bg no-padding-one disable">
                     <div class="mask-icon icon-stop"></div>
                 </div>
-                <button title="Generate" class="sd-button generate no-rr">
+                <button title="Generate" class="sd-button generate">
                     <div data-selector="#control_generate" data-parent-selector="#tab_control" droppable="true" class="portal only-diffusers no-bg shrink invisible">
                         <div class="mask-icon icon-generate"></div>
                         <span>Generate</span>
                     </div>
                 </button>
-                <button title="Generate forever" id="control_loop" toggle="true" class="sd-button no-lr shrink">
+                <button title="Generate forever" id="control_loop" toggle="true" class="sd-button shrink">
                     <div class="mask-icon icon-loop"></div>
+                </button>
+                <button class="sd-button generate">
+                    <div data-selector="#control_enqueue" data-parent-selector="#tab_control" droppable="true" class="portal only-diffusers shrink invisible">
+                        <div class="mask-icon icon-arrow-up-circle-line"></div>
+                        <span>Enqueue</span>
+                    </div>
                 </button>
             </div>
         </div>
