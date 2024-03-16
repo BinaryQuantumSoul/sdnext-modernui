@@ -3628,3 +3628,8 @@ input[type="range"]::-ms-fill-upper {
 .backend-diffusers .only-original {
     display: none;
 }
+
+button > .mask-icon,
+button > span {
+  pointer-events: none;
+}
