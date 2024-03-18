@@ -1546,23 +1546,23 @@ h1 {
 }
 
 *.extra-network-cards {
-    display: flex;
-    justify-content: space-evenly;
-    max-height: 86vh;
+    display: grid;
     grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: var(--sd-gap-size);
-  /*   content-visibility: auto; */
+    overflow: auto;
+    height: 75vh;
 }
 
 *.extra-network-cards .card {
-    display: block;
+    display: flex;
+    justify-content: center;
+    margin: var(--sd-gap-size);
+    height: 160px;
 }
 
 *.extra-network-cards .card img {
     object-fit: cover;
     width: 100%;
     height: auto;
-    aspect-ratio: 3/4;
     border-radius: var(--sd-border-radius);
     transform: scale(1.1);
     pointer-events: none;
@@ -1602,7 +1602,17 @@ h1 {
     background-color: var(--sd-input-bg-color);
     border-radius: var(--sd-border-radius);
     border: var(--sd-border-size) solid var(--sd-input-bg-color);
-    aspect-ratio: 3/4;
+}
+
+.extra-network-cards .card .actions {
+    background: transparent;
+}
+
+.extra-network-cards .card .actions > span {
+    padding: 0;
+    position: relative;
+    bottom: 35px;
+    right: -5px;
 }
 
 *.actions {
@@ -2111,6 +2121,7 @@ div#main-nav {
 
 .extra-network-subdirs {
     max-width: 20%;
+    min-width: max(5%, 120px);
 }
 
 .extra-network-subdirs,
