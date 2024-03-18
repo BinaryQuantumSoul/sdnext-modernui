@@ -1,0 +1,20 @@
+/* Author: BinaryQuantumSoul */
+
+:root {
+    --sd-primary-color:#006666;
+    --sd-main-bg-color:#aedada;
+    --sd-label-color:#042727;
+    
+    --sd-input-text-color:hsl(0deg 100% 100%);
+    --sd-input-hover-text-color:hsl(0deg 100% 100%);
+    --sd-input-placeholder-color:#006666;
+    --sd-input-bg-color:rgba(0, 102, 102, 0.5);
+    --sd-input-border-color:transparent;
+    
+    --sd-panel-bg-color:#7bb7b7;
+    --sd-panel-border-color:rgb(0, 102, 102, 0.3);
+    --sd-border-size: 1px;
+    
+    --sd-group-bg-color:transparent;
+    --sd-group-border-color:transparent;
+}
