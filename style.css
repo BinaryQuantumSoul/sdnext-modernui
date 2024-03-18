@@ -2851,6 +2851,40 @@ span.star_count b {
 .tabs_extensions td:nth-child(1) a {
     font-size: 14px;
 }
+
+.tabs_extensions tr {
+    display: flex !important;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: flex-start;
+  }
+  
+  .tabs_extensions tr td:nth-child(1) {
+    height: min-content;
+    position: relative;
+    left: 11px;
+    top: 3px;
+    padding: 0px;
+    margin-right: 15px;
+  }
+  
+  .tabs_extensions tr td:nth-child(3) {
+    flex-basis: 100%;
+  }
+  
+  .tabs_extensions tr td:nth-child(5) {
+    order: -1;
+    align-content: center;
+  }
+  
+  .tabs_extensions tr td:has(button) {
+    flex-basis: 100%;
+    
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+  }
+
 .gradio-video,
 .gradio-image {
     height: 100%;
