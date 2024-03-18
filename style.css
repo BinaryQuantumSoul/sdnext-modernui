@@ -1549,7 +1549,7 @@ h1 {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
     overflow: auto;
-    height: 75vh;
+    height: 85vh;
 }
 
 *.extra-network-cards .card {
