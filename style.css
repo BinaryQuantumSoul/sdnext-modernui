@@ -3711,3 +3711,23 @@ button > span {
 .context-menu-items { list-style: none; margin: 0; padding: 0; font-size: var(--sd-input-font-size); }
 .context-menu-items a { display: block; padding: var(--sd-group-padding); background: none; cursor: pointer; font-weight: normal; }
 .context-menu-items a:hover { background: var(--sd-primary-color) }
+
+.control-unit .gradio-row {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.control-unit .gradio-row > div.gradio-checkbox {
+    flex-grow: 0;
+}
+
+.control-unit .gradio-row > div.form:has(.gradio-dropdown) {
+    display: flex;
+    flex-basis: 100%;
+    order: 2;
+}
+
+.control-unit .gradio-row > div.gradio-image {
+    flex-grow: 1;
+    order: 3;
+}
