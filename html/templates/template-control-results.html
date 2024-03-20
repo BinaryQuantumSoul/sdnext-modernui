@@ -1,135 +1,140 @@
-<div id="control-columns" class="flexbox row full-height border-padding">
-    <div id="control-template-column-input" class="flexbox col">
-        <div class="flexbox row shrink panel padding no-br">
-            <div class="flexbox col shrink">
-                <h2>Control</h2>
+<div class="layout">
+    <div class="flexbox col">
+        <div data-selector="#control-result" data-parent-selector="#tab_control" class="portal only-diffusers shrink hide-empty"></div>
+        <div id="control-columns" class="flexbox row">
+            <div id="control-template-column-input" class="flexbox col">
+                <div class="flexbox row shrink panel padding no-br">
+                    <div class="flexbox col shrink">
+                        <h2>Control</h2>
+                    </div>
+                </div>
+                <div class="panel no-tr">
+                    <div data-parent-selector="#control-inputs" data-selector="#control-tab-input" class="portal no-bg only-diffusers"></div>
+                </div>
             </div>
-        </div>
-        <div class="panel no-tr">
-            <div data-parent-selector="#control-inputs" data-selector="#control-tab-input" class="portal no-bg only-diffusers"></div>
-        </div>
-    </div>
-    <div id="control-template-column-output" class="flexbox col">
-        <div class="flexbox row shrink panel padding no-br">
-            <div class="flexbox col shrink">
-                <h2>Output</h2>
-            </div>
-            <div id="control_output_group" class="flexbox row flex-end group-row">
-                <button title="Gallery" tabItemId="#control_out_gallery_tabitem" tabGroup="controlOutput" id="control_out_gallery" active="true" class="xtabs-tab shrink">
-                    <div class="mask-icon icon-equalize"></div>
-                    <span>Gallery</span>
-                </button>
-                <button title="Image" tabItemId="#control_out_image_tabitem" tabGroup="controlOutput" id="control_out_image" class="xtabs-tab shrink">
-                    <div class="mask-icon icon-equalize"></div>
-                    <span>Image</span>
-                </button>
-                <button title="Video" tabItemId="#control_out_video_tabitem" tabGroup="controlOutput" id="control_out_video" class="xtabs-tab shrink">
-                    <div class="mask-icon icon-equalize"></div>
-                    <span>Video</span>
-                </button>
-            </div>
-        </div>
-        <div class="flexbox col">
-            <div class="xtabs full-height no-tr">
-                <div class="xtabs-items">
-                    <div class="flexbox col no-padding full-height">
-                        <div id="control_out_gallery_tabitem" class="xtabs-item notransition">
-                            <div class="flexbox col layout-content">
-                                <div data-selector="#control_gallery" data-parent-selector="#tab_control" class="portal only-diffusers no-bg" droppable="true">
-                                    <div class="flexbox col progress-flex">
-                                        <div data-selector="#control_gallery_container" data-parent-selector="gradio-app" class="portal only-diffusers"></div>
+            <div id="control-template-column-output" class="flexbox col">
+                <div class="flexbox row shrink panel padding no-br">
+                    <div class="flexbox col shrink">
+                        <h2>Output</h2>
+                    </div>
+                    <div id="control_output_group" class="flexbox row flex-end group-row">
+                        <button title="Gallery" tabItemId="#control_out_gallery_tabitem" tabGroup="controlOutput" id="control_out_gallery" active="true" class="xtabs-tab shrink">
+                            <div class="mask-icon icon-equalize"></div>
+                            <span>Gallery</span>
+                        </button>
+                        <button title="Image" tabItemId="#control_out_image_tabitem" tabGroup="controlOutput" id="control_out_image" class="xtabs-tab shrink">
+                            <div class="mask-icon icon-equalize"></div>
+                            <span>Image</span>
+                        </button>
+                        <button title="Video" tabItemId="#control_out_video_tabitem" tabGroup="controlOutput" id="control_out_video" class="xtabs-tab shrink">
+                            <div class="mask-icon icon-equalize"></div>
+                            <span>Video</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="flexbox col">
+                    <div class="xtabs full-height no-tr">
+                        <div class="xtabs-items">
+                            <div class="flexbox col no-padding full-height">
+                                <div id="control_out_gallery_tabitem" class="xtabs-item notransition">
+                                    <div class="flexbox col layout-content">
+                                        <div data-selector="#control_gallery" data-parent-selector="#tab_control" class="portal only-diffusers no-bg" droppable="true">
+                                            <div class="flexbox col progress-flex">
+                                                <div data-selector="#control_gallery_container" data-parent-selector="gradio-app" class="portal only-diffusers"></div>
+                                            </div>
+                                        </div>
+                                        <div iconTrigger="#info_icon_btn_control" class="accordion shrink no-tr">
+                                            <div class="accordion-bar no-tr">
+                                                <div class="flexbox row center">
+                                                    <button id="info_icon_btn_control" toggle="true" class="sd-button">
+                                                        <div class="mask-icon icon-info"></div>
+                                                    </button>
+                                                    <button class="sd-button">
+                                                        <div data-selector="#open_folder_control" data-parent-selector="#tab_control" droppable="true" class="portal only-diffusers invisible">
+                                                            <div class="mask-icon icon-folder"></div>
+                                                        </div>
+                                                    </button>
+                                                    <button class="sd-button">
+                                                        <div data-selector="#save_control" data-parent-selector="#tab_control" droppable="true" class="portal only-diffusers invisible">
+                                                            <div class="mask-icon icon-save"></div>
+                                                        </div>
+                                                    </button>
+                                                    <button class="sd-button">
+                                                        <div data-selector="#delete_control" data-parent-selector="#tab_control" droppable="true" class="portal only-diffusers invisible">
+                                                            <div class="mask-icon icon-delete"></div>
+                                                        </div>
+                                                    </button>
+    
+                                                    <button class="sd-button" data-click="#img2img_nav, #img2img_params">
+                                                        <div data-selector="#img2img_tab" data-parent-selector="#tab_control" droppable="true" class="portal only-diffusers invisible">
+                                                            <div class="mask-icon icon-2img2img"></div>
+                                                        </div>
+                                                    </button>
+                                                    <button class="sd-button" data-click="#img2img_nav, #img2img_params">
+                                                        <div data-selector="#inpaint_tab" data-parent-selector="#tab_control" droppable="true" class="portal only-diffusers invisible">
+                                                            <div class="mask-icon icon-2inpaint"></div>
+                                                        </div>
+                                                    </button>
+                                                    <button class="sd-button only-diffusers" data-click="#control_nav">
+                                                        <div data-selector="#control_tab" data-parent-selector="#tab_control" droppable="true" class="portal only-diffusers invisible">
+                                                            <div class="mask-icon icon-2control"></div>
+                                                        </div>
+                                                    </button>
+                                                    <button class="sd-button" data-click="#extras_nav">
+                                                        <div data-selector="#extras_tab" data-parent-selector="#tab_control" droppable="true" class="portal only-diffusers invisible">
+                                                            <div class="mask-icon icon-2extras"></div>
+                                                        </div>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="accordion-container info-results-container">
+                                                <div class="flexbox col">
+                                                    <div data-parent-selector="#tab_control" data-selector="#download_files_control" data-vis="true" class="portal only-diffusers shrink hide-empty"></div>
+                                                    <div data-parent-selector="#tab_control" data-selector="#html_info_control" data-vis="true" class="portal only-diffusers hide-empty"></div>
+                                                    <div data-parent-selector="#tab_control" data-selector="#html_log_control" data-vis="true" class="portal only-diffusers hide-empty"></div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div iconTrigger="#info_icon_btn_control" class="accordion shrink no-tr">
-                                    <div class="accordion-bar no-tr">
-                                        <div class="flexbox row center">
-                                            <button id="info_icon_btn_control" toggle="true" class="sd-button">
-                                                <div class="mask-icon icon-info"></div>
-                                            </button>
-                                            <button class="sd-button">
-                                                <div data-selector="#open_folder_control" data-parent-selector="#tab_control" droppable="true" class="portal only-diffusers invisible">
-                                                    <div class="mask-icon icon-folder"></div>
-                                                </div>
-                                            </button>
-                                            <button class="sd-button">
-                                                <div data-selector="#save_control" data-parent-selector="#tab_control" droppable="true" class="portal only-diffusers invisible">
-                                                    <div class="mask-icon icon-save"></div>
-                                                </div>
-                                            </button>
-                                            <button class="sd-button">
-                                                <div data-selector="#delete_control" data-parent-selector="#tab_control" droppable="true" class="portal only-diffusers invisible">
-                                                    <div class="mask-icon icon-delete"></div>
-                                                </div>
-                                            </button>
-
-                                            <button class="sd-button" data-click="#img2img_nav, #img2img_params">
-                                                <div data-selector="#img2img_tab" data-parent-selector="#tab_control" droppable="true" class="portal only-diffusers invisible">
-                                                    <div class="mask-icon icon-2img2img"></div>
-                                                </div>
-                                            </button>
-                                            <button class="sd-button" data-click="#img2img_nav, #img2img_params">
-                                                <div data-selector="#inpaint_tab" data-parent-selector="#tab_control" droppable="true" class="portal only-diffusers invisible">
-                                                    <div class="mask-icon icon-2inpaint"></div>
-                                                </div>
-                                            </button>
-                                            <button class="sd-button only-diffusers" data-click="#control_nav">
-                                                <div data-selector="#control_tab" data-parent-selector="#tab_control" droppable="true" class="portal only-diffusers invisible">
-                                                    <div class="mask-icon icon-2control"></div>
-                                                </div>
-                                            </button>
-                                            <button class="sd-button" data-click="#extras_nav">
-                                                <div data-selector="#extras_tab" data-parent-selector="#tab_control" droppable="true" class="portal only-diffusers invisible">
-                                                    <div class="mask-icon icon-2extras"></div>
-                                                </div>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div class="accordion-container info-results-container">
-                                        <div class="flexbox col">
-                                            <div data-parent-selector="#tab_control" data-selector="#download_files_control" data-vis="true" class="portal only-diffusers shrink hide-empty"></div>
-                                            <div data-parent-selector="#tab_control" data-selector="#html_info_control" data-vis="true" class="portal only-diffusers hide-empty"></div>
-                                            <div data-parent-selector="#tab_control" data-selector="#html_log_control" data-vis="true" class="portal only-diffusers hide-empty"></div>
-                                        </div>
-                                    </div>
+                                <div id="control_out_image_tabitem" class="xtabs-item notransition">
+                                    <div data-selector="#control_output_image" data-parent-selector="#tab_control" class="portal only-diffusers no-bg"></div>
+                                </div>
+                                <div id="control_out_video_tabitem" class="xtabs-item notransition">
+                                    <div data-selector="#control_output_video" data-parent-selector="#tab_control" class="portal only-diffusers no-bg"></div>
                                 </div>
                             </div>
                         </div>
-                        <div id="control_out_image_tabitem" class="xtabs-item notransition">
-                            <div data-selector="#control_output_image" data-parent-selector="#tab_control" class="portal only-diffusers no-bg"></div>
-                        </div>
-                        <div id="control_out_video_tabitem" class="xtabs-item notransition">
-                            <div data-selector="#control_output_video" data-parent-selector="#tab_control" class="portal only-diffusers no-bg"></div>
-                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <div id="control-template-column-preview" class="flexbox col">
-        <div id="control_header_panel" class="flexbox row shrink panel padding no-br">
-            <div class="flexbox col shrink">
-                <h2>Preview</h2>
-            </div>
-            <div id="control_generate_group" class="flexbox row flex-end group-row">
-                <div title="Skip" data-selector="#control_skip" data-parent-selector="#tab_control" droppable="true" class="portal only-diffusers invisible shrink no-bg no-padding-one disable">
-                    <div class="mask-icon icon-skip"></div>
-                </div>
-                <div title="Interrupt" data-selector="#control_interrupt" data-parent-selector="#tab_control" droppable="true" class="portal only-diffusers invisible shrink no-bg no-padding-one disable">
-                    <div class="mask-icon icon-stop"></div>
-                </div>
-                <button title="Generate" class="sd-button generate">
-                    <div data-selector="#control_generate" data-parent-selector="#tab_control" droppable="true" class="portal only-diffusers no-bg shrink invisible">
-                        <div class="mask-icon icon-generate"></div>
-                        <span>Generate</span>
+            <div id="control-template-column-preview" class="flexbox col">
+                <div id="control_header_panel" class="flexbox row shrink panel padding no-br">
+                    <div class="flexbox col shrink">
+                        <h2>Preview</h2>
                     </div>
-                </button>
-                <button title="Generate forever" id="control_loop" toggle="true" class="sd-button shrink">
-                    <div class="mask-icon icon-loop"></div>
-                </button>
+                    <div id="control_generate_group" class="flexbox row flex-end group-row">
+                        <div title="Skip" data-selector="#control_skip" data-parent-selector="#tab_control" droppable="true" class="portal only-diffusers invisible shrink no-bg no-padding-one disable">
+                            <div class="mask-icon icon-skip"></div>
+                        </div>
+                        <div title="Interrupt" data-selector="#control_interrupt" data-parent-selector="#tab_control" droppable="true" class="portal only-diffusers invisible shrink no-bg no-padding-one disable">
+                            <div class="mask-icon icon-stop"></div>
+                        </div>
+                        <button title="Generate" class="sd-button generate">
+                            <div data-selector="#control_generate" data-parent-selector="#tab_control" droppable="true" class="portal only-diffusers no-bg shrink invisible">
+                                <div class="mask-icon icon-generate"></div>
+                                <span>Generate</span>
+                            </div>
+                        </button>
+                        <button title="Generate forever" id="control_loop" toggle="true" class="sd-button shrink">
+                            <div class="mask-icon icon-loop"></div>
+                        </button>
+                    </div>
+                </div>
+                <div class="panel no-tr no-padding">
+                    <div data-parent-selector="#control-inputs" data-selector="#control_preview" class="portal no-bg only-diffusers"></div>
+                </div>
             </div>
-        </div>
-        <div class="panel no-tr no-padding">
-            <div data-parent-selector="#control-inputs" data-selector="#control_preview" class="portal no-bg only-diffusers"></div>
         </div>
     </div>
 </div>
