@@ -20,14 +20,14 @@
     --sd-secondary-label-color:var(--sd-label-color);
     --sd-input-text-color:rgba(255, 255, 255, 0.75);
     --sd-input-placeholder-color:rgba(255, 255, 255, 0.35);
-    --sd-input-hover-text-color:rgba(255, 255, 255, 0.75);
+    --sd-input-hover-text-color:var(--sd-input-text-color);
     
     --sd-button-normal-color:var(--sd-input-bg-color);
     --sd-button-normal-text-color:var(--sd-input-text-color);
     --sd-button-selected-color:var(--sd-primary-color);
     --sd-button-selected-text-color:var(--sd-input-hover-text-color);
-    --sd-button-hover-color:var(--sd-primary-color);
-    --sd-button-hover-text-color:var(--sd-input-hover-text-color);
+    --sd-button-hover-color:var(--sd-button-selected-color);
+    --sd-button-hover-text-color:var(--sd-button-selected-text-color);
     
     --sd-main-bg-color:rgb(32 32 32);
     --sd-input-bg-color:rgba(0, 0, 0, 0.25);
