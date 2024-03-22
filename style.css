@@ -36,6 +36,7 @@
     --sd-panel-border-color:rgba(64, 64, 64, 0.75);
     --sd-group-bg-color:hsl(0deg 0% 16%);
     --sd-group-border-color:hsl(0deg 0% 16%);
+    --sd-scrollbar-color:var(--sd-panel-border-color);
 
     --sd-input-height:35px;
     --sd-input-slider-height:0.6;
@@ -1151,7 +1152,7 @@ li.item span {
 }
 
 ::-webkit-scrollbar-thumb {
-    background-color: var(--sd-panel-border-color)
+    background-color: var(--sd-scrollbar-color);
 }
 
 .split {
@@ -3619,7 +3620,7 @@ input[type="checkbox"] {
 
 /* Firefox */
 * {
-    scrollbar-color: var(--sd-panel-border-color) var(--sd-main-bg-color) !important;
+    scrollbar-color: var(--sd-scrollbar-color) var(--sd-input-bg-color) !important;
     scrollbar-width: thin !important;
 }
 
