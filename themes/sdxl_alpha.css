@@ -22,6 +22,7 @@
     --sd-panel-border-color:rgba(64, 64, 64, 0.75);
     --sd-group-bg-color:hsl(0deg 0% 16%);
     --sd-group-border-color:hsl(0deg 0% 16%);
+    --sd-scrollbar-color:var(--sd-panel-border-color);
 
     --sd-input-height:35px;
     --sd-input-slider-height:0.6;
