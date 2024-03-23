@@ -997,6 +997,10 @@ li.item span {
     fill: var(--sd-input-text-color);
 }
 
+.token-counter span {
+    color: var(--sd-label-color);
+}
+
 *.gradio-gallery {
     justify-content: center;
     position: relative;
@@ -2945,6 +2949,7 @@ span.star_count b {
     height: 100%;
     width: 100%;
     object-fit: contain;
+    color: var(--sd-secondary-label-color);
 }
 #pnginfo_image [data-testid="image"] img {
     max-height: unset;
