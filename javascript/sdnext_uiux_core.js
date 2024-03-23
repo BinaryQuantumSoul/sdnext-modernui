@@ -274,12 +274,12 @@ function uiuxOptionSettings() {
 		updateUiUxClass(className, window.opts[settingId]);
 	}
 
-	setupUiUxSetting("setting_uiux_no_slider_layout", "no-slider-layout");
-	setupUiUxSetting("setting_uiux_show_outline_params", "show-outline-params");
-	setupUiUxSetting("setting_uiux_show_labels_aside", "aside-labels");
-	setupUiUxSetting("setting_uiux_show_labels_main", "main-labels");
-	setupUiUxSetting("setting_uiux_show_labels_tabs", "tab-labels");
-	setupUiUxSetting("setting_uiux_show_labels_control", "control-labels");
+	setupUiUxSetting("setting_uiux_no_slider_layout", "option-no-slider-layout");
+	setupUiUxSetting("setting_uiux_show_outline_params", "option-show-outline-params");
+	setupUiUxSetting("setting_uiux_show_labels_aside", "option-aside-labels");
+	setupUiUxSetting("setting_uiux_show_labels_main", "option-main-labels");
+	setupUiUxSetting("setting_uiux_show_labels_tabs", "option-tab-labels");
+	setupUiUxSetting("setting_uiux_show_labels_control", "option-control-labels");
 
 	// settings mobile scale
 	function uiux_mobile_scale(value) {
