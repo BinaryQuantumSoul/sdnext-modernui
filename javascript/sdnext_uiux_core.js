@@ -900,6 +900,7 @@ function removeStyleAssets(){
 	document.querySelectorAll(`
 		[rel="stylesheet"][href*="/assets/"], 
 		[rel="stylesheet"][href*="theme.css"],
+		[rel="stylesheet"][href*="base.css"],
 		[rel="stylesheet"][href*="file=style.css"]
 	`).forEach(stylesheet => {
 		stylesheet.remove();
