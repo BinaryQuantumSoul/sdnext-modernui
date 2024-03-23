@@ -17,7 +17,7 @@
 :root {
     --sd-primary-color:hsl(205deg 83% 46%);
     --sd-label-color:rgba(255, 255, 255, 0.75);
-    --sd-secondary-label-color:var(--sd-label-color);
+    --sd-secondary-label-color:var(--sd-input-text-color);
     --sd-input-text-color:rgba(255, 255, 255, 0.75);
     --sd-input-placeholder-color:rgba(255, 255, 255, 0.35);
     --sd-input-hover-text-color:var(--sd-input-text-color);
