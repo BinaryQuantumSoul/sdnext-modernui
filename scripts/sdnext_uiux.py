@@ -9,6 +9,7 @@ def on_ui_settings():
 
         "uiux_max_resolution_output": shared.OptionInfo(2048, "Max resolution output for txt2img and img2img"),
         "uiux_show_input_range_ticks": shared.OptionInfo(True, "Show ticks for input range slider"),
+        "uiux_show_outline_params": shared.OptionInfo(True, "Show parameter outline"),
         "uiux_no_slider_layout": shared.OptionInfo(False, "No input range sliders"),
         "uiux_disable_transitions": shared.OptionInfo(False, "Disable transitions"),
 

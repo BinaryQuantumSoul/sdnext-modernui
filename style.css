@@ -3867,3 +3867,13 @@ button > span {
     flex-grow: 1;
     order: 3;
 }
+
+.show-outline-params .outline-params .no-border:hover,
+.show-outline-params .outline-params .portal:has(> [class*="gradio-"]):hover {
+    outline: calc(var(--sd-border-size) * 0.8) solid var(--sd-button-hover-color);
+}
+
+.show-outline-params .outline-params .no-border > .portal:has(> [class*="gradio-"]):hover,
+.show-outline-params .outline-params .portal:has(> .gradio-button):hover {
+    outline: none;
+}

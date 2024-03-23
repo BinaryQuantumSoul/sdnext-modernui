@@ -275,6 +275,7 @@ function uiuxOptionSettings() {
 	}
 
 	setupUiUxSetting("setting_uiux_no_slider_layout", "no-slider-layout");
+	setupUiUxSetting("setting_uiux_show_outline_params", "show-outline-params");
 	setupUiUxSetting("setting_uiux_show_labels_aside", "aside-labels");
 	setupUiUxSetting("setting_uiux_show_labels_main", "main-labels");
 	setupUiUxSetting("setting_uiux_show_labels_tabs", "tab-labels");
