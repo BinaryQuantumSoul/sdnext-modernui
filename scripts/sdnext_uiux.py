@@ -5,7 +5,7 @@ from modules import script_callbacks, shared
 
 def on_ui_settings():
     shared.options_templates.update(shared.options_section(('uiux_core', "UI-UX"), {
-        "uiux_enable_console_log": shared.OptionInfo(False, "Enable debug log"),
+        "uiux_enable_console_log": shared.OptionInfo(True, "Enable debug log"),
 
         "uiux_max_resolution_output": shared.OptionInfo(2048, "Max resolution output for txt2img and img2img"),
         "uiux_show_input_range_ticks": shared.OptionInfo(True, "Show ticks for input range slider"),

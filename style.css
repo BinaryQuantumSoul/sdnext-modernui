@@ -322,8 +322,9 @@ body {
     display:none;
 }
 * .option-no-slider-layout .gradio-slider .head {
-    flex-direction: column;
+    flex-direction: row;
     display: flex;
+    justify-content: space-between;
 }
 * .option-no-slider-layout .gradio-slider input[type="number"] {
     line-height: var(--sd-input-line-height);
