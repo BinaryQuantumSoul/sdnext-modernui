@@ -3846,17 +3846,14 @@ button > span {
     display: flex;
     justify-content: flex-end;
 }
-
 .control-unit .gradio-row > div.gradio-checkbox {
     flex-grow: 0;
 }
-
 .control-unit .gradio-row > div.form:has(.gradio-dropdown) {
     display: flex;
     flex-basis: 100%;
     order: 2;
 }
-
 .control-unit .gradio-row > div.gradio-image {
     flex-grow: 1;
     order: 3;
@@ -3877,10 +3874,14 @@ button > span {
 #control-columns svg {
     width: 100%;
 }
-#control-columns.control-aspect-ratio .panel.no-tr {
+
+#control-columns.flex-force-column {
+    flex-direction: column;
+}
+#control-columns.flex-force-column .panel.no-tr {
     aspect-ratio: 0.4;
 }
-#control-columns.control-aspect-ratio .panel.no-tr > * {
+#control-columns.flex-force-column .panel.no-tr > * {
     max-width: 30rem;
 }
 

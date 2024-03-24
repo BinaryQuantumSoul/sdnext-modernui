@@ -225,12 +225,10 @@ function extraTweaks() {
 		const currentDirection = getComputedStyle(flexContainer).flexDirection;
 		const currentWidth = flexContainer.clientWidth;
 
-		if (currentWidth < minWidth && currentDirection !== 'column') {
-			flexContainer.style.flexDirection = 'column';
-			flexContainer.classList.add('control-aspect-ratio');
-		} else if (currentWidth >= minWidth && currentDirection !== 'row') {
-			flexContainer.style.flexDirection = 'row';
-			flexContainer.classList.remove('control-aspect-ratio');
+		if (currentWidth < minWidth && !flexContainer.classList.contains('flex-force-column')) {
+			flexContainer.classList.add('flex-force-column');
+		} else if (currentWidth >= minWidth && flexContainer.classList.contains('flex-force-column')) {
+			flexContainer.classList.remove('flex-force-column');
 		}
 	}
 
