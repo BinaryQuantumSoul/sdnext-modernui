@@ -2378,6 +2378,7 @@ button:hover svg {
 
 .center {
     justify-content: center !important;
+    align-content: center;
 }
 
 #portal-16>div>div:first-child {

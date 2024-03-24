@@ -9,6 +9,10 @@
                 <div class="mask-icon icon-quicksettings"></div>
                 <span>Quick Settings</span>
             </button>
+            <button title="Extra Networks" tabItemId="#layout-extra-networks" tabGroup="extra_networks" id="btn_extra_networks" active="true" class="xtabs-tab">
+                <div class="mask-icon icon-checkpoints"></div>
+                <span>Extra Networks</span>
+            </button>
             <button title="Models" tabItemId="#layout-model-merger" tabGroup="extra_networks" id="btn_model_merger" class="xtabs-tab">
                 <div class="mask-icon icon-model-merger"></div>
                 <span>Models</span>
@@ -31,20 +35,10 @@
                 <span>Console</span>
             </button>
         </div>
-        <div id="sidebar_extra_networks" class="flexbox col shrink">
-            <button title="Extra Networks" tabItemId="#layout-extra-networks" tabGroup="extra_networks" id="btn_extra_networks" active="true" class="xtabs-tab">
-                <div class="mask-icon icon-checkpoints"></div>
-                <span>Extra Networks</span>
-            </button>
-            <div class="flexbox col spacer-v"></div>
-        </div>
     </div>
     <div class="accordion-container">
         <div id="layout-extra-networks" class="flexbox col padding">
             <div data-selector="#txt2img_extra_tabs" data-parent-selector="gradio-app" class="portal no-bg"></div>
-        </div>
-        <div id="layout-model-merger" class="flexbox col padding">
-            <div data-selector="#tab_models > div" data-parent-selector="gradio-app" class="portal no-bg"></div>
         </div>
         <div id="layout-system" class="flexbox col padding">
             <div data-selector="#tab_system > div" data-parent-selector="gradio-app" class="portal no-bg"></div>
@@ -53,6 +47,7 @@
         <div id="template-quicksettings" class="template"></div>
         <div id="template-extensions" class="template"></div>
         <div id="template-settings" class="template"></div>
+        <div id="template-models" class="template"></div>
 
         <div id="layout-console-log">
             <div id="split-console" gutterSize="8" direction="vertical" class="split">
