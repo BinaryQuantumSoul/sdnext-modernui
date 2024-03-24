@@ -7,7 +7,7 @@
 
 </div>
 
-More than a simple port, all of it has been rethought and rebuilt specifically for SDNext and its unique control tab and advanced workflows. It is shipped with many user themes to try out.
+More than a simple port, all of it has been rethought and rebuilt specifically for SDNext and its unique control tab and advanced workflows. It is shipped with many new user themes to try out.
 
 > [!NOTE]
 > This project is still a Work In Progress, please report issues.
@@ -17,5 +17,7 @@ More than a simple port, all of it has been rethought and rebuilt specifically f
 2. Run SD.Next with `--theme modern` CLI arguments
 
 ## Credits
-This project is a completely refactored fork of Anapnoe's original work. Many thanks to him.
+Thanks to **illu_Zn** for his precious advices x)
+
+This project is a completely refactored fork of **Anapnoe**'s original work. Many thanks to him.
 - `Anapnoe. (2023). Stable Diffusion Web UI-UX [Computer software]. https://github.com/anapnoe/stable-diffusion-webui-ux`
