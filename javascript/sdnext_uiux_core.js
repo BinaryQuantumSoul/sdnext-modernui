@@ -211,6 +211,34 @@ function switchMobile(){
 
 
 //======================= UIUX READY =======================
+function extraTweaks() {
+	//System tab click second tab
+	document.querySelectorAll("#system .tab-nav button")[1].click();
+
+	//Control tab flex row
+	function adjustFlexDirection(flexContainer) {
+		const childCount = flexContainer.childElementCount;
+		const firstChildMinWidth = parseFloat(getComputedStyle(flexContainer.firstElementChild).minWidth);
+		const gapWidth = parseFloat(getComputedStyle(flexContainer).gap);
+		const minWidth = childCount * firstChildMinWidth + (childCount - 1) * gapWidth;
+
+		const currentDirection = getComputedStyle(flexContainer).flexDirection;
+		const currentWidth = flexContainer.clientWidth;
+
+		if (currentWidth < minWidth && currentDirection !== 'column') {
+			flexContainer.style.flexDirection = 'column';
+			flexContainer.classList.add('control-aspect-ratio');
+		} else if (currentWidth >= minWidth && currentDirection !== 'row') {
+			flexContainer.style.flexDirection = 'row';
+			flexContainer.classList.remove('control-aspect-ratio');
+		}
+	}
+
+	const controlColumns = document.getElementById('control-columns');
+	adjustFlexDirection(controlColumns);
+	new ResizeObserver(() => adjustFlexDirection(controlColumns)).observe(controlColumns);
+}
+
 function mainTabs(element, tab) {
 	const new_tab = document.querySelector(tab);
 
@@ -759,8 +787,7 @@ function setupAnimationEventListeners(){
 	}); 
 }
 
-function extraTweaks() {
-	//Control tab remove when original backend
+function checkBackend() {
 	if (window.opts.sd_backend === 'original') {
 		appUiUx.classList.add('backend-original');
 		isBackendDiffusers = false;
@@ -768,9 +795,6 @@ function extraTweaks() {
 		appUiUx.classList.add('backend-diffusers');
 		isBackendDiffusers = true;
 	}
-
-	//System tab click second tab
-	document.querySelectorAll("#system .tab-nav button")[1].click(); 
 }
 
 function createButtonsForExtensions() {
@@ -1011,8 +1035,8 @@ async function mainUiUx() {
 	//SETUP
 	console.log("Init runtime components");
 
+	checkBackend();
 	createButtonsForExtensions();
-	extraTweaks();
 	setupAnimationEventListeners();
 	await setupScripts();
 	initSplitComponents();
@@ -1032,6 +1056,7 @@ async function mainUiUx() {
 	uiuxOptionSettings();
 	showContributors();      
 	switchMobile();
+	extraTweaks();
 
 	//UIUX COMPLETE
 	console.log("UiUx complete");

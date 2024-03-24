@@ -3799,12 +3799,6 @@ input[type="range"]::-ms-fill-upper {
     margin: var(--sd-gap-size-val) auto;
 }
 
-#control-columns > div {
-    min-width: 20rem;
-    min-height: 20rem;
-    flex: 1 0 0;
-}
-
 #split-console > div:not(.gutter) {
     margin: 4px;
     background-color: var(--sd-input-bg-color);
@@ -3866,6 +3860,28 @@ button > span {
 .control-unit .gradio-row > div.gradio-image {
     flex-grow: 1;
     order: 3;
+}
+
+#control_out_gallery_tabitem > div {
+    flex-grow: 1;
+}
+#control-columns > div {
+    min-width: 22rem;
+    min-height: 20rem;
+    flex-grow: 1;
+}
+#control-columns .panel.no-tr {
+    overflow: auto;
+}
+#control-columns img,
+#control-columns svg {
+    width: 100%;
+}
+#control-columns.control-aspect-ratio .panel.no-tr {
+    aspect-ratio: 0.4;
+}
+#control-columns.control-aspect-ratio .panel.no-tr > * {
+    max-width: 30rem;
 }
 
 .option-show-outline-params .outline-params .no-border:hover,
