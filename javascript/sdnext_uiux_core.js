@@ -268,18 +268,18 @@ function uiuxOptionSettings() {
 				appUiUx.classList.remove(className);
 			}
 		}
-		gradioApp().querySelector(`#${settingId} input`).addEventListener("click", function (e) {
+		gradioApp().querySelector(`#setting_${settingId} input`).addEventListener("click", function (e) {
 			updateUiUxClass(className, e.target.checked);
 		});
 		updateUiUxClass(className, window.opts[settingId]);
 	}
 
-	setupUiUxSetting("setting_uiux_no_slider_layout", "option-no-slider-layout");
-	setupUiUxSetting("setting_uiux_show_outline_params", "option-show-outline-params");
-	setupUiUxSetting("setting_uiux_show_labels_aside", "option-aside-labels");
-	setupUiUxSetting("setting_uiux_show_labels_main", "option-main-labels");
-	setupUiUxSetting("setting_uiux_show_labels_tabs", "option-tab-labels");
-	setupUiUxSetting("setting_uiux_show_labels_control", "option-control-labels");
+	setupUiUxSetting("uiux_no_slider_layout", "option-no-slider-layout");
+	setupUiUxSetting("uiux_show_outline_params", "option-show-outline-params");
+	setupUiUxSetting("uiux_show_labels_aside", "option-aside-labels");
+	setupUiUxSetting("uiux_show_labels_main", "option-main-labels");
+	setupUiUxSetting("uiux_show_labels_tabs", "option-tab-labels");
+	setupUiUxSetting("uiux_show_labels_control", "option-control-labels");
 
 	// settings mobile scale
 	function uiux_mobile_scale(value) {
