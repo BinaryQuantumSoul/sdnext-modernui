@@ -212,8 +212,8 @@
 
                         <div class="flexbox col group">
                             <div class="flexbox row wrap">
-                                <div class="flexbox row grow-all no-wrap fb-60">
-                                    <div class="flexbox panel col shrink">
+                                <div class="flexbox col grow-all">
+                                    <div class="flexbox panel row group-row shrink">
                                         <button tabItemId="#img2img_scale_to_tabitem" tabGroup="img2img-resize-group" data-click="#tab_img2img" active="true" class="xtabs-tab no-drag"><span id="izj18eih">Resize to</span></button>
                                         <button tabItemId="#img2img_scale_by_tabitem" tabGroup="img2img-resize-group" data-click="#tab_img2img" class="xtabs-tab no-drag"><span>Resize by</span></button>
                                     </div>
@@ -222,27 +222,14 @@
                                             <div class="xtabs-items">
                                                 <div class="flexbox col no-padding full-height">
                                                     <div id="img2img_scale_to_tabitem" class="xtabs-item initial inset notransition">
-                                                        <div class="flexbox row wrap">
-                                                            <div class="flexbox no-wrap row">
-                                                                <div class="flexbox col">
-                                                                    <div data-parent-selector="#tab_img2img" data-selector="#img2img_width" class="portal"></div>
-                                                                    <div data-parent-selector="#tab_img2img" data-selector="#img2img_height" class="portal"></div>
-                                                                </div>
-                                                                <div class="flexbox unset-min-width shrink col panel center">
-                                                                    <div data-selector="#img2img_detect_image_size_btn" data-parent-selector="#tab_img2img" droppable="true" class="portal invisible tool">
-                                                                        <div class="mask-icon icon-ruler"></div>
-                                                                    </div>
-                                                                    <div data-selector="#img2img_res_switch_btn" data-parent-selector="#tab_img2img" droppable="true" class="portal invisible tool">
-                                                                        <div class="mask-icon icon-res-switch"></div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
+                                                        <div class="flexbox col group inset subgroup">
+                                                            <div data-parent-selector="#tab_img2img" data-selector="#img2img_width" class="portal"></div>
+                                                            <div data-parent-selector="#tab_img2img" data-selector="#img2img_height" class="portal"></div>
                                                         </div>
                                                     </div>
                                                     <div id="img2img_scale_by_tabitem" class="xtabs-item initial inset notransition">
                                                         <div class="flexbox col group inset subgroup">
                                                             <div data-parent-selector="#tab_img2img" data-selector="#img2img_scale" class="portal"></div>
-                                                            <div data-parent-selector="#tab_img2img" data-selector="#img2img_scale_resolution_preview" class="portal"></div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -250,7 +237,16 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="flexbox col fb-40">
+                                <div class="flexbox col center panel shrink">
+                                    <div data-selector="#img2img_res_switch_btn" data-parent-selector="#tab_img2img" droppable="true" class="portal invisible tool">
+                                        <div class="mask-icon icon-res-switch"></div>
+                                    </div>
+                                    <div data-selector="#img2img_ar" data-parent-selector="#tab_img2img" class="portal no-bg"></div>
+                                    <div data-selector="#img2img_detect_image_size_btn" data-parent-selector="#tab_img2img" droppable="true" class="portal invisible tool">
+                                        <div class="mask-icon icon-ruler"></div>
+                                    </div>
+                                </div>
+                                <div class="flexbox col">
                                     <div data-parent-selector="#tab_img2img" data-selector="#img2img_batch_size" class="portal"></div>
                                     <div data-parent-selector="#tab_img2img" data-selector="#img2img_batch_count" class="portal"></div>
                                 </div>

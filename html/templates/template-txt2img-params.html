@@ -104,19 +104,18 @@
                 <div id="txt2img_params_tabitem_group" class="flexbox col outline-params">
                     <div id="txt2img_params_tabitem" class="xtabs-item">
                         <div class="flexbox col auto-scroll">
-                            <div class="flexbox row group wrap">
-                                <div class="flexbox row no-wrap fb-60">
-                                    <div class="flexbox col">
-                                        <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_width" class="portal"></div>
-                                        <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_height" class="portal"></div>
-                                    </div>
-                                    <div class="flexbox unset-min-width shrink col center panel">
-                                        <div data-selector="#txt2img_res_switch_btn" data-parent-selector="#tab_txt2img" droppable="true" class="portal invisible tool">
-                                            <div class="mask-icon icon-res-switch"></div>
-                                        </div>
-                                    </div>
+                            <div class="flexbox row group">
+                                <div class="flexbox col">
+                                    <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_width" class="portal"></div>
+                                    <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_height" class="portal"></div>
                                 </div>
-                                <div class="flexbox col fb-40">
+                                <div class="flexbox col center panel unset-min-width shrink">
+                                    <div data-selector="#txt2img_res_switch_btn" data-parent-selector="#tab_txt2img" droppable="true" class="portal invisible tool">
+                                        <div class="mask-icon icon-res-switch"></div>
+                                    </div>
+                                    <div data-selector="#txt2img_ar" data-parent-selector="#tab_txt2img" class="portal no-bg"></div>
+                                </div>
+                                <div class="flexbox col">
                                     <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_batch_size" class="portal"></div>
                                     <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_batch_count" class="portal"></div>
                                 </div>

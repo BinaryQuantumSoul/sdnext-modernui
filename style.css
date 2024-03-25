@@ -1861,6 +1861,7 @@ div#layout-3 {
 }
 
 .icon-res-switch {
+    /* transform: rotate(90deg); */
     -webkit-mask-image: url(./html/svg/arrow-up-down-line.svg);
 }
 
@@ -3893,6 +3894,22 @@ button > span {
 }
 
 .option-show-outline-params .outline-params .no-border > .portal:has(> [class*="gradio-"]):hover,
-.option-show-outline-params .outline-params .portal:has(> .gradio-button):hover {
+.option-show-outline-params .outline-params .portal:has(> .gradio-button):hover,
+.option-show-outline-params .outline-params .portal:has(> .ar-dropdown):hover {
     outline: none;
+}
+
+.ar-dropdown .secondary-wrap {
+    width: 1rem;
+    overflow: hidden;
+}
+.ar-dropdown input {
+    width: fit-content;
+}
+.ar-dropdown .dropdown-arrow {
+    display: none;
+}
+.ar-dropdown .options {
+    position: absolute;
+    right: 0;
 }
