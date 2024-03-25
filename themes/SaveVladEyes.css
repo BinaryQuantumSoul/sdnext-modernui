@@ -1,18 +1,18 @@
 /* Author: QuantumSoul */
 
 :root {
-    --sd-primary-color:#008772;
+    --sd-main-accent-color:#008772;
     --sd-label-color:white;
     --sd-input-text-color:white;
-    --sd-input-placeholder-color:gray;
+    --sd-input-placeholder-text-color:gray;
     --sd-input-hover-text-color:white;
 
-    --sd-main-bg-color:black;
-    --sd-input-bg-color:rgba(255,255,255, 0.15);
+    --sd-main-background-color:black;
+    --sd-input-background-color:rgba(255,255,255, 0.15);
     --sd-input-border-color:rgba(255,255,255, 0.15);
-    --sd-panel-bg-color:black;
+    --sd-panel-background-color:black;
     --sd-panel-border-color:rgba(255,255,255, 0.15);
-    --sd-group-bg-color:transparent;
+    --sd-group-background-color:transparent;
     --sd-group-border-color:transparent;
     
     --sd-border-size: 1px;

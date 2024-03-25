@@ -15,63 +15,47 @@
 
 /* default theme */
 :root {
-    --sd-primary-color:hsl(205deg 83% 46%);
+    --sd-main-accent-color:hsl(205deg 83% 46%);
     --sd-label-color:rgba(255, 255, 255, 0.75);
-    --sd-secondary-label-color:var(--sd-input-text-color);
     --sd-input-text-color:rgba(255, 255, 255, 0.75);
-    --sd-input-placeholder-color:rgba(255, 255, 255, 0.35);
+    --sd-input-secondary-text-color:var(--sd-input-text-color);
+    --sd-input-placeholder-text-color:rgba(255, 255, 255, 0.35);
     --sd-input-hover-text-color:var(--sd-input-text-color);
     
-    --sd-button-normal-color:var(--sd-input-bg-color);
+    --sd-button-normal-color:var(--sd-input-background-color);
     --sd-button-normal-text-color:var(--sd-input-text-color);
-    --sd-button-selected-color:var(--sd-primary-color);
+    --sd-button-selected-color:var(--sd-main-accent-color);
     --sd-button-selected-text-color:var(--sd-input-hover-text-color);
     --sd-button-hover-color:var(--sd-button-selected-color);
     --sd-button-hover-text-color:var(--sd-button-selected-text-color);
     
-    --sd-main-bg-color:rgb(32 32 32);
-    --sd-input-bg-color:rgba(0, 0, 0, 0.25);
+    --sd-main-background-color:rgb(32 32 32);
+    --sd-input-background-color:rgba(0, 0, 0, 0.25);
     --sd-input-border-color:rgba(0, 0, 0, 0.1);
-    --sd-panel-bg-color:rgba(64, 64, 64, 0.5);
+    --sd-panel-background-color:rgba(64, 64, 64, 0.5);
     --sd-panel-border-color:rgba(64, 64, 64, 0.75);
-    --sd-group-bg-color:hsl(0deg 0% 16%);
+    --sd-group-background-color:hsl(0deg 0% 16%);
     --sd-group-border-color:hsl(0deg 0% 16%);
     --sd-scrollbar-color:var(--sd-panel-border-color);
 
     --sd-input-height:35px;
     --sd-input-slider-height:0.6;
     --sd-input-icon-height:calc(var(--sd-input-height) - var(--sd-input-border-size) * 2);
-    --sd-input-padding:5px;
-    --sd-input-font-size:14px;
     --sd-input-line-height:23px;
+    --sd-input-font-size:14px;
+
+    --sd-input-padding:5px;
     --sd-input-border-size:2px;
-    --sd-input-border-radius:0px;
-
     --sd-panel-padding:5px;
-    --sd-panel-border-radius:0px;
-    --sd-subpanel-border-radius:8px;
-
     --sd-group-padding:2px;
-    --sd-group-radius:7px;
     --sd-group-border-size:2px;
+    --sd-group-border-radius:7px;
     --sd-group-gap:6px;
-
-    --sd-border-radius:5px;
     --sd-border-size:2px;
+    --sd-border-radius:5px;
     --sd-gap-size-val:5px;
     --sd-outside-gap-size:8px;
-    --sd-inside-padding-size:8px;
-    --sd-mobile-outside-gap-size:2px;
-    --sd-mobile-inside-padding-size:2px;
     --sd-gap-size:max(var(--sd-gap-size-val), var(--sd-border-size));
-    --sd-border-size-neg:calc(var(--sd-border-size) * -1);
-    --sd-border-size-x2:calc((var(--sd-border-size) * 2) + 0px);
-    --sd-max-padding:max(var(--sd-outside-gap-size), var(--sd-inside-padding-size));
-
-    --sd-tool-button-size:34px;
-    --sd-tool-button-radius:16px;
-    --sd-generate-button-height:70px;
-    --sd-icon-size:22px;
 }
 
 body {
@@ -79,13 +63,13 @@ body {
     color: var(--sd-label-color);
     font-size: var(--sd-input-font-size);
     /* line-height: 16px; */
-    background-color: var(--sd-main-bg-color);
+    background-color: var(--sd-main-background-color);
     font-family: "IBM Plex Mono", monospace;
 }
 
 .portal,
 * .panel {
-    background-color: var(--sd-panel-bg-color);
+    background-color: var(--sd-panel-background-color);
     padding: var(--sd-panel-padding);
     border-radius: var(--sd-border-radius);
     outline: var(--sd-border-size) solid var(--sd-panel-border-color);
@@ -129,9 +113,9 @@ body {
 }
 
 .flexbox.group{
-    background-color: var(--sd-group-bg-color);
+    background-color: var(--sd-group-background-color);
     padding: var(--sd-group-padding);;
-    border-radius: var(--sd-group-radius) ;
+    border-radius: var(--sd-group-border-radius) ;
     outline: var(--sd-group-border-size) solid var(--sd-group-border-color);
     gap: var(--sd-group-gap);
 } 
@@ -171,7 +155,7 @@ body {
 .no-border {
     outline: var(--sd-border-size) solid var(--sd-panel-border-color);
     border-radius: var(--sd-border-radius);
-    background-color: var(--sd-panel-bg-color);
+    background-color: var(--sd-panel-background-color);
    /*  gap: 0; */
     min-width: unset;
     padding: var(--sd-panel-padding);
@@ -226,12 +210,12 @@ body {
 .invisible *.gradio-button.tool {
     font-size: 0;
     line-height: 0;
-    background-color: var(--sd-input-bg-color);
+    background-color: var(--sd-input-background-color);
     min-width: var(--sd-input-height);
 }
 
 .invisible *.gradio-button.tool:hover {
-    background-color: var(--sd-primary-color);
+    background-color: var(--sd-main-accent-color);
 }
 
 .invisible *.gradio-button.tool:hover .mask-icon {
@@ -271,7 +255,7 @@ body {
 * input,
 * textarea,
 * button {
-    background: var(--sd-input-bg-color);
+    background: var(--sd-input-background-color);
     border: var(--sd-input-border-size) solid var(--sd-input-border-color);
     border-radius: var(--sd-border-radius);
     vertical-align: middle;
@@ -373,7 +357,7 @@ body {
 * input,
 * textarea,
 * button {
-    background: var(--sd-input-bg-color);
+    background: var(--sd-input-background-color);
     border: var(--sd-input-border-size) solid var(--sd-input-border-color);
     border-radius: var(--sd-border-radius);
     vertical-align: middle;
@@ -407,8 +391,8 @@ body {
     padding: var(--sd-panel-padding) calc(var(--sd-panel-padding) + 4px);
     border-radius: var(--sd-border-radius);
     outline: var(--sd-border-size) solid var(--sd-panel-border-color);
-    background-color: var(--sd-input-bg-color);
-    color: var(--sd-primary-color);
+    background-color: var(--sd-input-background-color);
+    color: var(--sd-input-secondary-text-color);
     white-space: nowrap;
 }
 
@@ -417,13 +401,13 @@ body {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
    
-  /*   background-color: var(--sd-panel-bg-color);
-    outline-color: var(--sd-primary-color); */
+  /*   background-color: var(--sd-panel-background-color);
+    outline-color: var(--sd-main-accent-color); */
 }
 
 .gradio-accordion:has(> .open) {
-  /*   outline: var(--sd-border-size) solid var(--sd-primary-color) !important;  */
-    background-color: var(--sd-input-bg-color);
+  /*   outline: var(--sd-border-size) solid var(--sd-main-accent-color) !important;  */
+    background-color: var(--sd-input-background-color);
     outline: var(--sd-border-size) solid var(--sd-panel-border-color);
     border-radius: var(--sd-border-radius);
     position:relative;
@@ -459,7 +443,7 @@ body {
     box-shadow: none;
     gap: 5px;
     flex: 0 1 0%;
-    background: var(--sd-input-bg-color);
+    background: var(--sd-input-background-color);
     border: var(--sd-input-border-size) solid var(--sd-input-border-color);
     border-radius: var(--sd-border-radius);
     vertical-align: middle;
@@ -475,7 +459,7 @@ body {
     margin: 0;
     white-space: nowrap;
     border: 0;
-    color: var(--sd-secondary-label-color);
+    color: var(--sd-input-secondary-text-color);
 }
 *.gradio-checkboxgroup .wrap,
 *.gradio-radio .wrap {
@@ -496,7 +480,7 @@ body {
 }
 
 * textarea::placeholder {
-    color: var(--sd-input-placeholder-color);
+    color: var(--sd-input-placeholder-text-color);
     opacity: 1;
 }
 
@@ -527,7 +511,7 @@ body {
     cursor: pointer;
     width: 100%;
     height: 100%;
-    background: var(--sd-input-bg-color);
+    background: var(--sd-input-background-color);
     border: var(--sd-input-border-size) solid var(--sd-input-border-color);
     border-radius: var(--sd-border-radius);
     min-height: 25vh;
@@ -556,7 +540,7 @@ div.float {
     display: inline-flex;
     align-items: center;
     z-index: 20;
-    background: var(--sd-input-bg-color);
+    background: var(--sd-input-background-color);
     padding: 3px;
     pointer-events: none;
     font-weight: normal;
@@ -599,7 +583,7 @@ div.float span {
     display: flex;
     gap: 5px;
     padding: 5px;
-    background-color: var(--sd-input-bg-color);
+    background-color: var(--sd-input-background-color);
     border-radius: var(--sd-border-radius);
     margin-top: 5px;
     flex-wrap: wrap;
@@ -653,7 +637,7 @@ div.float span {
 * button:focus,
 * textarea:focus {
     outline: none;
-    border-color: var(--sd-primary-color);
+    border-color: var(--sd-main-accent-color);
 }
 
 .tab-nav button:focus,
@@ -662,7 +646,7 @@ div.float span {
 }
 
 *.gradio-dropdown input:focus {
-    outline: var(--sd-input-border-size) solid var(--sd-primary-color);
+    outline: var(--sd-input-border-size) solid var(--sd-main-accent-color);
 }
 
 *.tab-nav button {
@@ -678,12 +662,12 @@ div.float span {
 }
 
 *.tab-item {
-    background-color: var(--sd-panel-bg-color);
+    background-color: var(--sd-panel-background-color);
     padding: var(--sd-panel-padding);
 }
 
 *.gradio-tabitem {
-    background-color: var(--sd-input-bg-color);
+    background-color: var(--sd-input-background-color);
     padding: var(--sd-panel-padding);
     border-radius: var(--sd-border-radius);
     border-top-left-radius: 0;
@@ -695,7 +679,7 @@ div.float span {
 
 button.active,
 button:hover {
-    background-color: var(--sd-primary-color);
+    background-color: var(--sd-main-accent-color);
 }
 button.active span,
 button:hover span {
@@ -795,7 +779,7 @@ button:hover .mask-icon {
 :not(.portal)>.block.gradio-checkbox,
 :not(.portal)>.block.gradio-checkboxgroup,
 :not(.portal)>.block.gradio-textbox {
-    background-color: var(--sd-panel-bg-color);
+    background-color: var(--sd-panel-background-color);
     padding: var(--sd-panel-padding);
     outline: var(--sd-border-size) solid var(--sd-panel-border-color);
     border-radius: var(--sd-border-radius);
@@ -885,7 +869,7 @@ button:hover .mask-icon {
     line-height: calc(var(--sd-input-icon-height) - 10px);
     flex-grow: 1;
     min-height: calc(var(--sd-input-height) - ( var(--sd-input-border-size) * 2 ));
-    color: var(--sd-secondary-label-color);
+    color: var(--sd-input-secondary-text-color);
 }
 
 *.gradio-dropdown .secondary-wrap {
@@ -897,7 +881,7 @@ button:hover .mask-icon {
 }
 
 *.gradio-dropdown div.wrap {
-    background: var(--sd-input-bg-color);
+    background: var(--sd-input-background-color);
     padding: 0;
     position: relative;
     pointer-events: all;
@@ -930,7 +914,7 @@ ul.options {
     margin: 0px !important;
     box-shadow: none;
     border-radius: var(--sd-border-radius);
-    background: var(--sd-main-bg-color);
+    background: var(--sd-main-background-color);
     min-width: fit-content;
     max-width: 50vh;
     max-height: 25vh !important;
@@ -955,7 +939,7 @@ li.item {
 }
 
 li.item.active {
-    background: var(--sd-primary-color);
+    background: var(--sd-main-accent-color);
     color: var(--sd-input-hover-text-color);
 }
 
@@ -968,7 +952,7 @@ li.item span {
     display: flex;
     gap: 5px;
     line-height: calc(var(--sd-input-height) - (var(--sd-input-border-size) * 2));
-    background: var(--sd-panel-bg-color);
+    background: var(--sd-panel-background-color);
     outline: var(--sd-input-border-size) solid var(--sd-input-border-color);
     border-radius: var(--sd-border-radius);
     font-size: var(--sd-input-font-size);
@@ -988,10 +972,10 @@ li.item span {
     display: flex;
     flex-direction: column;
     align-self: center;
-    background: var(--sd-input-bg-color);
+    background: var(--sd-input-background-color);
     border-radius: 50%;
     padding: 1px;
-    border: var(--sd-input-border-size) solid var(--sd-input-bg-color);
+    border: var(--sd-input-border-size) solid var(--sd-input-background-color);
 }
 
 *.token-remove svg {
@@ -1036,7 +1020,7 @@ li.item span {
     position: absolute;
     z-index: 1;
     top: 0;
-    background-color: var(--sd-main-bg-color);
+    background-color: var(--sd-main-background-color);
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -1048,7 +1032,7 @@ li.item span {
     width: 100%;
     max-height: 100vh;
     object-fit: contain;
-    background-color: var(--sd-input-bg-color);
+    background-color: var(--sd-input-background-color);
     border: var(--sd-border-size) solid var(--sd-input-border-color);
 }
 
@@ -1061,7 +1045,7 @@ li.item span {
     position: absolute !important;
     z-index: 0;
     top: 0;
-    background-color: var(--sd-main-bg-color);
+    background-color: var(--sd-main-background-color);
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -1086,11 +1070,11 @@ li.item span {
 }
 
 * button.thumbnail-item:hover {
-    background: var(--sd-panel-bg-color);
+    background: var(--sd-panel-background-color);
 }
 
 * button.thumbnail-item.selected {
-    border: var(--sd-border-size) solid var(--sd-primary-color);
+    border: var(--sd-border-size) solid var(--sd-main-accent-color);
 }
 
 *.gradio-gallery .preview button[aria-label] {
@@ -1129,7 +1113,7 @@ li.item span {
     width: 100% !important;
     height: 100% !important;
     object-fit: contain;
-    background-color: var(--sd-main-bg-color);
+    background-color: var(--sd-main-background-color);
 }
 
 * .livePreview img {
@@ -1153,7 +1137,7 @@ li.item span {
     border-radius: var(--sd-border-radius);
     border: var(--sd-input-border-size) solid transparent;
     background-clip: content-box;
-    background-color: var(--sd-input-bg-color);
+    background-color: var(--sd-input-background-color);
 }
 
 ::-webkit-scrollbar-thumb {
@@ -1182,16 +1166,16 @@ li.item span {
 * .gutter.gutter-horizontal {
     background: linear-gradient(90deg,
             rgba(0, 0, 0, 0) 40%,
-            var(--sd-panel-bg-color) 45%,
-            var(--sd-panel-bg-color) 55%,
+            var(--sd-panel-background-color) 45%,
+            var(--sd-panel-background-color) 55%,
             rgba(0, 0, 0, 0) 60%);
 }
 
 * .gutter.gutter-horizontal:hover {
     background: linear-gradient(90deg,
             rgba(0, 0, 0, 0) 40%,
-            var(--sd-primary-color) 45%,
-            var(--sd-primary-color) 55%,
+            var(--sd-main-accent-color) 45%,
+            var(--sd-main-accent-color) 55%,
             rgba(0, 0, 0, 0) 60%);
     cursor: col-resize;
 }
@@ -1199,16 +1183,16 @@ li.item span {
 * .gutter.gutter-vertical {
     background: linear-gradient(0deg,
             rgba(0, 0, 0, 0) 40%,
-            var(--sd-input-bg-color) 45%,
-            var(--sd-input-bg-color) 55%,
+            var(--sd-input-background-color) 45%,
+            var(--sd-input-background-color) 55%,
             rgba(0, 0, 0, 0) 60%);
 }
 
 * .gutter.gutter-vertical:hover {
     background: linear-gradient(0deg,
             rgba(0, 0, 0, 0) 40%,
-            var(--sd-primary-color) 45%,
-            var(--sd-primary-color) 55%,
+            var(--sd-main-accent-color) 45%,
+            var(--sd-main-accent-color) 55%,
             rgba(0, 0, 0, 0) 60%);
     cursor: row-resize;
 }
@@ -1231,7 +1215,7 @@ li.item span {
     flex-direction: column;
     border-radius: var(--sd-border-radius);
     outline: var(--sd-border-size) solid var(--sd-panel-border-color);
-    background-color: var(--sd-panel-bg-color);
+    background-color: var(--sd-panel-background-color);
 }
 
 .accordion-container {
@@ -1250,7 +1234,7 @@ li.item span {
 .accordion-bar {
     display: flex;
     align-items: center;
-    background-color: var(--sd-panel-bg-color);
+    background-color: var(--sd-panel-background-color);
     justify-content: space-between;
     cursor: pointer;
     border-radius: var(--sd-border-radius);
@@ -1410,7 +1394,7 @@ li.item span {
 }
 
 /* .mask-icon:hover {
-    background-color: var(--sd-primary-color);
+    background-color: var(--sd-main-accent-color);
 } */
 
 *.invisible {
@@ -1473,7 +1457,7 @@ li.item span {
     flex-direction: column;
     border-radius: var(--sd-border-radius);
     outline: var(--sd-border-size) solid var(--sd-panel-border-color);
-    background-color: var(--sd-panel-bg-color);
+    background-color: var(--sd-panel-background-color);
 }
 
 .xtabs-item {
@@ -1666,12 +1650,12 @@ h1 {
     z-index: 1;
     top: 0px;
     right: 0;
-    background-color: var(--sd-input-bg-color);
+    background-color: var(--sd-input-background-color);
     padding: 2px;
 }
 
 *.extra-network-cards .card .card-button:hover {
-    background-color: var(--sd-primary-color);
+    background-color: var(--sd-main-accent-color);
 }
 
 *.extra-network-cards .card .card-button {
@@ -1683,9 +1667,9 @@ h1 {
 *.extra-network-cards .card {
     position: relative;
     overflow: hidden;
-    background-color: var(--sd-input-bg-color);
+    background-color: var(--sd-input-background-color);
     border-radius: var(--sd-border-radius);
-    border: var(--sd-border-size) solid var(--sd-input-bg-color);
+    border: var(--sd-border-size) solid var(--sd-input-background-color);
 }
 
 .extra-network-cards .card .actions {
@@ -1703,7 +1687,7 @@ h1 {
     position: absolute;
     bottom: 0;
     padding: 10px;
-    background-color: var(--sd-main-bg-color);
+    background-color: var(--sd-main-background-color);
     font-size: 16px;
     font-weight: 600;
     left: 0;
@@ -1818,7 +1802,7 @@ div#layout-3 {
 .gradio-button:has( [class*="icon-2"])::before {
     right: -1px;
     top: -1px;
-    background-color: var(--sd-primary-color);
+    background-color: var(--sd-main-accent-color);
     padding: 1px;
     border-radius: 50%;
     z-index: 1;
@@ -2035,9 +2019,8 @@ div#layout-3 {
     -webkit-mask-image: url(./html/svg/star-line.svg);
     width: 16px;
     height: 16px;
-    background-color: var(--sd-primary-color);
+    background-color: var(--sd-main-accent-color);
     display: flex;
-
 }
 
 .icon-rocket {
@@ -2166,7 +2149,7 @@ button.active .icon-sort {
 
 #main-nav .xtabs-tab.hover,
 #main-nav .xtabs-tab.active {
-    background-color: var(--sd-input-bg-color);
+    background-color: var(--sd-input-background-color);
 }
 */
 
@@ -2246,7 +2229,7 @@ div#main-nav {
 
 * a:not(:has(button)) {
     color: var(--sd-input-text-color);
-    background-color: var(--sd-input-bg-color);
+    background-color: var(--sd-input-background-color);
     border-radius: 3px;
     padding: 2px 10px;
     text-decoration: none;
@@ -2254,7 +2237,7 @@ div#main-nav {
 
 * a:not(:has(button)):hover {
     color: var(--sd-input-hover-text-color);
-    background-color: var(--sd-primary-color);
+    background-color: var(--sd-main-accent-color);
 }
 
 .spacer-v {
@@ -2266,7 +2249,7 @@ div#main-nav {
 .spacer-group {
     max-height: var(--sd-input-border-size);
     min-height: var(--sd-input-border-size);
-    background-color: var(--sd-primary-color);
+    background-color: var(--sd-main-accent-color);
     opacity: 50%;
 }
 
@@ -2280,7 +2263,7 @@ display:none;
 
 
 * .center.boundedheight {
-    background-color: var(--sd-input-bg-color);
+    background-color: var(--sd-input-background-color);
 }
 
 .sd-button {
@@ -2290,7 +2273,7 @@ display:none;
     gap: var(--sd-gap-size);
     border-radius: var(--sd-border-radius);
     border: var(--sd-input-border-size) solid var(--sd-input-border-color);
-    background-color: var(--sd-input-bg-color);
+    background-color: var(--sd-input-background-color);
    /*  padding: var(--sd-panel-padding); */
     cursor: pointer;
 }
@@ -2306,13 +2289,13 @@ display:none;
 
 .sd-button.active {
     color: var(--sd-input-hover-text-color);
-    background-color: var(--sd-primary-color);
+    background-color: var(--sd-main-accent-color);
 }
 
 .sd-button:hover,
 .sd-button.active:hover {
     color: var(--sd-input-hover-text-color);
-    background-color: var(--sd-primary-color);
+    background-color: var(--sd-main-accent-color);
 }
 
 button:hover .icon-letters,
@@ -2441,7 +2424,7 @@ button:hover svg {
 
 .generate.active>.portal>button {
     position: relative;
-    -webkit-filter: drop-shadow(0px 0px 1px var(--sd-primary-color)) drop-shadow(0px 0px 1px var(--sd-primary-color)) drop-shadow(0px 0px 1px var(--sd-primary-color)) drop-shadow(0px 0px 1px var(--sd-primary-color));
+    -webkit-filter: drop-shadow(0px 0px 1px var(--sd-main-accent-color)) drop-shadow(0px 0px 1px var(--sd-main-accent-color)) drop-shadow(0px 0px 1px var(--sd-main-accent-color)) drop-shadow(0px 0px 1px var(--sd-main-accent-color));
     z-index: 1;
 }
 /* .generate.active > span{
@@ -2568,7 +2551,6 @@ button:hover svg {
 #template-right-sidebar,
 #split-right {
     min-width: calc(var(--sd-input-height) + var(--sd-border-size) + ((var(--sd-panel-padding) + var(--sd-input-padding)) * 2) + 1px);
-
 }
 
 .flex-start {
@@ -2597,7 +2579,7 @@ display:none;
 [id$='2img_script_container'] > div > .form ~ div {
     padding: var(--sd-panel-padding);
     outline: var(--sd-input-border-size) solid var(--sd-panel-border-color);  
-    background-color: var(--sd-input-bg-color);
+    background-color: var(--sd-input-background-color);
     border-radius: var(--sd-border-radius);
     border: var(--sd-input-border-size) solid var(--sd-input-border-color);
 }
@@ -2618,8 +2600,8 @@ display:none;
     position: absolute;
     top: 0;
     left: 0;
-    outline: 2px solid var(--sd-primary-color);
-    background: radial-gradient(circle, rgba(0, 0, 0, 0.2) 0%, var(--sd-primary-color) 200%);
+    outline: 2px solid var(--sd-main-accent-color);
+    background: radial-gradient(circle, rgba(0, 0, 0, 0.2) 0%, var(--sd-main-accent-color) 200%);
     z-index: 9000;
     pointer-events: none;
     display: block;
@@ -2638,7 +2620,7 @@ display:none;
 
 .accordion:has( #resize_mode) .accordion-bar,
 .accordion:has( #inpaint_controls) .accordion-bar{
-    background-color:var(--sd-input-bg-color);
+    background-color:var(--sd-input-background-color);
 }
 .icon-left button{
     display: flex;
@@ -2661,25 +2643,25 @@ display:none;
 
 .tabulator {
     border: 1px solid var(--sd-panel-border-color);
-    background-color: var(--sd-panel-bg-color);
+    background-color: var(--sd-panel-background-color);
 }
 .tabulator .tabulator-header {
     border-bottom: 1px solid var(--sd-panel-border-color);
-    background-color: var(--sd-panel-bg-color);
+    background-color: var(--sd-panel-background-color);
     color: var(--sd-label-color);
 }
 .tabulator .tabulator-tableholder .tabulator-table {
-    background-color: var(--sd-panel-bg-color);
+    background-color: var(--sd-panel-background-color);
     color: var(--sd-label-color);
 }
 .tabulator-row {
-    background-color: var(--sd-panel-bg-color);
+    background-color: var(--sd-panel-background-color);
 }
 .tabulator-row.tabulator-row-even {
-    background-color: var(--sd-panel-bg-color);
+    background-color: var(--sd-panel-background-color);
 }
 .tabulator-row.tabulator-selectable:hover{
-    background-color: var(--sd-input-bg-color);
+    background-color: var(--sd-input-background-color);
 }
 .tabulator-row .tabulator-cell {
     border-right: 1px solid var(--sd-panel-border-color);
@@ -2700,7 +2682,7 @@ button.gridjs-sort-neutral {
     
 }
 .gridjs-tbody, td.gridjs-td {
-    background-color: var(--sd-panel-bg-color);
+    background-color: var(--sd-panel-background-color);
 }
 td.gridjs-td {
     border: var(--sd-border-size) solid var(--sd-panel-border-color); 
@@ -2713,14 +2695,13 @@ td.gridjs-td {
     font-family:inherit;
 }
 th.gridjs-th {
-    background-color: var(--sd-input-bg-color);;
+    background-color: var(--sd-input-background-color);;
     border: var(--sd-border-size) solid var(--sd-input-border-color); 
     color: var(--sd-label-color);
     padding: var(--sd-panel-padding);
-
 }
 th.gridjs-th-sort:focus, th.gridjs-th-sort:hover {
-    background-color: var(--sd-panel-bg-color);
+    background-color: var(--sd-panel-background-color);
 }
 td.gridjs-td[data-column-id="description"] {
     flex-grow: 1;
@@ -2733,7 +2714,7 @@ td.gridjs-td[data-column-id="description"] {
     gap: 1px;
 }
 .gridjs-tbody, td.gridjs-td {
-    background-color: var(--sd-panel-bg-color);
+    background-color: var(--sd-panel-background-color);
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: var(--sd-gap-size);
@@ -2813,7 +2794,7 @@ td.gridjs-td[data-column-id="description"] {
 
 .tabs_extensions table {
     width:100%;
-    background-color: var(--sd-panel-bg-color);
+    background-color: var(--sd-panel-background-color);
 }
 .tabs_extensions thead{
     display:none;
@@ -2830,7 +2811,7 @@ td.gridjs-td[data-column-id="description"] {
     flex-direction: column;
     display: flex;
     padding:var(--sd-panel-padding);
-    background-color: var(--sd-input-bg-color);
+    background-color: var(--sd-input-background-color);
     gap: 5px;
     border: var(--sd-border-size) solid var(--sd-input-border-color);
     border-radius: var(--sd-border-radius);
@@ -2863,14 +2844,14 @@ td.gridjs-td[data-column-id="description"] {
     max-width: 130px;
     text-align: justify;
     text-align-last: justify;
-    color: var(--sd-secondary-label-color);
-    background-color: var(--sd-input-bg-color);
+    color: var(--sd-input-secondary-text-color);
+    background-color: var(--sd-input-background-color);
     padding: var(--sd-panel-padding);
     border-radius: var(--sd-border-radius);
     font-size: 11px;
 }
 span.star_count {
-    background-color: var(--sd-input-bg-color);
+    background-color: var(--sd-input-background-color);
     padding: 5px 10px 5px 5px;
     display: flex;
     flex-direction: row;
@@ -2929,7 +2910,7 @@ span.star_count b {
 .tabs_extensions td:nth-child(1) a,
 .tabs_extensions td:nth-child(2) a {
     background-color: transparent;
-    color: var(--sd-primary-color);
+    color: var(--sd-main-accent-color);
     padding: 0;
     font-size: 12px;
 }
@@ -2979,7 +2960,7 @@ span.star_count b {
     height: 100%;
     width: 100%;
     object-fit: contain;
-    color: var(--sd-secondary-label-color);
+    color: var(--sd-input-secondary-text-color);
 }
 #pnginfo_image [data-testid="image"] img {
     max-height: unset;
@@ -2997,7 +2978,7 @@ span.star_count b {
      z-index: 9999;
     */
     align-items: center;
-    background-color: var(--sd-input-bg-color);
+    background-color: var(--sd-input-background-color);
     justify-content: center !important;
 }
 
@@ -3006,7 +2987,7 @@ span.star_count b {
     height:50vh; */
     width:100%;
     height:100%;
-    background-color: var(--sd-main-bg-color);
+    background-color: var(--sd-main-background-color);
     position:relative;
 }
 
@@ -3041,7 +3022,7 @@ span.star_count b {
     display:none !important;
 }
 .wrap .progress-text{
-    background-color:var(--sd-main-bg-color);
+    background-color:var(--sd-main-background-color);
     color:var(--sd-label-color);
     font-size:10px;
     display:flex;
@@ -3231,7 +3212,7 @@ flex-grow:1;
 }
 
 .progress{
-    background-color:var(--sd-primary-color);
+    background-color:var(--sd-main-accent-color);
     padding:2px;
     border-radius: 0;
 }
@@ -3278,15 +3259,15 @@ ul{
     margin:0;
 }
 .autocompleteResults {
-    background-color: var(--sd-main-bg-color)!important;
+    background-color: var(--sd-main-background-color)!important;
     border: var(--sd-border-size) solid var(--sd-input-border-color)!important;
     border-radius: var(--sd-border-radius)!important;
 }
 .autocompleteResultsList > li:nth-child(odd) {
-    background-color: var(--sd-panel-bg-color)!important;
+    background-color: var(--sd-panel-background-color)!important;
 }
 .autocompleteResultsList > li.selected {
-    background-color: var(--sd-primary-color)!important;
+    background-color: var(--sd-main-accent-color)!important;
 }
 
 .log-row {
@@ -3317,10 +3298,10 @@ ul{
 
 
 .card.selected {
-    border: var(--sd-border-size) solid var(--sd-primary-color);
+    border: var(--sd-border-size) solid var(--sd-main-accent-color);
 }
 .card.selected .actions{
-    background-color: var(--sd-primary-color);
+    background-color: var(--sd-main-accent-color);
 }
 .column-1{
     column-count: 1;
@@ -3357,7 +3338,7 @@ min-width: min(480px, 100%);
 }
 #about_tabitem a{
     background-color: transparent;
-    color:var(--sd-primary-color);
+    color:var(--sd-main-accent-color);
     padding: 0;  
 }
 #about_tabitem a:hover{
@@ -3373,13 +3354,13 @@ min-width: min(480px, 100%);
 #about_tabitem h1, h2{
     /* margin-top: calc(var(--sd-panel-padding) * 3 ); */
     font-size:20px;
-    color: var(--sd-primary-color);
+    color: var(--sd-main-accent-color);
 }
 #about_tabitem ul{
     padding-inline-start: calc(var(--sd-panel-padding) * 4 );
 }
 #about_tabitem li::marker{
-    color: var(--sd-primary-color);
+    color: var(--sd-main-accent-color);
 }
 .lrp-32{
     gap:32px;
@@ -3445,7 +3426,7 @@ div#quicksettings div + button {
 
 input[type="radio"], 
 input[type="checkbox"] { 
-    accent-color: var(--sd-primary-color);
+    accent-color: var(--sd-main-accent-color);
     cursor: pointer;
 }
 .selected span.name {
@@ -3507,7 +3488,7 @@ input[type="checkbox"] {
         overflow: hidden;
         width: 100%;
         -webkit-appearance: none;
-        background-color: var(--sd-input-bg-color);
+        background-color: var(--sd-input-background-color);
         border: var(--sd-input-border-size) solid var(--sd-input-border-color);
         position: relative;
         border-radius: var(--sd-border-radius);
@@ -3525,7 +3506,7 @@ input[type="checkbox"] {
     input[type="range"]::-webkit-slider-runnable-track {
         height: 14px;
         -webkit-appearance: none;
-        color: var(--sd-primary-color);
+        color: var(--sd-main-accent-color);
         margin-top: -1px;
     }
 
@@ -3534,8 +3515,8 @@ input[type="checkbox"] {
         -webkit-appearance: none;
         height: 14px;
         cursor: ew-resize;
-        background-color: var(--sd-primary-color);
-        box-shadow: -1024px 0 0 1024px var(--sd-primary-color);
+        background-color: var(--sd-main-accent-color);
+        box-shadow: -1024px 0 0 1024px var(--sd-main-accent-color);
     }
 }
 
@@ -3558,8 +3539,8 @@ input[type="checkbox"] {
     position: fixed;
     inset: var(--sd-panel-padding);
     z-index: 999;
-    background-color: var(--sd-main-bg-color);
-    outline: var(--sd-border-size) solid var(--sd-main-bg-color);
+    background-color: var(--sd-main-background-color);
+    outline: var(--sd-border-size) solid var(--sd-main-background-color);
 }
 .media-mobile #split-right:not(.v-expand) #accordion-aside {
     margin-left: var(--sd-panel-padding);
@@ -3655,12 +3636,12 @@ input[type="checkbox"] {
 
 /* Firefox */
 * {
-    scrollbar-color: var(--sd-scrollbar-color) var(--sd-input-bg-color) !important;
+    scrollbar-color: var(--sd-scrollbar-color) var(--sd-input-background-color) !important;
     scrollbar-width: thin !important;
 }
 
 input[type="range"]::-moz-range-progress {
-    background-color: var(--sd-primary-color);
+    background-color: var(--sd-main-accent-color);
     height: 100%;
     background-image: var(--sd-slider-bg-overlay);
 }
@@ -3668,7 +3649,7 @@ input[type="range"]::-moz-range-progress {
 input[type="range"]::-moz-range-track {
     width: 100%;
     height: 100%;
-    background-color: var(--sd-input-bg-color);
+    background-color: var(--sd-input-background-color);
     border: none;
     border-radius: 0px;
     position: relative;
@@ -3677,20 +3658,20 @@ input[type="range"]::-moz-range-track {
 }
 
 input[type="range"]::-moz-range-thumb {
-    border: 0px solid var(--sd-primary-color);
+    border: 0px solid var(--sd-main-accent-color);
     width: 0px;
     border-radius: 0%;
-    background-color: var(--sd-primary-color);
+    background-color: var(--sd-main-accent-color);
 }
 
 /*hide the outline behind the border*/
 input[type="range"]:-moz-focusring {
-    outline: 1px solid var(--sd-primary-color);
+    outline: 1px solid var(--sd-main-accent-color);
     outline-offset: -1px;
 }
 
 input[type="range"]:focus::-moz-range-track {
-    background-color: var(--sd-input-bg-color);
+    background-color: var(--sd-input-background-color);
 }
 
 input[type="number"] {
@@ -3705,11 +3686,11 @@ input[type="number"]:focus {
 /* IE maybe later  */
 
 input[type="range"]::-ms-fill-lower {
-    background-color: var(--sd-primary-color);
+    background-color: var(--sd-main-accent-color);
 }
 
 input[type="range"]::-ms-fill-upper {
-    background-color: var(--sd-input-bg-color);
+    background-color: var(--sd-input-background-color);
 }
 
 
@@ -3755,9 +3736,9 @@ input[type="range"]::-ms-fill-upper {
 
 /* tooltips and statuses */ 
 .infotext { overflow-wrap: break-word; }
-.tooltip { display: block; position: fixed; top: 0.5em; left: 0.5em; padding: 0.5em; background: var(--sd-primary-color); color: var(--sd-input-hover-text-color); border: 1px solid var(--sd-input-border-color); width: 22em; min-height: 1.3em; font-size: 0.8em; transition: opacity 0.2s ease-in; pointer-events: none; opacity: 0; z-index: 999; }
+.tooltip { display: block; position: fixed; top: 0.5em; left: 0.5em; padding: 0.5em; background: var(--sd-main-accent-color); color: var(--sd-input-hover-text-color); border: 1px solid var(--sd-input-border-color); width: 22em; min-height: 1.3em; font-size: 0.8em; transition: opacity 0.2s ease-in; pointer-events: none; opacity: 0; z-index: 999; }
 .tooltip-show { opacity: 0.9; }
-.toolbutton-selected { background: var(--sd-primary-color) !important; }
+.toolbutton-selected { background: var(--sd-main-accent-color) !important; }
 
 /* settings modification indicator */
 .modification-indicator {
@@ -3814,7 +3795,7 @@ input[type="range"]::-ms-fill-upper {
 
 #split-console > div:not(.gutter) {
     margin: 4px;
-    background-color: var(--sd-input-bg-color);
+    background-color: var(--sd-input-background-color);
 }
 
 #logMonitorData {
@@ -3850,10 +3831,10 @@ button > span {
   pointer-events: none;
 }
 
-#context-menu { z-index: 9999; position: absolute; display: block; padding: none; border: 1px solid var(--sd-primary-color); border-radius: var(--sd-border-radius); background: var(--sd-main-bg-color); color: var(--sd-input-text-color); }
+#context-menu { z-index: 9999; position: absolute; display: block; padding: none; border: 1px solid var(--sd-main-accent-color); border-radius: var(--sd-border-radius); background: var(--sd-main-background-color); color: var(--sd-input-text-color); }
 .context-menu-items { list-style: none; margin: 0; padding: 0; font-size: var(--sd-input-font-size); }
 .context-menu-items a { display: block; padding: var(--sd-group-padding); background: none; cursor: pointer; font-weight: normal; }
-.context-menu-items a:hover { background: var(--sd-primary-color) }
+.context-menu-items a:hover { background: var(--sd-main-accent-color) }
 
 .control-unit .gradio-row {
     display: flex;
@@ -3924,6 +3905,7 @@ div#control_params_elements_tabitem .control-settings .gradio-accordion .form {
 }
 .ar-dropdown input {
     width: fit-content;
+    color: var(--sd-input-text-color) !important;
 }
 .ar-dropdown .dropdown-arrow {
     display: none;
@@ -3934,11 +3916,11 @@ div#control_params_elements_tabitem .control-settings .gradio-accordion .form {
 }
 .ar-dropdown .wrap:hover,
 .ar-dropdown .wrap:has(.showOptions) {
-    background-color: var(--sd-button-hover-color);
+    background-color: var(--sd-main-accent-color);
 }
 .ar-dropdown input:hover,
 .ar-dropdown .showOptions input {
-     color: var(--sd-button-hover-text-color);
+     color: var(--sd-input-hover-text-color) !important;
 }
 .tabitem > .gap:has(ul.options) {
     overflow: visible;

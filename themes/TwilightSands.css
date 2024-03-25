@@ -1,17 +1,17 @@
 /* Author: QuantumSoul */
 
 :root {
-    --sd-primary-color:#f5e4cc;
+    --sd-main-accent-color:#f5e4cc;
     --sd-label-color:#f5f5de;
     --sd-input-text-color:rgba(255, 255, 255, 0.75);
-    --sd-input-placeholder-color:rgba(255, 255, 255, 0.35);
+    --sd-input-placeholder-text-color:rgba(255, 255, 255, 0.35);
     --sd-input-hover-text-color:rgba(182,134,212,1);
 
-    --sd-main-bg-color:#371b4b;
-    --sd-input-bg-color:rgba(0, 0, 0, 0.25);
+    --sd-main-background-color:#371b4b;
+    --sd-input-background-color:rgba(0, 0, 0, 0.25);
     --sd-input-border-color:rgba(0, 0, 0, 0.1);
-    --sd-panel-bg-color:rgba(164, 109, 203, 0.5);
+    --sd-panel-background-color:rgba(164, 109, 203, 0.5);
     --sd-panel-border-color:rgba(161, 105, 201, 0.75);
-    --sd-group-bg-color:transparent;
+    --sd-group-background-color:transparent;
     --sd-group-border-color:transparent;
 }

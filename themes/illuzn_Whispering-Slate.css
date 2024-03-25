@@ -1,0 +1,79 @@
+/* Author: illu_Zn */
+
+:root {
+    --sd-main-accent-color: #b1a488;
+    --sd-label-color: #796c60;
+    --sd-input-text-color: #665e55;
+    --sd-input-secondary-text-color: #5f575d;
+    --sd-input-placeholder-text-color: #9b9b9b;
+    --sd-input-hover-text-color: var(--sd-button-selected-text-color);
+
+    --sd-button-normal-color: var(--sd-input-background-color);
+    --sd-button-normal-text-color: #676055;
+    --sd-button-selected-color: var(--sd-main-accent-color);
+    --sd-button-selected-text-color: #e8e8e8;
+    --sd-button-hover-color: #9f9f9f;
+    --sd-button-hover-text-color: #eeeeee;
+
+    --sd-main-background-color: #a1a09d;
+    --sd-input-background-color: #e0e0e0;
+    --sd-input-border-color: #d0d0d0;
+    --sd-panel-background-color: var(--sd-input-border-color);
+    --sd-panel-border-color: #b9b8b8;
+    --sd-group-background-color: transparent;
+    --sd-group-border-color: transparent;
+    --sd-scrollbar-color: #c1c1c0;
+
+    --illuzn-secondary-panel-color: #dadada;
+}
+
+/* Compact Mode */
+:root {
+    --sd-input-height: 35px;
+    --sd-input-slider-height: 0.5;
+    --sd-input-icon-height: calc(var(--sd-input-height) - var(--sd-input-border-size) * 2);
+    --sd-input-padding: 5px;
+    --sd-input-font-size: 14px;
+    --sd-input-line-height: 23px;
+    --sd-input-border-size: 1px;
+
+    --sd-panel-padding: 5px;
+
+    --sd-group-padding: 0px;
+    --sd-group-border-radius: 7px;
+    --sd-group-border-size: 1px;
+    --sd-group-gap: 5px;
+
+    --sd-border-radius: 5px;
+    --sd-border-size: 2px;
+    --sd-gap-size-val: 5px;
+    --sd-outside-gap-size: 8px;
+    --sd-gap-size: max(var(--sd-gap-size-val), var(--sd-border-size));
+
+}
+
+/* Accents generate button :D */
+.sd-button.generate:first-of-type {
+    background-color: var(--sd-main-accent-color);
+}
+.sd-button.generate:first-of-type span {
+    color: var(--sd-button-selected-text-color);
+}
+.sd-button.generate:first-of-type .mask-icon {
+    background-color: var(--sd-button-selected-text-color);
+}
+
+/* Alternating group colors */
+.outline-params *>.group:nth-of-type(4n+1) .no-border,
+.outline-params *>.group:nth-of-type(4n+1) .portal,
+.outline-params *>.group:nth-of-type(4n+1) .panel {
+    background-color: var(--sd-input-border-color);
+}
+.outline-params *>.group:nth-of-type(4n+3) .no-border,
+.outline-params *>.group:nth-of-type(4n+3) .portal,
+.outline-params *>.group:nth-of-type(4n+3) .panel {
+    background-color: var(--illuzn-secondary-panel-color);
+}
+.spacer-group {
+    display: none;
+}
