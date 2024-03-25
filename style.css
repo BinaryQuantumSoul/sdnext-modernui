@@ -3913,3 +3913,11 @@ button > span {
     position: absolute;
     right: 0;
 }
+.ar-dropdown .wrap:hover,
+.ar-dropdown .wrap:has(.showOptions) {
+    background-color: var(--sd-button-hover-color);
+}
+.ar-dropdown input:hover,
+.ar-dropdown .showOptions input {
+     color: var(--sd-button-hover-text-color);
+}
