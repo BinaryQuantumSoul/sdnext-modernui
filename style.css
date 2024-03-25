@@ -3888,6 +3888,11 @@ button > span {
     max-width: 30rem;
 }
 
+div#control_params_elements_tabitem .control-settings .gradio-accordion .form {
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
 .option-show-outline-params .outline-params .no-border:hover,
 .option-show-outline-params .outline-params .portal:has(> [class*="gradio-"]):hover {
     outline: calc(var(--sd-border-size) * 0.8) solid var(--sd-button-hover-color);
