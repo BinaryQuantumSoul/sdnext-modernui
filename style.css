@@ -3755,13 +3755,23 @@ input[type="range"]::-ms-fill-upper {
 
 /* tooltips and statuses */ 
 .infotext { overflow-wrap: break-word; }
-.tooltip { display: block; position: fixed; top: 0.5em; left: 0.5em; padding: 0.5em; background: var(--sd-primary-color); color: var(--sd-input-text-color); border: 1px solid var(--sd-input-border-color);
-  width: 22em; min-height: 1.3em; font-size: 0.8em; transition: opacity 0.2s ease-in; pointer-events: none; opacity: 0; z-index: 999; }
+.tooltip { display: block; position: fixed; top: 0.5em; left: 0.5em; padding: 0.5em; background: var(--sd-primary-color); color: var(--sd-input-hover-text-color); border: 1px solid var(--sd-input-border-color); width: 22em; min-height: 1.3em; font-size: 0.8em; transition: opacity 0.2s ease-in; pointer-events: none; opacity: 0; z-index: 999; }
 .tooltip-show { opacity: 0.9; }
 .toolbutton-selected { background: var(--sd-primary-color) !important; }
 
+/* settings modification indicator */
 .modification-indicator {
-    display: none; /*todo*/
+    display: none;
+}
+.modification-indicator.changed + button,
+.modification-indicator.changed + .form > * {
+    font-style:oblique;
+    font-weight:bold;
+}
+.modification-indicator.changed + button:not(.selected):not(:hover),
+.modification-indicator.changed + .form > * {
+    outline: calc(var(--sd-border-size) * 0.8) solid var(--sd-button-hover-color);
+    color: var(--sd-button-hover-color);
 }
 
 /* markdown */
@@ -3891,6 +3901,10 @@ button > span {
 div#control_params_elements_tabitem .control-settings .gradio-accordion .form {
     flex-direction: row;
     flex-wrap: wrap;
+}
+
+#control-template-column-input .panel:first-child {
+    min-height: calc(var(--sd-input-height) + 2* var(--sd-panel-padding));
 }
 
 .option-show-outline-params .outline-params .no-border:hover,
