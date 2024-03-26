@@ -3928,3 +3928,7 @@ div#control_params_elements_tabitem .control-settings .gradio-accordion .form {
 .xtabs-item:has(ul.options) {
     overflow: visible;
 }
+
+#img2img-input-group {
+    max-height: 50%;
+}
