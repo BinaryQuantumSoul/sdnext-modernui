@@ -23,6 +23,7 @@
     --sd-group-background-color: transparent;
     --sd-group-border-color: transparent;
     --sd-scrollbar-color: #2f2f2e;
+    --sd-outline-color: #7a3435;
 
     --illuzn-secondary-panel-color: #1c1d1ef0;
 }
@@ -49,7 +50,6 @@
     --sd-gap-size-val: 5px;
     --sd-outside-gap-size: 8px;
     --sd-gap-size: max(var(--sd-gap-size-val), var(--sd-border-size));
-
 }
 
 /* Accents generate button :D */

@@ -37,6 +37,8 @@
     --sd-group-background-color:hsl(0deg 0% 16%);
     --sd-group-border-color:hsl(0deg 0% 16%);
     --sd-scrollbar-color:var(--sd-panel-border-color);
+    --sd-outline-color:var(--sd-button-hover-color);
+    --sd-outline-size:calc(var(--sd-border-size) * 0.8);
 
     --sd-input-height:35px;
     --sd-input-slider-height:0.6;
@@ -3890,7 +3892,7 @@ div#control_params_elements_tabitem .control-settings .gradio-accordion .form {
 
 .option-show-outline-params .outline-params .no-border:hover,
 .option-show-outline-params .outline-params .portal:has(> [class*="gradio-"]):hover {
-    outline: calc(var(--sd-border-size) * 0.8) solid var(--sd-button-hover-color);
+    outline: var(--sd-outline-size) solid var(--sd-outline-color);
 }
 
 .option-show-outline-params .outline-params .no-border > .portal:has(> [class*="gradio-"]):hover,

@@ -23,6 +23,8 @@
     --sd-group-background-color:hsl(0deg 0% 16%);
     --sd-group-border-color:hsl(0deg 0% 16%);
     --sd-scrollbar-color:var(--sd-panel-border-color);
+    --sd-outline-color:var(--sd-button-hover-color);
+    --sd-outline-size:calc(var(--sd-border-size) * 0.8);
 
     --sd-input-height:35px;
     --sd-input-slider-height:0.6;
