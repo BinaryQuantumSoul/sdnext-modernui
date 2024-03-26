@@ -3932,3 +3932,43 @@ div#control_params_elements_tabitem .control-settings .gradio-accordion .form {
 #img2img-input-group {
     max-height: 50%;
 }
+
+.gap:has(.interrogate-clip) {
+    position: relative;
+}
+button.interrogate-clip,
+button.interrogate-blip {
+    position: absolute;
+    top: var(--sd-panel-padding);
+    margin: var(--sd-panel-padding);
+    color: transparent !important;
+}
+button.interrogate-clip {
+    right: calc(3*var(--sd-panel-padding) + 2*var(--sd-input-height));
+}
+button.interrogate-blip {
+    right: calc(2*var(--sd-panel-padding) + var(--sd-input-height));
+}
+button.interrogate-clip::after,
+button.interrogate-blip::after {
+    background-color: var(--sd-input-text-color);
+    -webkit-mask-image: url(./html/svg/question-answer-line.svg);
+    -webkit-mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center center;
+    
+    content: '';
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    width: 80%;
+    height: 80%;
+    margin: 0;
+    border: 0;
+    padding: 0;
+}
+button.interrogate-clip:hover::after,
+button.interrogate-blip:hover::after {
+    background-color: var(--sd-input-hover-text-color);
+    -webkit-mask-image: url(./html/svg/question-answer-fill.svg);
+}
