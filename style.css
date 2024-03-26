@@ -3740,6 +3740,7 @@ input[type="range"]::-ms-fill-upper {
 .infotext { overflow-wrap: break-word; }
 .tooltip { display: block; position: fixed; top: 0.5em; right: 0.5em; padding: 0.5em; background: var(--sd-main-accent-color); color: var(--sd-input-hover-text-color); border: 1px solid var(--sd-input-border-color); width: 22em; min-height: 1.3em; font-size: 0.8em; transition: opacity 0.2s ease-in; pointer-events: none; opacity: 0; z-index: 999; }
 .tooltip-show { opacity: 0.9; }
+.tooltip-left { right: unset; left: 0.5em; }
 .toolbutton-selected { background: var(--sd-main-accent-color) !important; }
 
 /* settings modification indicator */
