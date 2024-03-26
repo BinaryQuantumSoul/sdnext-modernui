@@ -3924,6 +3924,7 @@ div#control_params_elements_tabitem .control-settings .gradio-accordion .form {
 .ar-dropdown .showOptions input {
      color: var(--sd-input-hover-text-color) !important;
 }
-.tabitem > .gap:has(ul.options) {
+.tabitem > .gap:has(ul.options),
+.xtabs-item:has(ul.options) {
     overflow: visible;
 }
