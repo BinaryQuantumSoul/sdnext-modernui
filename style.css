@@ -2211,6 +2211,7 @@ div#main-nav {
 
 .gradio-row:empty,
 .hide-empty:has(.form.hidden),
+.hide-empty:has(.hidden:only-child),
 .hide-empty:has(.gradio-html:first-child:empty) {
     display: none;
 }
