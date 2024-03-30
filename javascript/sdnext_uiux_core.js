@@ -301,11 +301,12 @@ function uiuxOptionSettings() {
 	}
 
 	setupUiUxSetting("uiux_no_slider_layout", "option-no-slider-layout");
-	setupUiUxSetting("uiux_show_outline_params", "option-show-outline-params");
 	setupUiUxSetting("uiux_show_labels_aside", "option-aside-labels");
 	setupUiUxSetting("uiux_show_labels_main", "option-main-labels");
 	setupUiUxSetting("uiux_show_labels_tabs", "option-tab-labels");
 	setupUiUxSetting("uiux_show_labels_control", "option-control-labels");
+	setupUiUxSetting("uiux_no_headers_params", "option-hide-headers-params");
+	setupUiUxSetting("uiux_show_outline_params", "option-show-outline-params");
 
 	// settings mobile scale
 	function uiux_mobile_scale(value) {

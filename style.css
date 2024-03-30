@@ -3974,3 +3974,16 @@ button.interrogate-blip:hover::after {
     background-color: var(--sd-input-hover-text-color);
     -webkit-mask-image: url(./html/svg/question-answer-fill.svg);
 }
+
+.outline-params h2 {
+    display: block;
+}
+.outline-params .spacer-group {
+    display: none;
+}
+.option-hide-headers-params .outline-params h2 {
+    display: none;
+}
+.option-hide-headers-params .outline-params .spacer-group {
+    display: block;
+}
