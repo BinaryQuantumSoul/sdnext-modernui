@@ -74,3 +74,7 @@
 .outline-params *>.group:nth-of-type(4n+3) .panel {
     background-color: var(--illuzn-secondary-panel-color);
 }
+
+h2 {
+    color: var(--sd-label-color);
+}

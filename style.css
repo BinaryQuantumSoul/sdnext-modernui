@@ -3907,6 +3907,10 @@ div#control_params_elements_tabitem .control-settings .gradio-accordion .form {
     outline: none;
 }
 
+.no-outline {
+    outline: var(--sd-border-size) solid var(--sd-panel-border-color) !important;
+}
+
 .ar-dropdown .secondary-wrap {
     width: 1rem;
     overflow: hidden;
