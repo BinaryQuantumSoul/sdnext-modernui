@@ -26,6 +26,10 @@
                         <div class="mask-icon icon-extras"></div>
                         <span>Process</span>
                     </button>
+                    <button title="Gallery" id="gallery_nav" tabItemId="#split-app, #gallery_tabitem" tabGroup="main_group" data-click="#tabs" onclick="mainTabs(this, '#tab_gallery')" class="xtabs-tab">
+                        <div class="mask-icon icon-dock"></div>
+                        <span>Process</span>
+                    </button>
                     <div class="flexbox col spacer-v"></div>
 
                     <div id="other_extensions" class="flexbox col"></div>
@@ -50,7 +54,7 @@
                         <div data-minSize="0" data-initSize="100" id="split-left" class="split-container">
                             <div id="txt2img_tabitem_parent">
                                 <div id="txt2img_tabitem" class="xtabs-item  no-padding">
-                                    <div id="split" direction="horizontal" gutterSize="8" class="split">
+                                    <div id="split-txt2img" direction="horizontal" gutterSize="8" class="split">
                                         <div data-minSize="0" data-initSize="45" id="split-txt2img-left" class="split-container params">
                                             <div id="template-txt2img-params" class="template"></div>
                                         </div>
@@ -92,6 +96,18 @@
                                         </div>
                                         <div data-minSize="0" data-initSize="66" id="split-control-right" class="split-container">
                                             <div id="template-control-results" class="template"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="gallery_tabitem_parent">
+                                <div id="gallery_tabitem" class="xtabs-item  no-padding">
+                                    <div id="split-gallery" direction="horizontal" gutterSize="8" class="split">
+                                        <div data-minSize="0" data-initSize="45" id="split-gallery-left" class="split-container params">
+                                            <div id="template-gallery-params" class="template"></div>
+                                        </div>
+                                        <div data-minSize="0" data-initSize="55" id="split-gallery-right" class="split-container">
+                                            <div id="template-gallery-results" class="template"></div>
                                         </div>
                                     </div>
                                 </div>

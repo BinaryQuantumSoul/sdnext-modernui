@@ -1,0 +1,43 @@
+<div id="layout-gallery" class="layout">
+    <div class="layout-header">
+        <div id="gallery_header_panel" class="flexbox row shrink panel padding no-br">
+            <div id="gallery_header" class="flexbox row no-wrap shrink no-labels flex-start group-row">
+                <button title="Browse" tabItemId="#gallery_params_tabitem" tabGroup="gallery" id="gallery_params" active="true" class="xtabs-tab shrink">
+                    <div class="mask-icon icon-equalize"></div>
+                    <span>Browse</span>
+                </button>
+                <button title="Viewer" tabItemId="#gallery_results_mobile_tabitem" tabGroup="gallery" id="gallery_results_mobile" class="xtabs-tab only-mobile">
+                    <div class="mask-icon icon-results"></div>
+                    <span>Viewer</span>
+                </button>
+            </div>
+            <div id="gallery_generate_group" class="flexbox">
+                <div data-parent-selector="#tab_gallery" data-selector="#tab-gallery-sort-buttons" class="portal no-padding no-bg"></div>
+            </div>
+        </div>
+    </div>
+    <div class="layout-content">
+        <div class="xtabs panel auto no-tr">
+            <div class="flexbox col shrink">
+                <div id="gallery_params_tabitem_group" class="flexbox col">
+                    <div id="gallery_params_tabitem" class="xtabs-item">
+                        <div class="flexbox col group">
+                            <div data-parent-selector="#tab_gallery" data-selector="#tab-gallery-folders" class="portal"></div>
+                            <div data-parent-selector="gradio-app" data-selector="#tab-gallery-search" class="portal"></div>
+                            <div data-parent-selector="gradio-app" data-selector="#tab-gallery-status" class="portal shrink hide-empty"></div>
+                            <div data-parent-selector="#tab_gallery" data-selector="#tab-gallery-files" class="portal hide-empty"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="gallery_results_mobile_tabitem_group" class="flexbox col only-mobile">
+                    <div id="gallery_results_mobile_tabitem" mobile="#template-gallery-results" class="xtabs-item"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- <div id="gallery_results_generate_tabitem_group" class="flexbox col panel no-grow only-mobile">
+            <div id="gallery_results_generate_tabitem" mobile="#gallery_generate_group" class="xtabs-item"></div>
+        </div> -->
+    </div>
+</div>

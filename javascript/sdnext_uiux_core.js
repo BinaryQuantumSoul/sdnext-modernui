@@ -800,7 +800,7 @@ function createButtonsForExtensions() {
 	const other_extensions = document.querySelector(`#other_extensions`);
 	const other_views = document.querySelector(`#split-left`);
 
-	const no_button_tabs = ["tab_txt2img", "tab_img2img", "tab_process", "tab_control", "tab_interrogate", "tab_train", "tab_models", "tab_extensions", "tab_system", "tab_sdnext_uiux_core"];
+	const no_button_tabs = ["tab_txt2img", "tab_img2img", "tab_process", "tab_control", "tab_interrogate", "tab_train", "tab_models", "tab_extensions", "tab_system", "tab_gallery", "tab_sdnext_uiux_core"];
 	const snakeToCamel = str => str.replace(/(_\w)/g, match => match[1].toUpperCase());
 
 	document.querySelectorAll(`#tabs > .tabitem`).forEach((c) => {

@@ -1,3 +1,5 @@
+@font-face { font-family: 'NotoSans'; font-display: swap; font-style: normal; font-weight: 100; src: local('NotoSans'), url('../../javascript/notosans-nerdfont-regular.ttf') }
+
 * {
     box-sizing: border-box;
     transition-property: color, opacity, background-color, border-color;
@@ -64,7 +66,6 @@ body {
     margin: 0;
     color: var(--sd-label-color);
     font-size: var(--sd-input-font-size);
-    /* line-height: 16px; */
     background-color: var(--sd-main-background-color);
     font-family: "IBM Plex Mono", monospace;
 }
@@ -256,7 +257,8 @@ body {
 * select,
 * input,
 * textarea,
-* button {
+* button,
+* gallery-folder {
     background: var(--sd-input-background-color);
     border: var(--sd-input-border-size) solid var(--sd-input-border-color);
     border-radius: var(--sd-border-radius);
@@ -680,11 +682,13 @@ div.float span {
 }
 
 button.active,
-button:hover {
+button:hover,
+gallery-folder:hover {
     background-color: var(--sd-main-accent-color);
 }
 button.active span,
-button:hover span {
+button:hover span,
+gallery-folder:hover div {
     color: var(--sd-input-hover-text-color);
 }
 button.active .mask-icon,
@@ -3989,4 +3993,27 @@ button.interrogate-blip:hover::after {
 }
 .option-hide-headers-params .outline-params .spacer-group {
     display: block;
+}
+
+#tab-gallery-folders, #tab-gallery-files {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+#tab-gallery-folders { 
+    justify-content: start; 
+}
+#tab-gallery-files { 
+    justify-content: space-evenly; 
+}
+#tab-gallery-sort-buttons > .form {
+    display: flex;
+    justify-content: flex-end;
+}
+
+gallery-folder {
+    padding: 0;
+}
+.gallery-sort, gallery-folder {
+    font-family: 'NotoSans';
 }
