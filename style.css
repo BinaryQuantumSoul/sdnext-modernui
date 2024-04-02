@@ -4334,6 +4334,7 @@ button.interrogate-blip:hover::after {
 
 #tab-gallery-files {
     justify-content: space-evenly;
+    background-color: var(--sd-input-background-color);
 }
 
 #tab-gallery-sort-buttons>.form {
