@@ -21,7 +21,7 @@ def on_ui_settings():
         "uiux_mobile_scale": OptionInfo(0.7, "Mobile scale", gr.Slider, {"minimum": 0.5, "maximum": 1, "step": 0.05}),
 
         'uiux_separator_other': OptionInfo("<h2>Other Settings</h2>", "", gr.HTML),
-        "uiux_enable_console_log": OptionInfo(True, "Enable debug log"),
+        "uiux_enable_console_log": OptionInfo(False, "Enable debug log"),
         "uiux_max_resolution_output": OptionInfo(2048, "Max resolution output for txt2img and img2img"),
         "uiux_disable_transitions": OptionInfo(False, "Disable transitions")
     }))

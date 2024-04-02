@@ -3515,6 +3515,7 @@ h2 {
 h2 {
     font-size: 20px;
     color: var(--sd-main-accent-color);
+    margin: 2px 5px -2px 5px;
 }
 
 #about_tabitem ul {
@@ -4045,12 +4046,17 @@ input[type="range"]::-ms-fill-upper {
     display: none;
 }
 
-#system .tab-nav button:first-child {
+#system .tab-nav button:first-child,
+#layout-extra-networks .tab-nav .buttons button:last-child {
     display: none;
 }
 
 #system .tab-nav button:nth-child(2) {
     border-top-left-radius: var(--sd-border-radius);
+}
+
+#layout-extra-networks .tab-nav .buttons button:nth-last-child(2) {
+    border-top-right-radius: var(--sd-border-radius);
 }
 
 .other .tab-nav {

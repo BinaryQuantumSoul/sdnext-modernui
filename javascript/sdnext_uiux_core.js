@@ -963,23 +963,21 @@ function startLogger() {
 	console.log(navigator.userAgent);
 
 	console.log("==== SETTINGS ====");
+
+	const filteredOpts = Object.entries(window.opts).filter(([key,value]) => key.startsWith('uiux')  && typeof value !== 'string');
+	filteredOpts.forEach(([key, value]) => console.log(`${key}: `, value)); 
+
     console.log("Debug log enabled: ", window.opts.uiux_enable_console_log);
-    console.log("Maximum resolution output: ", window.opts.uiux_max_resolution_output);
-    console.log("Ignore overrides: ", window.opts.uiux_ignore_overrides);
-    console.log("Show ticks for input range slider: ", window.opts.uiux_show_input_range_ticks);
-    console.log("Default layout: ", window.opts.uiux_default_layout);
-    console.log("Disable transitions: ", window.opts.uiux_disable_transitions);
-    console.log("Aside labels: ", window.opts.uiux_show_labels_aside);
-    console.log("Main labels: ", window.opts.uiux_show_labels_main);
-    console.log("Tabs labels: ", window.opts.uiux_show_labels_tabs);
 
 	if(navigator.userAgent.toLowerCase().includes('firefox')){
-		console.log("Go to the Firefox about:config page, then search and toggle layout. css.has-selector. enabled")
+		console.log("Go to the Firefox about:config page, then search and toggle layout. css.has-selector. enabled");
 	}
 
     if(!window.opts.uiux_enable_console_log){
         console.log = console.old;
-    }
+    } else {
+		console.log("==== LOGS ====");
+	}
 }
 
 function setupLogger() {

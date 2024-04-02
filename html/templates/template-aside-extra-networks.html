@@ -51,11 +51,13 @@
 
         <div id="layout-console-log">
             <div id="split-console" gutterSize="8" direction="vertical" class="split">
+                <h2>Server Log</h2>
                 <div data-minSize="0" data-initSize="50" id="split-console-up" class="split-container">
-                    <div id="console-log-js"></div>
-                </div>
-                <div data-minSize="0" data-initSize="50" id="split-console-down" class="split-container">
                     <div data-selector="#logMonitorData" data-parent-selector="gradio-app" class="portal no-bg no-padding"></div>
+                </div>
+                <h2>Client Log</h2>
+                <div data-minSize="0" data-initSize="50" id="split-console-down" class="split-container">
+                    <div id="console-log-js"></div>
                 </div>
             </div>
         </div>
