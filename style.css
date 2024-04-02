@@ -3998,6 +3998,12 @@ button.interrogate-blip:hover::after {
 .option-hide-headers-params .outline-params .spacer-group {
     display: block;
 }
+#layout-extras .outline-params h2 {
+    display: block;
+}
+#layout-extras .outline-params .spacer-group {
+    display: none;
+}
 
 #tab-gallery-folders, #tab-gallery-files {
     display: flex;
