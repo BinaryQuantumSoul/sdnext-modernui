@@ -967,17 +967,15 @@ function startLogger() {
 	const filteredOpts = Object.entries(window.opts).filter(([key,value]) => key.startsWith('uiux')  && typeof value !== 'string');
 	filteredOpts.forEach(([key, value]) => console.log(`${key}: `, value)); 
 
-    console.log("Debug log enabled: ", window.opts.uiux_enable_console_log);
-
 	if(navigator.userAgent.toLowerCase().includes('firefox')){
 		console.log("Go to the Firefox about:config page, then search and toggle layout. css.has-selector. enabled");
 	}
 
-    if(!window.opts.uiux_enable_console_log){
-        console.log = console.old;
-    } else {
-		console.log("==== LOGS ====");
-	}
+	console.log("==== LOGS ====");
+	console.log("Debug log enabled: ", window.opts.uiux_enable_console_log);
+    if(!window.opts.uiux_enable_console_log) {
+        console.log = console.oldLog;
+    }
 }
 
 function setupLogger() {
@@ -993,6 +991,9 @@ function setupLogger() {
 		flex-direction: column;
 		overflow: auto;
 	`;
+	if (!window.opts.uiux_display_console_splash) {
+		loggerScreen.style.display = "none";
+	}
 	
 	loggerUiUx = document.createElement('div');
 	loggerUiUx.id = "logger";
@@ -1004,11 +1005,12 @@ function setupLogger() {
 	//override console.log
 	const logger = document.getElementById("logger")
 
-	console.old = console.log;
-	console.log = function () {
+	console.oldLog = console.log;
+	console.newLog = function () {
 		logger.innerHTML += logPrettyPrint(...arguments);
-		console.old(...arguments);
+		console.oldLog(...arguments);
 	};
+	console.log = console.newLog;
 }
 
 //======================= MAIN ROUTINE =======================
@@ -1051,6 +1053,7 @@ async function mainUiUx() {
 	extraTweaks();
 
 	//UIUX COMPLETE
+	console.log = console.newLog;
 	console.log("UiUx complete");
 }
 
