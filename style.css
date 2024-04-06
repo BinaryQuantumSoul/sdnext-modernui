@@ -2414,9 +2414,11 @@ div#main-nav {
     background-color: var(--sd-main-accent-color);
 }
 
-button:hover .icon-letters,
-button.active .icon-letters {
+button:hover .icon-letters {
     color: var(--sd-button-hover-text-color);
+}
+button.active .icon-letters {
+    color: var(--sd-button-selected-text-color);
 }
 
 button.active svg,
@@ -3095,6 +3097,9 @@ span.star_count b {
     height: 100%;
     width: 100%;
     object-fit: contain;
+    color: var(--sd-input-secondary-text-color);
+}
+.gradio-file {
     color: var(--sd-input-secondary-text-color);
 }
 
@@ -4362,6 +4367,9 @@ gallery-folder {
 .gallery-sort,
 gallery-folder {
     font-family: 'NotoSans';
+}
+gallery-folder:hover {
+    color: var(--sd-input-hover-text-color);
 }
 
 .splash { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1000; display: block; text-align: center; }
