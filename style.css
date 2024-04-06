@@ -2469,7 +2469,10 @@ button:hover svg {
 
 .center {
     justify-content: center !important;
-    align-content: center;
+}
+
+.align-end {
+    align-items: end;
 }
 
 #portal-16>div>div:first-child {
@@ -2609,6 +2612,7 @@ button:hover svg {
     justify-content: flex-start;
 }
 
+.tab-header .xtabs-tab span,
 #main-nav .xtabs-tab span {
     display: none;
 }
@@ -3747,8 +3751,7 @@ input[type="checkbox"] {
 
 .option-aside-labels #sidebar_secondary_tabs a span,
 .option-main-labels #main-nav .xtabs-tab span,
-.option-tab-labels [id$="_header"] span,
-.option-tab-labels #control_output_group span,
+.option-tab-labels .tab-header span,
 .option-aside-labels #accordion-aside .xtabs-tab span,
 .option-control-labels #accordion-control .xtabs-tab span {
     display: flex !important;
@@ -3756,8 +3759,7 @@ input[type="checkbox"] {
 }
 
 .option-main-labels #main-nav .xtabs-tab,
-.option-tab-labels [id$="_header"] .xtabs-tab,
-.option-tab-labels #control_output_group .xtabs-tab,
+.option-tab-labels .tab-header .xtabs-tab,
 .option-aside-labels #accordion-aside .xtabs-tab,
 .option-control-labels #accordion-control .xtabs-tab {
     justify-content: flex-start;
@@ -4192,8 +4194,24 @@ div#control_params_elements_tabitem .control-settings .gradio-accordion .form {
     flex-wrap: wrap;
 }
 
-#control-template-column-input .panel:first-child {
+[id$="results"] .panel.no-br:first-child {
     min-height: calc(var(--sd-input-height) + 2* var(--sd-panel-padding));
+}
+[id$="results"] .panel.no-tr:last-child .panel.no-tr {
+    position: relative;
+}
+[id$="results"] .panel.no-tr:last-child .panel.no-tr::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    
+    background-color: var(--sd-panel-background-color);
+    outline: var(--sd-border-size) solid var(--sd-panel-border-color);
+    border-radius: 0 0 var(--sd-border-radius) var(--sd-border-radius);
 }
 
 .option-show-outline-params .outline-params .no-border:hover,
@@ -4339,7 +4357,6 @@ button.interrogate-blip:hover::after {
 
 #tab-gallery-sort-buttons>.form {
     display: flex;
-    justify-content: flex-end;
 }
 
 gallery-folder {

@@ -10,10 +10,6 @@
             </div>
             <div id="main_nav_content" class="layout-content">
                 <div id="main-nav-bar" class="flexbox col shrink">
-                    <button title="Control" id="control_nav" tabItemId="#split-app, #control_tabitem" tabGroup="main_group" data-click="#tabs" onclick="mainTabs(this, '#tab_control')" class="xtabs-tab only-diffusers">
-                        <div class="mask-icon icon-control"></div>
-                        <span>Control</span>
-                    </button>
                     <button title="Text" id="txt2img_nav" tabItemId="#split-app, #txt2img_tabitem" tabGroup="main_group" active="true" data-click="#tabs" onclick="mainTabs(this, '#tab_txt2img')" class="xtabs-tab">
                         <div class="mask-icon icon-txt2img"></div>
                         <span>Text</span>
@@ -21,6 +17,10 @@
                     <button title="Image" id="img2img_nav" tabItemId="#split-app, #img2img_tabitem" tabGroup="main_group" data-click="#tabs" onclick="mainTabs(this, '#tab_img2img')" class="xtabs-tab">
                         <div class="mask-icon icon-img2img"></div>
                         <span>Image</span>
+                    </button>
+                    <button title="Control" id="control_nav" tabItemId="#split-app, #control_tabitem" tabGroup="main_group" data-click="#tabs" onclick="mainTabs(this, '#tab_control')" class="xtabs-tab only-diffusers">
+                        <div class="mask-icon icon-control"></div>
+                        <span>Control</span>
                     </button>
                     <button title="Process" id="extras_nav" tabItemId="#split-app, #extras_tabitem" tabGroup="main_group" data-click="#tabs" onclick="mainTabs(this, '#tab_process')" class="xtabs-tab">
                         <div class="mask-icon icon-extras"></div>
@@ -55,10 +55,10 @@
                             <div id="txt2img_tabitem_parent">
                                 <div id="txt2img_tabitem" class="xtabs-item  no-padding">
                                     <div id="split-txt2img" direction="horizontal" gutterSize="8" class="split">
-                                        <div data-minSize="0" data-initSize="45" id="split-txt2img-left" class="split-container params">
+                                        <div data-minSize="0" data-initSize="50" id="split-txt2img-left" class="split-container params">
                                             <div id="template-txt2img-params" class="template"></div>
                                         </div>
-                                        <div data-minSize="0" data-initSize="55" id="split-txt2img-right" class="split-container">
+                                        <div data-minSize="0" data-initSize="50" id="split-txt2img-right" class="split-container">
                                             <div id="template-txt2img-results" class="template"></div>
                                         </div>
                                     </div>
@@ -67,10 +67,10 @@
                             <div id="img2img_tabitem_parent">
                                 <div id="img2img_tabitem" class="xtabs-item  no-padding">
                                     <div id="split-img2img" direction="horizontal" gutterSize="8" class="split">
-                                        <div data-minSize="0" data-initSize="45" id="split-img2img-left" class="split-container params">
+                                        <div data-minSize="0" data-initSize="34" id="split-img2img-left" class="split-container params">
                                             <div id="template-img2img-params" class="template"></div>
                                         </div>
-                                        <div data-minSize="0" data-initSize="55" id="split-img2img-right" class="split-container">
+                                        <div data-minSize="0" data-initSize="66" id="split-img2img-right" class="split-container">
                                             <div id="template-img2img-results" class="template"></div>
                                         </div>
                                     </div>
@@ -79,10 +79,10 @@
                             <div id="extras_tabitem_parent">
                                 <div id="extras_tabitem" class="xtabs-item  no-padding">
                                     <div id="split-extras" direction="horizontal" gutterSize="8" class="split">
-                                        <div data-minSize="0" data-initSize="45" id="split-extras-left" class="split-container params">
+                                        <div data-minSize="0" data-initSize="34" id="split-extras-left" class="split-container params">
                                             <div id="template-extras-params" class="template"></div>
                                         </div>
-                                        <div data-minSize="0" data-initSize="55" id="split-extras-right" class="split-container">
+                                        <div data-minSize="0" data-initSize="66" id="split-extras-right" class="split-container">
                                             <div id="template-extras-results" class="template"></div>
                                         </div>
                                     </div>
@@ -103,10 +103,10 @@
                             <div id="gallery_tabitem_parent">
                                 <div id="gallery_tabitem" class="xtabs-item  no-padding">
                                     <div id="split-gallery" direction="horizontal" gutterSize="8" class="split">
-                                        <div data-minSize="0" data-initSize="45" id="split-gallery-left" class="split-container params">
+                                        <div data-minSize="0" data-initSize="50" id="split-gallery-left" class="split-container params">
                                             <div id="template-gallery-params" class="template"></div>
                                         </div>
-                                        <div data-minSize="0" data-initSize="55" id="split-gallery-right" class="split-container">
+                                        <div data-minSize="0" data-initSize="50" id="split-gallery-right" class="split-container">
                                             <div id="template-gallery-results" class="template"></div>
                                         </div>
                                     </div>
