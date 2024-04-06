@@ -728,6 +728,7 @@ async function loadAllTemplates() {
 }
 loadAllTemplates = functionLogTime(loadAllTemplates);
 
+//= ====================== INITIALIZATION =======================
 async function removeStyleAssets() {
   // Remove specific stylesheets
   let removedStylesheets = 0;
@@ -762,17 +763,6 @@ async function removeStyleAssets() {
   log('UI removeElements', `${removedCount}/${count}`);
 }
 
-//= ====================== INITIALIZATION =======================
-function setFavicon() {
-  let link = document.querySelector("link[rel~='icon']");
-  if (!link) {
-    link = document.createElement('link');
-    link.rel = 'icon';
-    document.head.appendChild(link);
-  }
-  link.href = './file=extensions/sdnext-ui-ux/html/favicon.svg';
-}
-
 function logStartup() {
   log('userAgent', navigator.userAgent);
   const filteredOpts = Object.entries(window.opts).filter(([key, value]) => key.startsWith('uiux') && typeof value !== 'string');
@@ -782,28 +772,6 @@ function logStartup() {
   if (navigator.userAgent.toLowerCase().includes('firefox')) {
     log('UI: Go to the Firefox about:config page, then search and toggle layout. css.has-selector. enabled');
   }
-}
-
-async function setupLogger() {
-  // create logger
-  log('setupLogger');
-  const loggerScreen = document.createElement('div');
-  loggerScreen.id = 'logger_screen';
-  loggerScreen.style = `
-    position: fixed; 
-    inset: 0; 
-    background-color: black; 
-    z-index: 99999;
-    display: flex;
-    flex-direction: column;
-    overflow: auto;
-    display: none;
-  `;
-  loggerUiUx = document.createElement('div');
-  loggerUiUx.id = 'logger';
-  loggerScreen.append(loggerUiUx);
-  document.body.append(loggerScreen);
-  window.logger = document.getElementById('logger');
 }
 
 //= ====================== MAIN ROUTINE =======================
