@@ -12,23 +12,33 @@ let appUiUx;
 let isBackendDiffusers;
 
 //= ====================== READY STATES =======================
-let uiInitialized = false; // main flag to indicate UI is ready
-async function waitForUiReady() {
-  return new Promise((resolve) => {
-    const check = () => uiInitialized ? resolve(uiInitialized) : setTimeout(check);
-    check();
-  });
+function functionWaitForFlag(checkFlag) {
+  return async function () {
+    return new Promise((resolve) => {
+      const check = () => checkFlag() ? resolve() : setTimeout(check);
+      check();
+    });
+  }
 }
 
-let uiPortalInitialized = false;
-async function waitForUiPortal() {
-  return new Promise((resolve) => {
-    const check = () => uiPortalInitialized ? resolve(uiPortalInitialized) : setTimeout(check);
-    check();
-  });
-}
+let uiFlagInitialized = false;
+let uiFlagPortalInitialized = false;
+
+waitForUiReady = functionWaitForFlag(() => uiFlagInitialized);
+waitForUiPortal = functionWaitForFlag(() => uiFlagPortalInitialized);
 
 //= ====================== UTILS =======================
+function functionLogTime(func) {
+  return async function() {
+    const t0 = performance.now();
+    const returnValue = func(...arguments);
+    const t1 = performance.now();
+
+    log(`UI ${func.name}`, Math.round(t1 - t0) / 1000);
+    return returnValue;
+  }
+}
+
 function logPrettyPrint() {
   let output = '';
   let arg;
@@ -182,8 +192,6 @@ function switchMobile() {
 
 //= ====================== UIUX READY =======================
 async function extraTweaks() {
-  const t0 = performance.now();
-
   // Control tab flex row
   async function adjustFlexDirection(flexContainer) {
     const childCount = flexContainer.childElementCount;
@@ -199,9 +207,8 @@ async function extraTweaks() {
   const controlColumns = document.getElementById('control-columns');
   adjustFlexDirection(controlColumns);
   new ResizeObserver(() => adjustFlexDirection(controlColumns)).observe(controlColumns);
-  const t1 = performance.now();
-  log('UI extraTweaks', Math.round(t1 - t0) / 1000);
 }
+extraTweaks = functionLogTime(extraTweaks);
 
 function mainTabs(element, tab) {
   const newTab = document.querySelector(tab);
@@ -359,16 +366,14 @@ function attachLoggerScreen() {
 
 //= ====================== SETUP =======================
 async function loadAllPortals() {
-  const t0 = performance.now();
   appUiUx.querySelectorAll('.portal').forEach((elem, index, array) => {
     const onlyDiffusers = elem.classList.contains('only-diffusers');
     const onlyOriginal = elem.classList.contains('only-original');
     if ((onlyDiffusers && !isBackendDiffusers) || (onlyOriginal && isBackendDiffusers)) portalTotal += 1;
     else movePortal(elem, 1, index, array.length); // eslint-disable-line no-use-before-define
   });
-  const t1 = performance.now();
-  log('UI loadPortals', Math.round(t1 - t0) / 1000);
 }
+loadAllPortals = functionLogTime(loadAllPortals);
 
 function movePortal(portalElem, tries, index, length) {
   const MAX_TRIES = 3;
@@ -399,7 +404,7 @@ function movePortal(portalElem, tries, index, length) {
     if (window.opts.uiux_enable_console_log) portalElem.style.backgroundColor = 'pink';
     portalTotal += 1;
   }
-  if (portalTotal === length) uiPortalInitialized = true;
+  if (portalTotal === length) uiFlagPortalInitialized = true;
 }
 
 function initSplitComponents() {
@@ -655,7 +660,6 @@ async function createButtonsForExtensions() {
       other_views.append(temp.firstElementChild);
     }
   });
-  const t1 = performance.now();
 }
 
 //= ====================== TEMPLATES =======================
@@ -709,7 +713,6 @@ async function loadCurrentTemplate(data) {
 }
 
 async function loadAllTemplates() {
-  const t0 = performance.now();
   const data = [
     {
       url: template_path,
@@ -719,9 +722,8 @@ async function loadAllTemplates() {
   ];
   await loadCurrentTemplate(data);
   await replaceRootTemplate();
-  const t1 = performance.now();
-  log('UI loadTemplates', Math.round(t1 - t0) / 1000);
 }
+loadAllTemplates = functionLogTime(loadAllTemplates);
 
 async function removeStyleAssets() {
   // Remove specific stylesheets
@@ -736,7 +738,6 @@ async function removeStyleAssets() {
     removedStylesheets++;
     if (window.opts.uiux_enable_console_log) log('UI removed stylesheet', stylesheet.getAttribute('href'));
   });
-  const t1 = performance.now();
   log('UI removeStyleSheets', removedStylesheets);
 
   // Remove inline styles and svelte classes
@@ -804,8 +805,6 @@ async function setupLogger() {
 
 //= ====================== MAIN ROUTINE =======================
 async function mainUiUx() {
-  const t0 = performance.now();
-
   logStartup();
   await removeStyleAssets();
   await loadAllTemplates();
@@ -825,11 +824,8 @@ async function mainUiUx() {
   showContributors();
   switchMobile();
   extraTweaks();
-
-  // UIUX COMPLETE
-  const t1 = performance.now();
-  log('UI ready', Math.round(t1 - t0) / 1000);
-  uiInitialized = true;
+  uiFlagInitialized = true;
 }
+mainUiUx = functionLogTime(mainUiUx);
 
 onUiReady(mainUiUx);
