@@ -73,7 +73,7 @@
                                 </div>
                             </div>
                             <div class="layout-content">
-                                <div class="flexbox col outline-params">
+                                <div class="flexbox col">
                                     <div id="split-txt2img-prompt" direction="vertical" gutterSize="8" class="split">
                                         <div data-minSize="0" data-initSize="50" id="split-txt2img-prompt-up" class="split-container">
                                             <div class="layout">
@@ -97,22 +97,24 @@
                                         </div>
                                     </div>
 
-                                    <div class="flexbox col spacer-group"></div>
-                                    <h2>Size & Batch</h2>
-                                    <div class="flexbox row group">
-                                        <div class="flexbox col">
-                                            <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_width" class="portal"></div>
-                                            <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_height" class="portal"></div>
-                                        </div>
-                                        <div class="flexbox col center panel unset-min-width shrink">
-                                            <div data-selector="#txt2img_res_switch_btn" data-parent-selector="#tab_txt2img" droppable="true" class="portal invisible tool">
-                                                <div class="mask-icon icon-res-switch"></div>
+                                    <div class="flexbox col outline-params">
+                                        <div class="flexbox col spacer-group"></div>
+                                        <h2>Size & Batch</h2>
+                                        <div class="flexbox row group">
+                                            <div class="flexbox col">
+                                                <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_width" class="portal"></div>
+                                                <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_height" class="portal"></div>
                                             </div>
-                                            <div data-selector="#txt2img_ar" data-parent-selector="#tab_txt2img" class="portal no-bg"></div>
-                                        </div>
-                                        <div class="flexbox col">
-                                            <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_batch_size" class="portal"></div>
-                                            <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_batch_count" class="portal"></div>
+                                            <div class="flexbox col center panel unset-min-width shrink">
+                                                <div data-selector="#txt2img_res_switch_btn" data-parent-selector="#tab_txt2img" droppable="true" class="portal invisible tool">
+                                                    <div class="mask-icon icon-res-switch"></div>
+                                                </div>
+                                                <div data-selector="#txt2img_ar" data-parent-selector="#tab_txt2img" class="portal no-bg"></div>
+                                            </div>
+                                            <div class="flexbox col">
+                                                <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_batch_size" class="portal"></div>
+                                                <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_batch_count" class="portal"></div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

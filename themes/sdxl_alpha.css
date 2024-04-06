@@ -1,7 +1,7 @@
 /* Author: Anapnoe */
 
 :root {
-    --sd-main-accent-color:hsl(205deg 83% 46%);
+    --sd-main-accent-color:#7950ab;
     --sd-label-color:rgba(255, 255, 255, 0.75);
     --sd-input-text-color:rgba(255, 255, 255, 0.75);
     --sd-input-secondary-text-color:var(--sd-input-text-color);

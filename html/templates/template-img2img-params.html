@@ -73,7 +73,7 @@
                                 </div>
                             </div>
                             <div class="layout-content">
-                                <div class="flexbox col outline-params">
+                                <div class="flexbox col">
                                     <div id="split-img2img-prompt" direction="vertical" gutterSize="8" class="split">
                                         <div data-minSize="0" data-initSize="50" id="split-img2img-prompt-up" class="split-container">
                                             <div class="layout">
@@ -97,154 +97,156 @@
                                         </div>
                                     </div>
 
-                                    <div class="flexbox col spacer-group"></div>
-                                    <h2>Size & Batch</h2>
-                                    <div class="flexbox col group">
-                                        <div class="flexbox row wrap">
-                                            <div class="flexbox col grow-all">
-                                                <div class="flexbox panel row group-row shrink">
-                                                    <button tabItemId="#img2img_scale_to_tabitem" tabGroup="img2img-resize-group" data-click="#tab_img2img" active="true" class="xtabs-tab no-drag"><span id="izj18eih">Resize to</span></button>
-                                                    <button tabItemId="#img2img_scale_by_tabitem" tabGroup="img2img-resize-group" data-click="#tab_img2img" class="xtabs-tab no-drag"><span>Resize by</span></button>
-                                                </div>
-                                                <div class="flexbox col">
-                                                    <div class="xtabs sub-group no-padding">
-                                                        <div class="xtabs-items">
-                                                            <div class="flexbox col no-padding full-height">
-                                                                <div id="img2img_scale_to_tabitem" class="xtabs-item initial inset notransition">
-                                                                    <div class="flexbox col group inset subgroup">
-                                                                        <div data-parent-selector="#tab_img2img" data-selector="#img2img_width" class="portal"></div>
-                                                                        <div data-parent-selector="#tab_img2img" data-selector="#img2img_height" class="portal"></div>
+                                    <div class="flexbox col outline-params">
+                                        <div class="flexbox col spacer-group"></div>
+                                        <h2>Size & Batch</h2>
+                                        <div class="flexbox col group">
+                                            <div class="flexbox row wrap">
+                                                <div class="flexbox col grow-all">
+                                                    <div class="flexbox panel row group-row shrink">
+                                                        <button tabItemId="#img2img_scale_to_tabitem" tabGroup="img2img-resize-group" data-click="#tab_img2img" active="true" class="xtabs-tab no-drag"><span id="izj18eih">Resize to</span></button>
+                                                        <button tabItemId="#img2img_scale_by_tabitem" tabGroup="img2img-resize-group" data-click="#tab_img2img" class="xtabs-tab no-drag"><span>Resize by</span></button>
+                                                    </div>
+                                                    <div class="flexbox col">
+                                                        <div class="xtabs sub-group no-padding">
+                                                            <div class="xtabs-items">
+                                                                <div class="flexbox col no-padding full-height">
+                                                                    <div id="img2img_scale_to_tabitem" class="xtabs-item initial inset notransition">
+                                                                        <div class="flexbox col group inset subgroup">
+                                                                            <div data-parent-selector="#tab_img2img" data-selector="#img2img_width" class="portal"></div>
+                                                                            <div data-parent-selector="#tab_img2img" data-selector="#img2img_height" class="portal"></div>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                                <div id="img2img_scale_by_tabitem" class="xtabs-item initial inset notransition">
-                                                                    <div class="flexbox col group inset subgroup">
-                                                                        <div data-parent-selector="#tab_img2img" data-selector="#img2img_scale" class="portal"></div>
+                                                                    <div id="img2img_scale_by_tabitem" class="xtabs-item initial inset notransition">
+                                                                        <div class="flexbox col group inset subgroup">
+                                                                            <div data-parent-selector="#tab_img2img" data-selector="#img2img_scale" class="portal"></div>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="flexbox col center panel shrink">
-                                                <div data-selector="#img2img_res_switch_btn" data-parent-selector="#tab_img2img" droppable="true" class="portal invisible tool">
-                                                    <div class="mask-icon icon-res-switch"></div>
+                                                <div class="flexbox col center panel shrink">
+                                                    <div data-selector="#img2img_res_switch_btn" data-parent-selector="#tab_img2img" droppable="true" class="portal invisible tool">
+                                                        <div class="mask-icon icon-res-switch"></div>
+                                                    </div>
+                                                    <div data-selector="#img2img_ar" data-parent-selector="#tab_img2img" class="portal no-bg"></div>
+                                                    <div data-selector="#img2img_detect_image_size_btn" data-parent-selector="#tab_img2img" droppable="true" class="portal invisible tool">
+                                                        <div class="mask-icon icon-ruler"></div>
+                                                    </div>
                                                 </div>
-                                                <div data-selector="#img2img_ar" data-parent-selector="#tab_img2img" class="portal no-bg"></div>
-                                                <div data-selector="#img2img_detect_image_size_btn" data-parent-selector="#tab_img2img" droppable="true" class="portal invisible tool">
-                                                    <div class="mask-icon icon-ruler"></div>
+                                                <div class="flexbox col">
+                                                    <div data-parent-selector="#tab_img2img" data-selector="#img2img_batch_size" class="portal"></div>
+                                                    <div data-parent-selector="#tab_img2img" data-selector="#img2img_batch_count" class="portal"></div>
                                                 </div>
                                             </div>
-                                            <div class="flexbox col">
-                                                <div data-parent-selector="#tab_img2img" data-selector="#img2img_batch_size" class="portal"></div>
-                                                <div data-parent-selector="#tab_img2img" data-selector="#img2img_batch_count" class="portal"></div>
-                                            </div>
-                                        </div>
-                                        <div class="flexbox row">
                                             <div class="flexbox row">
-                                                <div class="flexbox no-border row">
-                                                    <div data-parent-selector="#tab_img2img" data-selector="#img2img_resize_name" class="portal no-min-width"></div>
-                                                    <div data-parent-selector="#tab_img2img" data-selector="#refresh_upscalers" droppable="true" class="portal invisible shrink">
-                                                        <div class="mask-icon refresh"></div>
+                                                <div class="flexbox row">
+                                                    <div class="flexbox no-border row">
+                                                        <div data-parent-selector="#tab_img2img" data-selector="#img2img_resize_name" class="portal no-min-width"></div>
+                                                        <div data-parent-selector="#tab_img2img" data-selector="#refresh_upscalers" droppable="true" class="portal invisible shrink">
+                                                            <div class="mask-icon refresh"></div>
+                                                        </div>
                                                     </div>
                                                 </div>
+                                                <div data-parent-selector="#tab_img2img" data-selector="#img2img_resize_mode" class="portal"></div>
                                             </div>
-                                            <div data-parent-selector="#tab_img2img" data-selector="#img2img_resize_mode" class="portal"></div>
                                         </div>
-                                    </div>
 
-                                    <div class="flexbox col spacer-group"></div>
-                                    <h2>Input Image</h2>
-                                    <div id="img2img-input-group" class="flexbox row group">
-                                        <div data-selector="#mode_img2img" data-parent-selector="#tab_img2img" class="portal"></div>
-                                        <div class="xtabs-anchor flexbox shrink" anchorNav="#mode_img2img > .tab-nav">
-                                            <div anchor="1" class="flexbox col center panel shrink padding">
-                                                <button class="sd-button disable">
-                                                    <div data-selector="#copy_to_img2img" data-parent-selector="#img2img_copy_to_img2img" droppable="true" class="portal invisible">
-                                                        <div class="mask-icon icon-2img2img"></div>
-                                                    </div>
-                                                </button>
-                                                <button class="sd-button">
-                                                    <div data-selector="#copy_to_sketch" data-parent-selector="#img2img_copy_to_img2img" droppable="true" class="portal invisible">
-                                                        <div class="mask-icon icon-2sketch"></div>
-                                                    </div>
-                                                </button>
-                                                <button class="sd-button">
-                                                    <div data-selector="#copy_to_inpaint" data-parent-selector="#img2img_copy_to_img2img" droppable="true" class="portal invisible">
-                                                        <div class="mask-icon icon-2inpaint"></div>
-                                                    </div>
-                                                </button>
-                                                <button class="sd-button">
-                                                    <div data-selector="#copy_to_inpaint_sketch" data-parent-selector="#img2img_copy_to_img2img" droppable="true" class="portal invisible">
-                                                        <div class="mask-icon icon-2composite"></div>
-                                                    </div>
-                                                </button>
-                                            </div>
-                                            <div anchor="2" class="flexbox col center panel shrink padding">
-                                                <button class="sd-button">
-                                                    <div data-selector="#copy_to_img2img" data-parent-selector="#img2img_copy_to_sketch" droppable="true" class="portal invisible">
-                                                        <div class="mask-icon icon-2img2img"></div>
-                                                    </div>
-                                                </button>
-                                                <button class="sd-button disable">
-                                                    <div data-selector="#copy_to_sketch" data-parent-selector="#img2img_copy_to_sketch" droppable="true" class="portal invisible">
-                                                        <div class="mask-icon icon-2sketch"></div>
-                                                    </div>
-                                                </button>
-                                                <button class="sd-button">
-                                                    <div data-selector="#copy_to_inpaint" data-parent-selector="#img2img_copy_to_sketch" droppable="true" class="portal invisible">
-                                                        <div class="mask-icon icon-2inpaint"></div>
-                                                    </div>
-                                                </button>
-                                                <button class="sd-button">
-                                                    <div data-selector="#copy_to_inpaint_sketch" data-parent-selector="#img2img_copy_to_sketch" droppable="true" class="portal invisible">
-                                                        <div class="mask-icon icon-2composite"></div>
-                                                    </div>
-                                                </button>
-                                            </div>
-                                            <div anchor="3" class="flexbox col center panel shrink padding">
-                                                <button class="sd-button">
-                                                    <div data-selector="#copy_to_img2img" data-parent-selector="#img2img_copy_to_inpaint" droppable="true" class="portal invisible">
-                                                        <div class="mask-icon icon-2img2img"></div>
-                                                    </div>
-                                                </button>
-                                                <button class="sd-button">
-                                                    <div data-selector="#copy_to_sketch" data-parent-selector="#img2img_copy_to_inpaint" droppable="true" class="portal invisible">
-                                                        <div class="mask-icon icon-2sketch"></div>
-                                                    </div>
-                                                </button>
-                                                <button class="sd-button disable">
-                                                    <div data-selector="#copy_to_inpaint" data-parent-selector="#img2img_copy_to_inpaint" droppable="true" class="portal invisible">
-                                                        <div class="mask-icon icon-2inpaint"></div>
-                                                    </div>
-                                                </button>
-                                                <button class="sd-button">
-                                                    <div data-selector="#copy_to_inpaint_sketch" data-parent-selector="#img2img_copy_to_inpaint" droppable="true" class="portal invisible">
-                                                        <div class="mask-icon icon-2composite"></div>
-                                                    </div>
-                                                </button>
-                                            </div>
-                                            <div anchor="4" class="flexbox col center panel shrink padding">
-                                                <button class="sd-button">
-                                                    <div data-selector="#copy_to_img2img" data-parent-selector="#img2img_copy_to_inpaint_sketch" droppable="true" class="portal invisible">
-                                                        <div class="mask-icon icon-2img2img"></div>
-                                                    </div>
-                                                </button>
-                                                <button class="sd-button">
-                                                    <div data-selector="#copy_to_sketch" data-parent-selector="#img2img_copy_to_inpaint_sketch" droppable="true" class="portal invisible">
-                                                        <div class="mask-icon icon-2sketch"></div>
-                                                    </div>
-                                                </button>
-                                                <button class="sd-button">
-                                                    <div data-selector="#copy_to_inpaint" data-parent-selector="#img2img_copy_to_inpaint_sketch" droppable="true" class="portal invisible">
-                                                        <div class="mask-icon icon-2inpaint"></div>
-                                                    </div>
-                                                </button>
-                                                <button class="sd-button disable">
-                                                    <div data-selector="#copy_to_inpaint_sketch" data-parent-selector="#img2img_copy_to_inpaint_sketch" droppable="true" class="portal invisible">
-                                                        <div class="mask-icon icon-2composite"></div>
-                                                    </div>
-                                                </button>
+                                        <div class="flexbox col spacer-group"></div>
+                                        <h2>Input Image</h2>
+                                        <div id="img2img-input-group" class="flexbox row group">
+                                            <div data-selector="#mode_img2img" data-parent-selector="#tab_img2img" class="portal"></div>
+                                            <div class="xtabs-anchor flexbox shrink" anchorNav="#mode_img2img > .tab-nav">
+                                                <div anchor="1" class="flexbox col center panel shrink padding">
+                                                    <button class="sd-button disable">
+                                                        <div data-selector="#copy_to_img2img" data-parent-selector="#img2img_copy_to_img2img" droppable="true" class="portal invisible">
+                                                            <div class="mask-icon icon-2img2img"></div>
+                                                        </div>
+                                                    </button>
+                                                    <button class="sd-button">
+                                                        <div data-selector="#copy_to_sketch" data-parent-selector="#img2img_copy_to_img2img" droppable="true" class="portal invisible">
+                                                            <div class="mask-icon icon-2sketch"></div>
+                                                        </div>
+                                                    </button>
+                                                    <button class="sd-button">
+                                                        <div data-selector="#copy_to_inpaint" data-parent-selector="#img2img_copy_to_img2img" droppable="true" class="portal invisible">
+                                                            <div class="mask-icon icon-2inpaint"></div>
+                                                        </div>
+                                                    </button>
+                                                    <button class="sd-button">
+                                                        <div data-selector="#copy_to_inpaint_sketch" data-parent-selector="#img2img_copy_to_img2img" droppable="true" class="portal invisible">
+                                                            <div class="mask-icon icon-2composite"></div>
+                                                        </div>
+                                                    </button>
+                                                </div>
+                                                <div anchor="2" class="flexbox col center panel shrink padding">
+                                                    <button class="sd-button">
+                                                        <div data-selector="#copy_to_img2img" data-parent-selector="#img2img_copy_to_sketch" droppable="true" class="portal invisible">
+                                                            <div class="mask-icon icon-2img2img"></div>
+                                                        </div>
+                                                    </button>
+                                                    <button class="sd-button disable">
+                                                        <div data-selector="#copy_to_sketch" data-parent-selector="#img2img_copy_to_sketch" droppable="true" class="portal invisible">
+                                                            <div class="mask-icon icon-2sketch"></div>
+                                                        </div>
+                                                    </button>
+                                                    <button class="sd-button">
+                                                        <div data-selector="#copy_to_inpaint" data-parent-selector="#img2img_copy_to_sketch" droppable="true" class="portal invisible">
+                                                            <div class="mask-icon icon-2inpaint"></div>
+                                                        </div>
+                                                    </button>
+                                                    <button class="sd-button">
+                                                        <div data-selector="#copy_to_inpaint_sketch" data-parent-selector="#img2img_copy_to_sketch" droppable="true" class="portal invisible">
+                                                            <div class="mask-icon icon-2composite"></div>
+                                                        </div>
+                                                    </button>
+                                                </div>
+                                                <div anchor="3" class="flexbox col center panel shrink padding">
+                                                    <button class="sd-button">
+                                                        <div data-selector="#copy_to_img2img" data-parent-selector="#img2img_copy_to_inpaint" droppable="true" class="portal invisible">
+                                                            <div class="mask-icon icon-2img2img"></div>
+                                                        </div>
+                                                    </button>
+                                                    <button class="sd-button">
+                                                        <div data-selector="#copy_to_sketch" data-parent-selector="#img2img_copy_to_inpaint" droppable="true" class="portal invisible">
+                                                            <div class="mask-icon icon-2sketch"></div>
+                                                        </div>
+                                                    </button>
+                                                    <button class="sd-button disable">
+                                                        <div data-selector="#copy_to_inpaint" data-parent-selector="#img2img_copy_to_inpaint" droppable="true" class="portal invisible">
+                                                            <div class="mask-icon icon-2inpaint"></div>
+                                                        </div>
+                                                    </button>
+                                                    <button class="sd-button">
+                                                        <div data-selector="#copy_to_inpaint_sketch" data-parent-selector="#img2img_copy_to_inpaint" droppable="true" class="portal invisible">
+                                                            <div class="mask-icon icon-2composite"></div>
+                                                        </div>
+                                                    </button>
+                                                </div>
+                                                <div anchor="4" class="flexbox col center panel shrink padding">
+                                                    <button class="sd-button">
+                                                        <div data-selector="#copy_to_img2img" data-parent-selector="#img2img_copy_to_inpaint_sketch" droppable="true" class="portal invisible">
+                                                            <div class="mask-icon icon-2img2img"></div>
+                                                        </div>
+                                                    </button>
+                                                    <button class="sd-button">
+                                                        <div data-selector="#copy_to_sketch" data-parent-selector="#img2img_copy_to_inpaint_sketch" droppable="true" class="portal invisible">
+                                                            <div class="mask-icon icon-2sketch"></div>
+                                                        </div>
+                                                    </button>
+                                                    <button class="sd-button">
+                                                        <div data-selector="#copy_to_inpaint" data-parent-selector="#img2img_copy_to_inpaint_sketch" droppable="true" class="portal invisible">
+                                                            <div class="mask-icon icon-2inpaint"></div>
+                                                        </div>
+                                                    </button>
+                                                    <button class="sd-button disable">
+                                                        <div data-selector="#copy_to_inpaint_sketch" data-parent-selector="#img2img_copy_to_inpaint_sketch" droppable="true" class="portal invisible">
+                                                            <div class="mask-icon icon-2composite"></div>
+                                                        </div>
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
