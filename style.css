@@ -3195,6 +3195,10 @@ span.star_count b {
 }
 
 .center.boundedheight.flex {
+    width: auto !important;
+    height: 100% !important;
+}
+.image-container .center.boundedheight.flex {
     width: 100% !important;
     height: auto !important;
 }
@@ -4371,3 +4375,31 @@ gallery-folder {
 @keyframes move { from { background-position-x: 0, -40px; } to { background-position-x: 0, 40px; } }
 @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 @keyframes color { from { filter: hue-rotate(0deg) } to { filter: hue-rotate(360deg) } }
+
+[id$="results"] .gradio-tabs {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+[id$="results"] .gradio-tabs > .gradio-tabitem {
+    flex-grow: 1;
+}
+[id$="results"] .gradio-tabs > .gradio-tabitem > .gap {
+     height: 100%;
+}
+
+[id$="results"] .gradio-tabs > .gradio-tabitem > .gap > div{
+    flex-grow: 0;
+}
+[id$="results"] .gradio-tabs > .gradio-tabitem > .gap > .gradio-image,
+[id$="results"] .gradio-tabs > .gradio-tabitem > .gap > .gradio-video,
+[id$="results"] .gradio-tabs > .gradio-tabitem > .gap > .gradio-file,
+[id$="results"] .gradio-tabs > .gradio-tabitem > .gap > .gradio-row:has(>.gradio-image),
+[id$="results"] .gradio-tabs > .gradio-tabitem > .gap > .gradio-row:has(>.gradio-video),
+[id$="results"] .gradio-tabs > .gradio-tabitem > .gap > .gradio-row:has(>.gradio-file) {
+    flex-grow: 1;
+}
+
+[id$="results"] .layout {
+    overflow: auto;
+}
