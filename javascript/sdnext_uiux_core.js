@@ -1,11 +1,12 @@
 // Original credits: <https://github.com/anapnoe/stable-diffusion-webui-ux/blob/8307896c59032a9cdac1ab24c975102ff9a674d3/extensions-builtin/anapnoe-sd-uiux/javascript/anapnoe_sd_uiux_core.js>
 
 const template_path = './file=extensions/sdnext-ui-ux/html/templates/';
+const template_root = 'template-app-root.html';
 const uiux_app_id = '#sdnext_app';
 const uiux_tab_id = '#tab_sdnext_uiux_core';
-const split_instances = [];
+
+let split_instances = [];
 let portalTotal = 0;
-let activeMainTab;
 let appUiUx;
 let isBackendDiffusers;
 
@@ -210,16 +211,6 @@ async function extraTweaks() {
   new ResizeObserver(() => adjustFlexDirection(controlColumns)).observe(controlColumns);
 }
 extraTweaks = functionLogTime(extraTweaks);
-
-function mainTabs(element, tab) {
-  const newTab = document.querySelector(tab);
-
-  if (newTab) {
-    if (activeMainTab) activeMainTab.style.display = 'none';
-    newTab.style.display = 'block';
-    activeMainTab = newTab;
-  }
-}
 
 async function uiuxOptionSettings() {
   // settings max output resolution
@@ -659,7 +650,6 @@ async function createButtonsForExtensions() {
 async function replaceRootTemplate() {
   appUiUx = document.querySelector(uiux_app_id);
   gradioApp().insertAdjacentElement('afterbegin', appUiUx);
-  activeMainTab = document.querySelector('#tab_txt2img');
 }
 
 function getNestedTemplates(container) {
@@ -709,7 +699,7 @@ async function loadAllTemplates() {
   const data = [
     {
       url: template_path,
-      template: 'template-app-root.html',
+      template: template_root,
       parent: document.querySelector(uiux_tab_id),
     },
   ];
