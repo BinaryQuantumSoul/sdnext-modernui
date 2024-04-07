@@ -3,11 +3,9 @@
 const template_path = './file=extensions/sdnext-ui-ux/html/templates/';
 const uiux_app_id = '#sdnext_app';
 const uiux_tab_id = '#tab_sdnext_uiux_core';
-const console_js_id = '#console-log-js';
 const split_instances = [];
 let portalTotal = 0;
 let activeMainTab;
-let loggerUiUx;
 let appUiUx;
 let isBackendDiffusers;
 
@@ -357,14 +355,6 @@ async function setupGenerateObservers() {
     });
     gen_observer.observe(teb, { childList: true, subtree: true });
   });
-}
-
-function attachLoggerScreen() {
-  const logger_screen = document.querySelector('#logger_screen');
-  if (logger_screen) {
-    document.querySelector(console_js_id)?.append(loggerUiUx);
-    logger_screen.remove();
-  }
 }
 
 //= ====================== SETUP =======================
@@ -774,6 +764,14 @@ function logStartup() {
   }
 }
 
+async function setupLogger() {
+  const logMonitorJS = document.createElement('div');
+  logMonitorJS.id = "logMonitorJS";
+  document.body.append(logMonitorJS);
+
+  window.logger = logMonitorJS;
+}
+
 //= ====================== MAIN ROUTINE =======================
 async function mainUiUx() {
   logStartup();
@@ -787,7 +785,6 @@ async function mainUiUx() {
   await loadAllPortals();
   initTabComponents();
   initButtonComponents();
-  attachLoggerScreen();
   await waitForUiPortal();
   setupGenerateObservers();
   setupErrorObserver();
