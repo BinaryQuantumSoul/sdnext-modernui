@@ -22,7 +22,6 @@ def on_ui_settings():
 
         'uiux_separator_other': OptionInfo("<h2>Other Settings</h2>", "", gr.HTML),
         "uiux_enable_console_log": OptionInfo(False, "Enable debug log"),
-        "uiux_display_console_splash": OptionInfo(False, "Display console log at startup"),
         "uiux_max_resolution_output": OptionInfo(2048, "Max resolution output for txt2img and img2img"),
         "uiux_disable_transitions": OptionInfo(False, "Disable transitions")
     }))
