@@ -3735,14 +3735,6 @@ input[type="checkbox"] {
     outline: var(--sd-border-size) solid var(--sd-main-background-color);
 }
 
-.media-mobile #split-right:not(.v-expand) #accordion-aside {
-    margin-left: var(--sd-panel-padding);
-}
-
-.media-mobile .template>.full-height {
-    padding: var(--sd-panel-padding);
-}
-
 .media-mobile .xtabs-tab span {
     display: none;
 }
@@ -3780,13 +3772,46 @@ input[type="checkbox"] {
     width: 100%;
 }
 
+.media-mobile .template>.full-height {
+    padding: var(--sd-panel-padding);
+    padding-right: calc(var(--sd-panel-padding) / 2);
+}
+
 .media-desktop #accordion-control {
     margin: var(--sd-panel-padding) 0 var(--sd-panel-padding) calc(2* var(--sd-border-size));
 }
 
 .media-mobile #accordion-control {
     margin: 0;
+    padding: 0;
+    flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background: transparent;
 }
+
+.media-mobile #accordion-control .accordion-bar {
+    flex-direction: row-reverse;
+    min-height: unset;
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+    margin-bottom: var(--sd-panel-padding);
+}
+
+.media-mobile #accordion-control .accordion-bar .flexbox.col {
+    min-width: unset;
+}
+
+.media-mobile #sidebar_control {
+    flex-direction: row;
+}
+
+.media-mobile #accordion-control .accordion-container {
+    min-height: unset;
+    background: var(--sd-panel-background-color);
+    margin: 0;
+}
+
 
 .option-aside-labels div#sidebar_secondary_tabs button {
     width: 100%;
