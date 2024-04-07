@@ -6,9 +6,13 @@
                     <div class="mask-icon icon-equalize"></div>
                     <span>Params</span>
                 </button>
-                <button title="Extras Results" tabItemId="#extras_results_mobile_tabitem" tabGroup="extras" id="extras_results_mobile" class="xtabs-tab only-mobile">
+                <button title="Input" tabItemId="#extras_results_input_mobile_tabitem" tabGroup="extras" id="extras_results_input_mobile" class="xtabs-tab only-mobile">
+                    <div class="mask-icon icon-lora"></div>
+                    <span>Input</span>
+                </button>
+                <button title="Output" tabItemId="#extras_results_output_mobile_tabitem" tabGroup="extras" id="extras_results_output_mobile" class="xtabs-tab only-mobile">
                     <div class="mask-icon icon-results"></div>
-                    <span>Results</span>
+                    <span>Output</span>
                 </button>
             </div>
             <div class="flexbox col shrink align-end">
@@ -141,8 +145,11 @@
                     </div>
                 </div>
 
-                <div id="extras_results_mobile_tabitem_group" class="flexbox col only-mobile">
-                    <div id="extras_results_mobile_tabitem" mobile="#template-extras-results" class="xtabs-item"></div>
+                <div id="extras_results_input_mobile_tabitem_group" class="flexbox col only-mobile">
+                    <div id="extras_results_input_mobile_tabitem" mobile="#extras-template-column-input" class="xtabs-item"></div>
+                </div>
+                <div id="extras_results_output_mobile_tabitem_group" class="flexbox col only-mobile">
+                    <div id="extras_results_output_mobile_tabitem" mobile="#extras-template-column-output" class="xtabs-item"></div>
                 </div>
             </div>
         </div>
