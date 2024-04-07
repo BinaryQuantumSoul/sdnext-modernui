@@ -2876,7 +2876,8 @@ td.gridjs-td {
     margin: 0 !important;
 }
 
-.params {
+.params,
+.media-desktop .results {
     min-width: 370px;
 }
 
