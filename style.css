@@ -1735,6 +1735,7 @@ h1 {
 *.extra-network-cards {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    grid-template-rows: max-content;
     overflow: auto;
     height: 85vh;
     width: -moz-available;
