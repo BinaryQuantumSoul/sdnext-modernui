@@ -1689,6 +1689,15 @@ h1 {
     background: rgba(0, 0, 0, 0.40);
 }
 
+.extra-network-cards .card-list {
+  padding: var(--sd-gap-size);
+  background: var(--sd-input-background-color);
+  cursor: pointer;
+  height: auto !important;
+  justify-content: start !important;
+  word-break: break-word;
+}
+
 #txt2img_description,
 #img2img_description {
     overflow-y: auto !important;
@@ -1751,6 +1760,7 @@ h1 {
     justify-content: center;
     margin: var(--sd-gap-size);
     height: 160px;
+    width: fit-content;
 }
 
 *.extra-network-cards .card img {
@@ -1758,7 +1768,6 @@ h1 {
     width: 100%;
     height: auto;
     border-radius: var(--sd-border-radius);
-    transform: scale(1.1);
     pointer-events: none;
 }
 
