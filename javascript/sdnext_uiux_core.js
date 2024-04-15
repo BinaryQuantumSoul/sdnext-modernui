@@ -11,8 +11,7 @@ let appUiUx;
 let isBackendDiffusers;
 
 //= ====================== OVERRIDES =======================
-
-window.getUICurrentTabContent = () => gradioApp().querySelector('.xtabs-item:not(.hidden) > .split')
+window.getUICurrentTabContent = () => gradioApp().querySelector('.xtabs-item:not(.hidden) > .split') // overrride standardui function to get current tab
 
 //= ====================== READY STATES =======================
 function functionWaitForFlag(checkFlag) {
