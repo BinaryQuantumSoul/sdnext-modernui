@@ -32,7 +32,6 @@ function functionLogTime(func) {
     const t0 = performance.now();
     const returnValue = func(...arguments);
     const t1 = performance.now();
-
     log(`UI ${func.name}`, Math.round(t1 - t0) / 1000);
     return returnValue;
   }
@@ -758,7 +757,6 @@ async function setupLogger() {
   const logMonitorJS = document.createElement('div');
   logMonitorJS.id = "logMonitorJS";
   document.body.append(logMonitorJS);
-
   window.logger = logMonitorJS;
 }
 
@@ -784,6 +782,6 @@ async function mainUiUx() {
   extraTweaks();
   uiFlagInitialized = true;
 }
-mainUiUx = functionLogTime(mainUiUx);
 
+mainUiUx = functionLogTime(mainUiUx);
 onUiReady(mainUiUx);

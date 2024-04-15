@@ -101,8 +101,8 @@
                                             <h2>Size & Batch</h2>
                                             <div class="flexbox col group">
                                                 <div class="flexbox panel row group-row shrink">
-                                                    <button tabItemId="#control_resize_before_tabitem" tabGroup="control-resize-group" class="xtabs-tab" active="true"><span>Before</span></button>
-                                                    <button tabItemId="#control_resize_after_tabitem" tabGroup="control-resize-group" class="xtabs-tab"><span>After</span></button>
+                                                    <button tabItemId="#control_resize_before_tabitem" tabGroup="control-resize-group" class="xtabs-tab" active="true"><span>Generate</span></button>
+                                                    <button tabItemId="#control_resize_after_tabitem" tabGroup="control-resize-group" class="xtabs-tab"><span>Postprocess</span></button>
                                                     <button tabItemId="#control_resize_mask_tabitem" tabGroup="control-resize-group" class="xtabs-tab"><span>Mask</span></button>
                                                 </div>
                                                 <div class="xtabs sub-group no-padding">
@@ -110,8 +110,8 @@
                                                         <div class="flexbox row wrap">
                                                             <div class="flexbox col grow-all">
                                                                 <div class="flexbox panel row group-row shrink">
-                                                                    <button tabItemId="#control_before_scale_to_tabitem" tabGroup="control-resize-before-group" data-click="#tab_control" active="true" class="xtabs-tab no-drag"><span>Resize to</span></button>
-                                                                    <button tabItemId="#control_before_scale_by_tabitem" tabGroup="control-resize-before-group" data-click="#tab_control" class="xtabs-tab no-drag"><span>Resize by</span></button>
+                                                                    <button tabItemId="#control_before_scale_to_tabitem" tabGroup="control-resize-before-group" data-click="#tab_control" active="true" class="xtabs-tab no-drag"><span>Fixed</span></button>
+                                                                    <button tabItemId="#control_before_scale_by_tabitem" tabGroup="control-resize-before-group" data-click="#tab_control" class="xtabs-tab no-drag"><span>Scale</span></button>
                                                                 </div>
                                                                 <div class="flexbox col">
                                                                     <div class="xtabs sub-group no-padding">
@@ -255,8 +255,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="flexbox row">
-                                                    <div data-parent-selector="#tab_control" data-selector="#control_batch_size" class="portal only-diffusers"></div>
-                                                    <div data-parent-selector="#tab_control" data-selector="#control_batch_count" class="portal only-diffusers"></div>
+                                                  <div data-parent-selector="#tab_control" data-selector="#control_batch_count" class="portal only-diffusers"></div>
+                                                  <div data-parent-selector="#tab_control" data-selector="#control_batch_size" class="portal only-diffusers"></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -301,12 +301,12 @@
                                             <div data-parent-selector="#tab_control" data-selector="#control_random_subseed" droppable="true" class="portal only-diffusers shrink invisible">
                                                 <div class="mask-icon icon-dice"></div>
                                             </div>
-                                            <div data-parent-selector="#tab_control" data-selector="#control_reuse_subseed" droppable="true" class="portal only-diffusers shrink invisible">
-                                                <div class="mask-icon icon-recycle"></div>
-                                            </div>
                                         </div>
                                         <div class="flexbox row fb-50">
-                                            <div data-parent-selector="#tab_control" data-selector="#control_subseed_strength" class="portal only-diffusers min-width fb-50"></div>
+                                          <div data-parent-selector="#tab_control" data-selector="#control_reuse_subseed" droppable="true" class="portal only-diffusers shrink invisible">
+                                            <div class="mask-icon icon-recycle"></div>
+                                          </div>
+                                          <div data-parent-selector="#tab_control" data-selector="#control_subseed_strength" class="portal only-diffusers min-width fb-50"></div>
                                         </div>
                                     </div>
                                 </div>

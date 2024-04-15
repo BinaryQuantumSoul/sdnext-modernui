@@ -4251,10 +4251,6 @@ button>span {
     aspect-ratio: 0.4;
 }
 
-#control-columns.flex-force-column .panel.no-tr>* {
-    max-width: 30rem;
-}
-
 div#control_params_elements_tabitem .control-settings .gradio-accordion .form {
     flex-direction: row;
     flex-wrap: wrap;
