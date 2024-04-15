@@ -10,6 +10,10 @@ let portalTotal = 0;
 let appUiUx;
 let isBackendDiffusers;
 
+//= ====================== OVERRIDES =======================
+
+window.getUICurrentTabContent = () => gradioApp().querySelector('.xtabs-item:not(.hidden) > .split')
+
 //= ====================== READY STATES =======================
 function functionWaitForFlag(checkFlag) {
   return async function () {
