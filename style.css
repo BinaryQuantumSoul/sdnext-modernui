@@ -1646,9 +1646,12 @@ h1 {
 }
 
 .extra-network-cards .card .overlay .tags {
-    margin: 4px;
-    display: none;
-    overflow-wrap: break-word;
+  padding: 4px;
+  display: none;
+  overflow-wrap: break-word;
+  position: absolute;
+  top: 100%;
+  background: rgba(0, 0, 0, 0.40);
 }
 
 .extra-network-cards .card .overlay .tag {
@@ -1788,7 +1791,6 @@ h1 {
 
 *.extra-network-cards .card {
     position: relative;
-    overflow: hidden;
     background-color: var(--sd-input-background-color);
     border-radius: var(--sd-border-radius);
     border: var(--sd-border-size) solid var(--sd-input-background-color);
