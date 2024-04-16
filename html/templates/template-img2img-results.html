@@ -107,12 +107,6 @@
 						<h2>Output</h2>
 					</div>
 					<div id="img2img_generate_group" class="flexbox row flex-end group-row">
-						<div title="Skip" data-selector="#img2img_skip" data-parent-selector="#tab_img2img" droppable="true" class="portal invisible shrink no-bg no-padding-one disable">
-							<div class="mask-icon icon-skip"></div>
-						</div>
-						<div title="Interrupt" data-selector="#img2img_interrupt" data-parent-selector="#tab_img2img" droppable="true" class="portal invisible shrink no-bg no-padding-one disable">
-							<div class="mask-icon icon-stop"></div>
-						</div>
 						<button title="Generate" class="sd-button generate">
 							<div data-selector="#img2img_generate" data-parent-selector="#tab_img2img" droppable="true" class="portal no-bg shrink invisible">
 								<div class="mask-icon icon-generate"></div>
@@ -122,10 +116,18 @@
 						<button title="Generate forever" id="img2img_loop" toggle="true" class="sd-button shrink">
 							<div class="mask-icon icon-loop"></div>
 						</button>
-						<button class="sd-button generate">
+						<div title="Skip" data-selector="#img2img_skip" data-parent-selector="#tab_img2img" droppable="true" class="portal invisible shrink no-bg no-padding-one disable">
+							<div class="mask-icon icon-skip"></div>
+						</div>
+            <div title="Pause" data-selector="#txt2img_pause" data-parent-selector="#tab_txt2img" droppable="true" class="portal only-diffusers invisible shrink no-bg no-padding-one">
+              <div class="mask-icon icon-pause"></div>
+            </div>
+						<div title="Interrupt" data-selector="#img2img_interrupt" data-parent-selector="#tab_img2img" droppable="true" class="portal invisible shrink no-bg no-padding-one disable">
+							<div class="mask-icon icon-stop"></div>
+						</div>    
+            <button title="Enqueue" class="sd-button generate">
 							<div data-selector="#img2img_enqueue" data-parent-selector="#tab_img2img" droppable="true" class="portal no-bg shrink invisible">
 								<div class="mask-icon icon-arrow-up-circle-line"></div>
-								<span>Enqueue</span>
 							</div>
 						</button>
 					</div>

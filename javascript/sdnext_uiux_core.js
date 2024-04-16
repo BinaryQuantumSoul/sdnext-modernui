@@ -233,25 +233,19 @@ async function setupGenerateObservers() {
   keys.forEach((key) => {
     const tgb = document.querySelector(`${key}_generate`);
     const tib = document.querySelector(`${key}_interrupt`);
-    const tsb = document.querySelector(`${key}_skip`);
-    if (!tgb || !tib || !tsb) return;
+    if (!tgb || !tib) return;
     const tg = tgb.closest('.sd-button');
-    const ti = tib.closest('.portal');
-    const ts = tsb.closest('.portal');
     const loop = document.querySelector(`${key}_loop`);
-    if (loop) tib.addEventListener('click', () => loop.classList.add('stop'));
+    if (loop) loop.addEventListener('click', () => generateForever(`${key}_generate`));
+    // if (loop) tib.addEventListener('click', () => loop.classList.add('stop'));
     const gen_observer = new MutationObserver(() => {
       if (tgb.textContent && !tgb.querySelector('span')) {
         if (tgb.textContent === 'Generate') {
-          ti.classList.add('disable');
-          ts.classList.add('disable');
           tg.classList.remove('active');
           const icon = document.createElement('div');
           icon.classList.add('mask-icon', 'icon-generate');
           tgb.appendChild(icon);
         } else {
-          ti.classList.remove('disable');
-          ts.classList.remove('disable');
           tg.classList.add('active');
         }
         const span = document.createElement('span');
