@@ -166,13 +166,6 @@ body {
     padding: var(--sd-panel-padding);
 }
 
-.shrink {
-    min-width: unset;
-    flex-wrap: nowrap;
-    white-space: nowrap;
-    flex-grow: 0;
-}
-
 .no-wrap {
     flex-wrap: nowrap;
 }
@@ -4238,6 +4231,7 @@ button>span {
   display: flex;
   justify-content: center;
   margin-bottom: var(--sd-group-gap);
+  flex-grow: 0;
 }
 
 #control-columns > div {
