@@ -1,0 +1,24 @@
+{
+  "name": "@BinaryQuantumSoul/sdnext-ui-ux",
+  "version": "dev",
+  "description": "SD.Next: ModernUI",
+  "author": "@BinaryQuantumSoul",
+  "bugs": {
+    "url": "https://github.com/BinaryQuantumSoul/sdnext-ui-ux/issues"
+  },
+  "homepage": "https://github.com/BinaryQuantumSoul/sdnext-ui-ux",
+  "license": "AGPLv3",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BinaryQuantumSoul/sdnext-ui-ux.git"
+  },
+  "dependencies": {
+    "eslint": "^8.57.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-json": "^3.1.0"
+  }
+}

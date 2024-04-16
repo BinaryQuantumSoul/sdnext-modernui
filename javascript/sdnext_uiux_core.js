@@ -5,42 +5,32 @@ const template_root = 'template-app-root.html';
 const uiux_app_id = '#sdnext_app';
 const uiux_tab_id = '#tab_sdnext_uiux_core';
 
-let split_instances = [];
+const split_instances = [];
 let portalTotal = 0;
 let appUiUx;
 let isBackendDiffusers;
 
 //= ====================== OVERRIDES =======================
-window.getUICurrentTabContent = () => gradioApp().querySelector('.xtabs-item:not(.hidden) > .split')
-window.getSettingsTabs = () => gradioApp().querySelectorAll('#layout-settings .tabitem')
+window.getUICurrentTabContent = () => gradioApp().querySelector('.xtabs-item:not(.hidden) > .split');
+window.getSettingsTabs = () => gradioApp().querySelectorAll('#layout-settings .tabitem');
 
 //= ====================== READY STATES =======================
 function functionWaitForFlag(checkFlag) {
-  return async function () {
+  return async function () { // eslint-disable-line func-names
     return new Promise((resolve) => {
       const check = () => checkFlag() ? resolve() : setTimeout(check);
       check();
     });
-  }
+  };
 }
 
 let uiFlagInitialized = false;
 let uiFlagPortalInitialized = false;
 
-waitForUiReady = functionWaitForFlag(() => uiFlagInitialized);
-waitForUiPortal = functionWaitForFlag(() => uiFlagPortalInitialized);
+window.waitForUiReady = functionWaitForFlag(() => uiFlagInitialized);
+const waitForUiPortal = functionWaitForFlag(() => uiFlagPortalInitialized);
 
 //= ====================== UTILS =======================
-function functionLogTime(func) {
-  return async function() {
-    const t0 = performance.now();
-    const returnValue = func(...arguments);
-    const t1 = performance.now();
-    log(`UI ${func.name}`, Math.round(t1 - t0) / 1000);
-    return returnValue;
-  }
-}
-
 function logPrettyPrint() {
   let output = '';
   let arg;
@@ -147,7 +137,7 @@ async function extraTweaks() {
   adjustFlexDirection(controlColumns);
   new ResizeObserver(() => adjustFlexDirection(controlColumns)).observe(controlColumns);
 }
-extraTweaks = functionLogTime(extraTweaks);
+extraTweaks = logFn(extraTweaks); // eslint-disable-line no-func-assign
 
 async function uiuxOptionSettings() {
   // settings max output resolution
@@ -288,7 +278,7 @@ async function loadAllPortals() {
     else movePortal(elem, 1, index, array.length); // eslint-disable-line no-use-before-define
   });
 }
-loadAllPortals = functionLogTime(loadAllPortals);
+loadAllPortals = logFn(loadAllPortals); // eslint-disable-line no-func-assign
 
 function movePortal(portalElem, tries, index, length) {
   const MAX_TRIES = 3;
@@ -637,7 +627,7 @@ async function loadAllTemplates() {
   await loadCurrentTemplate(data);
   await replaceRootTemplate();
 }
-loadAllTemplates = functionLogTime(loadAllTemplates);
+loadAllTemplates = logFn(loadAllTemplates); // eslint-disable-line no-func-assign
 
 //= ====================== INITIALIZATION =======================
 async function removeStyleAssets() {
@@ -687,7 +677,7 @@ function logStartup() {
 
 async function setupLogger() {
   const logMonitorJS = document.createElement('div');
-  logMonitorJS.id = "logMonitorJS";
+  logMonitorJS.id = 'logMonitorJS';
   document.body.append(logMonitorJS);
   window.logger = logMonitorJS;
 }
@@ -715,5 +705,5 @@ async function mainUiUx() {
   uiFlagInitialized = true;
 }
 
-mainUiUx = functionLogTime(mainUiUx);
+mainUiUx = logFn(mainUiUx); // eslint-disable-line no-func-assign
 onUiReady(mainUiUx);

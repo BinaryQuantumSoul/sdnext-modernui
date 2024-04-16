@@ -2,10 +2,11 @@
 
 import gradio as gr
 from modules import script_callbacks
-from modules.shared import OptionInfo, options_section , options_templates
+
 
 def on_ui_settings():
-    options_templates.update(options_section(('uiux_core', "UI-UX"), {
+    from modules.shared import OptionInfo, options_section , options_templates
+    options_templates.update(options_section(('ui', "User Interface Options"), {
         'uiux_separator_appearance': OptionInfo("<h2>Appearance</h2>", "", gr.HTML),
         "uiux_no_slider_layout": OptionInfo(False, "Hide input range sliders"),
         "uiux_show_input_range_ticks": OptionInfo(True, "Show ticks for input range slider"),
@@ -26,10 +27,10 @@ def on_ui_settings():
         "uiux_disable_transitions": OptionInfo(False, "Disable transitions")
     }))
 
-script_callbacks.on_ui_settings(on_ui_settings)
 
-
-def on_ui_tabs():   
+def on_ui_tabs():
     return (gr.Blocks(analytics_enabled=False), 'UI-UX Core', 'sdnext_uiux_core'),
 
+
+script_callbacks.on_ui_settings(on_ui_settings)
 script_callbacks.on_ui_tabs(on_ui_tabs)
