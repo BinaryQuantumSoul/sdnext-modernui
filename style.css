@@ -778,7 +778,6 @@ button:hover .mask-icon {
     flex-direction: column;
     gap: var(--sd-gap-size);
     flex-grow: 1;
-    width: 100%;
 }
 
 :not(.portal)>.gradio-highlightedtext,
@@ -1696,6 +1695,36 @@ h1 {
   word-break: break-word;
 }
 
+.extra-details {
+  position: fixed;
+  bottom: 50%;
+  left: 50%;
+  transform: translate(-50%, 50%);
+  padding: 0.8em;
+  z-index: 100;
+  width: max-content;
+  background: var(--sd-main-background-color);
+  border: var(--sd-input-border-size) solid var(--sd-input-border-color);
+  border-radius: var(--sd-border-radius);
+}
+
+.extra-details > div {
+  overflow-y: auto;
+  min-height: 40vh;
+  max-height: 80vh;
+  align-self: flex-start;
+}
+
+.extra-details td:first-child {
+  font-weight: bold;
+  vertical-align: top;
+}
+
+.extra-details td .gradio-image {
+  max-height: 70vh;
+}
+
+
 #txt2img_description,
 #img2img_description {
     overflow-y: auto !important;
@@ -1704,37 +1733,6 @@ h1 {
 #txt2img_description>label>textarea,
 #img2img_description>label>textarea {
     font-size: 0.9em
-}
-
-#txt2img_extra_details>div,
-#img2img_extra_details>div {
-    overflow-y: auto;
-    min-height: 40vh;
-    max-height: 80vh;
-    align-self: flex-start;
-}
-
-#txt2img_extra_details,
-#img2img_extra_details {
-    position: fixed;
-    bottom: 50%;
-    left: 50%;
-    transform: translate(-50%, 50%);
-    padding: 0.8em;
-    border: var(--block-border-width) solid var(--highlight-color) !important;
-    z-index: 100;
-    box-shadow: var(--button-shadow);
-}
-
-#txt2img_extra_details td:first-child,
-#img2img_extra_details td:first-child {
-    font-weight: bold;
-    vertical-align: top;
-}
-
-#txt2img_extra_details .gradio-image,
-#img2img_extra_details .gradio-image {
-    max-height: 70vh;
 }
 
 .extra-networks .buttons {
