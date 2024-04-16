@@ -7,29 +7,27 @@
             <div class="flexbox col"></div>
             <div id="sidebar_control" class="flexbox col shrink group-col">
                 <button title="Prompts" tabItemId="#control_prompts_tabitem" tabGroup="control" id="control_prompts" active="true" class="xtabs-tab shrink">
-                    <div class="mask-icon icon-prompt"></div>
+                    <div class="mask-icon icon-folder-bookmark"></div>
                     <span>Prompts</span>
                 </button>
-
                 <button title="Base" tabItemId="#control_params_size_tabitem" tabGroup="control" id="control_params_size" class="xtabs-tab shrink">
-                    <div class="mask-icon icon-equalize"></div>
+                    <div class="mask-icon icon-folder-grid"></div>
                     <span>Base</span>
                 </button>
+                <button title="Advanced" tabItemId="#control_params_advanced_tabitem" tabGroup="control" id="control_params_advanced" class="xtabs-tab shrink">
+                  <div class="mask-icon icon-folder-gear"></div>
+                  <span>Advanced</span>
+                </button>
                 <button title="Input & Mask" tabItemId="#control_params_mask_tabitem" tabGroup="control" id="control_params_mask" class="xtabs-tab shrink">
-                    <div class="mask-icon icon-equalize"></div>
+                    <div class="mask-icon icon-folder-image"></div>
                     <span>Input & Mask</span>
                 </button>
-                <button title="Advanced" tabItemId="#control_params_advanced_tabitem" tabGroup="control" id="control_params_advanced" class="xtabs-tab shrink">
-                    <div class="mask-icon icon-equalize"></div>
-                    <span>Advanced</span>
-                </button>
                 <button title="Control" tabItemId="#control_params_elements_tabitem" tabGroup="control" id="control_params_elements" class="xtabs-tab shrink">
-                    <div class="mask-icon icon-scripts"></div>
+                    <div class="mask-icon icon-folder-user"></div>
                     <span>Control</span>
                 </button>
-
                 <button title="Scripts / Extensions" tabItemId="#control_scripts_tabitem" tabGroup="control" id="control_scripts" class="xtabs-tab">
-                    <div class="mask-icon icon-scripts"></div>
+                    <div class="mask-icon icon-folders"></div>
                     <span>Scripts</span>
                 </button>
 
@@ -388,6 +386,56 @@
                         </div>
                     </div>
 
+                    <div id="control_params_advanced_tabitem_group" class="flexbox col outline-params">
+                        <div id="control_params_advanced_tabitem" class="xtabs-item">
+                            <div class="flexbox col">
+                                <h2>Advanced</h2>
+                                <div class="flexbox group col">
+                                    <div class="flexbox row">
+                                        <div data-parent-selector="#tab_control" data-selector="#control_cfg_scale" class="portal only-diffusers"></div>
+                                        <div data-parent-selector="#tab_control" data-selector="#control_cfg_end" class="portal only-diffusers"></div>
+                                    </div>
+                                    <div class="flexbox row">
+                                        <div data-parent-selector="#tab_control" data-selector="#control_image_cfg_scale" class="portal only-diffusers"></div>
+                                        <div data-parent-selector="#tab_control" data-selector="#control_image_cfg_rescale" class="portal only-diffusers"></div>
+                                        <div data-parent-selector="#tab_control" data-selector="#control_image_sag_scale" class="portal only-diffusers"></div>
+                                    </div>
+                                    <div class="flexbox row">
+                                        <div data-parent-selector="#tab_control" data-selector="#control_clip_skip" class="portal only-diffusers"></div>
+                                        <div data-parent-selector="#tab_control" data-selector="#control_advanced_options" class="portal only-diffusers no-padding no-bg"></div>
+                                    </div>
+                                </div>
+
+                                <div class="flexbox col spacer-group"></div>
+                                <h2>Corrections</h2>
+                                <div class="flexbox group col">
+                                    <div class="flexbox row">
+                                        <div data-parent-selector="#tab_control" data-selector="#control_hdr_mode" class="portal only-diffusers"></div>
+                                    </div>
+                                    <div class="flexbox row">
+                                        <div data-parent-selector="#tab_control" data-selector="#control_hdr_brightness" class="portal only-diffusers"></div>
+                                        <div data-parent-selector="#tab_control" data-selector="#control_hdr_sharpen" class="portal only-diffusers"></div>
+                                        <div data-parent-selector="#tab_control" data-selector="#control_hdr_color" class="portal only-diffusers"></div>
+                                    </div>
+                                    <div class="flexbox row">
+                                        <div data-parent-selector="#tab_control" data-selector="#control_hdr_clamp" class="portal only-diffusers"></div>
+                                        <div data-parent-selector="#tab_control" data-selector="#control_hdr_boundary" class="portal only-diffusers"></div>
+                                        <div data-parent-selector="#tab_control" data-selector="#control_hdr_threshold" class="portal only-diffusers"></div>
+                                    </div>
+                                    <div class="flexbox row">
+                                        <div data-parent-selector="#tab_control" data-selector="#control_hdr_maximize" class="portal only-diffusers"></div>
+                                        <div data-parent-selector="#tab_control" data-selector="#control_hdr_max_center" class="portal only-diffusers"></div>
+                                        <div data-parent-selector="#tab_control" data-selector="#control_hdr_max_boundry" class="portal only-diffusers"></div>
+                                    </div>
+                                    <div class="flexbox row">
+                                        <div data-parent-selector="#tab_control" data-selector="#control_hdr_color_picker" class="portal only-diffusers shrink"></div>
+                                        <div data-parent-selector="#tab_control" data-selector="#control_hdr_tint_ratio" class="portal only-diffusers"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div id="control_params_mask_tabitem_group" class="flexbox col outline-params">
                         <div id="control_params_mask_tabitem" class="xtabs-item">
                             <div class="flexbox col">
@@ -446,56 +494,6 @@
                                         <div data-parent-selector="#tab_control" data-selector="#control_video_loop" class="portal only-diffusers hide-empty"></div>
                                         <div data-parent-selector="#tab_control" data-selector="#control_video_pad" class="portal only-diffusers hide-empty"></div>
                                         <div data-parent-selector="#tab_control" data-selector="#control_video_interpolate" class="portal only-diffusers hide-empty"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div id="control_params_advanced_tabitem_group" class="flexbox col outline-params">
-                        <div id="control_params_advanced_tabitem" class="xtabs-item">
-                            <div class="flexbox col">
-                                <h2>Advanced</h2>
-                                <div class="flexbox group col">
-                                    <div class="flexbox row">
-                                        <div data-parent-selector="#tab_control" data-selector="#control_cfg_scale" class="portal only-diffusers"></div>
-                                        <div data-parent-selector="#tab_control" data-selector="#control_cfg_end" class="portal only-diffusers"></div>
-                                    </div>
-                                    <div class="flexbox row">
-                                        <div data-parent-selector="#tab_control" data-selector="#control_image_cfg_scale" class="portal only-diffusers"></div>
-                                        <div data-parent-selector="#tab_control" data-selector="#control_image_cfg_rescale" class="portal only-diffusers"></div>
-                                        <div data-parent-selector="#tab_control" data-selector="#control_image_sag_scale" class="portal only-diffusers"></div>
-                                    </div>
-                                    <div class="flexbox row">
-                                        <div data-parent-selector="#tab_control" data-selector="#control_clip_skip" class="portal only-diffusers"></div>
-                                        <div data-parent-selector="#tab_control" data-selector="#control_advanced_options" class="portal only-diffusers no-padding no-bg"></div>
-                                    </div>
-                                </div>
-
-                                <div class="flexbox col spacer-group"></div>
-                                <h2>Corrections</h2>
-                                <div class="flexbox group col">
-                                    <div class="flexbox row">
-                                        <div data-parent-selector="#tab_control" data-selector="#control_hdr_mode" class="portal only-diffusers"></div>
-                                    </div>
-                                    <div class="flexbox row">
-                                        <div data-parent-selector="#tab_control" data-selector="#control_hdr_brightness" class="portal only-diffusers"></div>
-                                        <div data-parent-selector="#tab_control" data-selector="#control_hdr_sharpen" class="portal only-diffusers"></div>
-                                        <div data-parent-selector="#tab_control" data-selector="#control_hdr_color" class="portal only-diffusers"></div>
-                                    </div>
-                                    <div class="flexbox row">
-                                        <div data-parent-selector="#tab_control" data-selector="#control_hdr_clamp" class="portal only-diffusers"></div>
-                                        <div data-parent-selector="#tab_control" data-selector="#control_hdr_boundary" class="portal only-diffusers"></div>
-                                        <div data-parent-selector="#tab_control" data-selector="#control_hdr_threshold" class="portal only-diffusers"></div>
-                                    </div>
-                                    <div class="flexbox row">
-                                        <div data-parent-selector="#tab_control" data-selector="#control_hdr_maximize" class="portal only-diffusers"></div>
-                                        <div data-parent-selector="#tab_control" data-selector="#control_hdr_max_center" class="portal only-diffusers"></div>
-                                        <div data-parent-selector="#tab_control" data-selector="#control_hdr_max_boundry" class="portal only-diffusers"></div>
-                                    </div>
-                                    <div class="flexbox row">
-                                        <div data-parent-selector="#tab_control" data-selector="#control_hdr_color_picker" class="portal only-diffusers shrink"></div>
-                                        <div data-parent-selector="#tab_control" data-selector="#control_hdr_tint_ratio" class="portal only-diffusers"></div>
                                     </div>
                                 </div>
                             </div>

@@ -2080,7 +2080,7 @@ div#layout-3 {
 }
 
 .icon-extensions {
-    -webkit-mask-image: url(./html/svg/box-3-line.svg);
+    -webkit-mask-image: url(./html/svg/list-check.svg);
 }
 
 .icon-theme {
@@ -2123,7 +2123,7 @@ div#layout-3 {
 
 .icon-model-merger {
     transform: rotate(90deg);
-    -webkit-mask-image: url(./html/svg/organization-chart.svg);
+    -webkit-mask-image: url(./html/svg/books.svg);
 }
 
 .icon-train {
@@ -2213,6 +2213,38 @@ button.active .icon-sort {
 
 .icon-menuadd {
     -webkit-mask-image: url(./html/svg/menu-add-fill.svg);
+}
+
+.icon-folder {
+    -webkit-mask-image: url(./html/svg/folder.svg);
+}
+
+.icon-folder-bookmark {
+    -webkit-mask-image: url(./html/svg/folder-bookmark.svg);
+}
+
+.icon-folder-gear {
+    -webkit-mask-image: url(./html/svg/folder-gear.svg);
+}
+
+.icon-folder-grid {
+    -webkit-mask-image: url(./html/svg/folder-grid.svg);
+}
+
+.icon-folder-image {
+    -webkit-mask-image: url(./html/svg/folder-image.svg);
+}
+
+.icon-folder-magnifying-glass {
+    -webkit-mask-image: url(./html/svg/folder-magnifying-glass.svg);
+}
+
+.icon-folder-user {
+    -webkit-mask-image: url(./html/svg/folder-user.svg);
+}
+
+.icon-folders {
+    -webkit-mask-image: url(./html/svg/folders.svg);
 }
 
 #contributors_grid {
