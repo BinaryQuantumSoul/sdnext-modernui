@@ -1,0 +1,34 @@
+/* Author: Anapnoe */
+
+:root {
+    --sd-main-accent-color:hsl(176deg 97% 41%);
+    --sd-secondary-color:hsl(225deg 6% 12%);
+    --sd-main-background-color:hsl(0deg 0% 10%);
+    --sd-input-height:40px;
+    --sd-input-slider-height:0.4;
+    --sd-input-icon-height:32px;
+    --sd-input-padding:8px;
+    --sd-input-font-size:12px;
+    --sd-input-line-height:12px;
+    --sd-label-color:hsl(216deg 5% 60%);
+    --sd-input-border-size:0px;
+    --sd-input-text-color:hsl(216deg 5% 60%);
+    --sd-input-placeholder-text-color:hsl(176deg 97% 41%);
+    --sd-input-background-color:hsl(225deg 6% 12%);
+    --sd-input-border-color:hsl(228deg 6% 17%);
+    --sd-input-hover-text-color:hsl(225deg 6% 12%);
+    --sd-panel-background-color:hsl(225deg 5% 8%);
+    --sd-panel-border-color:hsl(214deg 5% 30%);
+    --sd-panel-padding:4px;
+    --sd-border-radius:0px;
+    --sd-border-size:0;
+    --sd-gap-size-val:5px;
+    --sd-gap-size:4px;
+    --sd-group-background-color:hsl(225deg 6% 12%);
+    --sd-group-padding:2px;
+    --sd-group-border-radius:0px;
+    --sd-group-border-size:1px;
+    --sd-group-border-color:hsl(225deg 6% 12%);
+    --sd-group-gap:0;
+    --sd-outside-gap-size:8px;
+}
