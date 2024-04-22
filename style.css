@@ -443,7 +443,7 @@ body {
     box-shadow: none;
     gap: 5px;
     flex: 0 1 0%;
-    background: var(--sd-input-background-color);
+    background: unset;
     border: var(--sd-input-border-size) solid var(--sd-input-border-color);
     border-radius: var(--sd-border-radius);
     vertical-align: middle;
@@ -4520,4 +4520,46 @@ gallery-folder:hover {
 
 .grow .layout {
     overflow: auto;
+}
+
+/* gr.table is based on svelte-virtual-table which means there are two table elements and neither have all rows */
+
+.table-wrap {
+  height: unset !important;
+}
+
+.table-wrap table {
+  width: 100%;
+  display: table;
+}
+
+.table-wrap table caption {
+  display: none;
+}
+
+.table-wrap table thead {
+  background: var(--sd-input-background-color);
+  word-break: initial;
+  display: none;
+}
+
+.table-wrap table tbody {
+  word-break: break-word;
+  display: none;
+}
+
+.table-wrap table td {
+  word-break: break-word;
+}
+
+.table-wrap svelte-virtual-table-viewport table {
+  display: table !important;
+}
+
+.table-wrap svelte-virtual-table-viewport table thead {
+  display: table-header-group !important;
+}
+
+.table-wrap svelte-virtual-table-viewport table tbody {
+  display: contents !important;
 }
