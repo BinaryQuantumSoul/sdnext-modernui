@@ -1732,6 +1732,11 @@ h1 {
     position: absolute;
     right: 0;
     margin-right: calc(2*var(--sd-panel-padding));
+    margin-top: -2px;
+}
+
+.extra-networks .buttons button {
+    font-size: 1.4em;
 }
 
 *.extra-network-cards {
@@ -2432,7 +2437,7 @@ div#main-nav {
     gap: var(--sd-gap-size);
     border-radius: var(--sd-border-radius);
     border: var(--sd-input-border-size) solid var(--sd-input-border-color);
-    background-color: var(--sd-input-background-color);
+    background-color: var(--sd-button-normal-color);
     cursor: pointer;
 }
 
@@ -2447,13 +2452,13 @@ div#main-nav {
 
 .sd-button.active {
     color: var(--sd-input-hover-text-color);
-    background-color: var(--sd-main-accent-color);
+    background-color: var(--sd-button-selected-color);
 }
 
 .sd-button:hover,
 .sd-button.active:hover {
     color: var(--sd-input-hover-text-color);
-    background-color: var(--sd-main-accent-color);
+    background-color: var(--sd-button-selected-color);
 }
 
 button:hover .icon-letters {
