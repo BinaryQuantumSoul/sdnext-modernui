@@ -1858,14 +1858,6 @@ span.description {
     opacity: 0.6;
 }
 
-*.metadata-button {
-    -webkit-mask-image: url(./html/svg/file-info-fill.svg);
-}
-
-*.edit-button.card-button {
-    -webkit-mask-image: url(./html/svg/file-edit-fill.svg);
-}
-
 div#flexbox-10 {
     justify-content: center;
 }
@@ -3721,32 +3713,6 @@ input[type="checkbox"] {
   margin-top: -50px; color: white; font-weight: bold; font-size: 20px; transition: 0.6s ease; user-select: none; -webkit-user-select: none; }
 .modalNext { right: 0; }
 .modalPrev:hover, .modalNext:hover { background-color: rgba(0, 0, 0, 0.8); }
-
-.icon-physton {
-    -webkit-mask-image: url(./html/svg/pantone-line.svg);
-}
-
-.physton-prompt {
-    margin: 0 !important;
-}
-
-.physton-prompt .prompt-header .prompt-header-extend.prompt-append {
-    min-width: 240px;
-    min-height: 26px;
-}
-
-.physton-prompt .prompt-header .prompt-header-extend .extend-content .gradio-checkbox {
-    display: none;
-}
-
-.physton-prompt .show-group-tags {
-    top: -15px;
-    right: 5px;
-}
-
-.physton-prompt .prompt-header .prompt-header-extend.prompt-append .extend-content {
-    margin-right: 20px;
-}
 
 #train_tabitem .tabs {
     width: 100%;
