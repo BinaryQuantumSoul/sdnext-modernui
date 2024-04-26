@@ -8,6 +8,7 @@ def on_ui_settings():
     from modules.shared import OptionInfo, options_section , options_templates
     options_templates.update(options_section(('ui', "User Interface Options"), {
         'uiux_separator_appearance': OptionInfo("<h2>Appearance</h2>", "", gr.HTML),
+        "uiux_hide_legacy": OptionInfo(True, "Hide txt2img and img2img tabs"),
         "uiux_no_slider_layout": OptionInfo(False, "Hide input range sliders"),
         "uiux_show_input_range_ticks": OptionInfo(True, "Show ticks for input range slider"),
         "uiux_show_labels_aside": OptionInfo(False, "Show labels for aside tabs"),

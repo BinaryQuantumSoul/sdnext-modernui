@@ -4202,6 +4202,14 @@ input[type="range"]::-ms-fill-upper {
     display: none;
 }
 
+.option-hide-legacy .only-legacy {
+    display: none;
+}
+
+.backend-original #setting_uiux_hide_legacy {
+    display: none;
+}
+
 button>.mask-icon,
 button>span {
     pointer-events: none;

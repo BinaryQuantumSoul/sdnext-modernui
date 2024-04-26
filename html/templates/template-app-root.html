@@ -2,7 +2,7 @@
     <div id="main_wrapper" class="flexbox row no-wrap">
         <div id="main-nav" class="layout shrink initial panel ">
             <div class="layout-header">
-                <button title="SD.Next" active="true" class="xtabs-tab no-drag active">
+                <button id="logo_nav" title="SD.Next" active="true" class="xtabs-tab no-drag active">
                     <div class="mask-icon icon-sdnext"></div>
                     <span>SD.Next</span>
                 </button>
@@ -10,15 +10,15 @@
             </div>
             <div id="main_nav_content" class="layout-content">
                 <div id="main-nav-bar" class="flexbox col shrink">
-                    <button title="Text" id="txt2img_nav" tabItemId="#split-app, #txt2img_tabitem" tabGroup="main_group" active="true" data-click="#tabs" class="xtabs-tab">
+                    <button title="Text" id="txt2img_nav" tabItemId="#split-app, #txt2img_tabitem" tabGroup="main_group" data-click="#tabs" class="xtabs-tab only-legacy">
                         <div class="mask-icon icon-txt2img"></div>
                         <span>Text</span>
                     </button>
-                    <button title="Image" id="img2img_nav" tabItemId="#split-app, #img2img_tabitem" tabGroup="main_group" data-click="#tabs" class="xtabs-tab">
+                    <button title="Image" id="img2img_nav" tabItemId="#split-app, #img2img_tabitem" tabGroup="main_group" data-click="#tabs" class="xtabs-tab only-legacy">
                         <div class="mask-icon icon-img2img"></div>
                         <span>Image</span>
                     </button>
-                    <button title="Control" id="control_nav" tabItemId="#split-app, #control_tabitem" tabGroup="main_group" data-click="#tabs" class="xtabs-tab only-diffusers">
+                    <button title="Control" id="control_nav" tabItemId="#split-app, #control_tabitem" tabGroup="main_group" active="true" data-click="#tabs" class="xtabs-tab only-diffusers">
                         <div class="mask-icon icon-control"></div>
                         <span>Control</span>
                     </button>

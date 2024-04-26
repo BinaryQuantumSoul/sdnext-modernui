@@ -140,6 +140,17 @@ async function extraTweaks() {
   const controlColumns = document.getElementById('control-columns');
   adjustFlexDirection(controlColumns);
   new ResizeObserver(() => adjustFlexDirection(controlColumns)).observe(controlColumns);
+
+  // Default tab
+  const logoNav = document.getElementById('logo_nav');
+  const txt2imgNav = document.getElementById('txt2img_nav');
+  const controlNav = document.getElementById('control_nav');
+
+  logoNav.addEventListener('click', () => {
+    if (isBackendDiffusers) controlNav.click();
+    else txt2imgNav.click();
+  });
+  logoNav.click();
 }
 extraTweaks = logFn(extraTweaks); // eslint-disable-line no-func-assign
 
@@ -184,6 +195,7 @@ async function uiuxOptionSettings() {
     updateUiUxClass(className, window.opts[settingId]);
   }
 
+  setupUiUxSetting('uiux_hide_legacy', 'option-hide-legacy');
   setupUiUxSetting('uiux_no_slider_layout', 'option-no-slider-layout');
   setupUiUxSetting('uiux_show_labels_aside', 'option-aside-labels');
   setupUiUxSetting('uiux_show_labels_main', 'option-main-labels');
@@ -586,6 +598,7 @@ async function checkBackend() {
   if (window.opts.sd_backend === 'original') {
     appUiUx.classList.add('backend-original');
     isBackendDiffusers = false;
+    window.opts["uiux_hide_legacy"] = false;
   } else if (window.opts.sd_backend === 'diffusers') {
     appUiUx.classList.add('backend-diffusers');
     isBackendDiffusers = true;
