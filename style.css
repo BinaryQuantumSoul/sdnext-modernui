@@ -3127,7 +3127,6 @@ span.star_count b {
 }
 
 .tabs_extensions tr {
-    display: flex !important;
     flex-direction: row;
     flex-wrap: wrap;
     align-content: flex-start;
