@@ -3823,10 +3823,10 @@ input[type="checkbox"] {
     display: none;
 }
 
-#txt2img_results_generate_tabitem .generate,
-#img2img_results_generate_tabitem .generate,
-#control_results_generate_tabitem .generate,
-#extras_results_generate_tabitem .generate {
+#txt2img_results_generate_tabitem .generate:first-of-type,
+#img2img_results_generate_tabitem .generate:first-of-type,
+#control_results_generate_tabitem .generate:first-of-type,
+#extras_results_generate_tabitem .generate:first-of-type {
     flex-grow: 1;
 }
 
