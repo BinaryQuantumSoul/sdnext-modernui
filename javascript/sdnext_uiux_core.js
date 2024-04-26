@@ -1,7 +1,7 @@
 // Original credits: <https://github.com/anapnoe/stable-diffusion-webui-ux/blob/8307896c59032a9cdac1ab24c975102ff9a674d3/extensions-builtin/anapnoe-sd-uiux/javascript/anapnoe_sd_uiux_core.js>
 
 const template_path = './file=extensions/sdnext-ui-ux/html/templates/';
-const template_root = 'template-app-root.html';
+const template_root = 'template-app-root';
 const uiux_app_id = '#sdnext_app';
 const uiux_tab_id = '#tab_sdnext_uiux_core';
 
@@ -647,14 +647,13 @@ async function replaceRootTemplate() {
 function getNestedTemplates(container) {
   const nestedData = [];
   container.querySelectorAll('.template:not([status])').forEach((el) => {
-    const url = el.getAttribute('url');
-    const key = el.getAttribute('key');
     const template = el.getAttribute('template');
+    const key = el.getAttribute('key');
+
     nestedData.push({
-      url: url || template_path,
-      key: key || undefined,
-      template: template ? `${template}.html` : `${el.id}.html`,
-      id: el.id,
+      template: template,
+      key: key,
+      target: el
     });
   });
   return nestedData;
@@ -663,26 +662,23 @@ function getNestedTemplates(container) {
 async function loadCurrentTemplate(data) {
   const curr_data = data.shift();
   if (curr_data) {
-    let target;
-    if (curr_data.parent) target = curr_data.parent;
-    else if (curr_data.id) target = document.querySelector(`#${curr_data.id}`);
-    if (target) {
-      if (window.opts.uiux_enable_console_log) log('UI template', curr_data.template);
-      const response = await fetch(`${curr_data.url}${curr_data.template}`);
-      if (!response.ok) {
-        log('UI failed to load template', curr_data.template);
-        target.setAttribute('status', 'error');
-      } else {
-        const text = await response.text();
-        const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = curr_data.key ? text.replace(/\s*\{\{.*?\}\}\s*/g, curr_data.key) : text;
-        const nestedData = getNestedTemplates(tempDiv);
-        data.push(...nestedData);
-        target.setAttribute('status', 'true');
-        target.append(tempDiv.firstElementChild);
-      }
-      return loadCurrentTemplate(data);
+    if (window.opts.uiux_enable_console_log) log('UI loading template', curr_data.template);
+    const response = await fetch(`${template_path}${curr_data.template}.html`);
+
+    if (!response.ok) {
+      log('UI failed to load template', curr_data.template);
+      curr_data.target.setAttribute('status', 'error');
+    } else {
+      const text = await response.text();
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = curr_data.key ? text.replace(/\s*\{\{.*?\}\}\s*/g, curr_data.key) : text;
+      const nestedData = getNestedTemplates(tempDiv);
+      data.push(...nestedData);
+
+      curr_data.target.setAttribute('status', 'true');
+      curr_data.target.append(tempDiv.firstElementChild);
     }
+    return loadCurrentTemplate(data);
   }
   return Promise.resolve();
 }
@@ -690,9 +686,8 @@ async function loadCurrentTemplate(data) {
 async function loadAllTemplates() {
   const data = [
     {
-      url: template_path,
       template: template_root,
-      parent: document.querySelector(uiux_tab_id),
+      target: document.querySelector(uiux_tab_id),
     },
   ];
   await loadCurrentTemplate(data);
