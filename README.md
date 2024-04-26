@@ -13,10 +13,6 @@ It is fully mobile compatible
 > [!NOTE]
 > This project is still a Work In Progress, please report issues.
 
-## Installation
-1. Extensions > Manual Install > `https://github.com/BinaryQuantumSoul/sdnext-modernui`
-2. Run SD.Next with `--theme modern` CLI arguments
-
 ## Credits
 Thanks to **illu_Zn** for his precious advices x)
 
