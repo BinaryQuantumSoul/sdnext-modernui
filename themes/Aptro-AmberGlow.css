@@ -1,11 +1,11 @@
 /* Author: Aptronym */
-@font-face {font-family: 'VT220'; font-display: swap; font-style: normal; font-weight: 100; src: local('VT220'), url('AmberGlow-font.ttf')}
+@font-face {font-family: 'VT220'; font-display: swap; font-style: normal; font-weight: 100; src: local('VT220'), url('Aptro-AmberGlow-font.ttf')}
 @keyframes caret-blink { 50% { opacity: 0; } }
 
 /* ====== No clouds, only grain ===== */
 :root {
-    --apt-crt-url-dark: url("AmberGlow-grain-dark.jpg");
-    --apt-crt-url-light: url("AmberGlow-grain-light.jpg");
+    --apt-crt-url-dark: url("Aptro-AmberGlow-grain-dark.jpg");
+    --apt-crt-url-light: url("Aptro-AmberGlow-grain-light.jpg");
 }
 /* =================================== */
 
