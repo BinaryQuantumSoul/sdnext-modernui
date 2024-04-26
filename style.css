@@ -2522,6 +2522,9 @@ button:hover svg {
 .padding {
     padding: var(--sd-panel-padding);
 }
+.force-padding {
+    padding: var(--sd-panel-padding) !important;
+}
 
 .sd-button .portal {
     padding: 0;
@@ -4162,11 +4165,6 @@ input[type="range"]::-ms-fill-upper {
 
 .other .tab-nav {
     margin-left: var(--sd-outside-gap-size);
-}
-
-#system_row {
-    width: fit-content;
-    margin: var(--sd-gap-size-val) auto;
 }
 
 #split-console>div:not(.gutter) {
