@@ -2002,7 +2002,7 @@ div#layout-3 {
 }
 
 .icon-loop {
-  -webkit-mask-image: url(./html/svg/forward.svg);
+  -webkit-mask-image: url(./html/svg/arrows-spin.svg);
 }
 
 .icon-skip {
