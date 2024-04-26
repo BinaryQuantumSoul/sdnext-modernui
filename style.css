@@ -1210,8 +1210,18 @@ li.item span {
     cursor: row-resize;
 }
 
-.gutter:has(+ #split-right .accordion-vertical:not(.expand)) {
+.gutter:has(+ #split-right .accordion-vertical:not(.expand)),
+.gutter:has(+ #split-right .accordion-vertical.full-expand) {
     display: none;
+}
+
+.accordion-vertical:not(.expand) button:has(.accordion-full-icon),
+.accordion-vertical.full-expand button:has(.accordion-icon) {
+    display: none;
+}
+
+#split-right:has(> div > .accordion-vertical.full-expand) {
+    min-width: 100% !important;
 }
 
 #split-control-left:has(.accordion-vertical:not(.expand))+.gutter {
@@ -1277,9 +1287,15 @@ li.item span {
 .accordion-icon {
     transform: rotate(90deg);
 }
-
 .accordion.expand .accordion-icon {
     transform: rotate(0deg);
+}
+
+.accordion-full-icon {
+    transform: rotate(90deg);
+}
+.accordion-vertical.full-expand .accordion-full-icon {
+    transform: rotate(-90deg);
 }
 
 .accordion-vertical.expand .accordion-icon {
@@ -1289,7 +1305,6 @@ li.item span {
 .accordion-vertical.left .accordion-icon {
     transform: rotate(-90deg);
 }
-
 .accordion-vertical.left.expand .accordion-icon {
     transform: rotate(90deg);
 }

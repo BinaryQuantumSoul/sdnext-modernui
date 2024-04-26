@@ -441,6 +441,9 @@ function initAccordionComponents() {
     } else {
       accTrigger?.addEventListener('click', () => { acc.classList.toggle('expand'); });
     }
+
+    const fullTrigger = acc.getAttribute('iconFullTrigger');
+    if (fullTrigger) appUiUx.querySelector(fullTrigger)?.addEventListener('click', () => { acc.classList.toggle('full-expand');})
   });
 }
 
