@@ -219,53 +219,76 @@ async function setupErrorObserver() {
 }
 
 async function setupGenerateObservers() {
+  function addButtonIcon(button, iconClass) {
+    const icon = document.createElement('div');
+    icon.classList.add('mask-icon', iconClass);
+    button.appendChild(icon);
+  }
+
+  function addButtonSpan(button, spanText) {
+    const span = document.createElement('span');
+    span.textContent = spanText;
+    if (!spanText) span.style.display = 'none';
+    button.appendChild(span);
+  }
+
+  function enableButtonAnimation(parentButton, enable) {
+    if(enable) parentButton.classList.add('active');
+    else parentButton.classList.remove('active');
+  }
+
   const keys = ['#txt2img', '#img2img', '#extras', '#control'];
   keys.forEach((key) => {
-    const tgb = document.querySelector(`${key}_generate`);
-    const tib = document.querySelector(`${key}_interrupt`);
-    if (!tgb || !tib) return;
-    const tg = tgb.closest('.sd-button');
     const loop = document.querySelector(`${key}_loop`);
     if (loop) loop.addEventListener('click', () => generateForever(`${key}_generate`));
-    // if (loop) tib.addEventListener('click', () => loop.classList.add('stop'));
-    const gen_observer = new MutationObserver(() => {
-      if (tgb.textContent && !tgb.querySelector('span')) {
-        if (tgb.textContent === 'Generate') {
-          tg.classList.remove('active');
-          const icon = document.createElement('div');
-          icon.classList.add('mask-icon', 'icon-generate');
-          tgb.appendChild(icon);
-        } else {
-          tg.classList.add('active');
-        }
-        const span = document.createElement('span');
-        span.textContent = tgb.textContent;
-        tgb.appendChild(span);
-      }
-    });
-    gen_observer.observe(tgb, { childList: true, subtree: true });
-  });
 
-  keys.forEach((key) => {
-    const teb = document.querySelector(`${key}_enqueue`);
-    if (!teb) return;
-    const te = teb.closest('.sd-button');
-    const gen_observer = new MutationObserver(() => {
-      if (teb.textContent && !teb.querySelector('span')) {
-        if (teb.textContent === 'Enqueue') {
-          te.classList.remove('active');
-          const icon = document.createElement('div');
-          icon.classList.add('mask-icon', 'icon-arrow-up-circle-line');
-          teb.appendChild(icon);
-        } else {
-          te.classList.add('active');
+    const tgb = document.querySelector(`${key}_generate`);
+    if (tgb) {
+      const tg = tgb.closest('.sd-button');
+
+      new MutationObserver(() => {
+        if (tgb.textContent && !tgb.querySelector('span')) {
+          if (tgb.textContent === 'Generate') {
+            enableButtonAnimation(tg, false)
+            addButtonIcon(tgb, 'icon-generate');
+          } else {
+            enableButtonAnimation(tg, true)
+          }
+          addButtonSpan(tgb, tgb.textContent);
         }
-        const span = document.createElement('span');
-        span.textContent = teb.textContent;
-        teb.appendChild(span);
-      }
-    });
-    gen_observer.observe(teb, { childList: true, subtree: true });
+      }).observe(tgb, { childList: true, subtree: true });
+    }
+
+    const teb = document.querySelector(`${key}_enqueue`);
+    if (teb) {
+      const te = teb.closest('.sd-button');
+
+      new MutationObserver(() => {
+        if (teb.textContent && !teb.querySelector('span')) {
+          if (teb.textContent === 'Enqueue') {
+            enableButtonAnimation(te, false)
+            addButtonIcon(teb, 'icon-enqueue');
+          } else {
+            enableButtonAnimation(te, true)
+          }
+          addButtonSpan(teb, '');
+        }
+      }).observe(teb, { childList: true, subtree: true });
+    }
+
+    const tpb = document.querySelector(`${key}_pause`);
+    if (tpb) {
+      new MutationObserver(() => {
+        if (tpb.textContent && !tpb.querySelector('span')) {
+          if (tpb.textContent === 'Pause') {
+            addButtonIcon(tpb, 'icon-pause');
+          } else {
+            addButtonIcon(tpb, 'icon-play');
+          }
+          addButtonSpan(tpb, '');
+        }
+      }).observe(tpb, { childList: true, subtree: true });
+    }
   });
 }
 
