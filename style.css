@@ -4479,6 +4479,8 @@ gallery-folder:hover {
     color: var(--sd-input-hover-text-color);
 }
 
+#split-settings-left { min-width: 10em }
+
 .splash { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1000; display: block; text-align: center; }
 .motd { margin-top: 2em; color: white; font-family: monospace; font-variant: all-petite-caps; }
 .splash-img { margin: 10% auto 0 auto; width: 512px; background-repeat: no-repeat; height: 512px; animation: color 10s infinite alternate; }
