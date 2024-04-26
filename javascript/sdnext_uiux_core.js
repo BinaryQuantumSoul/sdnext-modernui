@@ -141,6 +141,15 @@ async function extraTweaks() {
   adjustFlexDirection(controlColumns);
   new ResizeObserver(() => adjustFlexDirection(controlColumns)).observe(controlColumns);
 
+  // Extra networks tab
+  ['txt2img', 'img2img', 'control'].forEach((key) => {
+    const buttonNav = document.getElementById(`${key}_nav`);
+    const buttonEN = document.getElementById(`btn-en-layout-${key}`);
+    buttonNav.addEventListener('click', () => {
+      buttonEN.click();
+    });
+  });
+
   // Default tab
   const logoNav = document.getElementById('logo_nav');
   const txt2imgNav = document.getElementById('txt2img_nav');
