@@ -1,6 +1,6 @@
 // Original credits: <https://github.com/anapnoe/stable-diffusion-webui-ux/blob/8307896c59032a9cdac1ab24c975102ff9a674d3/extensions-builtin/anapnoe-sd-uiux/javascript/anapnoe_sd_uiux_core.js>
 
-const template_path = './file=extensions/sdnext-ui-ux/html/templates/';
+const template_path = './file=extensions-builtin/sdnext-modernui/html/templates/';
 const template_root = 'template-app-root';
 const uiux_app_id = '#sdnext_app';
 const uiux_tab_id = '#tab_sdnext_uiux_core';
