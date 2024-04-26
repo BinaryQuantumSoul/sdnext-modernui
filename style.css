@@ -4272,11 +4272,8 @@ button>span {
     order: 3;
 }
 
-#control_generate_group {
-  display: flex;
-  justify-content: center;
-  margin-bottom: var(--sd-group-gap);
-  flex-grow: 0;
+#control_dynamic_group {
+    align-items: center;
 }
 
 #control-columns > div {

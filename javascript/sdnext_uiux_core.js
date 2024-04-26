@@ -88,10 +88,14 @@ function applyDefaultLayout(isMobile) {
   });
 
   if (isMobile) {
+    //additional mobile actions
     appUiUx.querySelector('.accordion-vertical.expand #mask-icon-acc-arrow')?.click();
     if (!appUiUx.querySelector('.accordion-vertical.expand #mask-icon-acc-arrow-control')) {
       appUiUx.querySelector('.accordion-vertical #mask-icon-acc-arrow-control').click();
     }
+    appUiUx.querySelector('#control_dynamic_input:not(:checked)')?.click();
+    appUiUx.querySelector('#control_dynamic_control:not(:checked)')?.click();
+
     appUiUx.classList.add('media-mobile');
     appUiUx.classList.remove('media-desktop');
   } else {
@@ -216,6 +220,34 @@ async function setupErrorObserver() {
     observer.observe(console, { childList: true });
     consoleBtn.addEventListener('click', () => consoleBtn.removeAttribute('error-count'));
   }
+}
+
+async function setupControlDynamicObservers() {
+  const dynamicInput = document.getElementById('control_dynamic_input');
+  const dynamicControl = document.getElementById('control_dynamic_control');
+
+  const inputElems = document.querySelectorAll('#control-template-column-input, #control_params_mask');
+  const controlElems = document.querySelectorAll('#control-template-column-preview, #control_params_elements');
+
+  function setupDynamicListener(dynamic, elems) {
+    function toggleDynamicElements(checked) {
+      elems.forEach((elem) => {
+        if (checked) {
+          elem.classList.remove('hidden');
+        } else {
+          elem.classList.add('hidden');
+        }
+      });
+    }
+
+    dynamic.addEventListener('click', () => {
+      toggleDynamicElements(dynamic.checked, elems);
+    })
+    toggleDynamicElements(false, elems);
+  } 
+
+  setupDynamicListener(dynamicInput, inputElems);
+  setupDynamicListener(dynamicControl, controlElems);
 }
 
 async function setupGenerateObservers() {
@@ -720,6 +752,7 @@ async function mainUiUx() {
   initButtonComponents();
   await waitForUiPortal();
   setupGenerateObservers();
+  setupControlDynamicObservers();
   setupErrorObserver();
   uiuxOptionSettings();
   showContributors();
