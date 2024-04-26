@@ -2215,7 +2215,7 @@ button.active .icon-sort {
     -webkit-mask-image: url(./html/svg/cpu-line.svg);
 }
 
-.icon-dock {
+.icon-gallery {
     -webkit-mask-image: url(./html/svg/layout-2-line.svg);
 }
 
@@ -2233,6 +2233,10 @@ button.active .icon-sort {
 
 .icon-results {
     -webkit-mask-image: url(./html/svg/computer-line.svg);
+}
+
+.icon-video {
+    -webkit-mask-image: url(./html/svg/video.svg);
 }
 
 .icon-menuadd {
