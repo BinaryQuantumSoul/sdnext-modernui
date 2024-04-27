@@ -1894,6 +1894,10 @@ div#layout-3 {
     -webkit-mask-image: url(./html/svg/folder-open-line.svg);
 }
 
+.icon-paste {
+  -webkit-mask-image: url(./html/svg/paste.svg);
+}
+
 .icon-save {
     -webkit-mask-image: url(./html/svg/save-2-line.svg);
 }
@@ -1952,11 +1956,12 @@ div#layout-3 {
     position: absolute;
     top: -5px;
     right: -5px;
-    background-color: red;
+    background-color: darkred;
     color: white;
     border-radius: 50%;
     padding: 0 0.5em;
-    font-size: 0.9em;
+    font-size: 0.8em;
+    width: 1.1em;
 }
 
 .icon-2extras {
@@ -4585,4 +4590,8 @@ gallery-folder:hover {
 
 .infotext > p {
   margin-bottom: var(--sd-group-gap);
+}
+
+.styles {
+  gap: 0;
 }
