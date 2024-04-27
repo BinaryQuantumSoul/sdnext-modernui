@@ -1,5 +1,3 @@
-# Originally from Anapnoe@https://github.com/anapnoe/stable-diffusion-webui-ux/blob/8307896c59032a9cdac1ab24c975102ff9a674d3/extensions-builtin/anapnoe-sd-uiux/scripts/anapnoe_sd_uiux.py
-
 import gradio as gr
 from modules import script_callbacks
 
@@ -24,7 +22,7 @@ def on_ui_settings():
 
         'uiux_separator_other': OptionInfo("<h2>Other Settings</h2>", "", gr.HTML),
         "uiux_enable_console_log": OptionInfo(False, "Enable debug log"),
-        "uiux_max_resolution_output": OptionInfo(2048, "Max resolution output for txt2img and img2img"),
+        "uiux_max_resolution_output": OptionInfo(4096, "Max resolution output for txt2img and img2img"),
         "uiux_disable_transitions": OptionInfo(False, "Disable transitions")
     }))
 

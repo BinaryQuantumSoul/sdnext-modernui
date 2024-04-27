@@ -34,7 +34,6 @@
     --sd-input-slider-height: 0.5;
     --sd-input-icon-height: calc(var(--sd-input-height) - var(--sd-input-border-size) * 2);
     --sd-input-padding: 5px;
-    --sd-input-font-size: 14px;
     --sd-input-line-height: 23px;
     --sd-input-border-size: 1px;
 

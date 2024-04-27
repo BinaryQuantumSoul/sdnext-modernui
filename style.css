@@ -48,7 +48,7 @@
     --sd-input-slider-height: 0.6;
     --sd-input-icon-height: calc(var(--sd-input-height) - var(--sd-input-border-size) * 2);
     --sd-input-line-height: 23px;
-    --sd-input-font-size: 14px;
+    --sd-input-font-size: var(--font-size);
     --sd-input-padding: 5px;
     --sd-input-border-size: 2px;
     --sd-panel-padding: 5px;
@@ -69,6 +69,7 @@ body {
     font-size: var(--sd-input-font-size);
     background-color: var(--sd-main-background-color);
     font-family: "IBM Plex Mono", monospace;
+    --sd-display-legacy: 'block';
 }
 
 .portal,
@@ -1068,7 +1069,7 @@ li.item span {
 *.thumbnail-lg img {
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: fill;
     margin-bottom: calc(var(--sd-border-size) * -1);
 }
 
@@ -2738,6 +2739,12 @@ button:hover svg {
     display: none;
 }
 
+#control-template-column-input > .shrink,
+#control-template-column-output > .shrink,
+#control-template-column-preview > .shrink {
+  min-height: 3em;
+}
+
 .scroll-hide {
     overflow-y: hidden !important;
     resize: none;
@@ -4291,6 +4298,7 @@ button>span {
 #control-columns img,
 #control-columns svg {
     width: 100%;
+    object-position: top;
 }
 
 #control-columns.flex-force-column {
@@ -4571,4 +4579,8 @@ gallery-folder:hover {
     border-radius: var(--sd-border-radius);
     mix-blend-mode: multiply;
     background-color: var(--data-color);
+}
+
+.infotext > p {
+  margin-bottom: var(--sd-group-gap);
 }

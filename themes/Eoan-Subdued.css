@@ -8,7 +8,6 @@
     --sd-input-slider-height:0.5;
     --sd-input-icon-height:calc(var(--sd-input-height) - var(--sd-input-border-size) * 2);
     --sd-input-padding:5px;
-    --sd-input-font-size:12px;
     --sd-input-line-height:24px;
     --sd-label-color:hsl(216deg 5% 60%);
     --sd-input-border-size:0px;

@@ -213,6 +213,12 @@ async function uiuxOptionSettings() {
   setupUiUxSetting('uiux_no_headers_params', 'option-hide-headers-params');
   setupUiUxSetting('uiux_show_outline_params', 'option-show-outline-params');
 
+  // hide legacy and activate control tab
+  log('hideLegacy', window.opts.uiux_hide_legacy);
+  gradioApp().getElementById('tab_txt2img').style.display = window.opts.uiux_hide_legacy ? 'none' : 'block';
+  gradioApp().getElementById('tab_img2img').style.display = window.opts.uiux_hide_legacy ? 'none' : 'block';
+  gradioApp().getElementById('tab_control').style.display = window.opts.uiux_hide_legacy ? 'block' : 'none';
+
   // settings mobile scale
   function uiux_mobile_scale(value) {
     const viewport = document.head.querySelector('meta[name="viewport"]');
