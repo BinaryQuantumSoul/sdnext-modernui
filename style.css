@@ -2981,7 +2981,7 @@ td.gridjs-td {
     padding-bottom: 0 !important;
 }
 
-#layout-extra-networks {
+#layout-extra-networks>div {
     overflow: hidden;
 }
 
