@@ -1,0 +1,77 @@
+name: Issue Report
+description: Something is broken in the UI
+title: "[Issue]: "
+labels: []
+
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Issue Description
+      description: Tell us what happened in a very clear and simple way
+      value: Please fill this form with as much information as possible
+  - type: dropdown
+    id: backend
+    attributes:
+      label: Backend
+      description: What is the browser you're using?
+      options:
+        - Chrome (and derivatives)
+        - Firefox
+        - Safari
+      default: 0
+    validations:
+      required: true
+  - type: dropdown
+    id: branch
+    attributes:
+      label: Branch
+      description: What is the platform you're using?
+      options:
+        - Desktop
+        - Mobile
+      default: 0
+    validations:
+      required: true
+  - type: textarea
+    id: platform
+    attributes:
+      label: Version Platform Description
+      description: Describe your platform (program version, OS, browser)
+      value: 
+  - type: markdown
+    attributes:
+      value: |
+        Any issues without version information will be closed  
+        Provide any relevant platorm information:  
+        - Application version, OS details, browser used  
+        
+        Information can be found in `sdnext.log` file:  
+        ```log
+        Starting SD.Next
+        Logger: file="sdnext.log" level=DEBUG size=4297107 mode=append
+        Version: app=sd.next updated=2024-04-27 hash=8dbfc2e6 branch=dev url=https://github.com/vladmandic/automatic/tree/dev
+        Platform: arch=x86_64 cpu=x86_64 system=Linux release=5.15.153.1-microsoft-standard-WSL2 python=3.11.1
+        ...
+        Browser session: user=None client=127.0.0.1 agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0
+        ```
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant log output
+      description: |
+        Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks
+        Both client and server Logs can be seen in the UI -> Logs
+      render: shell
+  - type: markdown
+    attributes:
+      value: |
+        If unsure if this is a right place to ask your question, perhaps post on [Discussions](https://github.com/vladmandic/automatic/discussions)
+        Or reach-out to us on [Discord](https://discord.gg/WqMzTUDC)
+  - type: checkboxes
+    attributes:
+      label: Acknowledgements
+      description: 
+      options:
+        - label: I have read the above and searched for existing issues
+          required: true
