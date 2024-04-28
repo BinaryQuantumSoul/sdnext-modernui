@@ -88,7 +88,7 @@ function applyDefaultLayout(isMobile) {
   });
 
   if (isMobile) {
-    //additional mobile actions
+    // additional mobile actions
     appUiUx.querySelector('.accordion-vertical.expand #mask-icon-acc-arrow')?.click();
     if (!appUiUx.querySelector('.accordion-vertical.expand #mask-icon-acc-arrow-control')) {
       appUiUx.querySelector('.accordion-vertical #mask-icon-acc-arrow-control').click();
@@ -269,9 +269,9 @@ async function setupControlDynamicObservers() {
 
     dynamic.addEventListener('click', () => {
       toggleDynamicElements(dynamic.checked, elems);
-    })
+    });
     toggleDynamicElements(false, elems);
-  } 
+  }
 
   setupDynamicListener(dynamicInput, inputElems);
   setupDynamicListener(dynamicControl, controlElems);
@@ -292,7 +292,7 @@ async function setupGenerateObservers() {
   }
 
   function enableButtonAnimation(parentButton, enable) {
-    if(enable) parentButton.classList.add('active');
+    if (enable) parentButton.classList.add('active');
     else parentButton.classList.remove('active');
   }
 
@@ -308,10 +308,10 @@ async function setupGenerateObservers() {
       new MutationObserver(() => {
         if (tgb.textContent && !tgb.querySelector('span')) {
           if (tgb.textContent === 'Generate') {
-            enableButtonAnimation(tg, false)
+            enableButtonAnimation(tg, false);
             addButtonIcon(tgb, 'icon-generate');
           } else {
-            enableButtonAnimation(tg, true)
+            enableButtonAnimation(tg, true);
           }
           addButtonSpan(tgb, tgb.textContent);
         }
@@ -325,10 +325,10 @@ async function setupGenerateObservers() {
       new MutationObserver(() => {
         if (teb.textContent && !teb.querySelector('span')) {
           if (teb.textContent === 'Enqueue') {
-            enableButtonAnimation(te, false)
+            enableButtonAnimation(te, false);
             addButtonIcon(teb, 'icon-enqueue');
           } else {
-            enableButtonAnimation(te, true)
+            enableButtonAnimation(te, true);
           }
           addButtonSpan(teb, '');
         }
@@ -470,7 +470,7 @@ function initAccordionComponents() {
     }
 
     const fullTrigger = acc.getAttribute('iconFullTrigger');
-    if (fullTrigger) appUiUx.querySelector(fullTrigger)?.addEventListener('click', () => { acc.classList.toggle('full-expand');})
+    if (fullTrigger) appUiUx.querySelector(fullTrigger)?.addEventListener('click', () => { acc.classList.toggle('full-expand'); });
   });
 }
 
@@ -613,7 +613,7 @@ async function checkBackend() {
   if (window.opts.sd_backend === 'original') {
     appUiUx.classList.add('backend-original');
     isBackendDiffusers = false;
-    window.opts["uiux_hide_legacy"] = false;
+    window.opts.uiux_hide_legacy = false;
   } else if (window.opts.sd_backend === 'diffusers') {
     appUiUx.classList.add('backend-diffusers');
     isBackendDiffusers = true;
@@ -666,9 +666,9 @@ function getNestedTemplates(container) {
     const key = el.getAttribute('key');
 
     nestedData.push({
-      template: template,
-      key: key,
-      target: el
+      template,
+      key,
+      target: el,
     });
   });
   return nestedData;

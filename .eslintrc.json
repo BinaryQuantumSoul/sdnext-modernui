@@ -2,8 +2,10 @@
   "parserOptions": {
     "ecmaVersion": 2020
   },
-  "plugins": ["html", "json"],
+  "root": true,
+  "plugins": ["json", "markdown"],
   "extends": [
+    "plugin:json/recommended",
     "eslint:recommended",
     "airbnb-base"
   ],
