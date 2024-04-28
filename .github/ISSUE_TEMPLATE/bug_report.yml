@@ -1,6 +1,6 @@
 name: Issue Report
 description: Something is broken in the UI
-title: "[Issue]: "
+title: "[Issue] "
 labels: []
 
 body:
