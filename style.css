@@ -18,8 +18,11 @@
     --color-debug: #7F7F7F;
     --color-info: #D4D4D4;
     --color-warning: #FF9900;
-    --color-error: #BE0000
-}
+    --color-error: #BE0000;
+    --color-blue: paleturquoise;
+    --color-red: palevioletred;
+    --color-green: palegreen;
+  }
 
 :root {
     --sd-main-accent-color: #7950ab;
@@ -1711,9 +1714,10 @@ h1 {
   transform: translate(-50%, 50%);
   padding: 0.8em;
   z-index: 100;
-  width: max-content;
+  width: fit-content;
+  max-width: 100%;
   background: var(--sd-main-background-color);
-  border: var(--sd-input-border-size) solid var(--sd-input-border-color);
+  border: var(--sd-border-size) solid var(--sd-input-border-color);
   border-radius: var(--sd-border-radius);
 }
 
@@ -1733,6 +1737,9 @@ h1 {
   max-height: 70vh;
 }
 
+.extra-details .gradio-row {
+  flex-wrap: nowrap;
+}
 
 #txt2img_description,
 #img2img_description {
@@ -4594,4 +4601,58 @@ gallery-folder:hover {
 
 .styles {
   gap: 0;
+}
+
+/* gr.json */
+
+.json-node {
+  display: inline;
+  color: var(--sd-label-color);
+  line-height: var(--sd-input-line-height);
+  font-family: monospace;
+}
+
+.json-node .children {
+  padding-left: var(--sd-gap-size);
+}
+
+.json-node .spacer {
+  display: inline-block;
+  width: 0;
+  height: 0;
+}
+
+.json-node .json-item {
+  display: inline;
+}
+
+.json-node .number {
+  color: var(--color-blue);
+}
+
+.json-node .string {
+  color: var(--color-green);
+}
+
+.json-node .bool {
+  color: var(--color-red);
+}
+
+.gradio-json button {
+  position: absolute;
+  top: 3em;
+  right: 1em;
+  width: 2em;
+}
+
+/* en item details */
+
+#control_extra_details_img {
+  max-height: 50vh;
+}
+
+#control_extra_details_img img {
+  height: 100%;
+  overflow: hidden;
+  object-fit: contain;
 }
