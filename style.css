@@ -631,6 +631,12 @@ div.float span {
     justify-content: center;
 }
 
+.prompt textarea {
+  max-height: calc(100% - var(--sd-input-line-height));
+  min-height: unset !important;
+  overflow-y: auto !important;
+}
+
 * select:focus,
 * input:focus,
 * button:focus,
