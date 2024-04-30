@@ -1,63 +1,63 @@
 <div id="accordion-aside" iconTrigger="#acc-arrow-button" iconFullTrigger="#acc-full-button" class="accordion accordion-vertical no-drag">
-    <div class="accordion-bar">
-        <button id="acc-arrow-button" class="sd-button">
-            <div class="mask-icon accordion-icon icon-arrow-down"></div>
-        </button>
-        <button id="acc-full-button" class="sd-button only-desktop">
-            <div class="mask-icon accordion-full-icon icon-arrow-down"></div>
-        </button>
-        <div class="flexbox col"></div>
-        <div id="sidebar_tabs" class="flexbox col shrink">
-            <button title="Quick Settings" tabItemId="#layout-quicksettings" tabGroup="extra_networks" id="btn_quick_settings" class="xtabs-tab">
-                <div class="mask-icon icon-quicksettings"></div>
-                <span>Quick Settings</span>
-            </button>
-            <button title="Extra Networks" tabItemId="#layout-extra-networks" tabGroup="extra_networks" id="btn_extra_networks" active="true" class="xtabs-tab">
-                <div class="mask-icon icon-checkpoints"></div>
-                <span>Extra Networks</span>
-            </button>
-            <button title="Models" tabItemId="#layout-model-merger" tabGroup="extra_networks" id="btn_model_merger" class="xtabs-tab">
-                <div class="mask-icon icon-model-merger"></div>
-                <span>Models</span>
-            </button>
-            <div class="flexbox col spacer-v"></div>
-            <button title="Extensions" tabItemId="#layout-extensions" tabGroup="extra_networks" id="btn_extensions" class="xtabs-tab">
-                <div class="mask-icon icon-extensions"></div>
-                <span>Extensions</span>
-            </button>
-            <button title="Settings" tabItemId="#layout-settings" tabGroup="extra_networks" id="btn_settings" class="xtabs-tab">
-                <div class="mask-icon icon-settings"></div>
-                <span>Settings</span>
-            </button>
-            <button title="System" tabItemId="#layout-system" tabGroup="extra_networks" id="btn_system" class="xtabs-tab">
-                <div class="mask-icon icon-cpu"></div>
-                <span>System</span>
-            </button>
-            <button title="Console" tabItemId="#layout-console-log" tabGroup="extra_networks" id="btn_console" class="xtabs-tab">
-                <div class="mask-icon icon-terminal"></div>
-                <span>Console</span>
-            </button>
-        </div>
+  <div class="accordion-bar">
+    <button id="acc-arrow-button" class="sd-button">
+      <div class="mask-icon accordion-icon icon-arrow-down"></div>
+    </button>
+    <button id="acc-full-button" class="sd-button only-desktop">
+      <div class="mask-icon accordion-full-icon icon-arrow-down"></div>
+    </button>
+    <div class="flexbox col"></div>
+    <div id="sidebar_tabs" class="flexbox col shrink">
+      <button title="Quick Settings" tabItemId="#layout-quicksettings" tabGroup="extra_networks" id="btn_quick_settings" class="xtabs-tab">
+        <div class="mask-icon icon-quicksettings"></div>
+        <span>Quick Settings</span>
+      </button>
+      <button title="Extra Networks" tabItemId="#layout-extra-networks" tabGroup="extra_networks" id="btn_extra_networks" active="true" class="xtabs-tab">
+        <div class="mask-icon icon-checkpoints"></div>
+        <span>Extra Networks</span>
+      </button>
+      <button title="Models" tabItemId="#layout-model-merger" tabGroup="extra_networks" id="btn_model_merger" class="xtabs-tab">
+        <div class="mask-icon icon-model-merger"></div>
+        <span>Models</span>
+      </button>
+      <div class="flexbox col spacer-v"></div>
+      <button title="Extensions" tabItemId="#layout-extensions" tabGroup="extra_networks" id="btn_extensions" class="xtabs-tab">
+        <div class="mask-icon icon-extensions"></div>
+        <span>Extensions</span>
+      </button>
+      <button title="Settings" tabItemId="#layout-settings" tabGroup="extra_networks" id="btn_settings" class="xtabs-tab">
+        <div class="mask-icon icon-settings"></div>
+        <span>Settings</span>
+      </button>
+      <button title="System" tabItemId="#layout-system" tabGroup="extra_networks" id="btn_system" class="xtabs-tab">
+        <div class="mask-icon icon-cpu"></div>
+        <span>System</span>
+      </button>
+      <button title="Console" tabItemId="#layout-console-log" tabGroup="extra_networks" id="btn_console" class="xtabs-tab">
+        <div class="mask-icon icon-terminal"></div>
+        <span>Console</span>
+      </button>
     </div>
-    <div class="accordion-container">
-        <div template="aside/template-quicksettings" url="aside/" class="template"></div>
-        <div template="aside/template-extensions" class="template"></div>
-        <div template="aside/template-system" class="template"></div>
-        <div template="aside/template-settings" class="template"></div>
-        <div template="aside/template-models" class="template"></div>
-        <div template="aside/template-extra-networks" class="template"></div>
+  </div>
+  <div class="accordion-container">
+    <div template="aside/template-quicksettings" url="aside/" class="template"></div>
+    <div template="aside/template-extensions" class="template"></div>
+    <div template="aside/template-system" class="template"></div>
+    <div template="aside/template-settings" class="template"></div>
+    <div template="aside/template-models" class="template"></div>
+    <div template="aside/template-extra-networks" class="template"></div>
 
-        <div id="layout-console-log">
-            <div id="split-console" gutterSize="8" direction="vertical" class="split">
-                <h2>Server Log</h2>
-                <div data-minSize="0" data-initSize="50" id="split-console-up" class="split-container">
-                    <div data-selector="#logMonitorData" data-parent-selector="gradio-app" class="portal no-bg no-padding"></div>
-                </div>
-                <h2>Client Log</h2>
-                <div data-minSize="0" data-initSize="50" id="split-console-down" class="split-container">
-                    <div data-selector="#logMonitorJS" data-parent-selector="" class="portal no-bg no-padding"></div>
-                </div>
-            </div>
+    <div id="layout-console-log">
+      <div id="split-console" gutterSize="8" direction="vertical" class="split">
+        <h2>Server Log</h2>
+        <div data-minSize="0" data-initSize="50" id="split-console-up" class="split-container">
+          <div data-selector="#logMonitorData" data-parent-selector="gradio-app" class="portal no-bg no-padding"></div>
         </div>
+        <h2>Client Log</h2>
+        <div data-minSize="0" data-initSize="50" id="split-console-down" class="split-container">
+          <div data-selector="#logMonitorJS" data-parent-selector="" class="portal no-bg no-padding"></div>
+        </div>
+      </div>
     </div>
+  </div>
 </div>

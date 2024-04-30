@@ -1,182 +1,181 @@
 <div class="layout">
-	<div class="flexbox col">
-		<div id="extras-columns" class="flexbox row">
-			<div id="extras-template-column-input" class="flexbox col grow">
-				<div class="flexbox row shrink panel padding no-br only-desktop">
-					<div class="flexbox col shrink">
-						<h2>Input</h2>
-					</div>
-				</div>
-				<div class="panel no-tr flexbox col">
-					<div data-parent-selector="#tab_process" data-selector="#mode_extras" class="portal no-bg"></div>
-					<div class="xtabs-anchor flexbox shrink" anchorNav="#mode_extras > .tab-nav">
-						<div anchor="1" class="flexbox row center panel padding no-tr">
-							<button class="sd-button only-legacy" data-click="#txt2img_nav, #txt2img_params">
-								<div data-selector="#txt2img_tab" data-parent-selector="#copy_buttons_process" droppable="true" class="portal invisible">
-									<div class="mask-icon icon-2txt2img"></div>
-								</div>
-							</button>
-							<button class="sd-button only-legacy" data-click="#img2img_nav, #img2img_params">
-								<div data-selector="#img2img_tab" data-parent-selector="#copy_buttons_process" droppable="true" class="portal invisible">
-									<div class="mask-icon icon-2img2img"></div>
-								</div>
-							</button>
-							<button class="sd-button only-legacy" data-click="#img2img_nav, #img2img_params">
-								<div data-selector="#inpaint_tab" data-parent-selector="#copy_buttons_process" droppable="true" class="portal invisible">
-									<div class="mask-icon icon-2inpaint"></div>
-								</div>
-							</button>
-							<button class="sd-button only-diffusers" data-click="#control_nav">
-								<div data-selector="#control_tab" data-parent-selector="#copy_buttons_process" droppable="true" class="portal invisible">
-									<div class="mask-icon icon-2control"></div>
-								</div>
-							</button>
-						</div>
-						<div anchor="4" class="flexbox row center panel padding no-tr">
-							<button class="sd-button only-legacy" data-click="#txt2img_nav, #txt2img_params">
-								<div data-selector="#txt2img_tab" data-parent-selector="#copy_buttons_interrogate" droppable="true" class="portal invisible">
-									<div class="mask-icon icon-2txt2img"></div>
-								</div>
-							</button>
-							<button class="sd-button only-legacy" data-click="#img2img_nav, #img2img_params">
-								<div data-selector="#img2img_tab" data-parent-selector="#copy_buttons_interrogate" droppable="true" class="portal invisible">
-									<div class="mask-icon icon-2img2img"></div>
-								</div>
-							</button>
-							<button class="sd-button only-legacy" data-click="#extras_nav">
-								<div data-selector="#extras_tab" data-parent-selector="#copy_buttons_interrogate" droppable="true" class="portal invisible">
-									<div class="mask-icon icon-2extras"></div>
-								</div>
-							</button>
-							<button class="sd-button only-diffusers" data-click="#control_nav">
-								<div data-selector="#control_tab" data-parent-selector="#copy_buttons_interrogate" droppable="true" class="portal invisible">
-									<div class="mask-icon icon-2control"></div>
-								</div>
-							</button>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div id="extras-template-column-output" class="flexbox col grow">
-				<div id="extras_results_header_panel" class="flexbox row shrink panel padding no-br only-desktop">
-					<div class="flexbox col shrink">
-						<h2>Output</h2>
-					</div>
-					<div id="extras_generate_group" class="flexbox">
-						<div class="xtabs-anchor flexbox" anchorNav="#mode_extras > .tab-nav">
-							<div anchor="1,2,3" class="flexbox row flex-end group-row">
-								<button title="Generate" class="sd-button generate">
-									<div data-selector="#extras_generate" data-parent-selector="#tab_process" droppable="true" class="portal no-bg shrink invisible">
-										<div class="mask-icon icon-generate"></div>
-										<span>Generate</span>
-									</div>
-								</button>
-								<div title="Skip" data-selector="#extras_skip" data-parent-selector="#tab_process" droppable="true" class="portal invisible shrink no-bg no-padding-one disable">
-									<div class="mask-icon icon-skip"></div>
-								</div>
-								<div title="Interrupt" data-selector="#extras_interrupt" data-parent-selector="#tab_process" droppable="true" class="portal invisible shrink no-bg no-padding-one disable">
-									<div class="mask-icon icon-stop"></div>
-								</div>
-							</div>
-							<div anchor="4" class="flexbox row flex-end group-row">
-								<button title="Interrogate" class="sd-button generate">
-									<div data-selector="#interrogate_btn_interrogate" data-parent-selector="#interrogate_buttons_image" droppable="true" class="portal no-bg shrink invisible">
-										<div class="mask-icon question-answer"></div>
-										<span>Interrogate</span>
-									</div>
-								</button>
+  <div class="flexbox col">
+    <div id="extras-columns" class="flexbox row">
+      <div id="extras-template-column-input" class="flexbox col grow">
+        <div class="flexbox row shrink panel padding no-br only-desktop">
+          <div class="flexbox col shrink">
+            <h2>Input</h2>
+          </div>
+        </div>
+        <div class="panel no-tr flexbox col">
+          <div data-parent-selector="#tab_process" data-selector="#mode_extras" class="portal no-bg"></div>
+          <div class="xtabs-anchor flexbox shrink" anchorNav="#mode_extras > .tab-nav">
+            <div anchor="1" class="flexbox row center panel padding no-tr">
+              <button class="sd-button only-legacy" data-click="#txt2img_nav, #txt2img_params">
+                <div data-selector="#txt2img_tab" data-parent-selector="#copy_buttons_process" droppable="true" class="portal invisible">
+                  <div class="mask-icon icon-2txt2img"></div>
+                </div>
+              </button>
+              <button class="sd-button only-legacy" data-click="#img2img_nav, #img2img_params">
+                <div data-selector="#img2img_tab" data-parent-selector="#copy_buttons_process" droppable="true" class="portal invisible">
+                  <div class="mask-icon icon-2img2img"></div>
+                </div>
+              </button>
+              <button class="sd-button only-legacy" data-click="#img2img_nav, #img2img_params">
+                <div data-selector="#inpaint_tab" data-parent-selector="#copy_buttons_process" droppable="true" class="portal invisible">
+                  <div class="mask-icon icon-2inpaint"></div>
+                </div>
+              </button>
+              <button class="sd-button only-diffusers" data-click="#control_nav">
+                <div data-selector="#control_tab" data-parent-selector="#copy_buttons_process" droppable="true" class="portal invisible">
+                  <div class="mask-icon icon-2control"></div>
+                </div>
+              </button>
+            </div>
+            <div anchor="4" class="flexbox row center panel padding no-tr">
+              <button class="sd-button only-legacy" data-click="#txt2img_nav, #txt2img_params">
+                <div data-selector="#txt2img_tab" data-parent-selector="#copy_buttons_interrogate" droppable="true" class="portal invisible">
+                  <div class="mask-icon icon-2txt2img"></div>
+                </div>
+              </button>
+              <button class="sd-button only-legacy" data-click="#img2img_nav, #img2img_params">
+                <div data-selector="#img2img_tab" data-parent-selector="#copy_buttons_interrogate" droppable="true" class="portal invisible">
+                  <div class="mask-icon icon-2img2img"></div>
+                </div>
+              </button>
+              <button class="sd-button only-legacy" data-click="#extras_nav">
+                <div data-selector="#extras_tab" data-parent-selector="#copy_buttons_interrogate" droppable="true" class="portal invisible">
+                  <div class="mask-icon icon-2extras"></div>
+                </div>
+              </button>
+              <button class="sd-button only-diffusers" data-click="#control_nav">
+                <div data-selector="#control_tab" data-parent-selector="#copy_buttons_interrogate" droppable="true" class="portal invisible">
+                  <div class="mask-icon icon-2control"></div>
+                </div>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="extras-template-column-output" class="flexbox col grow">
+        <div id="extras_results_header_panel" class="flexbox row shrink panel padding no-br only-desktop">
+          <div class="flexbox col shrink">
+            <h2>Output</h2>
+          </div>
+          <div id="extras_generate_group" class="flexbox">
+            <div class="xtabs-anchor flexbox" anchorNav="#mode_extras > .tab-nav">
+              <div anchor="1,2,3" class="flexbox row flex-end group-row">
+                <button title="Generate" class="sd-button generate">
+                  <div data-selector="#extras_generate" data-parent-selector="#tab_process" droppable="true" class="portal no-bg shrink invisible">
+                    <div class="mask-icon icon-generate"></div>
+                    <span>Generate</span>
+                  </div>
+                </button>
+                <div title="Skip" data-selector="#extras_skip" data-parent-selector="#tab_process" droppable="true" class="portal invisible shrink no-bg no-padding-one disable">
+                  <div class="mask-icon icon-skip"></div>
+                </div>
+                <div title="Interrupt" data-selector="#extras_interrupt" data-parent-selector="#tab_process" droppable="true" class="portal invisible shrink no-bg no-padding-one disable">
+                  <div class="mask-icon icon-stop"></div>
+                </div>
+              </div>
+              <div anchor="4" class="flexbox row flex-end group-row">
+                <button title="Interrogate" class="sd-button generate">
+                  <div data-selector="#interrogate_btn_interrogate" data-parent-selector="#interrogate_buttons_image" droppable="true" class="portal no-bg shrink invisible">
+                    <div class="mask-icon question-answer"></div>
+                    <span>Interrogate</span>
+                  </div>
+                </button>
 
-								<button title="Analyze" class="sd-button generate">
-									<div data-selector="#interrogate_btn_analyze" data-parent-selector="#interrogate_buttons_image" class="portal no-bg shrink invisible">
-										<span>Analyze</span>
-									</div>
-								</button>
-								<button title="Unload" class="sd-button generate">
-									<div data-selector="#interrogate_btn_unload" data-parent-selector="#interrogate_buttons_image" class="portal no-bg shrink invisible">
-										<span>Unload</span>
-									</div>
-								</button>
-							</div>
-							<div anchor="5" class="flexbox row flex-end group-row">
-								<button title="Interrogate" class="sd-button generate">
-									<div data-selector="#interrogate_btn_interrogate" data-parent-selector="#interrogate_buttons_batch" droppable="true" class="portal no-bg shrink invisible">
-										<div class="mask-icon question-answer"></div>
-										<span>Interrogate</span>
-									</div>
-								</button>
-							</div>
-							<div anchor="6" class="flexbox row flex-end group-row">
-								<button title="Interrogate" class="sd-button generate">
-									<div data-selector="#interrogate_btn_interrogate" data-parent-selector="#interrogate_buttons_query" droppable="true" class="portal no-bg shrink invisible">
-										<div class="mask-icon question-answer"></div>
-										<span>Interrogate</span>
-									</div>
-								</button>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="panel no-tr flexbox col">
-					<div data-selector="#extras_gallery" data-parent-selector="#tab_process" class="portal full-height no-bg" droppable="true">
-						<div class="flexbox col progress-flex">
-							<div data-selector="#extras_gallery_container" data-parent-selector="gradio-app" class="portal"></div>
-						</div>
-					</div>
-					<div iconTrigger="#info_icon_btn_extras" class="accordion no-tr expand">
-						<div class="accordion-bar no-tr">
-							<div class="flexbox row center">
-								<button id="info_icon_btn_extras" toggle="true" class="sd-button">
-									<div class="mask-icon icon-info"></div>
-								</button>
-								<button class="sd-button">
-									<div data-selector="#open_folder_extras" data-parent-selector="#tab_process" droppable="true" class="portal invisible">
-										<div class="mask-icon icon-folder"></div>
-									</div>
-								</button>
-								<button class="sd-button">
-									<div data-selector="#save_extras" data-parent-selector="#tab_process" droppable="true" class="portal invisible">
-										<div class="mask-icon icon-save"></div>
-									</div>
-								</button>
-								<button class="sd-button">
-									<div data-selector="#delete_extras" data-parent-selector="#tab_process" droppable="true" class="portal invisible">
-										<div class="mask-icon icon-delete"></div>
-									</div>
-								</button>
-
-								<button class="sd-button only-legacy" data-click="#txt2img_nav">
-									<div data-selector="#txt2img_tab" data-parent-selector="#image_buttons_extras" droppable="true" class="portal invisible">
-										<div class="mask-icon icon-2txt2img"></div>
-									</div>
-								</button>
-								<button class="sd-button only-legacy" data-click="#img2img_nav, #img2img_params">
-									<div data-selector="#img2img_tab" data-parent-selector="#image_buttons_extras" droppable="true" class="portal invisible">
-										<div class="mask-icon icon-2img2img"></div>
-									</div>
-								</button>
-								<button class="sd-button only-diffusers" data-click="#control_nav">
-									<div data-selector="#control_tab" data-parent-selector="#image_buttons_extras" droppable="true" class="portal only-diffusers invisible">
-										<div class="mask-icon icon-2control"></div>
-									</div>
-								</button>
-								<button class="sd-button" data-click="#extras_nav">
-									<div data-selector="#extras_tab" data-parent-selector="#image_buttons_extras" droppable="true" class="portal invisible">
-										<div class="mask-icon icon-2extras"></div>
-									</div>
-								</button>
-							</div>
-						</div>
-						<div class="accordion-container info-results-container">
-							<div class="flexbox col">
-								<div data-parent-selector="#tab_process" data-selector="#download_files_extras" data-vis="true" class="portal shrink hide-empty"></div>
-								<div data-parent-selector="#tab_process" data-selector="#html_info_extras" data-vis="true" class="portal hide-empty"></div>
-								<div data-parent-selector="#tab_process" data-selector="#html_info_formatted_extras" data-vis="true" class="portal hide-empty"></div>
-								<div data-parent-selector="#tab_process" data-selector="#html_log_extras" data-vis="true" class="portal hide-empty"></div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+                <button title="Analyze" class="sd-button generate">
+                  <div data-selector="#interrogate_btn_analyze" data-parent-selector="#interrogate_buttons_image" class="portal no-bg shrink invisible">
+                    <span>Analyze</span>
+                  </div>
+                </button>
+                <button title="Unload" class="sd-button generate">
+                  <div data-selector="#interrogate_btn_unload" data-parent-selector="#interrogate_buttons_image" class="portal no-bg shrink invisible">
+                    <span>Unload</span>
+                  </div>
+                </button>
+              </div>
+              <div anchor="5" class="flexbox row flex-end group-row">
+                <button title="Interrogate" class="sd-button generate">
+                  <div data-selector="#interrogate_btn_interrogate" data-parent-selector="#interrogate_buttons_batch" droppable="true" class="portal no-bg shrink invisible">
+                    <div class="mask-icon question-answer"></div>
+                    <span>Interrogate</span>
+                  </div>
+                </button>
+              </div>
+              <div anchor="6" class="flexbox row flex-end group-row">
+                <button title="Interrogate" class="sd-button generate">
+                  <div data-selector="#interrogate_btn_interrogate" data-parent-selector="#interrogate_buttons_query" droppable="true" class="portal no-bg shrink invisible">
+                    <div class="mask-icon question-answer"></div>
+                    <span>Interrogate</span>
+                  </div>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel no-tr flexbox col">
+          <div data-selector="#extras_gallery" data-parent-selector="#tab_process" class="portal full-height no-bg" droppable="true">
+            <div class="flexbox col progress-flex">
+              <div data-selector="#extras_gallery_container" data-parent-selector="gradio-app" class="portal"></div>
+            </div>
+          </div>
+          <div iconTrigger="#info_icon_btn_extras" class="accordion no-tr expand">
+            <div class="accordion-bar no-tr">
+              <div class="flexbox row center">
+                <button id="info_icon_btn_extras" toggle="true" class="sd-button">
+                  <div class="mask-icon icon-info"></div>
+                </button>
+                <button class="sd-button">
+                  <div data-selector="#open_folder_extras" data-parent-selector="#tab_process" droppable="true" class="portal invisible">
+                    <div class="mask-icon icon-folder"></div>
+                  </div>
+                </button>
+                <button class="sd-button">
+                  <div data-selector="#save_extras" data-parent-selector="#tab_process" droppable="true" class="portal invisible">
+                    <div class="mask-icon icon-save"></div>
+                  </div>
+                </button>
+                <button class="sd-button">
+                  <div data-selector="#delete_extras" data-parent-selector="#tab_process" droppable="true" class="portal invisible">
+                    <div class="mask-icon icon-delete"></div>
+                  </div>
+                </button>
+                <button class="sd-button only-legacy" data-click="#txt2img_nav">
+                  <div data-selector="#txt2img_tab" data-parent-selector="#image_buttons_extras" droppable="true" class="portal invisible">
+                    <div class="mask-icon icon-2txt2img"></div>
+                  </div>
+                </button>
+                <button class="sd-button only-legacy" data-click="#img2img_nav, #img2img_params">
+                  <div data-selector="#img2img_tab" data-parent-selector="#image_buttons_extras" droppable="true" class="portal invisible">
+                    <div class="mask-icon icon-2img2img"></div>
+                  </div>
+                </button>
+                <button class="sd-button only-diffusers" data-click="#control_nav">
+                  <div data-selector="#control_tab" data-parent-selector="#image_buttons_extras" droppable="true" class="portal only-diffusers invisible">
+                    <div class="mask-icon icon-2control"></div>
+                  </div>
+                </button>
+                <button class="sd-button" data-click="#extras_nav">
+                  <div data-selector="#extras_tab" data-parent-selector="#image_buttons_extras" droppable="true" class="portal invisible">
+                    <div class="mask-icon icon-2extras"></div>
+                  </div>
+                </button>
+              </div>
+            </div>
+            <div class="accordion-container info-results-container">
+              <div class="flexbox col">
+                <div data-parent-selector="#tab_process" data-selector="#download_files_extras" data-vis="true" class="portal shrink hide-empty"></div>
+                <div data-parent-selector="#tab_process" data-selector="#html_info_extras" data-vis="true" class="portal hide-empty"></div>
+                <div data-parent-selector="#tab_process" data-selector="#html_info_formatted_extras" data-vis="true" class="portal hide-empty"></div>
+                <div data-parent-selector="#tab_process" data-selector="#html_log_extras" data-vis="true" class="portal hide-empty"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

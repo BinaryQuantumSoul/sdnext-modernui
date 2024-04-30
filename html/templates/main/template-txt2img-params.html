@@ -1,276 +1,276 @@
 <div id="layout-txt2img" class="layout">
-    <div class="layout-header">
-        <div class="flexbox row shrink panel padding no-br">
-            <div class="flexbox row no-wrap flex-start group-row tab-header">
-                <button title="Prompts" tabItemId="#txt2img_prompts_tabitem" tabGroup="txt2img" id="txt2img_prompts" active="true" class="xtabs-tab shrink">
-                    <div class="mask-icon icon-folder-bookmark"></div>
-                    <span>Prompts</span>
-                </button>
-                <button title="Base" tabItemId="#txt2img_params_tabitem" tabGroup="txt2img" id="txt2img_params" class="xtabs-tab shrink">
-                    <div class="mask-icon icon-folder-grid"></div>
-                    <span>Base</span>
-                </button>
-                <button title="Advanced" tabItemId="#txt2img_advanced_tabitem" tabGroup="txt2img" id="txt2img_advanced" class="xtabs-tab shrink">
-                    <div class="mask-icon icon-folder-gear"></div>
-                    <span>Advanced</span>
-                </button>
-                <button title="Scripts / Extensions" tabItemId="#txt2img_scripts_tabitem" tabGroup="txt2img" id="txt2img_scripts" class="xtabs-tab">
-                    <div class="mask-icon icon-folders"></div>
-                    <span>Scripts</span>
-                </button>
-                <button title="Results" tabItemId="#txt2img_results_mobile_tabitem" tabGroup="txt2img" id="txt2img_results_mobile" class="xtabs-tab only-mobile">
-                    <div class="mask-icon icon-results"></div>
-                    <span>Results</span>
-                </button>
-            </div>
-            <div class="flexbox col shrink align-end">
-                <h2>From Text</h2>
-            </div>
-        </div>
+  <div class="layout-header">
+    <div class="flexbox row shrink panel padding no-br">
+      <div class="flexbox row no-wrap flex-start group-row tab-header">
+        <button title="Prompts" tabItemId="#txt2img_prompts_tabitem" tabGroup="txt2img" id="txt2img_prompts" active="true" class="xtabs-tab shrink">
+          <div class="mask-icon icon-folder-bookmark"></div>
+          <span>Prompts</span>
+        </button>
+        <button title="Base" tabItemId="#txt2img_params_tabitem" tabGroup="txt2img" id="txt2img_params" class="xtabs-tab shrink">
+          <div class="mask-icon icon-folder-grid"></div>
+          <span>Base</span>
+        </button>
+        <button title="Advanced" tabItemId="#txt2img_advanced_tabitem" tabGroup="txt2img" id="txt2img_advanced" class="xtabs-tab shrink">
+          <div class="mask-icon icon-folder-gear"></div>
+          <span>Advanced</span>
+        </button>
+        <button title="Scripts / Extensions" tabItemId="#txt2img_scripts_tabitem" tabGroup="txt2img" id="txt2img_scripts" class="xtabs-tab">
+          <div class="mask-icon icon-folders"></div>
+          <span>Scripts</span>
+        </button>
+        <button title="Results" tabItemId="#txt2img_results_mobile_tabitem" tabGroup="txt2img" id="txt2img_results_mobile" class="xtabs-tab only-mobile">
+          <div class="mask-icon icon-results"></div>
+          <span>Results</span>
+        </button>
+      </div>
+      <div class="flexbox col shrink align-end">
+        <h2>From Text</h2>
+      </div>
     </div>
-    <div class="layout-content">
-        <div class="xtabs panel no-tr no-padding">
-            <div class="xtabs-items">
-                <div id="txt2img_prompts_tabitem_group" class="flexbox col">
-                    <div id="txt2img_prompts_tabitem" class="xtabs-item">
-                        <div class="layout">
-                            <div class="layout-header">
-                                <div class="flexbox no-padding row">
-                                    <div class="flexbox no-border no-bg shrink row">
-                                        <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_paste" droppable="true" class="portal shrink invisible">
-                                            <div class="mask-icon icon-magic"></div>
-                                        </div>
-                                        <div data-parent-selector="#txt2img_tools" data-selector="#txt2img_clear_prompt_btn" droppable="true" class="portal shrink invisible">
-                                            <div class="mask-icon icon-delete"></div>
-                                        </div>
-                                    </div>
-                                    <div class="flexbox no-border no-bg row">
-                                        <div data-parent-selector="#txt2img_styles_row" data-selector="#txt2img_styles" class="portal no-min-width"></div>
-                                        <div data-parent-selector="#txt2img_styles_row" data-selector="#txt2img_styles_refresh" droppable="true" class="portal shrink invisible">
-                                            <div class="mask-icon refresh"></div>
-                                        </div>
-                                        <div data-parent-selector="#txt2img_styles_row" data-selector="#txt2img_styles_apply" droppable="true" class="portal only-diffusers shrink invisible">
-                                            <div class="mask-icon icon-paste"></div>
-                                        </div>
-                                        <div data-parent-selector="#txt2img_styles_row" data-selector="#txt2img_styles_save" droppable="true" class="portal only-diffusers shrink invisible">
-                                            <div class="mask-icon icon-save"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="layout-content">
-                                <div class="flexbox col">
-                                    <div id="split-txt2img-prompt" direction="vertical" gutterSize="8" class="split">
-                                        <div data-minSize="0" data-initSize="50" id="split-txt2img-prompt-up" class="split-container">
-                                            <div class="layout">
-                                                <div class="layout-content">
-                                                    <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_prompt" class="portal no-bg"></div>
-                                                </div>
-                                                <div class="layout-footer">
-                                                    <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_token_counter" class="portal relative" data-timeout="1000"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div data-minSize="0" data-initSize="50" id="split-txt2img-prompt-down" class="split-container">
-                                            <div class="layout">
-                                                <div class="layout-content">
-                                                    <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_neg_prompt" class="portal no-bg"></div>
-                                                </div>
-                                                <div class="layout-footer">
-                                                    <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_negative_token_counter" data-timeout="1000" class="portal relative"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="flexbox col outline-params">
-                                        <div class="flexbox col spacer-group"></div>
-                                        <h2>Size & Batch</h2>
-                                        <div class="flexbox row group">
-                                            <div class="flexbox col">
-                                                <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_width" class="portal"></div>
-                                                <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_height" class="portal"></div>
-                                            </div>
-                                            <div class="flexbox col center panel unset-min-width shrink">
-                                                <div data-selector="#txt2img_res_switch_btn" data-parent-selector="#tab_txt2img" droppable="true" class="portal invisible tool">
-                                                    <div class="mask-icon icon-res-switch"></div>
-                                                </div>
-                                                <div data-selector="#txt2img_ar" data-parent-selector="#tab_txt2img" class="portal no-bg"></div>
-                                            </div>
-                                            <div class="flexbox col">
-                                              <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_batch_count" class="portal"></div>
-                                              <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_batch_size" class="portal"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+  </div>
+  <div class="layout-content">
+    <div class="xtabs panel no-tr no-padding">
+      <div class="xtabs-items">
+        <div id="txt2img_prompts_tabitem_group" class="flexbox col">
+          <div id="txt2img_prompts_tabitem" class="xtabs-item">
+            <div class="layout">
+              <div class="layout-header">
+                <div class="flexbox no-padding row">
+                  <div class="flexbox no-border no-bg shrink row">
+                    <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_paste" droppable="true" class="portal shrink invisible">
+                      <div class="mask-icon icon-magic"></div>
+                    </div>
+                    <div data-parent-selector="#txt2img_tools" data-selector="#txt2img_clear_prompt_btn" droppable="true" class="portal shrink invisible">
+                      <div class="mask-icon icon-delete"></div>
+                    </div>
+                  </div>
+                  <div class="flexbox no-border no-bg row">
+                    <div data-parent-selector="#txt2img_styles_row" data-selector="#txt2img_styles" class="portal no-min-width"></div>
+                    <div data-parent-selector="#txt2img_styles_row" data-selector="#txt2img_styles_refresh" droppable="true" class="portal shrink invisible">
+                      <div class="mask-icon refresh"></div>
+                    </div>
+                    <div data-parent-selector="#txt2img_styles_row" data-selector="#txt2img_styles_apply" droppable="true" class="portal only-diffusers shrink invisible">
+                      <div class="mask-icon icon-paste"></div>
+                    </div>
+                    <div data-parent-selector="#txt2img_styles_row" data-selector="#txt2img_styles_save" droppable="true" class="portal only-diffusers shrink invisible">
+                      <div class="mask-icon icon-save"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="layout-content">
+                <div class="flexbox col">
+                  <div id="split-txt2img-prompt" direction="vertical" gutterSize="8" class="split">
+                    <div data-minSize="0" data-initSize="50" id="split-txt2img-prompt-up" class="split-container">
+                      <div class="layout">
+                        <div class="layout-content">
+                          <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_prompt" class="portal no-bg"></div>
                         </div>
-                    </div>
-                </div>
-                <div id="txt2img_params_tabitem_group" class="flexbox col outline-params">
-                    <div id="txt2img_params_tabitem" class="xtabs-item">
-                        <div class="flexbox col auto-scroll">
-                            <h2>Sampler</h2>
-                            <div class="flexbox group col">
-                                <div class="flexbox row">
-                                    <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_sampling" class="portal min-width"></div>
-                                    <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_steps" class="portal"></div>
-                                </div>
-                                <div class="flexbox col">
-                                    <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_sampler_options" class="portal"></div>
-                                    <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_sigma_algo" class="portal only-original"></div>
-                                </div>
-                            </div>
-
-                            <div class="flexbox col spacer-group"></div>
-                            <h2>Seed</h2>
-                            <div class="flexbox group col">
-                                <div class="flexbox row">
-                                    <div class="flexbox no-border row">
-                                        <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_seed" class="portal no-min-width"></div>
-                                        <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_random_seed" droppable="true" class="portal invisible shrink">
-                                            <div class="mask-icon icon-dice"></div>
-                                        </div>
-                                        <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_reuse_seed" droppable="true" class="portal shrink invisible">
-                                            <div class="mask-icon icon-recycle"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="flexbox row">
-                                    <div class="flexbox no-border min-width fb-50 row">
-                                        <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_subseed" class="portal no-min-width"></div>
-                                        <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_random_subseed" droppable="true" class="portal shrink invisible">
-                                            <div class="mask-icon icon-dice"></div>
-                                        </div>
-                                        <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_reuse_subseed" droppable="true" class="portal shrink invisible">
-                                            <div class="mask-icon icon-recycle"></div>
-                                        </div>
-                                    </div>
-                                    <div class="flexbox row fb-50">
-                                        <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_subseed_strength" class="portal min-width fb-50"></div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="flexbox col spacer-group"></div>
-                            <h2>Refine</h2>
-                            <div class="flexbox group col">
-                                <div class="flexbox row">
-                                    <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_enable_hr" class="portal min-width"></div>
-                                    <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_hr_force" class="portal"></div>
-                                </div>
-                                <div class="flexbox row">
-                                    <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_sampling_alt" class="portal min-width"></div>
-                                    <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_steps_alt" class="portal"></div>
-                                    <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_denoising_strength" class="portal"></div>
-                                </div>
-                                <div class="flexbox row wrap">
-                                    <div class="flexbox fb-40">
-                                        <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_hr_upscaler" class="portal"></div>
-                                    </div>
-                                    <div class="flexbox row grow-all group no-wrap fb-60">
-                                        <div class="flexbox panel col group-col shrink">
-                                            <button tabItemId="#txt2img_scale_by_tabitem" tabGroup="txt2img-resize-group" data-click="#tab_txt2img" active="true" class="xtabs-tab no-drag"><span>Resize by</span></button>
-                                            <button tabItemId="#txt2img_scale_to_tabitem" tabGroup="txt2img-resize-group" data-click="#tab_txt2img" class="xtabs-tab no-drag"><span>Resize to</span></button>
-                                        </div>
-                                        <div class="flexbox col">
-                                            <div class="xtabs sub-group no-padding">
-                                                <div class="xtabs-items">
-                                                    <div class="flexbox col no-padding full-height">
-                                                        <div id="txt2img_scale_by_tabitem" class="xtabs-item initial inset notransition">
-                                                            <div class="flexbox group inset subgroup">
-                                                                <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_hr_scale" class="portal"></div>
-                                                            </div>
-                                                        </div>
-                                                        <div id="txt2img_scale_to_tabitem" class="xtabs-item initial inset notransition">
-                                                            <div class="flexbox col group inset subgroup">
-                                                                <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_hr_resize_x" class="portal"></div>
-                                                                <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_hr_resize_y" class="portal"></div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="flexbox row only-diffusers">
-                                    <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_refiner_start" class="portal only-diffusers"></div>
-                                    <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_refiner_steps" class="portal only-diffusers"></div>
-                                </div>
-                                <div class="flexbox col only-diffusers">
-                                    <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_refiner_prompt" class="portal only-diffusers"></div>
-                                    <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_refiner_neg_prompt" class="portal only-diffusers"></div>
-                                </div>
-                            </div>
+                        <div class="layout-footer">
+                          <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_token_counter" class="portal relative" data-timeout="1000"></div>
                         </div>
+                      </div>
                     </div>
-                </div>
-                <div id="txt2img_advanced_tabitem_group" class="flexbox col outline-params">
-                    <div id="txt2img_advanced_tabitem" class="xtabs-item">
-                        <div class="flexbox col auto-scroll">
-                            <h2>Advanced</h2>
-                            <div class="flexbox group col">
-                                <div class="flexbox row">
-                                    <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_cfg_scale" class="portal"></div>
-                                    <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_cfg_end" class="portal"></div>
-                                </div>
-                                <div class="flexbox row">
-                                    <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_image_cfg_scale" class="portal"></div>
-                                    <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_image_cfg_rescale" class="portal only-diffusers"></div>
-                                    <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_image_sag_scale" class="portal only-diffusers"></div>
-                                </div>
-                                <div class="flexbox row">
-                                    <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_clip_skip" class="portal"></div>
-                                    <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_advanced_options" class="portal no-padding no-bg"></div>
-                                </div>
-                            </div>
-
-                            <div class="flexbox col spacer-group only-diffusers"></div>
-                            <h2>Corrections</h2>
-                            <div class="flexbox group col only-diffusers">
-                                <div class="flexbox row">
-                                    <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_hdr_mode" class="portal only-diffusers"></div>
-                                </div>
-                                <div class="flexbox row">
-                                    <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_hdr_brightness" class="portal only-diffusers"></div>
-                                    <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_hdr_sharpen" class="portal only-diffusers"></div>
-                                    <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_hdr_color" class="portal only-diffusers"></div>
-                                </div>
-                                <div class="flexbox row">
-                                    <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_hdr_clamp" class="portal only-diffusers"></div>
-                                    <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_hdr_boundary" class="portal only-diffusers"></div>
-                                    <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_hdr_threshold" class="portal only-diffusers"></div>
-                                </div>
-                                <div class="flexbox row">
-                                    <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_hdr_maximize" class="portal only-diffusers"></div>
-                                    <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_hdr_max_center" class="portal only-diffusers"></div>
-                                    <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_hdr_max_boundry" class="portal only-diffusers"></div>
-                                </div>
-                                <div class="flexbox row">
-                                    <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_hdr_color_picker" class="portal only-diffusers shrink"></div>
-                                    <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_hdr_tint_ratio" class="portal only-diffusers"></div>
-                                </div>
-                            </div>
+                    <div data-minSize="0" data-initSize="50" id="split-txt2img-prompt-down" class="split-container">
+                      <div class="layout">
+                        <div class="layout-content">
+                          <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_neg_prompt" class="portal no-bg"></div>
                         </div>
+                        <div class="layout-footer">
+                          <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_negative_token_counter" data-timeout="1000" class="portal relative"></div>
+                        </div>
+                      </div>
                     </div>
-                </div>
+                  </div>
 
-                <div id="txt2img_scripts_tabitem_group" class="flexbox col">
-                    <div id="txt2img_scripts_tabitem" class="xtabs-item">
-                        <div data-selector="#txt2img_script_container" data-parent-selector="#tab_txt2img" class="portal no-bg"></div>
+                  <div class="flexbox col outline-params">
+                    <div class="flexbox col spacer-group"></div>
+                    <h2>Size & Batch</h2>
+                    <div class="flexbox row group">
+                      <div class="flexbox col">
+                        <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_width" class="portal"></div>
+                        <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_height" class="portal"></div>
+                      </div>
+                      <div class="flexbox col center panel unset-min-width shrink">
+                        <div data-selector="#txt2img_res_switch_btn" data-parent-selector="#tab_txt2img" droppable="true" class="portal invisible tool">
+                          <div class="mask-icon icon-res-switch"></div>
+                        </div>
+                        <div data-selector="#txt2img_ar" data-parent-selector="#tab_txt2img" class="portal no-bg"></div>
+                      </div>
+                      <div class="flexbox col">
+                        <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_batch_count" class="portal"></div>
+                        <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_batch_size" class="portal"></div>
+                      </div>
                     </div>
+                  </div>
                 </div>
-
-                <div id="txt2img_results_mobile_tabitem_group" class="flexbox col only-mobile">
-                    <div id="txt2img_results_mobile_tabitem" mobile="#template-txt2img-results" class="xtabs-item"></div>
-                </div>
+              </div>
             </div>
+          </div>
+        </div>
+        <div id="txt2img_params_tabitem_group" class="flexbox col outline-params">
+          <div id="txt2img_params_tabitem" class="xtabs-item">
+            <div class="flexbox col auto-scroll">
+              <h2>Sampler</h2>
+              <div class="flexbox group col">
+                <div class="flexbox row">
+                  <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_sampling" class="portal min-width"></div>
+                  <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_steps" class="portal"></div>
+                </div>
+                <div class="flexbox col">
+                  <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_sampler_options" class="portal"></div>
+                  <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_sigma_algo" class="portal only-original"></div>
+                </div>
+              </div>
+
+              <div class="flexbox col spacer-group"></div>
+              <h2>Seed</h2>
+              <div class="flexbox group col">
+                <div class="flexbox row">
+                  <div class="flexbox no-border row">
+                    <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_seed" class="portal no-min-width"></div>
+                    <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_random_seed" droppable="true" class="portal invisible shrink">
+                      <div class="mask-icon icon-dice"></div>
+                    </div>
+                    <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_reuse_seed" droppable="true" class="portal shrink invisible">
+                      <div class="mask-icon icon-recycle"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="flexbox row">
+                  <div class="flexbox no-border min-width fb-50 row">
+                    <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_subseed" class="portal no-min-width"></div>
+                    <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_random_subseed" droppable="true" class="portal shrink invisible">
+                      <div class="mask-icon icon-dice"></div>
+                    </div>
+                    <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_reuse_subseed" droppable="true" class="portal shrink invisible">
+                      <div class="mask-icon icon-recycle"></div>
+                    </div>
+                  </div>
+                  <div class="flexbox row fb-50">
+                    <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_subseed_strength" class="portal min-width fb-50"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="flexbox col spacer-group"></div>
+              <h2>Refine</h2>
+              <div class="flexbox group col">
+                <div class="flexbox row">
+                  <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_enable_hr" class="portal min-width"></div>
+                  <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_hr_force" class="portal"></div>
+                </div>
+                <div class="flexbox row">
+                  <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_sampling_alt" class="portal min-width"></div>
+                  <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_steps_alt" class="portal"></div>
+                  <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_denoising_strength" class="portal"></div>
+                </div>
+                <div class="flexbox row wrap">
+                  <div class="flexbox fb-40">
+                    <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_hr_upscaler" class="portal"></div>
+                  </div>
+                  <div class="flexbox row grow-all group no-wrap fb-60">
+                    <div class="flexbox panel col group-col shrink">
+                      <button tabItemId="#txt2img_scale_by_tabitem" tabGroup="txt2img-resize-group" data-click="#tab_txt2img" active="true" class="xtabs-tab no-drag"><span>Resize by</span></button>
+                      <button tabItemId="#txt2img_scale_to_tabitem" tabGroup="txt2img-resize-group" data-click="#tab_txt2img" class="xtabs-tab no-drag"><span>Resize to</span></button>
+                    </div>
+                    <div class="flexbox col">
+                      <div class="xtabs sub-group no-padding">
+                        <div class="xtabs-items">
+                          <div class="flexbox col no-padding full-height">
+                            <div id="txt2img_scale_by_tabitem" class="xtabs-item initial inset notransition">
+                              <div class="flexbox group inset subgroup">
+                                <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_hr_scale" class="portal"></div>
+                              </div>
+                            </div>
+                            <div id="txt2img_scale_to_tabitem" class="xtabs-item initial inset notransition">
+                              <div class="flexbox col group inset subgroup">
+                                <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_hr_resize_x" class="portal"></div>
+                                <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_hr_resize_y" class="portal"></div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="flexbox row only-diffusers">
+                  <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_refiner_start" class="portal only-diffusers"></div>
+                  <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_refiner_steps" class="portal only-diffusers"></div>
+                </div>
+                <div class="flexbox col only-diffusers">
+                  <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_refiner_prompt" class="portal only-diffusers"></div>
+                  <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_refiner_neg_prompt" class="portal only-diffusers"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="txt2img_advanced_tabitem_group" class="flexbox col outline-params">
+          <div id="txt2img_advanced_tabitem" class="xtabs-item">
+            <div class="flexbox col auto-scroll">
+              <h2>Advanced</h2>
+              <div class="flexbox group col">
+                <div class="flexbox row">
+                  <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_cfg_scale" class="portal"></div>
+                  <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_cfg_end" class="portal"></div>
+                </div>
+                <div class="flexbox row">
+                  <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_image_cfg_scale" class="portal"></div>
+                  <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_image_cfg_rescale" class="portal only-diffusers"></div>
+                  <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_image_sag_scale" class="portal only-diffusers"></div>
+                </div>
+                <div class="flexbox row">
+                  <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_clip_skip" class="portal"></div>
+                  <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_advanced_options" class="portal no-padding no-bg"></div>
+                </div>
+              </div>
+
+              <div class="flexbox col spacer-group only-diffusers"></div>
+              <h2>Corrections</h2>
+              <div class="flexbox group col only-diffusers">
+                <div class="flexbox row">
+                  <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_hdr_mode" class="portal only-diffusers"></div>
+                </div>
+                <div class="flexbox row">
+                  <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_hdr_brightness" class="portal only-diffusers"></div>
+                  <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_hdr_sharpen" class="portal only-diffusers"></div>
+                  <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_hdr_color" class="portal only-diffusers"></div>
+                </div>
+                <div class="flexbox row">
+                  <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_hdr_clamp" class="portal only-diffusers"></div>
+                  <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_hdr_boundary" class="portal only-diffusers"></div>
+                  <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_hdr_threshold" class="portal only-diffusers"></div>
+                </div>
+                <div class="flexbox row">
+                  <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_hdr_maximize" class="portal only-diffusers"></div>
+                  <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_hdr_max_center" class="portal only-diffusers"></div>
+                  <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_hdr_max_boundry" class="portal only-diffusers"></div>
+                </div>
+                <div class="flexbox row">
+                  <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_hdr_color_picker" class="portal only-diffusers shrink"></div>
+                  <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_hdr_tint_ratio" class="portal only-diffusers"></div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div id="txt2img_results_generate_tabitem_group" class="flexbox col panel no-grow only-mobile">
-            <div id="txt2img_results_generate_tabitem" mobile="#txt2img_generate_group" class="xtabs-item"></div>
+        <div id="txt2img_scripts_tabitem_group" class="flexbox col">
+          <div id="txt2img_scripts_tabitem" class="xtabs-item">
+            <div data-selector="#txt2img_script_container" data-parent-selector="#tab_txt2img" class="portal no-bg"></div>
+          </div>
         </div>
+
+        <div id="txt2img_results_mobile_tabitem_group" class="flexbox col only-mobile">
+          <div id="txt2img_results_mobile_tabitem" mobile="#template-txt2img-results" class="xtabs-item"></div>
+        </div>
+      </div>
     </div>
+
+    <div id="txt2img_results_generate_tabitem_group" class="flexbox col panel no-grow only-mobile">
+      <div id="txt2img_results_generate_tabitem" mobile="#txt2img_generate_group" class="xtabs-item"></div>
+    </div>
+  </div>
 </div>

@@ -1,137 +1,132 @@
 <div id="layout-extras" class="layout">
-    <div class="layout-header">
-        <div class="flexbox row shrink panel padding no-br">
-            <div class="flexbox row no-wrap flex-start group-row tab-header">
-                <button title="Parameters" tabItemId="#extras_params_tabitem" tabGroup="extras" id="extras_params" active="true" class="xtabs-tab shrink">
-                    <div class="mask-icon icon-equalize"></div>
-                    <span>Params</span>
-                </button>
-                <button title="Input" tabItemId="#extras_results_input_mobile_tabitem" tabGroup="extras" id="extras_results_input_mobile" class="xtabs-tab only-mobile">
-                    <div class="mask-icon icon-lora"></div>
-                    <span>Input</span>
-                </button>
-                <button title="Output" tabItemId="#extras_results_output_mobile_tabitem" tabGroup="extras" id="extras_results_output_mobile" class="xtabs-tab only-mobile">
-                    <div class="mask-icon icon-results"></div>
-                    <span>Output</span>
-                </button>
-            </div>
-            <div class="flexbox col shrink align-end">
-                <h2>Process</h2>
-            </div>
-        </div>
+  <div class="layout-header">
+    <div class="flexbox row shrink panel padding no-br">
+      <div class="flexbox row no-wrap flex-start group-row tab-header">
+        <button title="Parameters" tabItemId="#extras_params_tabitem" tabGroup="extras" id="extras_params" active="true" class="xtabs-tab shrink">
+          <div class="mask-icon icon-equalize"></div>
+          <span>Params</span>
+        </button>
+        <button title="Input" tabItemId="#extras_results_input_mobile_tabitem" tabGroup="extras" id="extras_results_input_mobile" class="xtabs-tab only-mobile">
+          <div class="mask-icon icon-lora"></div>
+          <span>Input</span>
+        </button>
+        <button title="Output" tabItemId="#extras_results_output_mobile_tabitem" tabGroup="extras" id="extras_results_output_mobile" class="xtabs-tab only-mobile">
+          <div class="mask-icon icon-results"></div>
+          <span>Output</span>
+        </button>
+      </div>
+      <div class="flexbox col shrink align-end">
+        <h2>Process</h2>
+      </div>
     </div>
-    <div class="layout-content">
-        <div class="xtabs panel auto no-tr">
-            <div class="flexbox col shrink">
-                <div id="extras_params_tabitem_group" class="flexbox col outline-params">
-                    <div id="extras_params_tabitem" class="xtabs-item">
-                        <div class="xtabs-anchor flexbox" anchorNav="#mode_extras > .tab-nav">
-                            <div anchor="1,2,3,4,5,6" class="flexbox col">
-                                <div class="flexbox col spacer-group"></div>
-                                <div class="flexbox row group">
-                                    <div data-parent-selector="gradio-app" data-selector="#extras_save_output" class="portal"></div>
-                                </div>
-
-                                <div class="flexbox col spacer-group"></div>
-                                <h2>Upscale</h2>
-                                <div class="flexbox col group">
-                                    <div class="flexbox row wrap">
-                                        <div class="flexbox row grow-all no-wrap">
-                                            <div class="flexbox panel col shrink">
-                                                <button tabItemId="#extras_scale_by_tabitem" tabGroup="extras-scale-group" data-click="#tab_process" active="true" class="xtabs-tab no-drag "><span>Scale by</span></button>
-                                                <button tabItemId="#extras_scale_to_tabitem" tabGroup="extras-scale-group" data-click="#tab_process" class="xtabs-tab no-drag"><span>Scale to</span></button>
-                                            </div>
-                                            <div class="flexbox col">
-                                                <div class="xtabs sub-group no-padding">
-                                                    <div class="xtabs-items">
-                                                        <div class="flexbox col no-padding full-height">
-                                                            <div id="extras_scale_to_tabitem" class="xtabs-item notransition inset initial">
-                                                                <div class="flexbox row wrap">
-                                                                    <div class="flexbox no-wrap row">
-                                                                        <div class="flexbox col">
-                                                                            <div data-parent-selector="#tab_process" data-selector="#extras_upscaling_resize_w" class="portal"></div>
-                                                                            <div data-parent-selector="#tab_process" data-selector="#extras_upscaling_resize_h" class="portal"></div>
-                                                                        </div>
-                                                                        <div class="flexbox unset-min-width shrink col panel padding center">
-                                                                            <div data-selector="#upscaling_res_switch_btn" data-parent-selector="#tab_process" droppable="true" class="portal no-padding shrink invisible tool">
-                                                                                <div class="mask-icon icon-res-switch"></div>
-                                                                            </div>
-                                                                            <button id="sd-button-crop" toggle="true" class="sd-button shrink tool">
-                                                                                <div data-parent-selector="#tab_process" data-selector="#extras_upscaling_crop" droppable="true" class="portal shrink invisible tool">
-                                                                                    <div class="mask-icon icon-crop"></div>
-                                                                                </div>
-                                                                            </button>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div id="extras_scale_by_tabitem" class="xtabs-item initial inset notransition">
-                                                                <div class="flexbox col">
-                                                                    <div data-parent-selector="#tab_process" data-selector="#extras_upscaling_resize" class="portal min-width"></div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+  </div>
+  <div class="layout-content">
+    <div class="xtabs panel auto no-tr">
+      <div class="flexbox col shrink">
+        <div id="extras_params_tabitem_group" class="flexbox col outline-params">
+          <div id="extras_params_tabitem" class="xtabs-item">
+            <div class="xtabs-anchor flexbox" anchorNav="#mode_extras > .tab-nav">
+              <div anchor="1,2,3,4,5,6" class="flexbox col">
+                <div class="flexbox col spacer-group"></div>
+                <div class="flexbox row group">
+                  <div data-parent-selector="gradio-app" data-selector="#extras_save_output" class="portal"></div>
+                </div>
+                <div class="flexbox col spacer-group"></div>
+                <h2>Upscale</h2>
+                <div class="flexbox col group">
+                  <div class="flexbox row wrap">
+                    <div class="flexbox row grow-all no-wrap">
+                      <div class="flexbox panel col shrink">
+                        <button tabItemId="#extras_scale_by_tabitem" tabGroup="extras-scale-group" data-click="#tab_process" active="true" class="xtabs-tab no-drag "><span>Scale by</span></button>
+                        <button tabItemId="#extras_scale_to_tabitem" tabGroup="extras-scale-group" data-click="#tab_process" class="xtabs-tab no-drag"><span>Scale to</span></button>
+                      </div>
+                      <div class="flexbox col">
+                        <div class="xtabs sub-group no-padding">
+                          <div class="xtabs-items">
+                            <div class="flexbox col no-padding full-height">
+                              <div id="extras_scale_to_tabitem" class="xtabs-item notransition inset initial">
+                                <div class="flexbox row wrap">
+                                  <div class="flexbox no-wrap row">
+                                    <div class="flexbox col">
+                                      <div data-parent-selector="#tab_process" data-selector="#extras_upscaling_resize_w" class="portal"></div>
+                                      <div data-parent-selector="#tab_process" data-selector="#extras_upscaling_resize_h" class="portal"></div>
+                                    </div>
+                                    <div class="flexbox unset-min-width shrink col panel padding center">
+                                      <div data-selector="#upscaling_res_switch_btn" data-parent-selector="#tab_process" droppable="true" class="portal no-padding shrink invisible tool">
+                                        <div class="mask-icon icon-res-switch"></div>
+                                      </div>
+                                      <button id="sd-button-crop" toggle="true" class="sd-button shrink tool">
+                                        <div data-parent-selector="#tab_process" data-selector="#extras_upscaling_crop" droppable="true" class="portal shrink invisible tool">
+                                          <div class="mask-icon icon-crop"></div>
                                         </div>
+                                      </button>
                                     </div>
-                                    <div class="flexbox row">
-                                        <div data-parent-selector="#tab_process" data-selector="#extras_upscaler_1" class="portal"></div>
-                                        <div data-parent-selector="#tab_process" data-selector="#extras_upscaler_2" class="portal"></div>
-                                        <div data-parent-selector="#tab_process" data-selector="#extras_upscaler_2_visibility" class="portal"></div>
-                                    </div>
+                                  </div>
                                 </div>
-
-                                <div class="flexbox col spacer-group"></div>
-                                <h2>Video</h2>
-                                <div class="flexbox col group">
-                                    <div class="flexbox row">
-                                        <div data-parent-selector="#tab_process" data-selector="#extras_video_type" class="portal"></div>
-                                        <div data-parent-selector="#tab_process" data-selector="#extras_video_filename" class="portal min-width"></div>
-                                        <div data-parent-selector="#tab_process" data-selector="#extras_video_duration" class="portal hide-empty"></div>
-                                    </div>
-                                    <div class="flexbox row">
-                                        <div data-parent-selector="#tab_process" data-selector="#extras_video_loop" class="portal hide-empty"></div>
-                                        <div data-parent-selector="#tab_process" data-selector="#extras_video_pad" class="portal hide-empty"></div>
-                                        <div data-parent-selector="#tab_process" data-selector="#extras_video_interpolate" class="portal hide-empty"></div>
-                                        <div data-parent-selector="#tab_process" data-selector="#extras_video_scale" class="portal hide-empty"></div>
-                                        <div data-parent-selector="#tab_process" data-selector="#extras_video_change" class="portal hide-empty"></div>
-                                    </div>
+                              </div>
+                              <div id="extras_scale_by_tabitem" class="xtabs-item initial inset notransition">
+                                <div class="flexbox col">
+                                  <div data-parent-selector="#tab_process" data-selector="#extras_upscaling_resize" class="portal min-width"></div>
                                 </div>
-
-                                <div class="flexbox col spacer-group"></div>
-                                <h2>GFPGAN</h2>
-                                <div class="flexbox group row">
-                                    <div data-parent-selector="#tab_process" data-selector="#extras_gfpgan_visibility" class="portal"></div>
-                                </div>
-
-                                <div class="flexbox col spacer-group"></div>
-                                <h2>CodeFormer</h2>
-                                <div class="flexbox group row">
-                                    <div data-parent-selector="#tab_process" data-selector="#extras_codeformer_visibility" class="portal"></div>
-                                    <div data-parent-selector="#tab_process" data-selector="#extras_codeformer_weight" class="portal"></div>
-                                </div>
-
-                                <div class="flexbox col spacer-group"></div>
-                                <h2>Rembg</h2>
-                                <div class="flexbox col group">
-                                    <div class="flexbox row">
-                                        <div data-parent-selector="#tab_process" data-selector="#extras_rembg_model" class="portal min-width"></div>
-                                        <div class="flexbox col">
-                                            <div data-parent-selector="#tab_process" data-selector="#extras_rembg_only_mask" class="portal"></div>
-                                            <div data-parent-selector="#tab_process" data-selector="#extras_rembg_process_mask" class="portal"></div>
-                                            <div data-parent-selector="#tab_process" data-selector="#extras_rembg_alpha" class="portal"></div>
-                                        </div>
-                                    </div>
-                                    <div class="flexbox row">
-                                        <div data-parent-selector="#tab_process" data-selector="#extras_rembg_alpha_erode" class="portal"></div>
-                                        <div data-parent-selector="#tab_process" data-selector="#extras_rembg_alpha_foreground" class="portal"></div>
-                                        <div data-parent-selector="#tab_process" data-selector="#extras_rembg_alpha_background" class="portal"></div>
-                                    </div>
-                                </div>
+                              </div>
                             </div>
-                            <!-- <div anchor="4" class="flexbox col">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="flexbox row">
+                    <div data-parent-selector="#tab_process" data-selector="#extras_upscaler_1" class="portal"></div>
+                    <div data-parent-selector="#tab_process" data-selector="#extras_upscaler_2" class="portal"></div>
+                    <div data-parent-selector="#tab_process" data-selector="#extras_upscaler_2_visibility" class="portal"></div>
+                  </div>
+                </div>
+                <div class="flexbox col spacer-group"></div>
+                <h2>Video</h2>
+                <div class="flexbox col group">
+                  <div class="flexbox row">
+                    <div data-parent-selector="#tab_process" data-selector="#extras_video_type" class="portal"></div>
+                    <div data-parent-selector="#tab_process" data-selector="#extras_video_filename" class="portal min-width"></div>
+                    <div data-parent-selector="#tab_process" data-selector="#extras_video_duration" class="portal hide-empty"></div>
+                  </div>
+                  <div class="flexbox row">
+                    <div data-parent-selector="#tab_process" data-selector="#extras_video_loop" class="portal hide-empty"></div>
+                    <div data-parent-selector="#tab_process" data-selector="#extras_video_pad" class="portal hide-empty"></div>
+                    <div data-parent-selector="#tab_process" data-selector="#extras_video_interpolate" class="portal hide-empty"></div>
+                    <div data-parent-selector="#tab_process" data-selector="#extras_video_scale" class="portal hide-empty"></div>
+                    <div data-parent-selector="#tab_process" data-selector="#extras_video_change" class="portal hide-empty"></div>
+                  </div>
+                </div>
+                <div class="flexbox col spacer-group"></div>
+                <h2>GFPGAN</h2>
+                <div class="flexbox group row">
+                  <div data-parent-selector="#tab_process" data-selector="#extras_gfpgan_visibility" class="portal"></div>
+                </div>
+                <div class="flexbox col spacer-group"></div>
+                <h2>CodeFormer</h2>
+                <div class="flexbox group row">
+                  <div data-parent-selector="#tab_process" data-selector="#extras_codeformer_visibility" class="portal"></div>
+                  <div data-parent-selector="#tab_process" data-selector="#extras_codeformer_weight" class="portal"></div>
+                </div>
+                <div class="flexbox col spacer-group"></div>
+                <h2>Remove background</h2>
+                <div class="flexbox col group">
+                  <div class="flexbox row">
+                    <div data-parent-selector="#tab_process" data-selector="#extras_rembg_model" class="portal min-width"></div>
+                    <div class="flexbox col">
+                      <div data-parent-selector="#tab_process" data-selector="#extras_rembg_only_mask" class="portal"></div>
+                      <div data-parent-selector="#tab_process" data-selector="#extras_rembg_process_mask" class="portal"></div>
+                      <div data-parent-selector="#tab_process" data-selector="#extras_rembg_alpha" class="portal"></div>
+                    </div>
+                  </div>
+                  <div class="flexbox row">
+                    <div data-parent-selector="#tab_process" data-selector="#extras_rembg_alpha_erode" class="portal"></div>
+                    <div data-parent-selector="#tab_process" data-selector="#extras_rembg_alpha_foreground" class="portal"></div>
+                    <div data-parent-selector="#tab_process" data-selector="#extras_rembg_alpha_background" class="portal"></div>
+                  </div>
+                </div>
+              </div>
+              <!-- <div anchor="4" class="flexbox col">
                                 <div class="flexbox col spacer-group"></div>
                                 <div class="flexbox row">
                                     <div data-parent-selector="#interrogate_labels" data-selector="#interrogate_label_medium" class="portal"></div>
@@ -141,21 +136,19 @@
                                     <div data-parent-selector="#interrogate_labels" data-selector="#interrogate_label_flavor" class="portal"></div>
                                 </div>
                             </div> -->
-                        </div>
-                    </div>
-                </div>
-
-                <div id="extras_results_input_mobile_tabitem_group" class="flexbox col only-mobile">
-                    <div id="extras_results_input_mobile_tabitem" mobile="#extras-template-column-input" class="xtabs-item"></div>
-                </div>
-                <div id="extras_results_output_mobile_tabitem_group" class="flexbox col only-mobile">
-                    <div id="extras_results_output_mobile_tabitem" mobile="#extras-template-column-output" class="xtabs-item"></div>
-                </div>
             </div>
+          </div>
         </div>
-
-        <div id="extras_results_generate_tabitem_group" class="flexbox col panel no-grow only-mobile">
-            <div id="extras_results_generate_tabitem" mobile="#extras_generate_group" class="xtabs-item"></div>
+        <div id="extras_results_input_mobile_tabitem_group" class="flexbox col only-mobile">
+          <div id="extras_results_input_mobile_tabitem" mobile="#extras-template-column-input" class="xtabs-item"></div>
         </div>
+        <div id="extras_results_output_mobile_tabitem_group" class="flexbox col only-mobile">
+          <div id="extras_results_output_mobile_tabitem" mobile="#extras-template-column-output" class="xtabs-item"></div>
+        </div>
+      </div>
     </div>
+    <div id="extras_results_generate_tabitem_group" class="flexbox col panel no-grow only-mobile">
+      <div id="extras_results_generate_tabitem" mobile="#extras_generate_group" class="xtabs-item"></div>
+    </div>
+  </div>
 </div>

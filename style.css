@@ -4546,12 +4546,14 @@ gallery-folder:hover {
 /* gr.table is based on svelte-virtual-table which means there are two table elements and neither have all rows */
 
 .table-wrap {
-  height: unset !important;
+  height: max-content !important;
 }
 
 .table-wrap table {
   width: 100%;
-  display: table;
+  display: block;
+  border-collapse: separate;
+  border-spacing: var(--sd-group-gap);
 }
 
 .table-wrap table caption {
@@ -4559,22 +4561,31 @@ gallery-folder:hover {
 }
 
 .table-wrap table thead {
-  background: var(--sd-input-background-color);
-  word-break: initial;
+  background: var(--sd-panel-border-color);
+  word-break: auto-phrase;
   display: none;
 }
 
 .table-wrap table tbody {
-  word-break: break-word;
   display: none;
 }
 
+.table-wrap table tbody tr:nth-child(odd) {
+  background-color: var(--sd-input-background-color);
+}
+
+.table-wrap table tbody tr:nth-child(even) {
+  background-color: var(--sd-input-border-color);
+}
+
 .table-wrap table td {
-  word-break: break-word;
+  word-break: auto-phrase;
+  width: min-content !important;
 }
 
 .table-wrap svelte-virtual-table-viewport table {
-  display: table !important;
+  display: block;
+  overflow: auto;
 }
 
 .table-wrap svelte-virtual-table-viewport table thead {
@@ -4582,7 +4593,7 @@ gallery-folder:hover {
 }
 
 .table-wrap svelte-virtual-table-viewport table tbody {
-  display: contents !important;
+  display: table-row-group !important;
 }
 
 .card:has(>img[src*="card-no-preview.png"])::after {
