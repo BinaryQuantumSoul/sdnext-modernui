@@ -49,11 +49,15 @@
 
     <div id="layout-console-log">
       <div id="split-console" gutterSize="8" direction="vertical" class="split">
-        <h2>Server Log</h2>
+        <h2>Server Log
+          <div id='btn_console_log_server_wrap' class="mask-icon overlay-icon icon-wrap" title="wrap log lines"></div>
+        </h2>       
         <div data-minSize="0" data-initSize="50" id="split-console-up" class="split-container">
           <div data-selector="#logMonitorData" data-parent-selector="gradio-app" class="portal no-bg no-padding"></div>
         </div>
-        <h2>Client Log</h2>
+        <h2>Client Log
+          <div id='btn_console_log_client_wrap' class="mask-icon overlay-icon icon-wrap" title="wrap log lines"></div>
+        </h2>
         <div data-minSize="0" data-initSize="50" id="split-console-down" class="split-container">
           <div data-selector="#logMonitorJS" data-parent-selector="" class="portal no-bg no-padding"></div>
         </div>

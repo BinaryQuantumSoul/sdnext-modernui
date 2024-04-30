@@ -160,6 +160,14 @@ async function extraTweaks() {
     else txt2imgNav.click();
   });
   logoNav.click();
+
+  // Log wrapping
+  document.getElementById('btn_console_log_server_wrap').onclick = () => {
+    document.getElementById('logMonitorData').style.whiteSpace = document.getElementById('logMonitorData').style.whiteSpace === 'nowrap' ? 'break-spaces' : 'nowrap';
+  }
+  document.getElementById('btn_console_log_client_wrap').onclick = () => {
+    document.getElementById('logMonitorJS')?.classList.toggle('wrap-div');
+  }
 }
 extraTweaks = logFn(extraTweaks); // eslint-disable-line no-func-assign
 
