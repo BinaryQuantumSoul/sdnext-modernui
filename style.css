@@ -1794,12 +1794,13 @@ h1 {
     height: calc(100vh - 168px);
     overflow-x: hidden;
     overflow-y: auto;
+    gap: var(--sd-gap-size);
 }
 
 *.extra-network-cards .card {
     display: flex;
     justify-content: center;
-    margin: var(--sd-gap-size);
+    margin: 0;
     height: 160px;
     width: fit-content;
 }
@@ -4091,7 +4092,7 @@ input[type="range"]::-ms-fill-upper {
     border: 1px solid var(--sd-input-border-color);
     width: 22em;
     min-height: 1.3em;
-    font-size: 0.8em;
+    font-size: 1.0em;
     transition: opacity 0.2s ease-in;
     pointer-events: none;
     opacity: 0;
