@@ -636,8 +636,8 @@ div.float span {
 }
 
 .prompt textarea {
-  max-height: calc(100% - var(--sd-input-line-height));
-  min-height: unset !important;
+  max-height: calc(100% - var(--sd-input-line-height)) !important;
+  min-height: calc(100% - var(--sd-input-line-height)) !important;
   overflow-y: auto !important;
 }
 
