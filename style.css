@@ -4187,13 +4187,20 @@ input[type="range"]::-ms-fill-upper {
     margin-left: var(--sd-outside-gap-size);
 }
 
+#split-console {
+  width: 100%;
+}
+
 #split-console>div:not(.gutter) {
     margin: 4px;
     background-color: var(--sd-input-background-color);
 }
 
-#logMonitorData {
-    height: 100% !important;
+#logMonitorData, #logMonitorJS {
+  height: 45vh !important;
+  width: 100% !important;
+  overflow-x: auto !important;
+  overflow-y: auto !important;
 }
 
 #system_header > div,
