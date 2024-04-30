@@ -1597,7 +1597,8 @@ h1 {
 }
 
 .extra-networks-page {
-    display: flex
+    display: flex;
+    height: 100%;
 }
 
 .extra-networks .second-line {
@@ -1606,12 +1607,20 @@ h1 {
     width: -webkit-fill-available;
 }
 
+.extra-networks .second-line {
+  gap: var(--sd-group-gap);
+  margin: var(--sd-group-border-size);
+}
+
 .extra-networks .search {
     flex: 1;
+    min-width: unset;
+    padding: 0;
 }
 
 .extra-networks .description {
     flex: 3;
+    padding: 0;
 }
 
 .extra-network-cards .card {
@@ -1766,10 +1775,10 @@ h1 {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
     grid-template-rows: max-content;
-    overflow: auto;
-    height: 85vh;
-    width: -moz-available;
-    width: -webkit-fill-available;
+    width: 100%;
+    height: calc(100vh - 168px);
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 *.extra-network-cards .card {
