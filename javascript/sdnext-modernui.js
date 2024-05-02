@@ -164,10 +164,10 @@ async function extraTweaks() {
   // Log wrapping
   document.getElementById('btn_console_log_server_wrap').onclick = () => {
     document.getElementById('logMonitorData').style.whiteSpace = document.getElementById('logMonitorData').style.whiteSpace === 'nowrap' ? 'break-spaces' : 'nowrap';
-  }
+  };
   document.getElementById('btn_console_log_client_wrap').onclick = () => {
     document.getElementById('logMonitorJS')?.classList.toggle('wrap-div');
-  }
+  };
 }
 extraTweaks = logFn(extraTweaks); // eslint-disable-line no-func-assign
 
@@ -234,27 +234,6 @@ async function uiuxOptionSettings() {
   }
   gradioApp().querySelector('#setting_uiux_mobile_scale input[type=number]').addEventListener('change', (e) => uiux_mobile_scale(e.target.value));
   uiux_mobile_scale(window.opts.uiux_mobile_scale);
-}
-
-async function setupErrorObserver() {
-  const console = appUiUx.querySelector('#logMonitorData');
-  const consoleBtn = appUiUx.querySelector('#btn_console');
-  if (console && consoleBtn) {
-    const observer = new MutationObserver((mutations) => {
-      mutations.forEach((mutation) => {
-        mutation.addedNodes.forEach((node) => {
-          const secondTd = node.querySelector('td:nth-child(2)');
-          if (secondTd && secondTd.textContent === 'ERROR') {
-            const errorCountAttr = consoleBtn.getAttribute('error-count');
-            const errorCount = errorCountAttr ? parseInt(errorCountAttr) : 0;
-            consoleBtn.setAttribute('error-count', errorCount + 1);
-          }
-        });
-      });
-    });
-    observer.observe(console, { childList: true });
-    consoleBtn.addEventListener('click', () => consoleBtn.removeAttribute('error-count'));
-  }
 }
 
 async function setupControlDynamicObservers() {
@@ -787,7 +766,6 @@ async function mainUiUx() {
   await waitForUiPortal();
   setupGenerateObservers();
   setupControlDynamicObservers();
-  setupErrorObserver();
   uiuxOptionSettings();
   showContributors();
   switchMobile();
