@@ -188,7 +188,7 @@ body {
 }
 
 .min-width {
-    min-width: min(220px, 100%);
+    min-width: min(200px, 100%);
 }
 
 *.gradio-button.tool {
@@ -1087,6 +1087,7 @@ li.item span {
     height: auto;
     width: 100%;
     object-fit: contain;
+    padding: 0;
 }
 
 * button.thumbnail-item.thumbnail-small {
@@ -2315,7 +2316,7 @@ button.active .icon-sort {
 }
 
 .icon-wiki {
-  mask-image: url(./html/svg/wikipedia-w.svg);
+  mask-image: url(./html/svg/book-open-cover.svg);
 }
 
 #contributors_grid {
@@ -4361,6 +4362,7 @@ button>span {
 #control-columns img,
 #control-columns svg {
     object-position: top;
+    width: 100%;
 }
 
 #control-columns.flex-force-column {

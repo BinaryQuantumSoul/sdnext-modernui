@@ -150,12 +150,23 @@ async function extraTweaks() {
     });
   });
 
-  // Default tab
   const logoNav = document.getElementById('logo_nav');
   const txt2imgNav = document.getElementById('txt2img_nav');
+  const img2imgNav = document.getElementById('img2img_nav');
   const controlNav = document.getElementById('control_nav');
 
-  logoNav.addEventListener('click', () => {
+  const handleTabChange = (evt) => { // required to keep js detection code happy
+    const tabname = evt.target.id.split('_')[0];
+    for (const tab of ['txt2img', 'img2img', 'control']) {
+      document.getElementById(`tab_${tab}`).style.display = tabname === tab ? 'block' : 'none';
+    }
+  };
+
+  txt2imgNav.addEventListener('click', handleTabChange);
+  img2imgNav.addEventListener('click', handleTabChange);
+  controlNav.addEventListener('click', handleTabChange);
+
+  logoNav.addEventListener('click', () => { // default tab
     if (isBackendDiffusers) controlNav.click();
     else txt2imgNav.click();
   });
@@ -228,9 +239,9 @@ async function uiuxOptionSettings() {
 
   // hide legacy and activate control tab
   log('hideLegacy', window.opts.uiux_hide_legacy);
-  gradioApp().getElementById('tab_txt2img').style.display = window.opts.uiux_hide_legacy ? 'none' : 'block';
-  gradioApp().getElementById('tab_img2img').style.display = window.opts.uiux_hide_legacy ? 'none' : 'block';
-  gradioApp().getElementById('tab_control').style.display = window.opts.uiux_hide_legacy ? 'block' : 'none';
+  // gradioApp().getElementById('tab_txt2img').style.display = window.opts.uiux_hide_legacy ? 'none' : 'block';
+  // gradioApp().getElementById('tab_img2img').style.display = window.opts.uiux_hide_legacy ? 'none' : 'block';
+  // gradioApp().getElementById('tab_control').style.display = window.opts.uiux_hide_legacy ? 'block' : 'none';
 
   // settings mobile scale
   function uiux_mobile_scale(value) {
