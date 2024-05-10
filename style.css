@@ -2306,6 +2306,18 @@ button.active .icon-sort {
     mask-image: url(./html/svg/folders.svg);
 }
 
+.icon-github {
+    mask-image: url(./html/svg/github.svg);
+}
+
+.icon-discord {
+  mask-image: url(./html/svg/discord.svg);
+}
+
+.icon-wiki {
+  mask-image: url(./html/svg/wikipedia-w.svg);
+}
+
 #contributors_grid {
     gap: 5px;
     align-items: flex-start;
