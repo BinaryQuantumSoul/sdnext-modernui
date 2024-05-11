@@ -2173,6 +2173,10 @@ div#layout-3 {
     mask-image: url(./html/svg/picture-in-picture-exit-line.svg);
 }
 
+.icon-calendar {
+  mask-image: url(./html/svg/calendar-clock.svg);
+}
+
 .icon-model-merger {
     transform: rotate(90deg);
     mask-image: url(./html/svg/books.svg);

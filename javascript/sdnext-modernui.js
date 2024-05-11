@@ -633,16 +633,15 @@ async function createButtonsForExtensions() {
     const nid = cid.split('tab_')[1];
     if (!no_button_tabs.includes(cid)) {
       const temp = document.createElement('div');
+      let button;
+      if (nid === 'agent_scheduler') button = '<div class="mask-icon icon-calendar"></div>';
+      if (!button) button = `<div class="icon-letters">${nid.slice(0, 2)}</div>`;
       temp.innerHTML = `
-        <button 
-          tabItemId="#split-app, #${cid}_tabitem" 
+        <button tabItemId="#split-app, #${cid}_tabitem"
           tabGroup="main_group" 
           data-click="#tabs" 
           onclick="mainTabs(this, '#${cid}')" 
-          class="xtabs-tab"
-        >
-          <div class="icon-letters">${nid.slice(0, 2)}</div>
-          <span>${snakeToCamel(nid)}</span>
+          class="xtabs-tab">${button}<span>${snakeToCamel(nid)}</span>
         </button>
       `;
       other_extensions.append(temp.firstElementChild);
