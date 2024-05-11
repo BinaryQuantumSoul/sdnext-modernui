@@ -120,6 +120,18 @@ body {
     justify-content: center;
 }
 
+.flexbox.box {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.flexbox.box .form {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
 .flexbox.group {
     background-color: var(--sd-group-background-color);
     padding: var(--sd-group-padding);

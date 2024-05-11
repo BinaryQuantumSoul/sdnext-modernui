@@ -88,6 +88,9 @@
                   </div>
                   <div class="flexbox col outline-params">
                     <div class="flexbox col spacer-group"></div>
+
+                    <div data-parent-selector="#tab_img2img" data-selector="#img2img_advanced_options" class="portal only-diffusers no-padding no-bg flexbox box"></div>
+
                     <h2>Size & Batch</h2>
                     <div class="flexbox col group">
                       <div class="flexbox row wrap">
@@ -151,18 +154,25 @@
         </div>
         <div id="img2img_params_tabitem_group" class="flexbox col outline-params">
           <div id="img2img_params_tabitem" class="xtabs-item">
+
             <h2>Sampler</h2>
             <div class="flexbox group col">
-              <div class="flexbox row">
-                <div data-parent-selector="#tab_img2img" data-selector="#img2img_sampling" class="portal min-width"></div>
-                <div data-parent-selector="#tab_img2img" data-selector="#img2img_steps" class="portal"></div>
+              <div class="flexbox no-border row">
+                <div class="flexbox col">
+                  <div data-parent-selector="#tab_img2img" data-selector="#img2img_sampler_options" class="portal only-diffusers"></div>
+                  <div data-parent-selector="#tab_img2img" data-selector="#img2img_sigma_algo" class="portal only-original"></div>
+                </div>
               </div>
-              <div class="flexbox col">
-                <div data-parent-selector="#tab_img2img" data-selector="#img2img_sampler_options" class="portal"></div>
-                <div data-parent-selector="#tab_img2img" data-selector="#img2img_sigma_algo" class="portal only-original"></div>
+              <div class="flexbox no-border row">
+                <div data-parent-selector="#tab_img2img" data-selector="#img2img_sampler_spacing" class="portal only-diffusers"></div>
+                <div data-parent-selector="#tab_img2img" data-selector="#img2img_sampler_presets" class="portal only-diffusers"></div>
+              </div>
+              <div class="flexbox no-border row">
+                <div data-parent-selector="#tab_img2img" data-selector="#img2img_sampler_timesteps" class="portal only-diffusers"></div>
               </div>
             </div>
             <div class="flexbox col spacer-group"></div>
+
             <h2>Seed</h2>
             <div class="flexbox group col">
               <div class="flexbox row">
@@ -192,12 +202,14 @@
               </div>
             </div>
             <div class="flexbox col spacer-group"></div>
+
             <h2>Denoise</h2>
             <div class="flexbox group row">
               <div data-parent-selector="#tab_img2img" data-selector="#img2img_denoising_strength" class="portal"></div>
               <div data-parent-selector="#tab_img2img" data-selector="#img2img_refiner_start" class="portal"></div>
             </div>
             <div class="flexbox col spacer-group"></div>
+
             <h2>Mask</h2>
             <div class="flexbox group col">
               <div class="flexbox row">
@@ -215,6 +227,7 @@
         <div id="img2img_advanced_tabitem_group" class="flexbox col outline-params">
           <div id="img2img_advanced_tabitem" class="xtabs-item">
             <div class="flexbox col auto-scroll">
+
               <h2>Advanced</h2>
               <div class="flexbox group col">
                 <div class="flexbox row">
@@ -231,10 +244,10 @@
                 </div>
                 <div class="flexbox row">
                   <div data-parent-selector="#tab_img2img" data-selector="#img2img_clip_skip" class="portal"></div>
-                  <div data-parent-selector="#tab_img2img" data-selector="#img2img_advanced_options" class="portal no-padding no-bg"></div>
                 </div>
               </div>
               <div class="flexbox col spacer-group only-diffusers"></div>
+
               <h2>Corrections</h2>
               <div class="flexbox group col only-diffusers">
                 <div class="flexbox row">
