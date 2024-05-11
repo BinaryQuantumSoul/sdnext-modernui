@@ -757,7 +757,7 @@ button:hover .mask-icon {
 }
 
 * textarea {
-    height: auto !important;
+    /* height: auto !important; */
     overflow-x: hidden;
     overflow-y: auto !important;
 }
@@ -4254,10 +4254,6 @@ input[type="range"]::-ms-fill-upper {
 #system_header > div > button {
     height: 100%;
     width: 100%;
-}
-
-#system textarea {
-    overflow-y: auto !important;
 }
 
 .gradio-row:has(> .hidden:only-child) {

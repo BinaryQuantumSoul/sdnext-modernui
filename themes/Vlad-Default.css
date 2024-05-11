@@ -1,8 +1,8 @@
 /* Author: VladMandic */
 
 :root {
-  --sd-main-accent-color:hsl(174deg 65% 65%);
-  --sd-input-placeholder-text-color:hsl(174deg 65% 65%);
+  --sd-main-accent-color:hsl(180deg 65% 65%);
+  --sd-input-placeholder-text-color:hsl(180deg 65% 65%);
   --sd-secondary-color:hsl(0deg 0% 13%);
   --sd-main-background-color:hsl(0deg 0% 10%);
   --sd-button-normal-color:hsl(0deg 0% 13%);
@@ -11,11 +11,11 @@
   --sd-input-icon-height:calc(var(--sd-input-height) - var(--sd-input-border-size) * 2);
   --sd-input-padding:4px 10px;
   --sd-input-line-height:24px;
-  --sd-label-color:hsl(176deg 10% 70%);
+  --sd-label-color:hsl(180deg 10% 70%);
   --sd-input-border-size:0px;
   --sd-input-text-color:hsl(0deg 0% 80%);
-  --sd-input-background-color:hsl(176deg 0% 10);
-  --sd-input-border-color:hsl(228deg 0% 17%);
+  --sd-input-background-color:hsl(180deg 0% 10);
+  --sd-input-border-color:hsl(180deg 0% 17%);
   --sd-input-hover-text-color:hsl(0deg 6% 13%);
   --sd-panel-background-color:hsl(0deg 0% 13%);
   --sd-panel-border-color:hsl(0deg 0% 26%);
