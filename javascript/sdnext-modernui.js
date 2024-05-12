@@ -259,7 +259,6 @@ async function setupControlDynamicObservers() {
   const qInputCtrl = '#control-template-column-input, #control_params_mask, #control_dynamic_resize';
   const qInputBtn = '[tabitemid="#control_resize_mask_tabitem"], [tabitemid="#control_before_scale_by_tabitem"], [tabitemid="#control_before_scale_to_tabitem"]';
   const inputElems = document.querySelectorAll(`${qInputCtrl}, ${qInputBtn}`);
-  console.log('HERE1', inputElems);
   const controlElems = document.querySelectorAll('#control-template-column-preview, #control_params_elements');
 
   function setupDynamicListener(dynamic, elems) {
