@@ -104,7 +104,7 @@
 
                       <div data-parent-selector="#tab_control" data-selector="#control_advanced_options" class="portal only-diffusers no-padding no-bg flexbox box"></div>
 
-                      <h2>Size & Batch</h2>
+                      <h2>Parameters</h2>
                       <div class="flexbox col group">
                         <div class="flexbox panel row group-row shrink">
                           <button tabItemId="#control_resize_before_tabitem" tabGroup="control-resize-group" class="xtabs-tab" active="true"><span>Generate</span></button>
@@ -150,7 +150,7 @@
                                   <div class="mask-icon icon-ruler"></div>
                                 </div>
                               </div>
-                              <div class="flexbox col">
+                              <div class="flexbox col" id="control_dynamic_resize">
                                 <div class="flexbox row">
                                   <div class="flexbox no-border row">
                                     <div data-parent-selector="#tab_control" data-selector="#control_before_resize_name" class="portal only-diffusers no-min-width"></div>
@@ -271,13 +271,13 @@
                           <div data-parent-selector="#tab_control" data-selector="#control_batch_size" class="portal only-diffusers"></div>
                         </div>
                         <div class="flexbox row">
+                          <div data-parent-selector="#tab_control" data-selector="#control_sampling" class="portal only-diffusers"></div>
+                          <div data-parent-selector="#tab_control" data-selector="#control_steps" class="portal only-diffusers"></div>
+                        </div>
+                        <div class="flexbox row">
                           <div data-parent-selector="#tab_control" data-selector="#control_cfg_scale" class="portal only-diffusers"></div>
                           <div data-parent-selector="#tab_control" data-selector="#control_cfg_end" class="portal only-diffusers"></div>
                         </div>     
-                        <div class="flexbox row">
-                          <div data-parent-selector="#tab_control" data-selector="#control_sampling" class="portal only-diffusers min-width"></div>
-                          <div data-parent-selector="#tab_control" data-selector="#control_steps" class="portal only-diffusers"></div>
-                        </div>
                       </div>
                     </div>
                   </div>
@@ -345,7 +345,7 @@
                     <div data-parent-selector="#tab_control" data-selector="#control_hr_force" class="portal only-diffusers"></div>
                   </div>
                   <div class="flexbox row">
-                    <div data-parent-selector="#tab_control" data-selector="#control_sampling_alt" class="portal only-diffusers min-width"></div>
+                    <div data-parent-selector="#tab_control" data-selector="#control_sampling_alt" class="portal only-diffusers"></div>
                     <div data-parent-selector="#tab_control" data-selector="#control_steps_alt" class="portal only-diffusers"></div>
                     <div data-parent-selector="#tab_control" data-selector="#control_denoising_strength" class="portal only-diffusers"></div>
                   </div>

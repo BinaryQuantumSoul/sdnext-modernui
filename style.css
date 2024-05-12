@@ -106,7 +106,7 @@ body {
     margin: 0;
     flex: 1 1 0%;
     gap: 5px;
-    min-width: min(160px, 100%);
+    min-width: min(140px, 100%);
     flex-grow: 1;
 }
 
@@ -535,7 +535,7 @@ body {
     justify-content: space-between;
     height: auto;
     flex: 1 1 0%;
-    min-width: min(160px, 100%);
+    min-width: min(140px, 100%);
 }
 
 [data-testid="block-label"],
@@ -2835,7 +2835,7 @@ button:hover svg {
     flex-direction: row;
     flex-wrap: wrap;
     flex: 1 1 0%;
-    min-width: min(160px, 100%);
+    min-width: min(140px, 100%);
 }
 
 .portal .gradio-accordion .gradio-row:has([id^='setting_']) {
