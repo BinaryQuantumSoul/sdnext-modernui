@@ -3912,6 +3912,7 @@ input[type="checkbox"] {
 }
 
 #acc-arrow-button,
+#acc-full-button,
 #acc-arrow-button-control,
 .option-aside-labels .accordion-bar>div {
     width: 100%;
@@ -4716,6 +4717,14 @@ gallery-folder:hover {
   top: 3em;
   right: 1em;
   width: 2em;
+}
+
+#control-result {
+  text-wrap: wrap;
+}
+
+#control-result p {
+  padding: var(--sd-group-padding) !important;
 }
 
 /* en item details */
