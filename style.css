@@ -4357,14 +4357,15 @@ button>span {
 }
 
 #control-columns > div {
-    min-width: 22rem;
-    min-height: 20rem;
+    min-width: 20rem;
+    min-height: 5rem;
     flex-grow: 1;
+    justify-content: flex-start;
 }
 
 #img2img-columns > div,
 #extras-columns > div {
-    min-width: 22rem;
+    min-width: 20rem;
     min-height: 50%;
 }
 
