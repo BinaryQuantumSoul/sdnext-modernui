@@ -1733,7 +1733,7 @@ h1 {
 }
 
 .extra-network-cards .card-list {
-  padding: var(--sd-gap-size);
+  padding: 0;
   background: var(--sd-input-background-color);
   cursor: pointer;
   height: auto !important;
@@ -2426,12 +2426,12 @@ div#main-nav {
 
 .extra-network-subdirs>button,
 .settings-tabs button {
-    text-align: left;
-    font-size: 98%;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    color: var(--sd-input-placeholder-text-color);
+  text-align: left;
+  font-size: 98%;
+  color: var(--sd-input-placeholder-text-color);
+  white-space: pre-wrap;
+  padding: var(--sd-group-padding);
+  line-height: 1.4em;
 }
 
 .extra-network-subdirs {
