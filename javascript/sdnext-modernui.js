@@ -413,10 +413,22 @@ function initSplitComponents() {
       const ji = c.getAttribute('data-initSize');
       const jm = c.getAttribute('data-minSize');
       ids.push(`#${c.id}`);
-      initSizes.push(ji ? parseInt(ji) : 100 / containers.length);
+      try {
+        const storedSize = JSON.parse(localStorage.getItem(`ui-${id}-sizes`));
+        if (storedSize !== null && Array.isArray(storedSize) && storedSize.every((n) => typeof n === 'number')) {
+          initSizes.push(storedSize[c.id.includes('left') || c.id.includes('up') ? 0 : 1]);
+        } else {
+          initSizes.push(ji ? parseInt(ji) : 100 / containers.length);
+        }
+      } catch {
+        initSizes.push(ji ? parseInt(ji) : 100 / containers.length);
+      }
       minSizes.push(jm ? parseInt(jm) : Infinity);
     }));
     if (window.opts.uiux_enable_console_log) log('UI split component', ids, initSizes, minSizes, direction, gutterSize);
+    const onDragEnd = (evt) => {
+      try { localStorage.setItem(`ui-${id}-sizes`, JSON.stringify(evt)); } catch { /* unsupported on mobile */ }
+    };
     split_instances[id] = Split(ids, { // eslint-disable-line no-undef
       sizes: initSizes,
       minSize: minSizes,
@@ -424,6 +436,7 @@ function initSplitComponents() {
       gutterSize: parseInt(gutterSize),
       snapOffset: 0,
       dragInterval: 1,
+      onDragEnd,
       elementStyle(dimension, size, gs) {
         return { 'flex-basis': `calc(${size}% - ${gs}px)` };
       },
