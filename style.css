@@ -240,8 +240,13 @@ body {
     background-color: var(--sd-input-hover-text-color);
 }
 
+*.gradio-button {
+    background: var(--sd-button-normal-color)
+}
+
 *.gradio-button:hover {
     color: var(--sd-input-hover-text-color);
+    background: var(--sd-button-hover-color);
 }
 
 .portal.no-border {
@@ -1578,8 +1583,6 @@ li.item span {
 * .gradio-video video,
 * [data-testid="image"] img {
     object-fit: contain;
-    width: 100%;
-    height: 100%;
 }
 
 * .gradio-video .wrap,
@@ -3356,6 +3359,8 @@ span.star_count b {
     min-height: 15vh !important;
     display: flex;
     position: relative;
+    align-self: center;
+    text-align: center;
 }
 
 .absolute-img {
@@ -4376,7 +4381,7 @@ button>span {
 #control-columns img,
 #control-columns svg {
     object-position: top;
-    width: 100%;
+    max-width: 100%;
 }
 
 #control-columns.flex-force-column {
@@ -4384,7 +4389,7 @@ button>span {
 }
 
 #control-columns.flex-force-column .panel.no-tr {
-    aspect-ratio: 0.4;
+    aspect-ratio: 1.0;
 }
 
 div#control_params_elements_tabitem .control-settings .gradio-accordion .form {
