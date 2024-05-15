@@ -1,0 +1,49 @@
+/* Author: BrknSoul */
+@font-face {
+    font-family: 'Amstrad-Mode1';
+    font-style: normal;
+    font-weight: 100;
+    font-display: swap;
+    src: url('cpc464-mode1.ttf');
+}
+
+@font-face {
+    font-family: 'Amstrad-Mode2';
+    font-style: normal;
+    font-weight: 100;
+    font-display: swap;
+    src: url('cpc464-mode2.ttf');
+}
+
+label > span {
+    font-family: 'Amstrad-Mode2', 'Courier New', Courier, monospace;
+    font-size: 28px;
+	font-weight: normal
+/*    letter-spacing: 0.025em;	*/
+}
+
+h2 {
+    font-family: 'Amstrad-Mode1', 'Courier New', Courier, monospace;    
+    font-size: 16px;
+}
+
+
+:root {
+    --sd-main-accent-color:#FFFF00;
+    --sd-label-color:#FFFF00;
+    --sd-input-text-color:#FFFF00;
+    --sd-input-placeholder-text-color:#7F7F00;
+    --sd-input-hover-text-color:#000085;
+
+    --sd-main-background-color:#000085;
+    --sd-input-background-color:rgba(255,255,0, 0.15);
+    --sd-input-border-color:rgba(255,255,0, 0.25);
+    --sd-panel-background-color:#000085;
+    --sd-panel-border-color:rgba(255,255,0, 0.25);
+    --sd-group-background-color:transparent;
+    --sd-group-border-color:transparent;
+    
+    --sd-border-size: 1px;
+    --sd-input-border-size: 1px;
+}
+
