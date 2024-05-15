@@ -1098,6 +1098,7 @@ li.item span {
 
 *.thumbnail-lg img {
     margin-bottom: calc(var(--sd-border-size) * -1);
+    max-width: 100%;
 }
 
 *.thumbnail-item {
