@@ -2533,22 +2533,11 @@ div#main-nav {
     padding: 0;
 }
 
-.sd-button:hover .mask-icon,
-.sd-button.active .mask-icon {
-    background-color: var(--sd-input-hover-text-color);
-}
-
 .sd-button .mask-icon {
     background-color: var(--sd-input-text-color);
 }
 
 .sd-button.active {
-    color: var(--sd-input-hover-text-color);
-    background-color: var(--sd-button-selected-color);
-}
-
-.sd-button:hover,
-.sd-button.active:hover {
     color: var(--sd-input-hover-text-color);
     background-color: var(--sd-button-selected-color);
 }

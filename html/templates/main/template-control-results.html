@@ -75,7 +75,7 @@
                     <div iconTrigger="#info_icon_btn_control" class="accordion shrink no-tr">
                       <div class="accordion-bar no-tr">
                         <div class="flexbox row center">
-                          <button id="info_icon_btn_control" toggle="true" class="sd-button hidden">
+                          <button id="info_icon_btn_control" toggle="true" class="sd-button">
                             <div class="mask-icon icon-info"></div>
                           </button>
                           <button class="sd-button">
@@ -118,9 +118,7 @@
                       </div>
                       <div class="accordion-container info-results-container">
                         <div class="flexbox col">
-                          <div data-parent-selector="#tab_control" data-selector="#html_info_control" data-vis="true" class="portal only-diffusers hide-empty"></div>
-                          <div data-parent-selector="#tab_control" data-selector="#html_info_formatted_control" data-vis="true" class="portal hide-empty"></div>
-                          <div data-parent-selector="#tab_control" data-selector="#html_log_control" data-vis="true" class="portal only-diffusers hide-empty"></div>
+                          <div data-selector="#control-result" data-parent-selector="#tab_control" class="portal only-diffusers shrink hide-empty"></div>
                         </div>
                       </div>
                     </div>
@@ -149,6 +147,5 @@
       </div>
     </div>
     <div data-parent-selector="#tab_control" data-selector="#download_files_control" data-vis="true" class="portal only-diffusers shrink hide-empty"></div>
-    <div data-selector="#control-result" data-parent-selector="#tab_control" class="portal only-diffusers shrink hide-empty"></div>
   </div>
 </div>
