@@ -228,12 +228,12 @@ body {
 .invisible *.gradio-button.tool {
     font-size: 0;
     line-height: 0;
-    background-color: var(--sd-input-background-color);
+    background-color: var(--sd-button-normal-color);
     min-width: var(--sd-input-height);
 }
 
 .invisible *.gradio-button.tool:hover {
-    background-color: var(--sd-main-accent-color);
+    background-color: var(--sd-button-hover-color);
 }
 
 .invisible *.gradio-button.tool:hover .mask-icon {
@@ -1438,6 +1438,9 @@ li.item span {
     height: calc(var(--sd-input-height) - var(--sd-input-border-size) * 2);
     width: calc(var(--sd-input-height) - var(--sd-input-border-size) * 2);
     cursor: pointer;
+    -webkit-mask-size: contain;
+    -webkit-mask-position: center center;
+    -webkit-mask-repeat: no-repeat;
     mask-size: contain;
     mask-repeat: no-repeat;
     mask-position: center center;
@@ -2527,6 +2530,7 @@ div#main-nav {
     border: var(--sd-input-border-size) solid var(--sd-input-border-color);
     background-color: var(--sd-button-normal-color);
     cursor: pointer;
+    padding: 0;
 }
 
 .sd-button:hover .mask-icon,
@@ -2585,6 +2589,7 @@ button:hover svg {
     min-height: unset;
     align-items: center;
     display: flex;
+    padding: var(--sd-panel-padding);
 }
 
 .sd-button .gradio-button span {
@@ -2652,6 +2657,16 @@ button:hover svg {
     overflow: hidden;
 }
 
+.generate>button {
+  padding: var(--sd-panel-padding);
+  width: 8rem;
+}
+
+.generate.active>button {
+  color: var(--sd-button-selected-text-color);
+  background: var(--sd-button-selected-color);
+}
+
 .generate.active>.portal::before {
     content: "";
     position: absolute;
@@ -2673,6 +2688,7 @@ button:hover svg {
 }
 
 .generate.active>.portal>button {
+    color: var(--sd-button-selected-text-color);
     position: relative;
     filter: drop-shadow(0px 0px 1px var(--sd-main-accent-color)) drop-shadow(0px 0px 1px var(--sd-main-accent-color)) drop-shadow(0px 0px 1px var(--sd-main-accent-color)) drop-shadow(0px 0px 1px var(--sd-main-accent-color));
     z-index: 1;
@@ -3782,8 +3798,8 @@ input[type="checkbox"] {
   overflow: auto;
   background-color: rgba(20, 20, 20, 0.75);
   backdrop-filter: blur(6px);
-  user-select: none;
   -webkit-user-select: none;
+  user-select: none;
   flex-direction: row;
   font-family: 'NotoSans'; 
 }
@@ -4495,6 +4511,9 @@ button.interrogate-clip::after,
 button.interrogate-blip::after {
     background-color: var(--sd-input-text-color);
     mask-image: url(./html/svg/question-answer-line.svg);
+    -webkit-mask-size: contain;
+    -webkit-mask-position: center center;
+    -webkit-mask-repeat: no-repeat;
     mask-size: contain;
     mask-repeat: no-repeat;
     mask-position: center center;
