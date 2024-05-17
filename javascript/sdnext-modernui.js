@@ -66,6 +66,7 @@ function logPrettyPrint() {
 }
 
 const setStored = (key, val) => {
+  if (!window.opts.uiux_persist_layout) return;
   try {
     localStorage.setItem(`ui-${key}`, JSON.stringify(val));
     log(`setStored: ${key}=${val}`);
@@ -75,6 +76,7 @@ const setStored = (key, val) => {
 };
 
 const getStored = (key) => {
+  if (!window.opts.uiux_persist_layout) return undefined;
   let val;
   try {
     val = JSON.parse(localStorage.getItem(`ui-${key}`));
