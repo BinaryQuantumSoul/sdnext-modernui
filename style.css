@@ -4728,6 +4728,7 @@ gallery-folder:hover {
 }
 
 .gradio-json button {
+  display: none;
   position: absolute;
   top: 3em;
   right: 1em;
