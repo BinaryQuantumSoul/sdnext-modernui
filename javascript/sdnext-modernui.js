@@ -65,6 +65,26 @@ function logPrettyPrint() {
   return output;
 }
 
+const setStored = (key, val) => {
+  try {
+    localStorage.setItem(`ui-${key}`, JSON.stringify(val));
+    log(`setStored: ${key}=${val}`);
+  } catch {
+    /* unsupported on mobile */
+  }
+};
+
+const getStored = (key) => {
+  let val;
+  try {
+    val = JSON.parse(localStorage.getItem(`ui-${key}`));
+    // log(`getStored: ${key}=${val}`);
+  } catch {
+    /* unsupported on mobile */
+  }
+  return val;
+};
+
 //= ====================== MOBILE =======================
 function applyDefaultLayout(isMobile) {
   appUiUx.querySelectorAll('[mobile]').forEach((tabItem) => {
@@ -414,8 +434,8 @@ function initSplitComponents() {
       const jm = c.getAttribute('data-minSize');
       ids.push(`#${c.id}`);
       try {
-        const storedSize = JSON.parse(localStorage.getItem(`ui-${id}-sizes`));
-        if (storedSize !== null && Array.isArray(storedSize) && storedSize.every((n) => typeof n === 'number')) {
+        const storedSize = getStored(`${id}-sizes`);
+        if (storedSize && Array.isArray(storedSize) && storedSize.every((n) => typeof n === 'number')) {
           initSizes.push(storedSize[c.id.includes('left') || c.id.includes('up') ? 0 : 1]);
         } else {
           initSizes.push(ji ? parseInt(ji) : 100 / containers.length);
@@ -426,9 +446,7 @@ function initSplitComponents() {
       minSizes.push(jm ? parseInt(jm) : Infinity);
     }));
     if (window.opts.uiux_enable_console_log) log('UI split component', ids, initSizes, minSizes, direction, gutterSize);
-    const onDragEnd = (evt) => {
-      try { localStorage.setItem(`ui-${id}-sizes`, JSON.stringify(evt)); } catch { /* unsupported on mobile */ }
-    };
+    const onDragEnd = (evt) => setStored(`${id}-sizes`, evt);
     split_instances[id] = Split(ids, { // eslint-disable-line no-undef
       sizes: initSizes,
       minSize: minSizes,
@@ -463,6 +481,7 @@ function initAccordionComponents() {
       accSplit.setAttribute('data-sizes', JSON.stringify(splitInstance.getSizes()));
       accTrigger?.addEventListener('click', () => {
         acc.classList.toggle('expand');
+        setStored(`ui-${acc.id}-class`, acc.className);
         if (accSplit.className.indexOf('v-expand') !== -1) {
           accSplit.classList.remove('v-expand');
           accSplit.style.removeProperty('min-width');
@@ -484,25 +503,36 @@ function initAccordionComponents() {
         }
       });
     } else {
-      accTrigger?.addEventListener('click', () => { acc.classList.toggle('expand'); });
+      accTrigger?.addEventListener('click', () => {
+        acc.classList.toggle('expand');
+        setStored(`ui-${acc.id}-class`, acc.className);
+      });
     }
 
     const fullTrigger = acc.getAttribute('iconFullTrigger');
-    if (fullTrigger) appUiUx.querySelector(fullTrigger)?.addEventListener('click', () => { acc.classList.toggle('full-expand'); });
+    if (fullTrigger) {
+      appUiUx.querySelector(fullTrigger)?.addEventListener('click', () => {
+        acc.classList.toggle('full-expand');
+        setStored(`ui-${acc.id}-class`, acc.className);
+      });
+    }
   });
 }
 
 function initTabComponents() {
   function callToAction(elem) {
-    // Expand closest accordion
+    // expand closest accordion
     const accBar = elem.closest('.accordion-bar');
-    if (accBar) {
-      const acc = accBar.parentElement;
-      if (acc.className.indexOf('expand') === -1) {
-        const accTrigger = appUiUx.querySelector(acc.getAttribute('iconTrigger'));
-        if (accTrigger) accTrigger.click();
-        else accBar.click();
-      }
+    if (!accBar) return;
+    const acc = accBar.parentElement;
+    const accStoredClasses = getStored(`ui-${acc.id}-class`) || '';
+    const accTrigger = appUiUx.querySelector(acc.getAttribute('iconTrigger'));
+    if (acc.className.indexOf('expand') === -1) {
+      if (accTrigger) accTrigger.click();
+      else accBar.click();
+    }
+    if (accTrigger && accStoredClasses) {
+      if (accStoredClasses.indexOf('expand') === -1) accTrigger.click(); // collapse menu if stored state is collapsed
     }
   }
 
