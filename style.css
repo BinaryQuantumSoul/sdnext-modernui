@@ -1812,6 +1812,7 @@ h1 {
     overflow-x: hidden;
     overflow-y: auto;
     gap: var(--sd-gap-size);
+    align-content: start;
 }
 
 *.extra-network-cards .card {
