@@ -192,7 +192,8 @@ async function extraTweaks() {
     if (isBackendDiffusers) controlNav.click();
     else txt2imgNav.click();
   });
-  logoNav.click();
+  const btn_current = document.getElementById(getStored(`tab-main_group-current`)) || logoNav;
+  btn_current.click();
 
   // Log wrapping
   document.getElementById('btn_console_log_server_wrap').onclick = () => {
@@ -283,10 +284,10 @@ async function setupControlDynamicObservers() {
   const inputElems = document.querySelectorAll(`${qInputCtrl}, ${qInputBtn}`);
   const controlElems = document.querySelectorAll('#control-template-column-preview, #control_params_elements');
 
-  function setupDynamicListener(dynamic, elems) {
-    function toggleDynamicElements(checked) {
+  function setupDynamicListener(dynamic, elems, storedKey) {
+    function toggleDynamicElements(dynamic) {
       elems.forEach((elem) => {
-        if (checked) {
+        if (dynamic.checked) {
           elem.classList.remove('hidden');
         } else {
           elem.classList.add('hidden');
@@ -295,13 +296,15 @@ async function setupControlDynamicObservers() {
     }
 
     dynamic.addEventListener('click', () => {
-      toggleDynamicElements(dynamic.checked, elems);
+      setStored(storedKey, dynamic.checked);
+      toggleDynamicElements(dynamic, elems);
     });
-    toggleDynamicElements(false, elems);
+    dynamic.checked = getStored(storedKey) || false;
+    toggleDynamicElements(dynamic, elems);
   }
 
-  setupDynamicListener(dynamicInput, inputElems);
-  setupDynamicListener(dynamicControl, controlElems);
+  setupDynamicListener(dynamicInput, inputElems, `control-dynamic-input`);
+  setupDynamicListener(dynamicControl, controlElems, `control-dynamic-control`);
 }
 
 async function setupGenerateObservers() {
@@ -522,22 +525,6 @@ function initAccordionComponents() {
 }
 
 function initTabComponents() {
-  function callToAction(elem) {
-    // expand closest accordion
-    const accBar = elem.closest('.accordion-bar');
-    if (!accBar) return;
-    const acc = accBar.parentElement;
-    const accStoredClasses = getStored(`ui-${acc.id}-class`) || '';
-    const accTrigger = appUiUx.querySelector(acc.getAttribute('iconTrigger'));
-    if (acc.className.indexOf('expand') === -1) {
-      if (accTrigger) accTrigger.click();
-      else accBar.click();
-    }
-    if (accTrigger && accStoredClasses) {
-      if (accStoredClasses.indexOf('expand') === -1) accTrigger.click(); // collapse menu if stored state is collapsed
-    }
-  }
-
   function hideActive(tab) {
     tab.classList.remove('active');
     const tabItemId = tab.getAttribute('tabItemId');
@@ -556,31 +543,56 @@ function initTabComponents() {
     });
   }
 
-  appUiUx.querySelectorAll('.xtabs-tab').forEach((elem) => {
-    elem.addEventListener('click', () => {
-      const tabParent = elem.parentElement;
-      const tabGroup = elem.getAttribute('tabGroup');
+  function triggerAccordion(elem, wasActive, checkStored) {
+    const accBar = elem.closest('.accordion-bar');
+    if (!accBar) return;
+    const acc = accBar.parentElement;
+    const accTrigger = appUiUx.querySelector(acc.getAttribute('iconTrigger'));
+    const accFullTrigger = appUiUx.querySelector(acc.getAttribute('iconFullTrigger'));
+    const accStoredClasses = getStored(`ui-${acc.id}-class`) || '';
+    const storedAsCollapsed = accStoredClasses && (accStoredClasses.indexOf('expand') === -1);
+    const storedAsFullExpanded = accStoredClasses && accStoredClasses.indexOf('full-expand') !== -1
 
-      if (tabGroup) {
-        appUiUx.querySelectorAll(`[tabGroup="${tabGroup}"]`).forEach((tab) => {
-          if (tab.className.indexOf('active') !== -1) hideActive(tab);
-        });
-      } else if (tabParent) {
-        Array.from(tabParent.children).forEach((tab) => {
-          if (tab.className.indexOf('active') !== -1) hideActive(tab);
-        });
-      }
+    const shouldExpand = !acc.classList.contains('expand');
+    const shouldCollapse = acc.classList.contains('expand') && !acc.classList.contains('full-expand') && (wasActive || (checkStored && storedAsCollapsed));
+    const shouldFullExpand =  acc.classList.contains('expand') && !acc.classList.contains('full-expand') && (checkStored && storedAsFullExpanded);
+
+    if (shouldExpand || shouldCollapse) {
+      if (accTrigger) accTrigger.click();
+      else accBar.click();
+    }
+    if (shouldFullExpand) {
+      if (accFullTrigger) accFullTrigger.click();
+    }
+  }
+
+  appUiUx.querySelectorAll('.xtabs-tab').forEach((elem) => {
+    const tabGroup = elem.getAttribute('tabGroup');
+    const tabParent = elem.parentElement;
+    const uid = tabGroup || tabParent?.id;
+
+    const siblingTabs = [...(tabGroup ? appUiUx.querySelectorAll(`[tabGroup="${tabGroup}"]`) : tabParent ? tabParent.children : [])].filter(tab => tab !== elem);
+
+    elem.addEventListener('click', () => {
+      if (uid) setStored(`tab-${uid}-current`, elem.id);
+
+      siblingTabs.filter((tab) => tab.classList.contains('active')).forEach(hideActive);
+
+      const wasActive = elem.classList.contains('active');
       showActive(elem);
-      callToAction(elem);
+      triggerAccordion(elem, wasActive, false);
     });
 
-    const active = elem.getAttribute('active');
-    if (!active) hideActive(elem);
-  });
+    const storedTab = uid ? getStored(`tab-${uid}-current`) || '' : '';
+    const active = storedTab ? storedTab === elem.id : elem.getAttribute('active');
 
-  appUiUx.querySelectorAll('.xtabs-tab[active]').forEach((elem) => {
-    showActive(elem);
-    callToAction(elem);
+    if (active) {
+      showActive(elem);
+      triggerAccordion(elem, false, true);
+    }
+    else {
+      hideActive(elem);
+    }
   });
 
   function showHideAnchors(anchor, index) {
