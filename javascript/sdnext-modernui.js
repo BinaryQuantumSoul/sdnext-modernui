@@ -192,7 +192,7 @@ async function extraTweaks() {
     if (isBackendDiffusers) controlNav.click();
     else txt2imgNav.click();
   });
-  const btn_current = document.getElementById(getStored(`tab-main_group-current`)) || logoNav;
+  const btn_current = document.getElementById(getStored('tab-main_group-current')) || logoNav;
   btn_current.click();
 
   // Log wrapping
@@ -285,9 +285,9 @@ async function setupControlDynamicObservers() {
   const controlElems = document.querySelectorAll('#control-template-column-preview, #control_params_elements');
 
   function setupDynamicListener(dynamic, elems, storedKey) {
-    function toggleDynamicElements(dynamic) {
+    function toggleDynamicElements(dynamicEl) {
       elems.forEach((elem) => {
-        if (dynamic.checked) {
+        if (dynamicEl.checked) {
           elem.classList.remove('hidden');
         } else {
           elem.classList.add('hidden');
@@ -303,8 +303,8 @@ async function setupControlDynamicObservers() {
     toggleDynamicElements(dynamic, elems);
   }
 
-  setupDynamicListener(dynamicInput, inputElems, `control-dynamic-input`);
-  setupDynamicListener(dynamicControl, controlElems, `control-dynamic-control`);
+  setupDynamicListener(dynamicInput, inputElems, 'control-dynamic-input');
+  setupDynamicListener(dynamicControl, controlElems, 'control-dynamic-control');
 }
 
 async function setupGenerateObservers() {
@@ -551,11 +551,11 @@ function initTabComponents() {
     const accFullTrigger = appUiUx.querySelector(acc.getAttribute('iconFullTrigger'));
     const accStoredClasses = getStored(`ui-${acc.id}-class`) || '';
     const storedAsCollapsed = accStoredClasses && (accStoredClasses.indexOf('expand') === -1);
-    const storedAsFullExpanded = accStoredClasses && accStoredClasses.indexOf('full-expand') !== -1
+    const storedAsFullExpanded = accStoredClasses && accStoredClasses.indexOf('full-expand') !== -1;
 
     const shouldExpand = !acc.classList.contains('expand');
     const shouldCollapse = acc.classList.contains('expand') && !acc.classList.contains('full-expand') && (wasActive || (checkStored && storedAsCollapsed));
-    const shouldFullExpand =  acc.classList.contains('expand') && !acc.classList.contains('full-expand') && (checkStored && storedAsFullExpanded);
+    const shouldFullExpand = acc.classList.contains('expand') && !acc.classList.contains('full-expand') && (checkStored && storedAsFullExpanded);
 
     if (shouldExpand || shouldCollapse) {
       if (accTrigger) accTrigger.click();
@@ -571,7 +571,8 @@ function initTabComponents() {
     const tabParent = elem.parentElement;
     const uid = tabGroup || tabParent?.id;
 
-    const siblingTabs = [...(tabGroup ? appUiUx.querySelectorAll(`[tabGroup="${tabGroup}"]`) : tabParent ? tabParent.children : [])].filter(tab => tab !== elem);
+    // eslint-disable-next-line no-nested-ternary
+    const siblingTabs = [...(tabGroup ? appUiUx.querySelectorAll(`[tabGroup="${tabGroup}"]`) : tabParent ? tabParent.children : [])].filter((tab) => tab !== elem);
 
     elem.addEventListener('click', () => {
       if (uid) setStored(`tab-${uid}-current`, elem.id);
@@ -589,8 +590,7 @@ function initTabComponents() {
     if (active) {
       showActive(elem);
       triggerAccordion(elem, false, true);
-    }
-    else {
+    } else {
       hideActive(elem);
     }
   });
