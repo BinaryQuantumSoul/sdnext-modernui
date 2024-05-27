@@ -18,7 +18,7 @@ def on_ui_settings():
         "uiux_show_outline_params": OptionInfo(True, "Show parameter outline"),
 
         'uiux_separator_mobile': OptionInfo("<h2>Mobile</h2>", "", gr.HTML),
-        "uiux_default_layout": OptionInfo("Auto", "Layout", gr.Radio, {"choices": ["Auto","Desktop", "Mobile"]}),  
+        "uiux_default_layout": OptionInfo("Auto", "Layout", gr.Radio, {"choices": ["Auto","Desktop", "Mobile"]}),
         "uiux_mobile_scale": OptionInfo(0.7, "Mobile scale", gr.Slider, {"minimum": 0.5, "maximum": 1, "step": 0.05}),
 
         'uiux_separator_other': OptionInfo("<h2>Other Settings</h2>", "", gr.HTML),
