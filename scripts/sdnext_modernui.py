@@ -29,7 +29,7 @@ def on_ui_settings():
 
 
 def on_ui_tabs():
-    return (gr.Blocks(analytics_enabled=False), 'UI-UX Core', 'sdnext_uiux_core'),
+    return [(gr.Blocks(analytics_enabled=False), 'ModernUI', 'sdnext_uiux_core')]
 
 
 script_callbacks.on_ui_settings(on_ui_settings)
