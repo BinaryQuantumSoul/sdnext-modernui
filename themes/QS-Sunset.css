@@ -1,0 +1,19 @@
+:root {
+    --sd-main-accent-color:#E65C19;
+    --sd-label-color:#F8D082;
+    --sd-input-text-color:rgba(255, 255, 255, 0.75);
+    --sd-input-placeholder-text-color:rgba(255, 255, 255, 0.35);
+    --sd-input-hover-text-color:#F8D082;
+
+    --sd-main-background-color:#371b4b;
+    --sd-input-background-color:rgba(0, 0, 0, 0.25);
+    --sd-input-border-color:rgba(0, 0, 0, 0.1);
+    --sd-panel-background-color:#640D6Baa;
+    --sd-panel-border-color:#640D6Bff;
+    --sd-group-background-color:transparent;
+    --sd-group-border-color:transparent;
+
+    --sd-button-normal-color: #B51B75;
+    --sd-button-hover-color: #F8D082;
+    --sd-button-hover-text-color: #E65C19;
+}
