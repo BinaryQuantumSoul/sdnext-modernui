@@ -2445,6 +2445,8 @@ div#main-nav {
 .extra-network-subdirs {
     max-width: 20%;
     min-width: max(5%, 120px);
+    overflow-y: auto;
+    height: calc(100vh - 168px);
 }
 
 .extra-network-subdirs,
