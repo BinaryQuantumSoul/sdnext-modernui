@@ -1,0 +1,31 @@
+/* Author: QuantumSoul */
+
+:root {
+    --sd-main-accent-color:#ffefbcff;
+    --sd-label-color:white;
+    --sd-input-text-color:white;
+    --sd-input-placeholder-text-color:white;
+    --sd-input-hover-text-color:var(--sd-main-background-color);
+
+    --sd-main-background-color:#7f8bcaff;
+    --sd-input-background-color:#7f8bca90;
+    --sd-panel-background-color:#acb1e2aa;
+    
+    --sd-group-background-color:transparent;
+    --sd-input-border-color:transparent;
+    --sd-panel-border-color:transparent;
+    --sd-group-border-color:transparent;
+
+    --sd-button-normal-color: transparent;
+    --sd-button-normal-text-color: white;
+    --sd-button-hover-color: #ccffc1;
+
+    --sd-gap-size: 3px;
+}
+
+.group-row > * , .group-col > * , div, button {
+    border-radius: 5px !important;
+}
+.group-row, .group-col {
+    gap: 4px !important;
+}
