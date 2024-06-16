@@ -47,6 +47,8 @@
     --sd-gap-size-val: 5px;
     --sd-outside-gap-size: 8px;
     --sd-gap-size: max(var(--sd-gap-size-val), var(--sd-border-size));
+
+    color-scheme: dark;
 }
 
 /* Accents generate button :D */
