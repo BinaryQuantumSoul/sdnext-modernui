@@ -7,14 +7,14 @@
     --sd-input-secondary-text-color:var(--sd-input-text-color);
     --sd-input-placeholder-text-color:rgba(255, 255, 255, 0.35);
     --sd-input-hover-text-color:var(--sd-input-text-color);
-    
+
     --sd-button-normal-color:var(--sd-input-background-color);
     --sd-button-normal-text-color:var(--sd-input-text-color);
     --sd-button-selected-color:var(--sd-main-accent-color);
     --sd-button-selected-text-color:var(--sd-input-hover-text-color);
     --sd-button-hover-color:var(--sd-button-selected-color);
     --sd-button-hover-text-color:var(--sd-button-selected-text-color);
-    
+
     --sd-main-background-color:rgb(32 32 32);
     --sd-input-background-color:rgba(0, 0, 0, 0.25);
     --sd-input-border-color:rgba(0, 0, 0, 0.1);
@@ -43,4 +43,6 @@
     --sd-gap-size-val:5px;
     --sd-outside-gap-size:8px;
     --sd-gap-size:max(var(--sd-gap-size-val), var(--sd-border-size));
+
+    color-scheme: dark;
 }
