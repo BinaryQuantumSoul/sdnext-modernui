@@ -24,10 +24,12 @@
     --sd-panel-background-color: #ffffff0a;
     --sd-panel-border-color: transparent;
     --sd-group-background-color: hsla(0, 0%, 0%, 0.15);
-    
+
     --sd-scrollbar-color: #0f02;
     --sd-outline-color: #0f07;
     --sd-outline-size: 0.01px;
+
+    color-scheme: dark;
 }
 
 h2, label {

@@ -14,7 +14,9 @@
     --sd-panel-border-color:rgba(255,255,255, 0.15);
     --sd-group-background-color:transparent;
     --sd-group-border-color:transparent;
-    
+
     --sd-border-size: 1px;
     --sd-input-border-size: 1px;
+
+    color-scheme: dark;
 }

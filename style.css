@@ -442,6 +442,10 @@ body {
     padding: var(--sd-panel-padding);
 }
 
+.input-accordion-checkbox {
+  display: none;
+}
+
 *.flexbox.align-flex-end {
     justify-content: flex-end;
 }

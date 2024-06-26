@@ -30,4 +30,6 @@
     --sd-group-border-color:hsl(225deg 6% 13%);
     --sd-group-gap:2px;
     --sd-outside-gap-size:8px;
+
+    color-scheme: dark;
 }

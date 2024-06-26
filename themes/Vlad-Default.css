@@ -39,4 +39,6 @@
   --sd-button-selected-text-color: var(--sd-input-hover-text-color);
   --sd-button-hover-color: var(--sd-button-selected-color);
   --sd-button-hover-text-color: var(--sd-button-selected-text-color);
+
+  color-scheme: dark;
 }
