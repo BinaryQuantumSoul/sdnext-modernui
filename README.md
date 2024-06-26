@@ -36,4 +36,4 @@ Fully **mobile** compatible.
 - This project is a complete refactor of **Anapnoe**'s original work - many thanks to him  
   [Anapnoe (2023) Stable Diffusion Web UI-UX](https://github.com/anapnoe/stable-diffusion-webui-ux)  
 - Thanks to **illu_Zn** for his precious advices  
-- Theme designers: **Aptronymous**, **BrknSoul**, **IlluZn**, **QuantumSoul**, **VladMandic**, **Eoan**, you?  
+- Theme designers: **Aptronymous**, **BrknSoul**, **CasanovaSan**, **IlluZn**, **QuantumSoul**, **VladMandic**, **Eoan**, you?  
