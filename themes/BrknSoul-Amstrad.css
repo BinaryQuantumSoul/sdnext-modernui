@@ -6,7 +6,7 @@
     font-style: normal;
     font-weight: 100;
     font-display: swap;
-    src: url('cpc464-mode1.ttf');
+    src: url('assets/cpc464-mode1.ttf');
 }
 
 @font-face {
@@ -14,7 +14,7 @@
     font-style: normal;
     font-weight: 100;
     font-display: swap;
-    src: url('cpc464-mode2.ttf');
+    src: url('assets/cpc464-mode2.ttf');
 }
 
 label > span {

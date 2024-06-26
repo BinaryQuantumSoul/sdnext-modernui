@@ -1,6 +1,6 @@
 /* Author: QuantumSoul */
 /* Inspired by AmberGlow */
-@font-face {font-family: 'VT220'; font-display: swap; font-style: normal; font-weight: 100; src: local('VT220'), url('Aptro-AmberGlow-font.ttf')}
+@font-face {font-family: 'VT220'; font-display: swap; font-style: normal; font-weight: 100; src: local('VT220'), url('assets/Aptro-AmberGlow-font.ttf')}
 @keyframes caret-blink { 50% { opacity: 0; } }
 @keyframes crt-lines { 0% { background-position: 0 +50px; } 100% { background-position: 0 -50px; } }
 
