@@ -9,6 +9,7 @@ const split_instances = [];
 let portalTotal = 0;
 let appUiUx;
 let isBackendDiffusers;
+let isMediaMobile;
 
 //= ====================== OVERRIDES =======================
 window.getUICurrentTabContent = () => gradioApp().querySelector('.xtabs-item:not(.hidden) > .split');
@@ -89,6 +90,8 @@ const getStored = (key) => {
 
 //= ====================== MOBILE =======================
 function applyDefaultLayout(isMobile) {
+  isMediaMobile = isMobile;
+
   appUiUx.querySelectorAll('[mobile]').forEach((tabItem) => {
     if (isMobile) {
       if (tabItem.childElementCount === 0) {
@@ -121,6 +124,9 @@ function applyDefaultLayout(isMobile) {
     appUiUx.classList.add('media-mobile');
     appUiUx.classList.remove('media-desktop');
   } else {
+    if (!getStored('control-dynamic-input')) appUiUx.querySelector('#control_dynamic_input:checked')?.click();
+    if (!getStored('control-dynamic-control')) appUiUx.querySelector('#control_dynamic_control:checked')?.click();
+
     appUiUx.classList.add('media-desktop');
     appUiUx.classList.remove('media-mobile');
   }
@@ -128,7 +134,7 @@ function applyDefaultLayout(isMobile) {
 
 function switchMobile() {
   function detectMobile() {
-    return (window.innerWidth <= 768);
+    return window.innerWidth < window.innerHeight;
   }
 
   const optslayout = window.opts.uiux_default_layout;
@@ -296,7 +302,7 @@ async function setupControlDynamicObservers() {
     }
 
     dynamic.addEventListener('click', () => {
-      setStored(storedKey, dynamic.checked);
+      if(!isMediaMobile) setStored(storedKey, dynamic.checked);
       toggleDynamicElements(dynamic, elems);
     });
     dynamic.checked = getStored(storedKey) || false;
