@@ -4761,3 +4761,7 @@ gallery-folder:hover {
   overflow: hidden;
   object-fit: contain;
 }
+
+#split-control-prompts {
+    min-height: 17rem;
+}
