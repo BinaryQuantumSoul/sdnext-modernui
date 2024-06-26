@@ -208,11 +208,6 @@ async function extraTweaks() {
   document.getElementById('btn_console_log_client_wrap').onclick = () => {
     document.getElementById('logMonitorJS')?.classList.toggle('wrap-div');
   };
-
-  // Links
-  document.getElementById('github').onclick = () => window.open('https://github.com/vladmandic/automatic', '_blank');
-  document.getElementById('wiki').onclick = () => window.open('https://github.com/vladmandic/automatic/wiki', '_blank');
-  document.getElementById('discord').onclick = () => window.open('https://discord.gg/VjvR2tabEX', '_blank');
 }
 extraTweaks = logFn(extraTweaks); // eslint-disable-line no-func-assign
 
