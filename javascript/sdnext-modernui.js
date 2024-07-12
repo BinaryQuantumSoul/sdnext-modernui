@@ -297,7 +297,7 @@ async function setupControlDynamicObservers() {
     }
 
     dynamic.addEventListener('click', () => {
-      if(!isMediaMobile) setStored(storedKey, dynamic.checked);
+      if (!isMediaMobile) setStored(storedKey, dynamic.checked);
       toggleDynamicElements(dynamic, elems);
     });
     dynamic.checked = getStored(storedKey) || false;
