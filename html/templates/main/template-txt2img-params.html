@@ -179,9 +179,18 @@
                   <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_denoising_strength" class="portal"></div>
                 </div>
                 <div class="flexbox row wrap">
-                  <div class="flexbox fb-40">
-                    <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_hr_upscaler" class="portal"></div>
+
+                  <div class="flexbox row">
+                    <div class="flexbox no-border row">
+                      <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_resize_mode" class="portal"></div>
+                      <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_resize_context" class="portal"></div>
+                      <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_resize_name" class="portal no-min-width"></div>
+                      <div data-parent-selector="#tab_txt2img" data-selector="#refresh_upscalers" droppable="true" class="portal invisible shrink">
+                        <div class="mask-icon refresh"></div>
+                      </div>
+                    </div>
                   </div>
+
                   <div class="flexbox row grow-all group no-wrap fb-60">
                     <div class="flexbox panel col group-col shrink">
                       <button tabItemId="#txt2img_scale_by_tabitem" tabGroup="txt2img-resize-group" data-click="#tab_txt2img" active="true" class="xtabs-tab no-drag"><span>Resize by</span></button>
@@ -193,13 +202,15 @@
                           <div class="flexbox col no-padding full-height">
                             <div id="txt2img_scale_by_tabitem" class="xtabs-item initial inset notransition">
                               <div class="flexbox group inset subgroup">
-                                <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_hr_scale" class="portal"></div>
+                                <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_scale" class="portal"></div>
                               </div>
                             </div>
                             <div id="txt2img_scale_to_tabitem" class="xtabs-item initial inset notransition">
                               <div class="flexbox col group inset subgroup">
-                                <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_hr_resize_x" class="portal"></div>
-                                <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_hr_resize_y" class="portal"></div>
+                                <div class="flexbox row">
+                                  <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_resize_width" class="portal"></div>
+                                  <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_resize_height" class="portal"></div>
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -207,6 +218,7 @@
                       </div>
                     </div>
                   </div>
+
                 </div>
                 <div class="flexbox row only-diffusers">
                   <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_refiner_start" class="portal only-diffusers"></div>
@@ -272,7 +284,7 @@
                 <h2>Override</h2>
                 <div class="flexbox group col">
                   <div class="flexbox row">
-                    <div data-parent-selector="#tab_control" data-selector="#txt2img_override_settings" class="portal only-diffusers"></div>
+                    <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_override_settings" class="portal only-diffusers"></div>
                   </div>
                 </div>
 
