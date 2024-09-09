@@ -1591,6 +1591,7 @@ li.item span {
 * .gradio-video video,
 * [data-testid="image"] img {
     object-fit: contain;
+    width: inherit;
 }
 
 * .gradio-video .wrap,
