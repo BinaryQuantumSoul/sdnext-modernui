@@ -6,7 +6,7 @@
     font-style: normal;
     font-weight: 100;
     font-display: swap;
-    src: url('cpc464-mode1.ttf');
+    src: url('assets/cpc464-mode1.ttf');
 }
 
 @font-face {
@@ -14,7 +14,7 @@
     font-style: normal;
     font-weight: 100;
     font-display: swap;
-    src: url('cpc464-mode2.ttf');
+    src: url('assets/cpc464-mode2.ttf');
 }
 
 label > span {
@@ -25,7 +25,7 @@ label > span {
 }
 
 h2 {
-    font-family: 'Amstrad-Mode1', 'Courier New', Courier, monospace;    
+    font-family: 'Amstrad-Mode1', 'Courier New', Courier, monospace;
     font-size: 16px;
 }
 
@@ -44,8 +44,10 @@ h2 {
     --sd-panel-border-color:rgba(255,255,0, 0.25);
     --sd-group-background-color:transparent;
     --sd-group-border-color:transparent;
-    
+
     --sd-border-size: 1px;
     --sd-input-border-size: 1px;
+
+    color-scheme: dark;
 }
 

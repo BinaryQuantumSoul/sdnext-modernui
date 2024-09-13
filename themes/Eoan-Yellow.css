@@ -28,4 +28,6 @@
     --sd-input-text-color:hsl(58deg 39% 50%);
     --sd-input-placeholder-text-color:hsl(185deg 72% 25%);
     --sd-input-hover-text-color:hsl(184deg 89% 7%);
+
+    color-scheme: dark;
 }

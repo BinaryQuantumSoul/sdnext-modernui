@@ -2,7 +2,7 @@
 
 /* ====== Choose your favorite clouds ===== */
 :root {
-    --qs-cloud-url: url("QS-SweetClouds.jpg");
+    --qs-cloud-url: url("assets/QS-SweetClouds.jpg");
     --qs-opacity: 50%;
 }
 /* ======================================== */

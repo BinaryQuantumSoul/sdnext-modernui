@@ -1,11 +1,11 @@
 /* Author: Aptronym */
-@font-face {font-family: 'VT220'; font-display: swap; font-style: normal; font-weight: 100; src: local('VT220'), url('Aptro-AmberGlow-font.ttf')}
+@font-face {font-family: 'VT220'; font-display: swap; font-style: normal; font-weight: 100; src: local('VT220'), url('assets/Aptro-AmberGlow-font.ttf')}
 @keyframes caret-blink { 50% { opacity: 0; } }
 
 /* ====== No clouds, only grain ===== */
 :root {
-    --apt-crt-url-dark: url("Aptro-AmberGlow-grain-dark.jpg");
-    --apt-crt-url-light: url("Aptro-AmberGlow-grain-light.jpg");
+    --apt-crt-url-dark: url("assets/Aptro-AmberGlow-grain-dark.jpg");
+    --apt-crt-url-light: url("assets/Aptro-AmberGlow-grain-light.jpg");
 }
 /* =================================== */
 
@@ -52,6 +52,8 @@
     --sd-gap-size-val: 5px;
     --sd-outside-gap-size: 8px;
     --sd-gap-size: max(var(--sd-gap-size-val), var(--sd-border-size));
+
+    color-scheme: dark;
 }
 
 /* text features */

@@ -8,9 +8,9 @@
 
 </div>
 
-Rethought and rebuilt specifically for [SD.Next](https://github.com/vladmandic/automatic/) and its unique workflows.  
+Rethought and rebuilt specifically for **[SD.Next](https://github.com/vladmandic/automatic/)** and its unique workflows.  
 Ships with **many** unique user themes to try out.  
-Fully mobile compatible.  
+Fully **mobile** compatible.  
 
 ## Previews
 
