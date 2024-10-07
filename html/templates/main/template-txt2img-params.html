@@ -86,8 +86,6 @@
                   <div class="flexbox col outline-params">
                     <div class="flexbox col spacer-group"></div>
 
-                    <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_advanced_options" class="portal only-diffusers no-padding no-bg flexbox box"></div>
-
                     <h2>Size & Batch</h2>
                     <div class="flexbox row group">
                       <div class="flexbox col">
@@ -239,6 +237,33 @@
                   <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_refiner_neg_prompt" class="portal only-diffusers"></div>
                 </div>
               </div>
+
+              <h2>Detailer</h2>
+              <div class="flexbox group col">
+                <div class="flexbox row">
+                  <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_detailer_enabled" class="portal only-diffusers"></div>
+                </div>
+                <div class="flexbox row">
+                  <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_detailers" class="portal only-diffusers"></div>
+                </div>
+                <div class="flexbox row">
+                  <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_detailer_strength" class="portal only-diffusers"></div>
+                  <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_detailer_max" class="portal only-diffusers"></div>
+                </div>
+                <div class="flexbox row">
+                  <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_detailer_padding" class="portal only-diffusers"></div>
+                  <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_detailer_blur" class="portal only-diffusers"></div>
+                </div>
+                <div class="flexbox row">
+                  <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_detailer_conf" class="portal only-diffusers"></div>
+                  <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_detailer_iou" class="portal only-diffusers"></div>
+                </div>
+                <div class="flexbox row">
+                  <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_detailer_min_size" class="portal only-diffusers"></div>
+                  <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_detailer_max_size" class="portal only-diffusers"></div>
+                </div>
+              </div>
+
             </div>
           </div>
         </div>
@@ -247,6 +272,7 @@
             <div class="flexbox col auto-scroll">
 
               <h2>Advanced</h2>
+              <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_advanced_options" class="portal only-diffusers no-padding no-bg flexbox box"></div>
               <div class="flexbox group col">
                 <div class="flexbox row">
                   <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_cfg_scale" class="portal"></div>

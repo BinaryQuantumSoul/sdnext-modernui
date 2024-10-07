@@ -102,8 +102,6 @@
                     <div class="flexbox col outline-params">
                       <div class="flexbox col spacer-group"></div>
 
-                      <div data-parent-selector="#tab_control" data-selector="#control_advanced_options" class="portal only-diffusers no-padding no-bg flexbox box"></div>
-
                       <h2>Parameters</h2>
                       <div class="flexbox col group">
                         <div class="flexbox panel row group-row shrink">
@@ -418,6 +416,33 @@
                     <div data-parent-selector="#tab_control" data-selector="#control_refiner_neg_prompt" class="portal only-diffusers"></div>
                   </div>
                 </div>
+
+                <h2>Detailer</h2>
+                <div class="flexbox group col">
+                  <div class="flexbox row">
+                    <div data-parent-selector="#tab_control" data-selector="#control_detailer_enabled" class="portal only-diffusers"></div>
+                  </div>
+                  <div class="flexbox row">
+                    <div data-parent-selector="#tab_control" data-selector="#control_detailers" class="portal only-diffusers"></div>
+                  </div>
+                  <div class="flexbox row">
+                    <div data-parent-selector="#tab_control" data-selector="#control_detailer_strength" class="portal only-diffusers"></div>
+                    <div data-parent-selector="#tab_control" data-selector="#control_detailer_max" class="portal only-diffusers"></div>
+                  </div>
+                  <div class="flexbox row">
+                    <div data-parent-selector="#tab_control" data-selector="#control_detailer_padding" class="portal only-diffusers"></div>
+                    <div data-parent-selector="#tab_control" data-selector="#control_detailer_blur" class="portal only-diffusers"></div>
+                  </div>
+                  <div class="flexbox row">
+                    <div data-parent-selector="#tab_control" data-selector="#control_detailer_conf" class="portal only-diffusers"></div>
+                    <div data-parent-selector="#tab_control" data-selector="#control_detailer_iou" class="portal only-diffusers"></div>
+                  </div>
+                  <div class="flexbox row">
+                    <div data-parent-selector="#tab_control" data-selector="#control_detailer_min_size" class="portal only-diffusers"></div>
+                    <div data-parent-selector="#tab_control" data-selector="#control_detailer_max_size" class="portal only-diffusers"></div>
+                  </div>
+                </div>
+  
               </div>
             </div>
           </div>
@@ -427,6 +452,8 @@
               <div class="flexbox col">
 
                 <h2>Advanced</h2>
+                <div data-parent-selector="#tab_control" data-selector="#control_advanced_options" class="portal only-diffusers no-padding no-bg flexbox box"></div>
+
                 <div class="flexbox group col">
                   <div class="flexbox row">
                     <div data-parent-selector="#tab_control" data-selector="#control_image_cfg_scale" class="portal only-diffusers"></div>
