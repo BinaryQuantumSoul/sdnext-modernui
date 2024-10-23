@@ -2054,6 +2054,10 @@ div#layout-3 {
     mask-image: url(./html/svg/play.svg);
 }
 
+.icon-reprocess {
+  mask-image: url(./html/svg/arrow-progress.svg);
+}
+
 .icon-loop {
   mask-image: url(./html/svg/arrows-spin.svg);
 }
@@ -4333,10 +4337,12 @@ button>span {
 }
 
 .context-menu-items {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    font-size: var(--sd-input-font-size);
+  list-style: none;
+  margin: 0;
+  padding: var(--sd-panel-padding);
+  font-size: var(--sd-input-font-size);
+  line-height: 1.5rem;
+  background-color: var(--sd-panel-border-color);
 }
 
 .context-menu-items a {
