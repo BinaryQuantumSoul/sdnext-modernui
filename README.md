@@ -14,9 +14,9 @@ Fully **mobile** compatible.
 
 ## Previews
 
-<image src="https://github.com/vladmandic/automatic/blob/dev/html/screenshot-modernui.jpg" width="60%"/>
-<image src="https://github.com/vladmandic/automatic/blob/dev/html/screenshot-modernui-img2img.jpg" width="60%"/>
-<image src="https://github.com/vladmandic/automatic/blob/dev/html/screenshot-modernui-control.jpg" width="60%"/>
+<image src="https://github.com/user-attachments/assets/fef33127-f733-4e78-b66e-17729539512f" width="60%"/>
+<image src="https://github.com/user-attachments/assets/1f1d0912-7940-4ea6-9819-85d6d7069a2d" width="60%"/>
+<image src="https://github.com/user-attachments/assets/08afab5e-7e3b-4950-b483-b9f27d441c06" width="60%"/>
 
 ## Themes
 
