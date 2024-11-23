@@ -216,11 +216,14 @@ async function uiuxOptionSettings() {
   function sdMaxOutputResolution(value) {
     gradioApp().querySelectorAll('[id$="2img_width"] input,[id$="2img_height"] input').forEach((elem) => { elem.max = value; });
   }
-  gradioApp().querySelector('#setting_uiux_max_resolution_output').addEventListener('input', (e) => {
-    let intvalue = parseInt(e.target.value);
-    intvalue = Math.min(Math.max(intvalue, 512), 16384);
-    sdMaxOutputResolution(intvalue);
-  });
+  const el = gradioApp().querySelector('#setting_uiux_max_resolution_output');
+  if (el) {
+    el.addEventListener('input', (e) => {
+      let intvalue = parseInt(e.target.value);
+      intvalue = Math.min(Math.max(intvalue, 512), 16384);
+      sdMaxOutputResolution(intvalue);
+    });
+  }
   sdMaxOutputResolution(window.opts.uiux_max_resolution_output);
 
   // settings input ranges
