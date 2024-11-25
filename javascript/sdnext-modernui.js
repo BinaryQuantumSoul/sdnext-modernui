@@ -155,6 +155,7 @@ async function extraTweaks() {
 
   // Control tab flex row
   async function adjustFlexDirection(flexContainer) {
+    if (!flexContainer || !flexContainer.firstElementChild) return;
     const childCount = flexContainer.childElementCount;
     const firstChildMinWidth = parseFloat(getComputedStyle(flexContainer.firstElementChild).minWidth);
     const gapWidth = parseFloat(getComputedStyle(flexContainer).gap);
