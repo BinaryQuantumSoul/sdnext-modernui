@@ -704,7 +704,6 @@ async function createButtonsForExtensions() {
         <button tabItemId="#split-app, #${cid}_tabitem"
           tabGroup="main_group" 
           data-click="#tabs" 
-          onclick="mainTabs(this, '#${cid}')" 
           class="xtabs-tab">${button}<span>${snakeToCamel(nid)}</span>
         </button>
       `;
