@@ -1,0 +1,40 @@
+/* Author BrknSoul */
+/* Totally ripped from QS-SweetClouds -- Thanks Quantum! */
+   
+:root {
+    --qs-cloud-url: url("assets/BrknSoul-Elf_Green.jpg");
+    --qs-opacity: 50%;
+}
+/* ======================================== */
+
+:root {
+    --sd-main-accent-color: #d50707;
+    --sd-label-color: white;
+    --sd-input-text-color: white;
+    --sd-input-placeholder-text-color: rgba(0, 0, 0, 0.5);
+    --sd-input-hover-text-color: #ffffff;
+    --sd-main-background-color: #5dc45fdd;
+    --sd-input-background-color: rgba(0, 0, 0, 0.21);
+    --sd-input-border-color: rgba(0, 0, 0, 0.1);
+    --sd-panel-background-color: rgba(162, 210, 162, var(--qs-opacity));
+    --sd-panel-border-color: #599b5950;
+    --sd-group-background-color: transparent;
+    --sd-group-border-color: transparent;
+    --sd-outline-size: 2px;
+}
+
+h2 {
+    text-shadow: 1px 1px 2px #5dc45f, -1px 1px 2px #5dc45f, -1px -1px 2px #5dc45f, 1px -1px 2px #5dc45f;
+}
+
+.spacer-group {
+    min-height: 4px;
+}
+
+#sdnext_app {
+    background-image: var(--qs-cloud-url);
+    background-color: var(--sd-main-background-color);
+    background-size: cover;
+    background-position: center;
+    background-blend-mode: multiply;
+}
