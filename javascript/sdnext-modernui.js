@@ -155,6 +155,7 @@ async function extraTweaks() {
 
   // Control tab flex row
   async function adjustFlexDirection(flexContainer) {
+    if (!flexContainer || !flexContainer.firstElementChild) return;
     const childCount = flexContainer.childElementCount;
     const firstChildMinWidth = parseFloat(getComputedStyle(flexContainer.firstElementChild).minWidth);
     const gapWidth = parseFloat(getComputedStyle(flexContainer).gap);
@@ -703,7 +704,6 @@ async function createButtonsForExtensions() {
         <button tabItemId="#split-app, #${cid}_tabitem"
           tabGroup="main_group" 
           data-click="#tabs" 
-          onclick="mainTabs(this, '#${cid}')" 
           class="xtabs-tab">${button}<span>${snakeToCamel(nid)}</span>
         </button>
       `;

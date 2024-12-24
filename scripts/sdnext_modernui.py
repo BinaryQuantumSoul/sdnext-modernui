@@ -4,7 +4,7 @@ from modules import script_callbacks
 
 def on_ui_settings():
     from modules.shared import OptionInfo, options_section , options_templates
-    options_templates.update(options_section(('ui', "User Interface Options"), {
+    options_templates.update(options_section(('ui', "User Interface"), {
         'uiux_separator_appearance': OptionInfo("<h2>Appearance</h2>", "", gr.HTML),
         "uiux_hide_legacy": OptionInfo(True, "Hide txt2img and img2img tabs"),
         "uiux_persist_layout": OptionInfo(True, "Persist UI layout"),
