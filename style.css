@@ -1162,10 +1162,14 @@ li.item span {
     object-fit: contain;
     background-color: var(--sd-main-background-color);
     width: 100%;
+    max-height: calc(100vh - 130px);
+    text-align: center;
 }
 
 * .livePreview img {
     object-fit: contain;
+    height: 100%;
+    width: 100%;
 }
 
 ::-webkit-scrollbar {
