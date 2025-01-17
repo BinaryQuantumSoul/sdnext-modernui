@@ -3,7 +3,7 @@
     font-display: swap;
     font-style: normal;
     font-weight: 100;
-    src: local('NotoSans'), url('../../javascript/notosans-nerdfont-regular.ttf')
+    src: local('NotoSans'), url('themes/assets/notosans-nerdfont-regular.ttf')
 }
 
 * {
@@ -3681,9 +3681,7 @@ ul {
     color: var(--sd-label-color);
 }
 
-#about_tabitem p,
-h1,
-h2 {
+#about_tabitem p {
     margin: 0;
     margin-bottom: calc(var(--sd-panel-padding) * 1);
 }
@@ -3694,11 +3692,13 @@ h2 {
     margin-bottom: 24px;
 }
 
-#about_tabitem h1,
+#about_tabitem,
+h1,
 h2 {
-    font-size: 20px;
-    color: var(--sd-main-accent-color);
-    margin: 2px 5px -2px 5px;
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--sd-main-accent-color);
+  margin: 2px 5px;
 }
 
 #about_tabitem ul {
