@@ -3,7 +3,7 @@
     font-display: swap;
     font-style: normal;
     font-weight: 100;
-    src: local('NotoSans'), url('themes/assets/notosans-nerdfont-regular.ttf')
+    src: local('NotoSansNerd'), url('themes/assets/notosans-nerdfont-regular.ttf')
 }
 
 * {
