@@ -50,7 +50,7 @@ body:
         ```log
         Starting SD.Next
         Logger: file="sdnext.log" level=DEBUG size=4297107 mode=append
-        Version: app=sd.next updated=2024-04-27 hash=8dbfc2e6 branch=dev url=https://github.com/vladmandic/automatic/tree/dev
+        Version: app=sd.next updated=2024-04-27 hash=8dbfc2e6 branch=dev url=https://github.com/vladmandic/sdnext/tree/dev
         Platform: arch=x86_64 cpu=x86_64 system=Linux release=5.15.153.1-microsoft-standard-WSL2 python=3.11.1
         ...
         Browser session: user=None client=127.0.0.1 agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0
@@ -66,7 +66,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        If unsure if this is a right place to ask your question, perhaps post on [Discussions](https://github.com/vladmandic/automatic/discussions)
+        If unsure if this is a right place to ask your question, perhaps post on [Discussions](https://github.com/vladmandic/sdnext/discussions)
         Or reach-out to us on [Discord](https://discord.gg/WqMzTUDC)
   - type: checkboxes
     attributes:
