@@ -4498,6 +4498,7 @@ div#control_params_elements_tabitem .control-settings .gradio-accordion .form {
     position: relative;
 }
 
+button.interrogate,
 button.interrogate-clip,
 button.interrogate-blip {
     position: absolute;
@@ -4505,6 +4506,10 @@ button.interrogate-blip {
     margin: var(--sd-panel-padding);
     color: transparent !important;
     opacity: 0.5;
+}
+
+button.interrogate {
+  right: calc(2*var(--sd-panel-padding) + var(--sd-input-height));
 }
 
 button.interrogate-clip {
