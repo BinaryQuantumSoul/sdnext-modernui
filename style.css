@@ -3,7 +3,7 @@
     font-display: swap;
     font-style: normal;
     font-weight: 100;
-    src: local('NotoSans'), url('../../javascript/notosans-nerdfont-regular.ttf')
+    src: local('NotoSansNerd'), url('themes/assets/notosans-nerdfont-regular.ttf')
 }
 
 * {
@@ -3681,9 +3681,7 @@ ul {
     color: var(--sd-label-color);
 }
 
-#about_tabitem p,
-h1,
-h2 {
+#about_tabitem p {
     margin: 0;
     margin-bottom: calc(var(--sd-panel-padding) * 1);
 }
@@ -3694,11 +3692,13 @@ h2 {
     margin-bottom: 24px;
 }
 
-#about_tabitem h1,
+#about_tabitem,
+h1,
 h2 {
-    font-size: 20px;
-    color: var(--sd-main-accent-color);
-    margin: 2px 5px -2px 5px;
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--sd-main-accent-color);
+  margin: 2px 5px;
 }
 
 #about_tabitem ul {
@@ -4368,6 +4368,7 @@ button>span {
 
 .control-unit .gradio-row>div.gradio-checkbox {
     flex-grow: 0;
+    outline: none;
 }
 
 .control-unit .gradio-row>div.form:has(.gradio-dropdown) {
@@ -4498,6 +4499,7 @@ div#control_params_elements_tabitem .control-settings .gradio-accordion .form {
     position: relative;
 }
 
+button.interrogate,
 button.interrogate-clip,
 button.interrogate-blip {
     position: absolute;
@@ -4505,6 +4507,10 @@ button.interrogate-blip {
     margin: var(--sd-panel-padding);
     color: transparent !important;
     opacity: 0.5;
+}
+
+button.interrogate {
+  right: calc(2*var(--sd-panel-padding) + var(--sd-input-height));
 }
 
 button.interrogate-clip {

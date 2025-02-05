@@ -1,8 +1,8 @@
 /* Author: VladMandic */
 
 :root {
-  --sd-main-accent-color:hsl(180deg 65% 65%);
-  --sd-input-placeholder-text-color:hsl(180deg 65% 65%);
+  --sd-main-accent-color:hsl(180deg 50% 50%);
+  --sd-input-placeholder-text-color:hsl(180deg 50% 50%);
   --sd-secondary-color:hsl(0deg 0% 13%);
   --sd-main-background-color:hsl(0deg 0% 10%);
   --sd-button-normal-color:hsl(0deg 0% 13%);
