@@ -4368,6 +4368,7 @@ button>span {
 
 .control-unit .gradio-row>div.gradio-checkbox {
     flex-grow: 0;
+    outline: none;
 }
 
 .control-unit .gradio-row>div.form:has(.gradio-dropdown) {
