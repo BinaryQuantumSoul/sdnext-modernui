@@ -36,7 +36,9 @@ function logPrettyPrint() {
   let output = '';
   let arg;
   let i;
-  output += `<div class="log-row"><span class="log-date">${new Date().toISOString().replace('T', ' ').replace('Z', '')}</span>`;
+  const dt = new Date();
+  const ts = `${dt.getHours().toString().padStart(2, '0')}:${dt.getMinutes().toString().padStart(2, '0')}:${dt.getSeconds().toString().padStart(2, '0')}.${dt.getMilliseconds().toString().padStart(3, '0')}`;
+  output += `<div class="log-row"><span class="log-date">${ts}</span>`;
 
   for (i = 0; i < arguments.length; i++) {
     arg = arguments[i];
