@@ -743,7 +743,8 @@ async function loadCurrentTemplate(data) {
   const curr_data = data.shift();
   if (curr_data) {
     if (window.opts.uiux_enable_console_log) log('UI loading template', curr_data.template);
-    const response = await fetch(`${template_path}${curr_data.template}.html`);
+    const uri = `${template_path}${curr_data.template}.html?${Date.now()}`;
+    const response = await fetch(uri, { cache: 'reload' });
 
     if (!response.ok) {
       log('UI failed to load template', curr_data.template);
