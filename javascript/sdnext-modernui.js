@@ -284,11 +284,13 @@ async function uiuxOptionSettings() {
 
 async function setupControlDynamicObservers() {
   const dynamicInput = document.getElementById('control_dynamic_input');
+  const dynamicInit = document.getElementById('control_dynamic_init');
   const dynamicControl = document.getElementById('control_dynamic_control');
 
   const qInputCtrl = '#control-template-column-input, #control_params_mask, #control_dynamic_resize';
   const qInputBtn = '[tabitemid="#control_resize_mask_tabitem"], [tabitemid="#control_before_scale_by_tabitem"], [tabitemid="#control_before_scale_to_tabitem"]';
   const inputElems = document.querySelectorAll(`${qInputCtrl}, ${qInputBtn}`);
+  const initElems = document.querySelectorAll('#control-template-column-init');
   const controlElems = document.querySelectorAll('#control-template-column-preview, #control_params_elements');
 
   function setupDynamicListener(dynamic, elems, storedKey) {
@@ -311,6 +313,7 @@ async function setupControlDynamicObservers() {
   }
 
   setupDynamicListener(dynamicInput, inputElems, 'control-dynamic-input');
+  setupDynamicListener(dynamicInit, initElems, 'control-dynamic-init');
   setupDynamicListener(dynamicControl, controlElems, 'control-dynamic-control');
 }
 

@@ -7,6 +7,10 @@
           <span>Input image</span>
         </label>
         <label>
+          <input id="control_dynamic_init" type="checkbox" />
+          <span>Init image</span>
+        </label>
+        <label>
           <input id="control_dynamic_control" type="checkbox" />
           <span>Control</span>
         </label>
@@ -48,6 +52,19 @@
           <div data-parent-selector="#control-inputs" data-selector="#control-tab-input" class="portal no-bg only-diffusers"></div>
         </div>
       </div>
+
+      <div id="control-template-column-init" class="flexbox col grow">
+        <div class="flexbox row shrink panel padding no-br only-desktop">
+          <div class="flexbox col shrink">
+            <h2>Input</h2>
+          </div>
+        </div>
+        <div class="panel no-tr flexbox row center">
+          <div data-parent-selector="#control-inputs" data-selector="#control-tab-init" class="portal no-bg only-diffusers"></div>
+        </div>
+      </div>
+
+
       <div id="control-template-column-output" class="flexbox col grow">
         <div class="flexbox row shrink panel padding no-br">
           <div class="flexbox col shrink">
