@@ -4774,6 +4774,21 @@ gallery-folder:hover {
   display: none;
 }
 
+.locale {
+  align-self: center;
+}
+
+.locale-indicator {
+  background-color: var(--sd-button-normal-color);
+  color: var(--sd-button-normal-text-color); 
+  cursor: pointer;
+}
+
+.locale-indicator:hover {
+  background-color: var(--sd-button-hover-color);
+  color: var(--sd-button-hover-text-color); 
+}
+
 #control-result {
   text-wrap: wrap;
 }

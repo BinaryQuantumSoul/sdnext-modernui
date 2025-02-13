@@ -427,7 +427,7 @@ function movePortal(portalElem, tries, index, length) {
     const delay = timeout ? parseInt(timeout) : 500;
     setTimeout(() => movePortal(portalElem, tries + 1, index, length), delay);
   } else {
-    log('UI error not found', index, sp, s);
+    error('Element not found', { index, parent: sp, id: s });
     if (window.opts.uiux_enable_console_log) portalElem.style.backgroundColor = 'pink';
     portalTotal += 1;
   }
