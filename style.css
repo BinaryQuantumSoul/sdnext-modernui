@@ -110,6 +110,11 @@ body {
     flex-grow: 1;
 }
 
+.maximize {
+  width: 100%;
+  height: 100%;
+}
+
 .flexbox.row {
     flex-direction: row;
 }
@@ -531,8 +536,8 @@ body {
 }
 
 *.gradio-image .image-container {
-    width: 100%;
-    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
 }
 
 *.block {
@@ -2030,6 +2035,10 @@ div#layout-3 {
     mask-image: url(./html/svg/image-line.svg);
 }
 
+.icon-2caption {
+  mask-image: url(./html/svg/text-size.svg);
+}
+
 .refresh {
     mask-image: url(./html/svg/loop-right-line.svg);
 }
@@ -2204,6 +2213,10 @@ div#layout-3 {
     mask-image: url(./html/svg/picture-in-picture-exit-line.svg);
 }
 
+.icon-caption {
+  mask-image: url(./html/svg/text-size.svg);
+}
+
 .icon-calendar {
   mask-image: url(./html/svg/calendar-clock.svg);
 }
@@ -2283,7 +2296,7 @@ button.active .icon-sort {
 }
 
 .icon-gallery {
-    mask-image: url(./html/svg/layout-2-line.svg);
+    mask-image: url(./html/svg/folder-image.svg);
 }
 
 .icon-trophy {
@@ -4776,6 +4789,11 @@ gallery-folder:hover {
 
 .locale {
   align-self: center;
+}
+
+#interrogate_output_prompt textarea {
+  overflow-y: auto !important;
+  height: 90vh;
 }
 
 .locale-indicator {

@@ -72,7 +72,7 @@ const setStored = (key, val) => {
   if (!window.opts.uiux_persist_layout) return;
   try {
     localStorage.setItem(`ui-${key}`, JSON.stringify(val));
-    log(`setStored: ${key}=${val}`);
+    // log(`setStored: ${key}=${val}`);
   } catch {
     /* unsupported on mobile */
   }
@@ -201,8 +201,8 @@ async function extraTweaks() {
     if (isBackendDiffusers) controlNav.click();
     else txt2imgNav.click();
   });
-  const btn_current = document.getElementById(getStored('tab-main_group-current')) || logoNav;
-  btn_current.click();
+  const buttonCurrent = document.getElementById(getStored('tab-main_group-current')) || logoNav;
+  buttonCurrent.click();
 
   // Log wrapping
   document.getElementById('btn_console_log_server_wrap').onclick = () => {
@@ -291,7 +291,7 @@ async function setupControlDynamicObservers() {
   const qInputBtn = '[tabitemid="#control_resize_mask_tabitem"], [tabitemid="#control_before_scale_by_tabitem"], [tabitemid="#control_before_scale_to_tabitem"]';
   const inputElems = document.querySelectorAll(`${qInputCtrl}, ${qInputBtn}`);
   const initElems = document.querySelectorAll('#control-template-column-init');
-  const controlElems = document.querySelectorAll('#control-template-column-preview, #control_params_elements');
+  const controlElems = document.querySelectorAll('#control-template-column-preview');
 
   function setupDynamicListener(dynamic, elems, storedKey) {
     function toggleDynamicElements(dynamicEl) {
@@ -580,15 +580,11 @@ function initTabComponents() {
     const tabGroup = elem.getAttribute('tabGroup');
     const tabParent = elem.parentElement;
     const uid = tabGroup || tabParent?.id;
-
-    // eslint-disable-next-line no-nested-ternary
-    const siblingTabs = [...(tabGroup ? appUiUx.querySelectorAll(`[tabGroup="${tabGroup}"]`) : tabParent ? tabParent.children : [])].filter((tab) => tab !== elem);
+    const siblingTabs = [...(tabGroup ? appUiUx.querySelectorAll(`[tabGroup="${tabGroup}"]`) : tabParent ? tabParent.children : [])].filter((tab) => tab !== elem); // eslint-disable-line no-nested-ternary
 
     elem.addEventListener('click', () => {
       if (uid) setStored(`tab-${uid}-current`, elem.id);
-
       siblingTabs.filter((tab) => tab.classList.contains('active')).forEach(hideActive);
-
       const wasActive = elem.classList.contains('active');
       showActive(elem);
       triggerAccordion(elem, wasActive, false);
@@ -695,7 +691,7 @@ async function checkBackend() {
 async function createButtonsForExtensions() {
   const other_extensions = document.querySelector('#other_extensions');
   const other_views = document.querySelector('#split-left');
-  const no_button_tabs = ['tab_txt2img', 'tab_img2img', 'tab_process', 'tab_control', 'tab_interrogate', 'tab_train', 'tab_models', 'tab_extensions', 'tab_system', 'tab_info', 'tab_gallery', 'tab_sdnext_uiux_core'];
+  const no_button_tabs = ['tab_txt2img', 'tab_img2img', 'tab_control', 'tab_process', 'tab_caption', 'tab_gallery', 'tab_models', 'tab_extensions', 'tab_system', 'tab_info', 'tab_sdnext_uiux_core'];
   const snakeToCamel = (str) => str.replace(/(_\w)/g, (match) => match[1].toUpperCase());
   document.querySelectorAll('#tabs > .tabitem').forEach((c) => {
     const cid = c.id;
