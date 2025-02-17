@@ -382,7 +382,6 @@ body {
     position: relative;
     flex-wrap: wrap;
     align-items: center;
-    gap: var(--sd-gap-size);
 }
 
 *.gradio-dropdown div.wrap,
@@ -1005,7 +1004,6 @@ li.item span {
     display: flex;
     gap: 5px;
     line-height: calc(var(--sd-input-height) - (var(--sd-input-border-size) * 2));
-    background: var(--sd-panel-background-color);
     outline: var(--sd-input-border-size) solid var(--sd-input-border-color);
     border-radius: var(--sd-border-radius);
     font-size: var(--sd-input-font-size);
@@ -4348,6 +4346,7 @@ input[type="range"]::-ms-fill-upper {
 button>.mask-icon,
 button>span {
     pointer-events: none;
+    height: 1.4em;
 }
 
 #context-menu {
