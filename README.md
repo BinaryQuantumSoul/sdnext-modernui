@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://github.com/vladmandic/automatic/blob/dev/html/favicon.png" width=200 alt="SD.Next">
+<img src="https://github.com/vladmandic/sdnext/blob/dev/html/favicon.png" width=200 alt="SD.Next">
 
 # SD.Next ModernUI
 
@@ -8,7 +8,7 @@
 
 </div>
 
-Rethought and rebuilt specifically for **[SD.Next](https://github.com/vladmandic/automatic/)** and its unique workflows.  
+Rethought and rebuilt specifically for **[SD.Next](https://github.com/vladmandic/sdnext/)** and its unique workflows.  
 Ships with **many** unique user themes to try out.  
 Fully **mobile** compatible.  
 
