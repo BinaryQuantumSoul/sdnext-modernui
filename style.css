@@ -1130,6 +1130,12 @@ li.item span {
     border: var(--sd-border-size) solid var(--sd-main-accent-color);
 }
 
+.gallery-separator {
+  padding: 0.5em;
+  display: block !important;
+  width: 100%;
+}
+
 *.gradio-gallery .preview button[aria-label] {
     width: var(--sd-input-height);
     height: var(--sd-input-height);
@@ -1638,11 +1644,13 @@ h1 {
 
 .extra-networks-tab {
     padding: 0 !important;
+    background-color: var(--sd-panel-background-color);
 }
 
 .extra-networks-page {
     display: flex;
     height: 100%;
+    background-color: var(--sd-panel-background-color);
 }
 
 .extra-networks .second-line {
@@ -1817,10 +1825,10 @@ h1 {
 
 *.extra-network-cards {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(var(--card-size), 1fr));
     grid-template-rows: max-content;
     width: 100%;
-    height: calc(100vh - 168px);
+    height: calc(100vh - var(--card-size) - 8px);
     overflow-x: hidden;
     overflow-y: auto;
     gap: var(--sd-gap-size);
@@ -1831,7 +1839,7 @@ h1 {
     display: flex;
     justify-content: center;
     margin: 0;
-    height: 160px;
+    height: var(--card-size);
     width: fit-content;
 }
 
