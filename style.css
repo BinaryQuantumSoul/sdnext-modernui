@@ -1838,12 +1838,12 @@ h1 {
     justify-content: center;
     margin: 0;
     height: var(--card-size);
-    width: fit-content;
+    width: var(--card-size);
 }
 
 *.extra-network-cards .card img {
     object-fit: cover;
-    width: 100%;
+    width: 100% !important;
     height: auto;
     border-radius: var(--sd-border-radius);
     pointer-events: none;
@@ -4347,6 +4347,7 @@ button>.mask-icon,
 button>span {
     pointer-events: none;
     height: 1.4em;
+    line-height: 0.7em;
 }
 
 #context-menu {
