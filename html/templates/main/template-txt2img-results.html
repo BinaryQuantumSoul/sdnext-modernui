@@ -10,7 +10,7 @@
           <span>Generate</span>
         </div>
       </button>
-      <button title="Reprocess" class="sd-button generate">
+      <button title="Reprocess" class="sd-button">
         <div data-selector="#txt2img_reprocess" data-parent-selector="#tab_txt2img" droppable="true" class="portal only-diffusers no-bg shrink invisible">
           <div class="mask-icon icon-reprocess"></div>
         </div>
@@ -79,6 +79,11 @@
         <button class="sd-button" data-click="#extras_nav">
           <div data-selector="#extras_tab" data-parent-selector="#tab_txt2img" droppable="true" class="portal invisible">
             <div class="mask-icon icon-2extras"></div>
+          </div>
+        </button>
+        <button class="sd-button only-diffusers" data-click="#caption_nav">
+          <div data-selector="#caption_tab" data-parent-selector="#tab_txt2img" droppable="true" class="portal invisible">
+            <div class="mask-icon icon-2caption"></div>
           </div>
         </button>
       </div>

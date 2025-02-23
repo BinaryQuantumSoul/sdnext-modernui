@@ -1,6 +1,6 @@
 // Original credits: <https://github.com/anapnoe/stable-diffusion-webui-ux/blob/8307896c59032a9cdac1ab24c975102ff9a674d3/extensions-builtin/anapnoe-sd-uiux/javascript/anapnoe_sd_uiux_core.js>
 
-const template_path = './file=extensions-builtin/sdnext-modernui/html/templates/';
+const template_path = '/file=extensions-builtin/sdnext-modernui/html/templates/';
 const template_root = 'template-app-root';
 const uiux_app_id = '#sdnext_app';
 const uiux_tab_id = '#tab_sdnext_uiux_core';
@@ -36,7 +36,9 @@ function logPrettyPrint() {
   let output = '';
   let arg;
   let i;
-  output += `<div class="log-row"><span class="log-date">${new Date().toISOString().replace('T', ' ').replace('Z', '')}</span>`;
+  const dt = new Date();
+  const ts = `${dt.getHours().toString().padStart(2, '0')}:${dt.getMinutes().toString().padStart(2, '0')}:${dt.getSeconds().toString().padStart(2, '0')}.${dt.getMilliseconds().toString().padStart(3, '0')}`;
+  output += `<div class="log-row"><span class="log-date">${ts}</span>`;
 
   for (i = 0; i < arguments.length; i++) {
     arg = arguments[i];
@@ -70,7 +72,7 @@ const setStored = (key, val) => {
   if (!window.opts.uiux_persist_layout) return;
   try {
     localStorage.setItem(`ui-${key}`, JSON.stringify(val));
-    log(`setStored: ${key}=${val}`);
+    // log(`setStored: ${key}=${val}`);
   } catch {
     /* unsupported on mobile */
   }
@@ -199,8 +201,8 @@ async function extraTweaks() {
     if (isBackendDiffusers) controlNav.click();
     else txt2imgNav.click();
   });
-  const btn_current = document.getElementById(getStored('tab-main_group-current')) || logoNav;
-  btn_current.click();
+  const buttonCurrent = document.getElementById(getStored('tab-main_group-current')) || logoNav;
+  buttonCurrent.click();
 
   // Log wrapping
   document.getElementById('btn_console_log_server_wrap').onclick = () => {
@@ -261,7 +263,7 @@ async function uiuxOptionSettings() {
   setupUiUxSetting('uiux_show_labels_aside', 'option-aside-labels');
   setupUiUxSetting('uiux_show_labels_main', 'option-main-labels');
   setupUiUxSetting('uiux_show_labels_tabs', 'option-tab-labels');
-  setupUiUxSetting('uiux_show_labels_control', 'option-control-labels');
+  setupUiUxSetting('uiux_show_labels_tabs', 'option-control-labels');
   setupUiUxSetting('uiux_no_headers_params', 'option-hide-headers-params');
   setupUiUxSetting('uiux_show_outline_params', 'option-show-outline-params');
 
@@ -282,12 +284,14 @@ async function uiuxOptionSettings() {
 
 async function setupControlDynamicObservers() {
   const dynamicInput = document.getElementById('control_dynamic_input');
+  const dynamicInit = document.getElementById('control_dynamic_init');
   const dynamicControl = document.getElementById('control_dynamic_control');
 
   const qInputCtrl = '#control-template-column-input, #control_params_mask, #control_dynamic_resize';
   const qInputBtn = '[tabitemid="#control_resize_mask_tabitem"], [tabitemid="#control_before_scale_by_tabitem"], [tabitemid="#control_before_scale_to_tabitem"]';
   const inputElems = document.querySelectorAll(`${qInputCtrl}, ${qInputBtn}`);
-  const controlElems = document.querySelectorAll('#control-template-column-preview, #control_params_elements');
+  const initElems = document.querySelectorAll('#control-template-column-init');
+  const controlElems = document.querySelectorAll('#control-template-column-preview');
 
   function setupDynamicListener(dynamic, elems, storedKey) {
     function toggleDynamicElements(dynamicEl) {
@@ -309,6 +313,7 @@ async function setupControlDynamicObservers() {
   }
 
   setupDynamicListener(dynamicInput, inputElems, 'control-dynamic-input');
+  setupDynamicListener(dynamicInit, initElems, 'control-dynamic-init');
   setupDynamicListener(dynamicControl, controlElems, 'control-dynamic-control');
 }
 
@@ -422,7 +427,7 @@ function movePortal(portalElem, tries, index, length) {
     const delay = timeout ? parseInt(timeout) : 500;
     setTimeout(() => movePortal(portalElem, tries + 1, index, length), delay);
   } else {
-    log('UI error not found', index, sp, s);
+    error('Element not found', { index, parent: sp, id: s });
     if (window.opts.uiux_enable_console_log) portalElem.style.backgroundColor = 'pink';
     portalTotal += 1;
   }
@@ -575,15 +580,11 @@ function initTabComponents() {
     const tabGroup = elem.getAttribute('tabGroup');
     const tabParent = elem.parentElement;
     const uid = tabGroup || tabParent?.id;
-
-    // eslint-disable-next-line no-nested-ternary
-    const siblingTabs = [...(tabGroup ? appUiUx.querySelectorAll(`[tabGroup="${tabGroup}"]`) : tabParent ? tabParent.children : [])].filter((tab) => tab !== elem);
+    const siblingTabs = [...(tabGroup ? appUiUx.querySelectorAll(`[tabGroup="${tabGroup}"]`) : tabParent ? tabParent.children : [])].filter((tab) => tab !== elem); // eslint-disable-line no-nested-ternary
 
     elem.addEventListener('click', () => {
       if (uid) setStored(`tab-${uid}-current`, elem.id);
-
       siblingTabs.filter((tab) => tab.classList.contains('active')).forEach(hideActive);
-
       const wasActive = elem.classList.contains('active');
       showActive(elem);
       triggerAccordion(elem, wasActive, false);
@@ -690,7 +691,7 @@ async function checkBackend() {
 async function createButtonsForExtensions() {
   const other_extensions = document.querySelector('#other_extensions');
   const other_views = document.querySelector('#split-left');
-  const no_button_tabs = ['tab_txt2img', 'tab_img2img', 'tab_process', 'tab_control', 'tab_interrogate', 'tab_train', 'tab_models', 'tab_extensions', 'tab_system', 'tab_info', 'tab_gallery', 'tab_sdnext_uiux_core'];
+  const no_button_tabs = ['tab_txt2img', 'tab_img2img', 'tab_control', 'tab_process', 'tab_caption', 'tab_gallery', 'tab_models', 'tab_extensions', 'tab_system', 'tab_info', 'tab_sdnext_uiux_core'];
   const snakeToCamel = (str) => str.replace(/(_\w)/g, (match) => match[1].toUpperCase());
   document.querySelectorAll('#tabs > .tabitem').forEach((c) => {
     const cid = c.id;
@@ -743,7 +744,8 @@ async function loadCurrentTemplate(data) {
   const curr_data = data.shift();
   if (curr_data) {
     if (window.opts.uiux_enable_console_log) log('UI loading template', curr_data.template);
-    const response = await fetch(`${template_path}${curr_data.template}.html`);
+    const uri = `${window.subpath}${template_path}${curr_data.template}.html?${Date.now()}`;
+    const response = await fetch(uri, { cache: 'reload' });
 
     if (!response.ok) {
       log('UI failed to load template', curr_data.template);

@@ -1,0 +1,38 @@
+<div class="layout">
+  <div class="flexbox col only-diffusers">
+
+    <div data-parent-selector="#tab_caption" data-selector="#interrogate_output_prompt" class="portal flexbox grow"></div>
+
+    <div class="flexbox row shrink padding no-br">
+      <div data-parent-selector="#tab_caption" data-selector="#interrogate_output_classes" class="portal"></div>
+    </div>
+
+    <div class="panel no-tr flexbox shrink col">
+      <div class="xtabs-anchor flexbox shrink" anchorNav="#mode_caption > .tab-nav">
+        <div anchor="1" class="flexbox row center panel padding no-tr">
+          <button class="sd-button only-legacy" data-click="#txt2img_nav, #txt2img_params">
+            <div data-selector="#txt2img_tab" data-parent-selector="#copy_buttons_interrogate" droppable="true" class="portal invisible">
+              <div class="mask-icon icon-2txt2img"></div>
+            </div>
+          </button>
+          <button class="sd-button only-legacy" data-click="#img2img_nav, #img2img_params">
+            <div data-selector="#img2img_tab" data-parent-selector="#copy_buttons_interrogate" droppable="true" class="portal invisible">
+              <div class="mask-icon icon-2img2img"></div>
+            </div>
+          </button>
+          <button class="sd-button only-diffusers" data-click="#control_nav">
+            <div data-selector="#control_tab" data-parent-selector="#copy_buttons_interrogate" droppable="true" class="portal invisible">
+              <div class="mask-icon icon-2control"></div>
+            </div>
+          </button>
+          <button class="sd-button" data-click="#caption_nav">
+            <div data-selector="#extras_tab" data-parent-selector="#copy_buttons_interrogate" droppable="true" class="portal invisible">
+              <div class="mask-icon icon-2extras"></div>
+            </div>
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

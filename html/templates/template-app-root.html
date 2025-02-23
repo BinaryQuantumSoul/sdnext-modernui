@@ -26,12 +26,15 @@
             <div class="mask-icon icon-extras"></div>
             <span>Process</span>
           </button>
+          <button title="Caption" id="caption_nav" tabItemId="#split-app, #caption_tabitem" tabGroup="main_group" data-click="#tabs" class="xtabs-tab">
+            <div class="mask-icon icon-caption"></div>
+            <span>Caption</span>
+          </button>
           <button title="Gallery" id="gallery_nav" tabItemId="#split-app, #gallery_tabitem" tabGroup="main_group" data-click="#tabs" class="xtabs-tab">
             <div class="mask-icon icon-gallery"></div>
             <span>Gallery</span>
           </button>
           <div class="flexbox col spacer-v"></div>
-
           <div id="other_extensions" class="flexbox col"></div>
         </div>
       </div>
@@ -48,6 +51,9 @@
           <div class="mask-icon icon-contributors"></div>
           <span>Contributors</span>
         </button>
+        <div class="locale">
+          <div id="locale-container" class="xtabs-tab no-drag locale-indicator"></div>
+        </div>
       </div>
     </div>
     <div id="layout_main_wrapper" class="layout grow initial">
@@ -61,7 +67,7 @@
           <div id="split-app" gutterSize="8" direction="horizontal" class="split">
             <div data-minSize="0" data-initSize="100" id="split-left" class="split-container">
               <div id="txt2img_tabitem_parent">
-                <div id="txt2img_tabitem" class="xtabs-item  no-padding">
+                <div id="txt2img_tabitem" class="xtabs-item no-padding">
                   <div id="split-txt2img" direction="horizontal" gutterSize="8" class="split">
                     <div data-minSize="0" data-initSize="50" id="split-txt2img-left" class="split-container params">
                       <div template="main/template-txt2img-params" class="template"></div>
@@ -73,25 +79,13 @@
                 </div>
               </div>
               <div id="img2img_tabitem_parent">
-                <div id="img2img_tabitem" class="xtabs-item  no-padding">
+                <div id="img2img_tabitem" class="xtabs-item no-padding">
                   <div id="split-img2img" direction="horizontal" gutterSize="8" class="split">
                     <div data-minSize="0" data-initSize="34" id="split-img2img-left" class="split-container params">
                       <div template="main/template-img2img-params" class="template"></div>
                     </div>
                     <div data-minSize="0" data-initSize="66" id="split-img2img-right" class="split-container results">
                       <div template="main/template-img2img-results" class="template"></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div id="extras_tabitem_parent">
-                <div id="extras_tabitem" class="xtabs-item  no-padding">
-                  <div id="split-extras" direction="horizontal" gutterSize="8" class="split">
-                    <div data-minSize="0" data-initSize="34" id="split-extras-left" class="split-container params">
-                      <div template="main/template-extras-params" class="template"></div>
-                    </div>
-                    <div data-minSize="0" data-initSize="66" id="split-extras-right" class="split-container results">
-                      <div template="main/template-extras-results" class="template"></div>
                     </div>
                   </div>
                 </div>
@@ -108,8 +102,32 @@
                   </div>
                 </div>
               </div>
+              <div id="extras_tabitem_parent">
+                <div id="extras_tabitem" class="xtabs-item no-padding">
+                  <div id="split-extras" direction="horizontal" gutterSize="8" class="split">
+                    <div data-minSize="0" data-initSize="34" id="split-extras-left" class="split-container params">
+                      <div template="main/template-extras-params" class="template"></div>
+                    </div>
+                    <div data-minSize="0" data-initSize="66" id="split-extras-right" class="split-container results">
+                      <div template="main/template-extras-results" class="template"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div id="caption_tabitem_parent">
+                <div id="caption_tabitem" class="xtabs-item no-padding">
+                  <div id="split-caption" direction="horizontal" gutterSize="8" class="split">
+                    <div data-minSize="0" data-initSize="34" id="split-caption-left" class="split-container params">
+                      <div template="main/template-caption-params" class="template"></div>
+                    </div>
+                    <div data-minSize="0" data-initSize="66" id="split-caption-right" class="split-container results">
+                      <div template="main/template-caption-results" class="template"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
               <div id="gallery_tabitem_parent">
-                <div id="gallery_tabitem" class="xtabs-item  no-padding">
+                <div id="gallery_tabitem" class="xtabs-item no-padding">
                   <div id="split-gallery" direction="horizontal" gutterSize="8" class="split">
                     <div data-minSize="0" data-initSize="50" id="split-gallery-left" class="split-container params">
                       <div template="main/template-gallery-params" class="template"></div>

@@ -45,6 +45,7 @@
     // script.js
     "log": "readonly",
     "debug": "readonly",
+    "error": "readonly",
     "gradioApp": "readonly",
     "executeCallbacks": "readonly",
     "onAfterUiUpdate": "readonly",

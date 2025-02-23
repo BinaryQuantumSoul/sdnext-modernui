@@ -71,7 +71,7 @@
                           <div data-parent-selector="#tab_img2img" data-selector="#img2img_prompt" class="portal no-bg"></div>
                         </div>
                         <div class="layout-footer">
-                          <div data-parent-selector="#tab_img2img" data-selector="#img2img_token_counter" class="portal relative" data-timeout="1000"></div>
+                          <div data-parent-selector="#tab_img2img" data-selector="#img2img_token_counter" class="portal relative token-counter" data-timeout="1000"></div>
                         </div>
                       </div>
                     </div>
@@ -81,7 +81,7 @@
                           <div data-parent-selector="#tab_img2img" data-selector="#img2img_neg_prompt" class="portal no-bg"></div>
                         </div>
                         <div class="layout-footer">
-                          <div data-parent-selector="#tab_img2img" data-selector="#img2img_negative_token_counter" data-timeout="1000" class="portal relative"></div>
+                          <div data-parent-selector="#tab_img2img" data-selector="#img2img_negative_token_counter" data-timeout="1000" class="portal relative token-counter"></div>
                         </div>
                       </div>
                     </div>
@@ -151,28 +151,25 @@
                 <div data-parent-selector="#tab_img2img" data-selector="#img2img_sampling" class="portal min-width"></div>
                 <div data-parent-selector="#tab_img2img" data-selector="#img2img_steps" class="portal"></div>
               </div>
-            <div class="flexbox no-border row">
-                <div class="flexbox col">
-                  <div data-parent-selector="#tab_img2img" data-selector="#img2img_sampler_sigma" class="portal only-diffusers"></div>
-                  <div data-parent-selector="#tab_img2img" data-selector="#img2img_sampler_spacing" class="portal only-diffusers"></div>
-                  <div data-parent-selector="#tab_img2img" data-selector="#img2img_sigma_algo" class="portal only-original"></div>
-                </div>
-                <div class="flexbox col">
-                  <div data-parent-selector="#tab_img2img" data-selector="#img2img_sampler_beta" class="portal only-diffusers"></div>
-                  <div data-parent-selector="#tab_img2img" data-selector="#img2img_sampler_prediction" class="portal only-diffusers"></div>
-                </div>
+              <div class="flexbox no-border row">
+                <div data-parent-selector="#tab_img2img" data-selector="#img2img_sampler_sigma" class="portal only-diffusers"></div>
+                <div data-parent-selector="#tab_img2img" data-selector="#img2img_sampler_spacing" class="portal only-diffusers"></div>
+                <div data-parent-selector="#tab_img2img" data-selector="#img2img_sigma_algo" class="portal only-original"></div>
               </div>
               <div class="flexbox no-border row">
-                <div class="flexbox col">
-                  <div data-parent-selector="#tab_img2img" data-selector="#img2img_sampler_presets" class="portal only-diffusers"></div>
-                  <div data-parent-selector="#tab_img2img" data-selector="#img2img_sampler_timesteps" class="portal only-diffusers"></div>
-                </div>
+                <div data-parent-selector="#tab_img2img" data-selector="#img2img_sampler_beta" class="portal only-diffusers"></div>
+                <div data-parent-selector="#tab_img2img" data-selector="#img2img_sampler_prediction" class="portal only-diffusers"></div>
               </div>
               <div class="flexbox no-border row">
-                <div class="flexbox col">
-                  <div data-parent-selector="#tab_img2img" data-selector="#img2img_sampler_order" class="portal only-diffusers"></div>
-                  <div data-parent-selector="#tab_img2img" data-selector="#img2img_sampler_options" class="portal only-diffusers"></div>
-                </div>
+                <div data-parent-selector="#tab_img2img" data-selector="#img2img_sampler_presets" class="portal only-diffusers"></div>
+                <div data-parent-selector="#tab_img2img" data-selector="#img2img_sampler_timesteps" class="portal only-diffusers"></div>
+              </div>
+              <div class="flexbox no-border row">
+                <div data-parent-selector="#tab_img2img" data-selector="#img2img_sampler_order" class="portal only-diffusers"></div>
+                <div data-parent-selector="#tab_img2img" data-selector="#img2img_sampler_shift" class="portal only-diffusers"></div>
+              </div>
+              <div class="flexbox no-border row">
+                <div data-parent-selector="#tab_img2img" data-selector="#img2img_sampler_options" class="portal only-diffusers"></div>
               </div>
             </div>
             <div class="flexbox col spacer-group"></div>
@@ -271,6 +268,9 @@
               </div>
 
               <h2>Advanced</h2>
+              <div class="flexbox box">
+                <div data-parent-selector="#tab_img2img" data-selector="#img2img_vae_options" class="portal only-diffusers no-padding no-bg"></div>
+              </div>
               <div class="flexbox box">
                 <div data-parent-selector="#tab_img2img" data-selector="#img2img_advanced_options" class="portal only-diffusers no-padding no-bg"></div>
               </div>

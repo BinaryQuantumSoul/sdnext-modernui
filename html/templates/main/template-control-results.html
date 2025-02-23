@@ -7,8 +7,12 @@
           <span>Input image</span>
         </label>
         <label>
+          <input id="control_dynamic_init" type="checkbox" />
+          <span>Init image</span>
+        </label>
+        <label>
           <input id="control_dynamic_control" type="checkbox" />
-          <span>Control</span>
+          <span>Preview image</span>
         </label>
       </div>
       <div id="control_generate_group" class="flexbox row flex-end group-row">
@@ -18,7 +22,7 @@
             <span>Generate</span>
           </div>
         </button>
-        <button title="Reprocess" class="sd-button generate">
+        <button title="Reprocess" class="sd-button">
           <div data-selector="#control_reprocess" data-parent-selector="#tab_control" droppable="true" class="portal only-diffusers no-bg shrink invisible">
             <div class="mask-icon icon-reprocess"></div>
           </div>
@@ -48,6 +52,19 @@
           <div data-parent-selector="#control-inputs" data-selector="#control-tab-input" class="portal no-bg only-diffusers"></div>
         </div>
       </div>
+
+      <div id="control-template-column-init" class="flexbox col grow">
+        <div class="flexbox row shrink panel padding no-br only-desktop">
+          <div class="flexbox col shrink">
+            <h2>Init Input</h2>
+          </div>
+        </div>
+        <div class="panel no-tr flexbox row center">
+          <div data-parent-selector="#control-inputs" data-selector="#control-tab-init" class="portal no-bg only-diffusers"></div>
+        </div>
+      </div>
+
+
       <div id="control-template-column-output" class="flexbox col grow">
         <div class="flexbox row shrink panel padding no-br">
           <div class="flexbox col shrink">
@@ -119,6 +136,11 @@
                           <button class="sd-button" data-click="#extras_nav">
                             <div data-selector="#extras_tab" data-parent-selector="#tab_control" droppable="true" class="portal only-diffusers invisible">
                               <div class="mask-icon icon-2extras"></div>
+                            </div>
+                          </button>
+                          <button class="sd-button only-diffusers" data-click="#caption_nav">
+                            <div data-selector="#caption_tab" data-parent-selector="#tab_control" droppable="true" class="portal only-diffusers invisible">
+                              <div class="mask-icon icon-2caption"></div>
                             </div>
                           </button>
                         </div>
