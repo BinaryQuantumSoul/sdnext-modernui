@@ -179,6 +179,10 @@ body {
     flex-direction: column;
 }
 
+.no-gap {
+    gap: 0;
+}
+
 .no-border {
     outline: var(--sd-border-size) solid var(--sd-panel-border-color);
     border-radius: var(--sd-border-radius);
@@ -328,8 +332,8 @@ body {
     height: calc(var(--sd-input-height) * var(--sd-input-slider-height));
     width: 100%;
     min-height: calc(var(--sd-input-height) * var(--sd-input-slider-height));
-    margin-bottom: calc(var(--sd-input-height) * (1 - var(--sd-input-slider-height)) * 0.5);
-    margin-top: calc(var(--sd-input-height) * (1 - var(--sd-input-slider-height)) * 0.5);
+    margin-top: calc(0.5 * var(--sd-gap-size));
+    margin-bottom: var(--sd-gap-size);
     padding: 0;
 }
 
@@ -940,7 +944,7 @@ button:hover .mask-icon {
 }
 
 *.gradio-dropdown label>span {
-    margin-bottom: 5px;
+    margin-bottom: 0.2em;
 }
 
 *.gradio-dropdown label>* {
@@ -2357,6 +2361,10 @@ button.active .icon-sort {
     mask-image: url(./html/svg/folder-user.svg);
 }
 
+.icon-folder-tree {
+  mask-image: url(./html/svg/table-tree.svg);
+}
+
 .icon-folders {
     mask-image: url(./html/svg/folders.svg);
 }
@@ -2617,7 +2625,7 @@ button:hover svg {
 }
 
 .sd-button .gradio-button span {
-    padding: 5px;
+    padding: 0.1em;
     font-size: var(--sd-input-font-size);
 }
 
@@ -2663,11 +2671,6 @@ button:hover svg {
     display: none;
 }
 
-.sd-button .gradio-button span {
-    padding: 5px;
-    font-size: var(--sd-input-font-size);
-}
-
 *.disable {
     opacity: 0.5;
     pointer-events: none;
@@ -2679,11 +2682,11 @@ button:hover svg {
 
 .generate {
     overflow: hidden;
+    min-width: 8em !important;
 }
 
 .generate>button {
   padding: var(--sd-panel-padding);
-  width: 8rem;
 }
 
 .generate.active>button {
@@ -2971,6 +2974,10 @@ button:hover svg {
 
 .rgRow {
     transition: none !important;
+}
+
+.panel>button>span {
+  margin: 0 0.5em 0 0.5em;
 }
 
 button.gridjs-sort-neutral {
@@ -3458,12 +3465,14 @@ div[data-testid="image"] canvas {
 }
 
 .group-row {
-    gap: 1px !important;
+    gap: 0;
 }
 
-.group-row>* button,
-.group-row>* {
-    border-radius: 0 !important;
+.group-row>* button, .group-row>* {
+  border-radius: 0 !important;
+  min-width: 2.7em;
+  height: 2.7em;
+  padding: 0;
 }
 
 .group-row>*:last-child button,
@@ -4347,7 +4356,8 @@ button>.mask-icon,
 button>span {
     pointer-events: none;
     height: 1.4em;
-    line-height: 0.7em;
+    line-height: 1.4em;
+    margin: 0.7em 0 0.7em 0;
 }
 
 #context-menu {
@@ -4438,7 +4448,7 @@ button>span {
     aspect-ratio: 1.0;
 }
 
-div#control_params_elements_tabitem .control-settings .gradio-accordion .form {
+div#control_params_control_tabitem .control-settings .gradio-accordion .form {
     flex-direction: row;
     flex-wrap: wrap;
 }
@@ -4475,7 +4485,27 @@ div#control_params_elements_tabitem .control-settings .gradio-accordion .form {
 }
 
 .no-outline {
-    outline: var(--sd-border-size) solid var(--sd-panel-border-color) !important;
+    outline: var(--sd-border-size) none var(--sd-panel-border-color) !important;
+}
+
+#control_script_container>div {
+  outline: none !important;
+}
+
+#control_script_alwayson {
+  outline: none !important;
+}
+
+#control_script_alwayson>.label-wrap {
+  display: none;
+}
+
+#control_script_list>label>span {
+  display: none;
+}
+
+#control_script_ip_adapters {
+  display: none;
 }
 
 .ar-dropdown .secondary-wrap {
@@ -4793,6 +4823,11 @@ gallery-folder:hover {
   font-family: monospace;
   background: var(--sd-panel-background-color);
   display: none;
+}
+
+.token-counter {
+  outline: none;
+  text-align-last: right;
 }
 
 .locale {
