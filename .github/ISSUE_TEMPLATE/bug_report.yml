@@ -28,6 +28,17 @@ body:
       label: Branch
       description: What is the platform you're using?
       options:
+        - Main
+        - Dev
+      default: 0
+    validations:
+      required: true
+  - type: dropdown
+    id: mobile
+    attributes:
+      label: Platform
+      description: What is the platform you're using?
+      options:
         - Desktop
         - Mobile
       default: 0
@@ -36,7 +47,7 @@ body:
   - type: textarea
     id: platform
     attributes:
-      label: Version Platform Description
+      label: Version & description
       description: Describe your platform (program version, OS, browser)
       value: 
   - type: markdown
