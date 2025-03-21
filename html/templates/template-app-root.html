@@ -22,6 +22,10 @@
             <div class="mask-icon icon-control"></div>
             <span>Control</span>
           </button>
+          <button title="Video" id="video_nav" tabItemId="#split-app, #video_tabitem" tabGroup="main_group" active="true" data-click="#tabs" class="xtabs-tab only-diffusers">
+            <div class="mask-icon icon-video"></div>
+            <span>Video</span>
+          </button>
           <button title="Process" id="extras_nav" tabItemId="#split-app, #extras_tabitem" tabGroup="main_group" data-click="#tabs" class="xtabs-tab">
             <div class="mask-icon icon-extras"></div>
             <span>Process</span>
@@ -98,6 +102,18 @@
                     </div>
                     <div data-minSize="0" data-initSize="66" id="split-control-right" class="split-container results">
                       <div template="main/template-control-results" class="template"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div id="video_tabitem_parent">
+                <div id="video_tabitem" class="xtabs-item no-padding">
+                  <div id="split-video" direction="horizontal" gutterSize="8" class="split">
+                    <div data-minSize="0" data-initSize="34" id="split-video-left" class="split-container params">
+                      <div template="main/template-video-params" class="template"></div>
+                    </div>
+                    <div data-minSize="0" data-initSize="66" id="split-video-right" class="split-container results">
+                      <div template="main/template-video-results" class="template"></div>
                     </div>
                   </div>
                 </div>
