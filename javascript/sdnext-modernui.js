@@ -336,7 +336,7 @@ async function setupGenerateObservers() {
     else parentButton.classList.remove('active');
   }
 
-  const keys = ['#txt2img', '#img2img', '#extras', '#control'];
+  const keys = ['#txt2img', '#img2img', '#extras', '#control', '#video'];
   keys.forEach((key) => {
     const loop = document.querySelector(`${key}_loop`);
     if (loop) loop.addEventListener('click', () => generateForever(`${key}_generate`));

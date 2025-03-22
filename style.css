@@ -1944,10 +1944,14 @@ div#iobp {
     height: 90vh;
 }
 
-[id$="2img_neg_prompt"] textarea,
+[id$="txt2img_prompt"] textarea,
+[id$="img2img_prompt"] textarea,
+[id$="control_prompt"] textarea,
+[id$="video_prompt"] textarea,
+[id$="txt2img_neg_prompt"] textarea,
+[id$="img2img_neg_prompt"] textarea,
 [id$="control_neg_prompt"] textarea,
-[id$="2img_prompt"] textarea,
-[id$="control_prompt"] textarea {
+[id$="video_neg_prompt"] textarea {
     position: absolute;
     inset: 0;
     resize: none;
