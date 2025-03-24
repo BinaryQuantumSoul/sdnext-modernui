@@ -2040,6 +2040,11 @@ div#layout-3 {
     width: 1.1em;
 }
 
+.token-counter.error span {
+  box-shadow: 0 0 0.0 0.3em rgba(255,0,0,0.15), inset 0 0 0.6em rgba(255,0,0,0.075);
+  border: 2px solid rgba(255,0,0,0.4) !important;
+}
+
 .icon-2extras {
     transform: scaleX(-1);
     mask-image: url(./html/svg/picture-in-picture-exit-line.svg);
