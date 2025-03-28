@@ -2871,7 +2871,7 @@ button:hover svg {
 
 .scroll-hide {
     overflow-y: hidden !important;
-    resize: none;
+    resize: vertical !important;
 }
 
 .no-labels span {
@@ -4321,10 +4321,10 @@ input[type="range"]::-ms-fill-upper {
 }
 
 #logMonitorData, #logMonitorJS {
-  height: 45vh !important;
-  width: 100% !important;
-  overflow-x: auto !important;
-  overflow-y: auto !important;
+    height: 45vh !important;
+    width: 100% !important;
+    overflow-x: auto !important;
+    overflow-y: auto !important;
 }
 
 #system_header > div,
@@ -4709,54 +4709,54 @@ gallery-folder:hover {
 /* gr.table is based on svelte-virtual-table which means there are two table elements and neither have all rows */
 
 .table-wrap {
-  height: max-content !important;
+    height: max-content !important;
 }
 
 .table-wrap table {
-  width: 100%;
-  display: block;
-  border-collapse: separate;
-  border-spacing: var(--sd-group-gap);
+    width: 100%;
+    display: block;
+    border-collapse: separate;
+    border-spacing: var(--sd-group-gap);
 }
 
 .table-wrap table caption {
-  display: none;
+    display: none;
 }
 
 .table-wrap table thead {
-  background: var(--sd-panel-border-color);
-  word-break: auto-phrase;
-  display: none;
+    background: var(--sd-panel-border-color);
+    word-break: auto-phrase;
+    display: none;
 }
 
 .table-wrap table tbody {
-  display: none;
+    display: none;
 }
 
 .table-wrap table tbody tr:nth-child(odd) {
-  background-color: var(--sd-input-background-color);
+    background-color: var(--sd-input-background-color);
 }
 
 .table-wrap table tbody tr:nth-child(even) {
-  background-color: var(--sd-input-border-color);
+    background-color: var(--sd-input-border-color);
 }
 
 .table-wrap table td {
-  word-break: auto-phrase;
-  width: min-content !important;
+    word-break: auto-phrase;
+    width: min-content !important;
 }
 
 .table-wrap svelte-virtual-table-viewport table {
-  display: block;
-  overflow: auto;
+    display: block;
+    overflow: auto;
 }
 
 .table-wrap svelte-virtual-table-viewport table thead {
-  display: table-header-group !important;
+    display: table-header-group !important;
 }
 
 .table-wrap svelte-virtual-table-viewport table tbody {
-  display: table-row-group !important;
+    display: table-row-group !important;
 }
 
 .card:has(>img[src*="card-no-preview.png"])::after {
@@ -4770,93 +4770,93 @@ gallery-folder:hover {
 }
 
 .infotext > p {
-  margin-bottom: var(--sd-group-gap);
+    margin-bottom: var(--sd-group-gap);
 }
 
 .styles {
-  gap: 0;
+    gap: 0;
 }
 
 /* gr.json */
 
 .json-node {
-  display: inline;
-  color: var(--sd-label-color);
-  line-height: var(--sd-input-line-height);
-  font-family: monospace;
+    display: inline;
+    color: var(--sd-label-color);
+    line-height: var(--sd-input-line-height);
+    font-family: monospace;
 }
 
 .json-node .children {
-  padding-left: var(--sd-gap-size);
+    padding-left: var(--sd-gap-size);
 }
 
 .json-node .spacer {
-  display: inline-block;
-  width: 0;
-  height: 0;
+    display: inline-block;
+    width: 0;
+    height: 0;
 }
 
 .json-node .json-item {
-  display: inline;
+    display: inline;
 }
 
 .json-node .number {
-  color: var(--color-blue);
+    color: var(--color-blue);
 }
 
 .json-node .string {
-  color: var(--color-green);
+    color: var(--color-green);
 }
 
 .json-node .bool {
-  color: var(--color-red);
+    color: var(--color-red);
 }
 
 .gradio-json button {
-  display: none;
-  position: absolute;
-  top: 3em;
-  right: 1em;
-  width: 2em;
+    display: none;
+    position: absolute;
+    top: 3em;
+    right: 1em;
+    width: 2em;
 }
 
 .nvml {
-  position: fixed;
-  bottom: 12px;
-  right: 12px;
-  border: 1px solid var(--sd-panel-border-color);
-  padding: 6px;
-  color: var(--button-primary-text-color);
-  font-size: 0.7em;
-  z-index: 1000;
-  font-family: monospace;
-  background: var(--sd-panel-background-color);
-  display: none;
+    position: fixed;
+    bottom: 12px;
+    right: 12px;
+    border: 1px solid var(--sd-panel-border-color);
+    padding: 6px;
+    color: var(--button-primary-text-color);
+    font-size: 0.7em;
+    z-index: 1000;
+    font-family: monospace;
+    background: var(--sd-panel-background-color);
+    display: none;
 }
 
 .token-counter {
-  outline: none;
-  text-align-last: right;
+    outline: none;
+    text-align-last: right;
 }
 
 .locale {
-  align-self: center;
+    align-self: center;
 }
 
 #interrogate_output_prompt textarea {
-  overflow-y: auto !important;
-  height: 90vh;
+    overflow-y: auto !important;
+    height: 90vh;
 }
 
 .locale-indicator {
-  background-color: var(--sd-button-normal-color);
-  color: var(--sd-button-normal-text-color); 
-  cursor: pointer;
+    background-color: var(--sd-button-normal-color);
+    color: var(--sd-button-normal-text-color); 
+    cursor: pointer;
 }
 
 .locale-indicator:hover {
-  background-color: var(--sd-button-hover-color);
-  color: var(--sd-button-hover-text-color); 
+    background-color: var(--sd-button-hover-color);
+    color: var(--sd-button-hover-text-color); 
 }
 
 #control-result {
@@ -4864,21 +4864,27 @@ gallery-folder:hover {
 }
 
 #control-result p {
-  padding: var(--sd-group-padding) !important;
+    padding: var(--sd-group-padding) !important;
 }
 
 /* en item details */
 
 #control_extra_details_img {
-  max-height: 50vh;
+    max-height: 50vh;
 }
 
 #control_extra_details_img img {
-  height: 100%;
-  overflow: hidden;
-  object-fit: contain;
+    height: 100%;
+    overflow: hidden;
+    object-fit: contain;
 }
 
 #split-control-prompts {
     min-height: 17rem;
+}
+
+#vlm_system > textarea,
+#vlm_prompt > textarea,
+#interrogate_output_prompt > textarea {
+   resize: vertical !important;
 }
