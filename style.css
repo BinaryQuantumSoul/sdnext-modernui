@@ -2496,11 +2496,10 @@ div#main-nav {
     height: calc(100vh - 168px);
 }
 
-.extra-network-subdirs,
-.settings-tabs .tab-nav {
-    gap: 1px;
-    display: flex;
-    flex-direction: column;
+.extra-network-subdirs {
+  gap: 1px;
+  display: flex;
+  flex-direction: column;
 }
 
 .extra-network-subdirs br {
@@ -2516,6 +2515,30 @@ div#main-nav {
 .hide-empty:has(.hidden:only-child),
 .hide-empty:has(.gradio-html:first-child:empty) {
     display: none;
+}
+
+.settings-tabs .tab-nav {
+  gap: 0px;
+  display: flex;
+  flex-direction: column;
+  line-height: 1em;
+}
+
+#split-settings-right .tab-content {
+  outline: none;
+}
+
+#split-settings-right .tab-content > .tabitem {
+  background: none;
+}
+
+#split-settings-right .tab-content > .tabitem > .gap {
+  padding: 0 !important;
+  gap: 0 !important;
+}
+
+#split-settings-right .tab-content > .tabitem > .gap > .gradio-row {
+  outline: none;
 }
 
 * .settings-comment {
