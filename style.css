@@ -1444,6 +1444,10 @@ li.item span {
     margin: calc(var(--sd-border-size) * -1);
 }
 
+.layout-header .group-row button {
+  padding: var(--sd-gap-size);
+}
+
 .mask-icon {
     display: inline-block;
     background: var(--sd-input-text-color);
