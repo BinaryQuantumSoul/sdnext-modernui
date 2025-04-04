@@ -3821,6 +3821,19 @@ div#quicksettings div+button {
     flex-grow: 0;
 }
 
+#txt2img_styles .wrap-inner, #img2img_styles .wrap-inner, #control_styles .wrap-inner, #video_styles .wrap-inner {
+  overflow-x: hidden;
+  overflow-y: scroll;
+  height: 2em;
+}
+
+#txt2img_styles .wrap-inner:hover, #img2img_styles .wrap-inner:hover, #control_styles .wrap-inner:hover, #video_styles .wrap-inner:hover {
+  overflow-x: hidden;
+  overflow-y: visible;
+  height: unset;
+}
+
+
 #sidebar_secondary_tabs {
     justify-content: flex-end;
 }
