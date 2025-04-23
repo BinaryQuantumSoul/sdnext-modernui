@@ -219,7 +219,7 @@ async function uiuxOptionSettings() {
   function sdMaxOutputResolution(value) {
     gradioApp().querySelectorAll('[id$="2img_width"] input,[id$="2img_height"] input').forEach((elem) => { elem.max = value; });
   }
-  const el = gradioApp().querySelector('#setting_uiux_max_resolution_output');
+  let el = gradioApp().querySelector('#setting_uiux_max_resolution_output');
   if (el) {
     el.addEventListener('input', (e) => {
       let intvalue = parseInt(e.target.value);
@@ -243,9 +243,9 @@ async function uiuxOptionSettings() {
       gradioApp().querySelectorAll("input[type='range']").forEach((elem) => { elem.style.setProperty('--sd-slider-bg-overlay', 'transparent'); });
     }
   }
-  gradioApp().querySelector('#setting_uiux_show_input_range_ticks input').addEventListener('click', (e) => {
-    uiux_show_input_range_ticks(e.target.checked, true);
-  });
+
+  el = gradioApp().querySelector('#setting_uiux_show_input_range_ticks input');
+  if (el) el.addEventListener('click', (e) => uiux_show_input_range_ticks(e.target.checked, true));
   uiux_show_input_range_ticks(window.opts.uiux_show_input_range_ticks);
 
   // settings looks
@@ -254,7 +254,8 @@ async function uiuxOptionSettings() {
       if (value) appUiUx.classList.add(cn);
       else appUiUx.classList.remove(cn);
     }
-    gradioApp().querySelector(`#setting_${settingId} input`).addEventListener('click', (e) => updateUiUxClass(className, e.target.checked));
+    el = gradioApp().querySelector(`#setting_${settingId} input`);
+    if (el) el.addEventListener('click', (e) => updateUiUxClass(className, e.target.checked));
     updateUiUxClass(className, window.opts[settingId]);
   }
 
@@ -278,7 +279,8 @@ async function uiuxOptionSettings() {
     const viewport = document.head.querySelector('meta[name="viewport"]');
     viewport.setAttribute('content', `width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=${value}`);
   }
-  gradioApp().querySelector('#setting_uiux_mobile_scale input[type=number]').addEventListener('change', (e) => uiux_mobile_scale(e.target.value));
+  el = gradioApp().querySelector('#setting_uiux_mobile_scale input[type=number]');
+  if (el) el.addEventListener('change', (e) => uiux_mobile_scale(e.target.value));
   uiux_mobile_scale(window.opts.uiux_mobile_scale);
 }
 
