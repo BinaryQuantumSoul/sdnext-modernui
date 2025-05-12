@@ -697,11 +697,12 @@ async function createButtonsForExtensions() {
   const snakeToCamel = (str) => str.replace(/(_\w)/g, (match) => match[1].toUpperCase());
   document.querySelectorAll('#tabs > .tabitem').forEach((c) => {
     const cid = c.id;
-    const nid = cid.split('tab_')[1];
+    const nid = cid.replace('tab_', '').replace('_tab', '');
     if (!no_button_tabs.includes(cid)) {
       const temp = document.createElement('div');
       let button;
       if (nid === 'agent_scheduler') button = '<div class="mask-icon icon-calendar"></div>';
+      if (nid === 'framepack') button = '<div class="mask-icon icon-video"></div>';
       if (!button) button = `<div class="icon-letters">${nid.slice(0, 2)}</div>`;
       temp.innerHTML = `
         <button tabItemId="#split-app, #${cid}_tabitem"
