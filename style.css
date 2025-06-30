@@ -249,6 +249,12 @@ body {
     background-color: var(--sd-input-hover-text-color);
 }
 
+.logo-nav {
+    height: 64px;
+    width: 64px;
+    align-self: center;
+}
+
 *.gradio-button {
     background: var(--sd-button-normal-color)
 }
@@ -2089,11 +2095,11 @@ div#layout-3 {
 }
 
 .icon-reprocess {
-  mask-image: url(./html/svg/arrow-progress.svg);
+  mask-image: url(./html/svg/backward-step.svg);
 }
 
 .icon-loop {
-  mask-image: url(./html/svg/arrows-spin.svg);
+  mask-image: url(./html/svg/infinity.svg);
 }
 
 .icon-skip {
@@ -2163,7 +2169,8 @@ div#layout-3 {
 }
 
 .icon-enqueue {
-    mask-image: url(./html/svg/arrow-up-circle-line.svg);
+    mask-image: url(./html/svg/square-plus.svg);
+    scale: 0.9;
 }
 
 .icon-arrow-up-from-bracket {
@@ -2204,14 +2211,6 @@ div#layout-3 {
 
 .icon-settings {
     mask-image: url(./html/svg/settings-3-line.svg);
-}
-
-.icon-app-logo {
-    mask-image: url(./html/SDNext_Logo.svg);
-}
-
-.icon-sdnext {
-    mask-image: url(./html/favicon.svg);
 }
 
 .icon-txt2img {
@@ -2364,6 +2363,10 @@ button.active .icon-sort {
 
 .icon-folder-grid {
     mask-image: url(./html/svg/folder-grid.svg);
+}
+
+.icon-folder-check {
+  mask-image: url(./html/svg/folder-check.svg);
 }
 
 .icon-folder-image {

@@ -181,7 +181,6 @@ async function extraTweaks() {
     });
   });
 
-  const logoNav = document.getElementById('logo_nav');
   const txt2imgNav = document.getElementById('txt2img_nav');
   const img2imgNav = document.getElementById('img2img_nav');
   const controlNav = document.getElementById('control_nav');
@@ -197,10 +196,6 @@ async function extraTweaks() {
   img2imgNav.addEventListener('click', handleTabChange);
   controlNav.addEventListener('click', handleTabChange);
 
-  logoNav.addEventListener('click', () => { // default tab
-    if (isBackendDiffusers) controlNav.click();
-    else txt2imgNav.click();
-  });
   const buttonCurrent = document.getElementById(getStored('tab-main_group-current')) || logoNav;
   buttonCurrent.click();
 
