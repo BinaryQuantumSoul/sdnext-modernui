@@ -4932,3 +4932,10 @@ gallery-folder:hover {
 #interrogate_output_prompt > textarea {
    resize: vertical !important;
 }
+
+#txt2img_generate,
+#img2img_generate,
+#control_generate,
+#video_generate {
+    min-height: 32px;
+}
