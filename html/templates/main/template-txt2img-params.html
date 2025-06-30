@@ -6,9 +6,13 @@
           <div class="mask-icon icon-folder-bookmark"></div>
           <span>Prompts</span>
         </button>
-        <button title="Base" tabItemId="#txt2img_params_tabitem" tabGroup="txt2img" id="txt2img_params" class="xtabs-tab shrink">
+        <button title="Sampler" tabItemId="#txt2img_sampler_tabitem" tabGroup="txt2img" id="txt2img_sampler" class="xtabs-tab shrink">
           <div class="mask-icon icon-folder-grid"></div>
-          <span>Base</span>
+          <span>Sampler</span>
+        </button>
+        <button title="Refine" tabItemId="#txt2img_refine_tabitem" tabGroup="txt2img" id="txt2img_refine" class="xtabs-tab shrink">
+          <div class="mask-icon icon-folder-grid"></div>
+          <span>Refine</span>
         </button>
         <button title="Advanced" tabItemId="#txt2img_advanced_tabitem" tabGroup="txt2img" id="txt2img_advanced" class="xtabs-tab shrink">
           <div class="mask-icon icon-folder-gear"></div>
@@ -22,9 +26,6 @@
           <div class="mask-icon icon-results"></div>
           <span>Results</span>
         </button>
-      </div>
-      <div class="flexbox col shrink align-end">
-        <h2>From Text</h2>
       </div>
     </div>
   </div>
@@ -109,8 +110,8 @@
             </div>
           </div>
         </div>
-        <div id="txt2img_params_tabitem_group" class="flexbox col outline-params">
-          <div id="txt2img_params_tabitem" class="xtabs-item">
+        <div id="txt2img_sampler_tabitem_group" class="flexbox col outline-params">
+          <div id="txt2img_sampler_tabitem" class="xtabs-item">
             <div class="flexbox col auto-scroll">
 
               <h2>Sampler</h2>
@@ -177,6 +178,14 @@
               </div>
               <div class="flexbox col spacer-group"></div>
 
+            </div>
+          </div>
+        </div>
+
+        <div id="txt2img_refine_tabitem_group" class="flexbox col outline-params">
+          <div id="txt2img_refine_tabitem" class="xtabs-item">
+            <div class="flexbox col auto-scroll">
+
               <h2>Refine</h2>
               <div class="flexbox group col">
                 <div class="flexbox row">
@@ -239,6 +248,7 @@
                   <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_refiner_neg_prompt" class="portal only-diffusers"></div>
                 </div>
               </div>
+              <div class="flexbox col spacer-group"></div>
 
               <h2>Detailer</h2>
               <div class="flexbox group col">
@@ -281,17 +291,12 @@
             </div>
           </div>
         </div>
+
         <div id="txt2img_advanced_tabitem_group" class="flexbox col outline-params">
           <div id="txt2img_advanced_tabitem" class="xtabs-item">
             <div class="flexbox col auto-scroll">
 
-              <h2>Advanced</h2>
-              <div class="flexbox box">
-                <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_vae_options" class="portal only-diffusers no-padding no-bg"></div>
-              </div>
-              <div class="flexbox box">
-                <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_advanced_options" class="portal only-diffusers no-padding no-bg"></div>
-              </div>
+              <h2>Guidance</h2>
               <div class="flexbox group col">
                 <div class="flexbox row">
                   <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_cfg_scale" class="portal"></div>
@@ -305,11 +310,22 @@
                   <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_pag_scale" class="portal only-diffusers"></div>
                   <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_pag_adaptive" class="portal only-diffusers"></div>
                 </div>
+              </div>
+              <div class="flexbox col spacer-group only-diffusers"></div>
+
+              <h2>Advanced</h2>
+              <div class="flexbox group col">
+                <div class="flexbox box">
+                  <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_vae_options" class="portal only-diffusers no-padding no-bg"></div>
+                </div>
+                <div class="flexbox box">
+                  <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_advanced_options" class="portal only-diffusers no-padding no-bg"></div>
+                </div>
                 <div class="flexbox row">
                   <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_clip_skip" class="portal"></div>
                 </div>
               </div>
-              <div class="flexbox col spacer-group only-diffusers"></div>
+              <div class="flexbox col spacer-group"></div>
 
               <h2>Corrections</h2>
               <div class="flexbox group col only-diffusers">
@@ -335,22 +351,26 @@
                   <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_hdr_color_picker" class="portal only-diffusers shrink"></div>
                   <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_hdr_tint_ratio" class="portal only-diffusers"></div>
                 </div>
-
-                <h2>Override</h2>
-                <div class="flexbox group col">
-                  <div class="flexbox row">
-                    <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_override_settings" class="portal only-diffusers"></div>
-                  </div>
-                </div>
-
               </div>
+              <div class="flexbox col spacer-group"></div>
+
+              <h2>Override</h2>
+              <div class="flexbox group col">
+                <div class="flexbox row">
+                  <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_override_settings" class="portal only-diffusers"></div>
+                </div>
+              </div>
+
             </div>
           </div>
         </div>
 
         <div id="txt2img_scripts_tabitem_group" class="flexbox col">
           <div id="txt2img_scripts_tabitem" class="xtabs-item">
-            <div data-selector="#txt2img_script_container" data-parent-selector="#tab_txt2img" class="portal no-bg"></div>
+            <h2 title="Select generate script">Script</h2>
+            <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_script_container" class="portal only-diffusers no-bg"></div>
+            <h2 title="Select generate extension">Extensions</h2>
+            <div data-parent-selector="#txt2img_script_container" data-selector="#txt2img_script_alwayson" class="portal only-diffusers no-bg no-outline"></div>
           </div>
         </div>
 

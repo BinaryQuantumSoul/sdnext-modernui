@@ -2722,7 +2722,6 @@ button:hover svg {
 
 .generate {
     overflow: hidden;
-    min-width: 8em !important;
 }
 
 .generate>button {
