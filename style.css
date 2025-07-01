@@ -6,6 +6,10 @@
     src: local('NotoSansNerd'), url('themes/assets/notosans-nerdfont-regular.ttf')
 }
 
+.icon-sdnext {
+    mask-image: url(./html/favicon.svg);
+}
+
 * {
     box-sizing: border-box;
     transition-property: color, opacity, background-color, border-color;
@@ -721,10 +725,10 @@ div.float span {
     cursor: pointer;
 }
 
-button.active,
+button.active { background-color: var(--sd-main-accent-color); }
 button:hover,
 gallery-folder:hover {
-    background-color: var(--sd-main-accent-color);
+    background-color: var(--sd-button-hover-color);
 }
 
 button.active span,
@@ -2132,6 +2136,10 @@ div#layout-3 {
     mask-image: url(./html/svg/delete-bin-2-line.svg);
 }
 
+.icon-docs {
+    mask-image: url(./html/svg/book.svg);
+}
+
 .icon-styles-edit {
     mask-image: url(./html/svg/draft-line.svg);
 }
@@ -2414,7 +2422,7 @@ button.active .icon-sort {
 
 #contributors_grid a {
     align-items: center;
-    padding: 10px;
+    padding-top: 10px;
 }
 
 #contributors_grid figure {

@@ -1,8 +1,8 @@
 /* Author: VladMandic */
 
 :root {
-  --sd-main-accent-color:hsl(180deg 65% 65%);
-  --sd-input-placeholder-text-color:hsl(180deg 65% 65%);
+  --sd-main-accent-color:hsl(180deg 60% 60%);
+  --sd-input-placeholder-text-color:hsl(180deg 60% 60%);
   --sd-secondary-color:hsl(0deg 0% 13%);
   --sd-main-background-color:hsl(0deg 0% 10%);
   --sd-button-normal-color:hsl(0deg 0% 13%);
@@ -37,7 +37,7 @@
   --sd-button-normal-text-color: var(--sd-input-text-color);
   --sd-button-selected-color: var(--sd-main-accent-color);
   --sd-button-selected-text-color: var(--sd-input-hover-text-color);
-  --sd-button-hover-color: var(--sd-button-selected-color);
+  --sd-button-hover-color: hsl(180deg 80% 80%);
   --sd-button-hover-text-color: var(--sd-button-selected-text-color);
 
   color-scheme: dark;

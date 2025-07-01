@@ -2,7 +2,10 @@
   <div id="main_wrapper" class="flexbox row no-wrap">
     <div id="main-nav" class="layout shrink initial panel ">
       <div class="layout-header">
-        <image id="logo_nav" class="logo-nav" title="SD.Next" src="file=html/logo-wm.png" alt="SD.Next" data-click="#tabs"></image>
+        <button id="logo_nav" title="SD.Next" active="true" class="xtabs-tab no-drag active">
+          <div class="mask-icon icon-sdnext"></div>
+          <span>SD.Next</span>
+        </button>
       </div>
       <div id="main_nav_content" class="layout-content">
         <div id="main-nav-bar" class="flexbox col shrink">
@@ -39,6 +42,10 @@
         </div>
       </div>
       <div class="layout-footer">
+        <button title="Documentation" class="xtabs-tab" onclick="window.open('https://vladmandic.github.io/sdnext-docs/', '_blank')">
+          <div class="mask-icon icon-docs"></div>
+          <span>Docs</span>
+        </button>
         <button title="GitHub" class="xtabs-tab" onclick="window.open('https://github.com/vladmandic/sdnext', '_blank')">
           <div class="mask-icon icon-github"></div>
           <span>GitHub</span>
