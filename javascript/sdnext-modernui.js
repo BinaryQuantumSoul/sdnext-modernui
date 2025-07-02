@@ -196,9 +196,6 @@ async function extraTweaks() {
   img2imgNav.addEventListener('click', handleTabChange);
   controlNav.addEventListener('click', handleTabChange);
 
-  const buttonCurrent = document.getElementById(getStored('tab-main_group-current')) || logoNav;
-  buttonCurrent.click();
-
   // Log wrapping
   document.getElementById('btn_console_log_server_wrap').onclick = () => {
     document.getElementById('logMonitorData').style.whiteSpace = document.getElementById('logMonitorData').style.whiteSpace === 'nowrap' ? 'break-spaces' : 'nowrap';
