@@ -181,9 +181,15 @@ async function extraTweaks() {
     });
   });
 
+  const logoNav = document.getElementById('logo_nav');
   const txt2imgNav = document.getElementById('txt2img_nav');
   const img2imgNav = document.getElementById('img2img_nav');
   const controlNav = document.getElementById('control_nav');
+  const videoNav = document.getElementById('control_nav');
+
+  logoNav.addEventListener('click', () => controlNav.click());
+  const buttonCurrent = document.getElementById(getStored('tab-main_group-current')) || logoNav;
+  buttonCurrent.click();
 
   const handleTabChange = (evt) => { // required to keep js detection code happy
     const tabname = evt.target.id.split('_')[0];
