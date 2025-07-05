@@ -17,26 +17,26 @@
       </div>
       <div id="control_generate_group" class="flexbox row flex-end group-row">
         <button title="Generate" class="sd-button generate">
-          <div data-selector="#control_generate" data-parent-selector="#tab_control" droppable="true" class="portal only-diffusers no-bg shrink invisible">
+          <div data-selector="#control_generate" data-parent-selector="#tab_control" droppable="true" class="portal no-bg shrink invisible">
             <div class="mask-icon icon-generate"></div>
             <span>Generate</span>
           </div>
         </button>
         <button title="Reprocess" class="sd-button">
-          <div data-selector="#control_reprocess" data-parent-selector="#tab_control" droppable="true" class="portal only-diffusers no-bg shrink invisible">
+          <div data-selector="#control_reprocess" data-parent-selector="#tab_control" droppable="true" class="portal no-bg shrink invisible">
             <div class="mask-icon icon-reprocess"></div>
           </div>
         </button>
         <button title="Generate forever" id="control_loop" toggle="true" class="sd-button">
           <div class="mask-icon icon-loop"></div>
         </button>
-        <div title="Skip" data-selector="#control_skip" data-parent-selector="#tab_control" droppable="true" class="portal only-diffusers invisible shrink no-bg no-padding-one">
+        <div title="Skip" data-selector="#control_skip" data-parent-selector="#tab_control" droppable="true" class="portal invisible shrink no-bg no-padding-one">
           <div class="mask-icon icon-skip"></div>
         </div>
-        <div title="Pause" data-selector="#control_pause" data-parent-selector="#tab_control" droppable="true" class="portal only-diffusers invisible shrink no-bg no-padding-one">
+        <div title="Pause" data-selector="#control_pause" data-parent-selector="#tab_control" droppable="true" class="portal invisible shrink no-bg no-padding-one">
           <div class="mask-icon icon-pause"></div>
         </div>
-        <div title="Interrupt" data-selector="#control_interrupt" data-parent-selector="#tab_control" droppable="true" class="portal only-diffusers invisible shrink no-bg no-padding-one">
+        <div title="Interrupt" data-selector="#control_interrupt" data-parent-selector="#tab_control" droppable="true" class="portal invisible shrink no-bg no-padding-one">
           <div class="mask-icon icon-stop"></div>
         </div>
       </div>
@@ -49,7 +49,7 @@
           </div>
         </div>
         <div class="panel no-tr flexbox row center">
-          <div data-parent-selector="#control-inputs" data-selector="#control-tab-input" class="portal no-bg only-diffusers"></div>
+          <div data-parent-selector="#control-inputs" data-selector="#control-tab-input" class="portal no-bg"></div>
         </div>
       </div>
 
@@ -60,7 +60,7 @@
           </div>
         </div>
         <div class="panel no-tr flexbox row center">
-          <div data-parent-selector="#control-inputs" data-selector="#control-tab-init" class="portal no-bg only-diffusers"></div>
+          <div data-parent-selector="#control-inputs" data-selector="#control-tab-init" class="portal no-bg"></div>
         </div>
       </div>
 
@@ -91,9 +91,9 @@
               <div class="flexbox col no-padding">
                 <div id="control_out_gallery_tabitem" class="xtabs-item notransition">
                   <div class="flexbox col grow">
-                    <div data-selector="#control_gallery" data-parent-selector="#tab_control" class="portal only-diffusers no-bg" droppable="true">
+                    <div data-selector="#control_gallery" data-parent-selector="#tab_control" class="portal no-bg" droppable="true">
                       <div class="flexbox col progress-flex">
-                        <div data-selector="#control_gallery_container" data-parent-selector="gradio-app" class="portal only-diffusers"></div>
+                        <div data-selector="#control_gallery_container" data-parent-selector="gradio-app" class="portal"></div>
                       </div>
                     </div>
                     <div iconTrigger="#info_icon_btn_control" class="accordion shrink no-tr">
@@ -103,17 +103,17 @@
                             <div class="mask-icon icon-info"></div>
                           </button>
                           <button class="sd-button">
-                            <div data-selector="#open_folder_control" data-parent-selector="#tab_control" droppable="true" class="portal only-diffusers invisible">
+                            <div data-selector="#open_folder_control" data-parent-selector="#tab_control" droppable="true" class="portal invisible">
                               <div class="mask-icon icon-folder"></div>
                             </div>
                           </button>
                           <button class="sd-button">
-                            <div data-selector="#save_control" data-parent-selector="#tab_control" droppable="true" class="portal only-diffusers invisible">
+                            <div data-selector="#save_control" data-parent-selector="#tab_control" droppable="true" class="portal invisible">
                               <div class="mask-icon icon-save"></div>
                             </div>
                           </button>
                           <button class="sd-button">
-                            <div data-selector="#delete_control" data-parent-selector="#tab_control" droppable="true" class="portal only-diffusers invisible">
+                            <div data-selector="#delete_control" data-parent-selector="#tab_control" droppable="true" class="portal invisible">
                               <div class="mask-icon icon-delete"></div>
                             </div>
                           </button>
@@ -124,22 +124,22 @@
                             </div>
                           </button>
                           <button class="sd-button only-legacy" data-click="#img2img_nav, #img2img_params">
-                            <div data-selector="#img2img_tab" data-parent-selector="#tab_control" droppable="true" class="portal only-diffusers invisible">
+                            <div data-selector="#img2img_tab" data-parent-selector="#tab_control" droppable="true" class="portal invisible">
                               <div class="mask-icon icon-2img2img"></div>
                             </div>
                           </button>
-                          <button class="sd-button only-diffusers" data-click="#control_nav">
-                            <div data-selector="#control_tab" data-parent-selector="#tab_control" droppable="true" class="portal only-diffusers invisible">
+                          <button class="sd-button" data-click="#control_nav">
+                            <div data-selector="#control_tab" data-parent-selector="#tab_control" droppable="true" class="portal invisible">
                               <div class="mask-icon icon-2control"></div>
                             </div>
                           </button>
                           <button class="sd-button" data-click="#extras_nav">
-                            <div data-selector="#extras_tab" data-parent-selector="#tab_control" droppable="true" class="portal only-diffusers invisible">
+                            <div data-selector="#extras_tab" data-parent-selector="#tab_control" droppable="true" class="portal invisible">
                               <div class="mask-icon icon-2extras"></div>
                             </div>
                           </button>
-                          <button class="sd-button only-diffusers" data-click="#caption_nav">
-                            <div data-selector="#caption_tab" data-parent-selector="#tab_control" droppable="true" class="portal only-diffusers invisible">
+                          <button class="sd-button" data-click="#caption_nav">
+                            <div data-selector="#caption_tab" data-parent-selector="#tab_control" droppable="true" class="portal invisible">
                               <div class="mask-icon icon-2caption"></div>
                             </div>
                           </button>
@@ -147,18 +147,18 @@
                       </div>
                       <div class="accordion-container info-results-container">
                         <div class="flexbox col">
-                          <div data-selector="#control-result" data-parent-selector="#tab_control" class="portal only-diffusers shrink hide-empty"></div>
-                          <div data-selector="#html_log_control" data-parent-selector="#tab_control" class="portal only-diffusers shrink hide-empty"></div>
+                          <div data-selector="#control-result" data-parent-selector="#tab_control" class="portal shrink hide-empty"></div>
+                          <div data-selector="#html_log_control" data-parent-selector="#tab_control" class="portal shrink hide-empty"></div>
                         </div>
                       </div>
                     </div>
                 </div>
                 </div>
                 <div id="control_out_image_tabitem" class="xtabs-item notransition">
-                  <div data-selector="#control_output_image" data-parent-selector="#tab_control" class="portal only-diffusers grow no-bg"></div>
+                  <div data-selector="#control_output_image" data-parent-selector="#tab_control" class="portal grow no-bg"></div>
                 </div>
                 <div id="control_out_video_tabitem" class="xtabs-item notransition">
-                  <div data-selector="#control_output_video" data-parent-selector="#tab_control" class="portal only-diffusers grow no-bg"></div>
+                  <div data-selector="#control_output_video" data-parent-selector="#tab_control" class="portal grow no-bg"></div>
                 </div>
               </div>
             </div>
@@ -172,10 +172,10 @@
           </div>
         </div>
         <div class="panel no-tr flexbox row center">
-          <div data-parent-selector="#control-inputs" data-selector="#control_preview" class="portal no-bg only-diffusers"></div>
+          <div data-parent-selector="#control-inputs" data-selector="#control_preview" class="portal no-bg"></div>
         </div>
       </div>
     </div>
-    <div data-parent-selector="#tab_control" data-selector="#download_files_control" data-vis="true" class="portal only-diffusers shrink hide-empty"></div>
+    <div data-parent-selector="#tab_control" data-selector="#download_files_control" data-vis="true" class="portal shrink hide-empty"></div>
   </div>
 </div>
