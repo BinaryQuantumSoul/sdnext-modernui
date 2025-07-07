@@ -107,17 +107,6 @@
                         <div data-selector="#video_ar" data-parent-selector="#tab_video" class="portal no-bg"></div>
                       </div>
                     </div>
-                    <div class="flexbox row">
-                      <div class="flexbox no-border row">
-                        <div data-parent-selector="#tab_video" data-selector="#video_seed" class="portal no-min-width"></div>
-                        <div data-parent-selector="#tab_video" data-selector="#video_random_seed" droppable="true" class="portal invisible shrink">
-                          <div class="mask-icon icon-dice"></div>
-                        </div>
-                        <div data-parent-selector="#tab_video" data-selector="#video_reuse_seed" droppable="true" class="portal shrink invisible">
-                          <div class="mask-icon icon-recycle"></div>
-                        </div>
-                      </div>
-                    </div>  
                   </div>
                 </div>
               </div>
@@ -126,12 +115,24 @@
         </div>
         <div id="video_params_tabitem_group" class="flexbox col outline-params">
           <div id="video_params_tabitem" class="xtabs-item">
+            <h2>Parameters</h2>
             <div class="flexbox col auto-scroll">
               <div data-parent-selector="#tab_video" data-selector="#video_parameters_accordion" class="portal"></div>
               <div data-parent-selector="#tab_video" data-selector="#video_decode_accordion" class="portal"></div>
               <div data-parent-selector="#tab_video" data-selector="#video_init_accordion" class="portal"></div>
               <div data-parent-selector="#tab_video" data-selector="#video_output_accordion" class="portal"></div>
             </div>
+            <div class="flexbox row">
+              <div class="flexbox no-border row">
+                <div data-parent-selector="#tab_video" data-selector="#video_seed" class="portal no-min-width"></div>
+                <div data-parent-selector="#tab_video" data-selector="#video_random_seed" droppable="true" class="portal invisible shrink">
+                  <div class="mask-icon icon-dice"></div>
+                </div>
+                <div data-parent-selector="#tab_video" data-selector="#video_reuse_seed" droppable="true" class="portal shrink invisible">
+                  <div class="mask-icon icon-recycle"></div>
+                </div>
+              </div>
+            </div>  
           </div>
         </div>
 
