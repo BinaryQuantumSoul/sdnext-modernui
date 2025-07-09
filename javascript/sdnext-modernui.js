@@ -173,7 +173,7 @@ async function extraTweaks() {
   new ResizeObserver(() => adjustFlexDirection(controlColumns)).observe(controlColumns);
 
   // Extra networks tab
-  ['txt2img', 'img2img', 'control'].forEach((key) => {
+  ['txt2img', 'img2img', 'control', 'video'].forEach((key) => {
     const buttonNav = document.getElementById(`${key}_nav`);
     const buttonEN = document.getElementById(`btn-en-layout-${key}`);
     buttonNav.addEventListener('click', () => {
@@ -185,7 +185,7 @@ async function extraTweaks() {
   const txt2imgNav = document.getElementById('txt2img_nav');
   const img2imgNav = document.getElementById('img2img_nav');
   const controlNav = document.getElementById('control_nav');
-  const videoNav = document.getElementById('control_nav');
+  const videoNav = document.getElementById('video_nav');
 
   logoNav.addEventListener('click', () => controlNav.click());
   const buttonCurrent = document.getElementById(getStored('tab-main_group-current')) || logoNav;
@@ -193,7 +193,7 @@ async function extraTweaks() {
 
   const handleTabChange = (evt) => { // required to keep js detection code happy
     const tabname = evt.target.id.split('_')[0];
-    for (const tab of ['txt2img', 'img2img', 'control']) {
+    for (const tab of ['txt2img', 'img2img', 'control', 'video']) {
       document.getElementById(`tab_${tab}`).style.display = tabname === tab ? 'block' : 'none';
     }
   };
@@ -201,6 +201,7 @@ async function extraTweaks() {
   txt2imgNav.addEventListener('click', handleTabChange);
   img2imgNav.addEventListener('click', handleTabChange);
   controlNav.addEventListener('click', handleTabChange);
+  videoNav.addEventListener('click', handleTabChange);
 
   // Log wrapping
   document.getElementById('btn_console_log_server_wrap').onclick = () => {
@@ -263,6 +264,7 @@ async function uiuxOptionSettings() {
   setupUiUxSetting('uiux_show_labels_main', 'option-main-labels');
   setupUiUxSetting('uiux_show_labels_tabs', 'option-tab-labels');
   setupUiUxSetting('uiux_show_labels_tabs', 'option-control-labels');
+  setupUiUxSetting('uiux_show_labels_tabs', 'option-video-labels');
   setupUiUxSetting('uiux_no_headers_params', 'option-hide-headers-params');
   setupUiUxSetting('uiux_show_outline_params', 'option-show-outline-params');
 

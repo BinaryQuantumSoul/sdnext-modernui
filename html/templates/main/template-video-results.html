@@ -22,8 +22,16 @@
         <div class="mask-icon icon-stop"></div>
       </div>
     </div>
+
   </div>
 
-  <div data-parent-selector="#tab_video" data-selector="#video-output-column" class="portal flexbox grow"></div>
+  <div id="video-output" data-selector="#video_output" data-parent-selector="#tab_video" class="portal full-height" droppable="true">
+    <div id='video-selector-video' class="flexbox col xtabs-item video_generic_tabitem video_output no-outline">
+      <div data-parent-selector="#tab_video" data-selector="#video-output-column" class="portal flexbox grow no-outline"></div>
+    </div>
+    <div id='video-selector-framepack' class="flexbox col xtabs-item video_framepack_tabitem video_output no-outline">
+      <div data-parent-selector="#tab_video" data-selector="#framepack-output-column" class="portal flexbox grow no-outline"></div>
+    </div>
+  </div>
 
 </div>
