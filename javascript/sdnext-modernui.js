@@ -263,6 +263,8 @@ async function uiuxOptionSettings() {
   setupUiUxSetting('uiux_show_labels_aside', 'option-aside-labels');
   setupUiUxSetting('uiux_show_labels_main', 'option-main-labels');
   setupUiUxSetting('uiux_show_labels_tabs', 'option-tab-labels');
+  setupUiUxSetting('uiux_show_labels_tabs', 'option-txt2img-labels');
+  setupUiUxSetting('uiux_show_labels_tabs', 'option-img2img-labels');
   setupUiUxSetting('uiux_show_labels_tabs', 'option-control-labels');
   setupUiUxSetting('uiux_show_labels_tabs', 'option-video-labels');
   setupUiUxSetting('uiux_no_headers_params', 'option-hide-headers-params');
@@ -277,7 +279,7 @@ async function uiuxOptionSettings() {
   // settings mobile scale
   function uiux_mobile_scale(value) {
     const viewport = document.head.querySelector('meta[name="viewport"]');
-    viewport.setAttribute('content', `width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=${value}`);
+    if (viewport) viewport.setAttribute('content', `width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=${value}`);
   }
   el = gradioApp().querySelector('#setting_uiux_mobile_scale input[type=number]');
   if (el) el.addEventListener('change', (e) => uiux_mobile_scale(e.target.value));
@@ -406,11 +408,13 @@ loadAllPortals = logFn(loadAllPortals); // eslint-disable-line no-func-assign
 
 function movePortal(portalElem, tries, index, length) {
   const MAX_TRIES = 3;
-  const sp = portalElem.getAttribute('data-parent-selector');
-  const s = portalElem.getAttribute('data-selector');
-  const targetElem = document.querySelector(`${sp} ${s}`); // (tries % 2 == 0) ? document.querySelector(`${sp} ${s}`) : appUiUx.querySelector(`${s}`);
+  const parentSelector = portalElem.getAttribute('data-parent-selector');
+  const dataSelector = portalElem.getAttribute('data-selector');
+  const targetElem = document.querySelector(`${parentSelector} ${dataSelector}`);
+  // const allElements = document.querySelectorAll(`${parentSelector} ${dataSelector}`);
+  // if (allElements.length > 1) error(`Multiple elements num=${allElements.length} selector=${parentSelector} ${dataSelector}`, allElements);
   if (portalElem && targetElem) {
-    if (window.opts.uiux_enable_console_log) log('UI register', index, sp, s, tries);
+    if (window.opts.uiux_enable_console_log) log('UI register', index, parentSelector, dataSelector, tries);
     portalElem.append(targetElem);
     portalTotal += 1;
     const droppable = portalElem.getAttribute('droppable');
@@ -429,7 +433,7 @@ function movePortal(portalElem, tries, index, length) {
     const delay = timeout ? parseInt(timeout) : 500;
     setTimeout(() => movePortal(portalElem, tries + 1, index, length), delay);
   } else {
-    error('Element not found', { index, parent: sp, id: s });
+    error('Element not found', { index, parent: parentSelector, id: dataSelector, el: portalElem, tgt: targetElem });
     if (window.opts.uiux_enable_console_log) portalElem.style.backgroundColor = 'pink';
     portalTotal += 1;
   }
@@ -751,17 +755,18 @@ async function loadCurrentTemplate(data) {
     const response = await fetch(uri, { cache: 'reload' });
 
     if (!response.ok) {
-      log('UI failed to load template', curr_data.template);
-      curr_data.target.setAttribute('status', 'error');
+      log('UI failed to load template', curr_data.template, curr_data.target);
+      if (curr_data.target) curr_data.target.setAttribute('status', 'error');
     } else {
       const text = await response.text();
       const tempDiv = document.createElement('div');
       tempDiv.innerHTML = curr_data.key ? text.replace(/\s*\{\{.*?\}\}\s*/g, curr_data.key) : text;
       const nestedData = getNestedTemplates(tempDiv);
       data.push(...nestedData);
-
-      curr_data.target.setAttribute('status', 'true');
-      curr_data.target.append(tempDiv.firstElementChild);
+      if (curr_data.target) {
+        curr_data.target.setAttribute('status', 'true');
+        curr_data.target.append(tempDiv.firstElementChild);
+      }
     }
     return loadCurrentTemplate(data);
   }
