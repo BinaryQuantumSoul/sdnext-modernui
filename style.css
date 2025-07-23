@@ -5129,3 +5129,7 @@ gallery-folder:hover {
 #txt2img_script_ip_adapters, #txt2img_script_alwayson, #img2img_script_ip_adapters, #img2img_script_alwayson {
   display: none;
 }
+
+#control_column_fixed2 {
+  flex-grow: 0;
+}
