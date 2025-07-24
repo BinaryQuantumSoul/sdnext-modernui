@@ -1828,13 +1828,16 @@ h1 {
 }
 
 #txt2img_description,
-#img2img_description {
+#img2img_description,
+#control_description,
+#video_description {
   overflow-y: auto !important;
 }
 
 #txt2img_description>label>textarea,
-#img2img_description>label>textarea {
-
+#img2img_description>label>textarea,
+#control_description>label>textarea,
+#video_description>label>textarea {
   font-size: 0.9em
 }
 
