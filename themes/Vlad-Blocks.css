@@ -1,0 +1,127 @@
+/* Author: VladMandic */
+
+:root {
+  --sd-main-accent-color:hsl(180deg 60% 60%);
+  --sd-input-placeholder-text-color:hsl(180deg 60% 60%);
+  --sd-secondary-color:hsl(0deg 0% 13%);
+  --sd-main-background-color:hsl(0deg 0% 10%);
+  --sd-button-normal-color:hsl(0deg 5% 18%);
+  --sd-input-height:36px;
+  --sd-input-slider-height:0.4;
+  --sd-input-icon-height:calc(var(--sd-input-height) - var(--sd-input-border-size) * 2);
+  --sd-input-padding:4px 10px;
+  --sd-input-line-height:24px;
+  --sd-label-color:hsl(180deg 10% 70%);
+  --sd-input-border-size:0;
+  --sd-input-text-color:hsl(0deg 0% 80%);
+  --sd-input-background-color:hsl(180deg 0% 10);
+  --sd-input-border-color:hsl(180deg 0% 0%);
+  --sd-input-hover-text-color:hsl(0deg 6% 13%);
+  --sd-panel-background-color:hsl(0deg 0% 13%);
+  --sd-panel-border-color:hsl(0deg 0% 26%);
+  --sd-panel-padding:4px;
+  --sd-border-radius:4px;
+  --sd-border-size:0;
+  --sd-gap-size:2px;
+  --sd-group-background-color:hsl(0deg 0% 13%);
+  --sd-group-padding:2px;
+  --sd-group-border-radius:0;
+  --sd-group-border-size:0;
+  --sd-group-border-color:hsl(0deg 0% 13%);
+  --sd-group-gap:6px;
+  --sd-outside-gap-size:8px;
+  --sd-scrollbar-color: var(--sd-panel-border-color);
+  --sd-outline-color: var(--sd-button-hover-color);
+  --sd-outline-size: calc(var(--sd-border-size) * 0.8);
+  --sd-button-normal-text-color: var(--sd-input-text-color);
+  --sd-button-selected-color: hsl(180deg 60% 30%);
+  --sd-button-selected-text-color: hsl(0deg 0% 80%);
+  --sd-button-hover-color: hsl(180deg 60% 20%);
+  --sd-button-hover-text-color: hsl(0deg 0% 80%);
+
+  color-scheme: dark;
+}
+
+.tab-nav {
+  background-color: var(--sd-button-normal-color);
+}
+
+.group-col {
+  gap: 2px !important;
+}
+
+.extra-network-subdirs {
+  gap: 2px;
+  margin-left: -4px;
+  margin-right: 8px;
+}
+
+.flexbox.row {
+  margin-bottom: unset;
+}
+
+.gutter.gutter-horizontal, .gutter.gutter-vertical {
+  background: transparent;
+}
+
+.accordion-vertical.expand {
+  margin-right: 0;
+}
+
+*.gradio-gallery .preview img {
+    background-color: var(--sd-group-background-color);
+}
+
+.empty {
+  display: none !important;
+}
+
+.grid-wrap {
+  background-color: unset;
+}
+
+.gradio-gallery .preview {
+  background-color: unset;
+}
+
+.acc-button {
+  background-color: unset;
+  width: unset;
+}
+
+.gradio-row {
+  padding-bottom: 1em !important;
+  padding-right: 
+}
+
+.padded {
+  padding-right: 1em !important;
+}
+
+.padding {
+  margin-bottom: var(--sd-panel-padding) !important;
+}
+
+.tab-nav {
+  resize: none !important;
+}
+
+#main-nav {
+  margin-right: 2px !important;
+}
+
+.extra-network-subdirs>button, .settings-tabs button {
+  padding: 6px;
+}
+
+.full-height {
+  margin-bottom: 4px;
+}
+
+.locale-indicator {
+  background-color: unset;
+}
+
+.gradio-textbox {
+  padding: 0 !important;
+}
