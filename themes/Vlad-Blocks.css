@@ -1,6 +1,9 @@
 /* Author: VladMandic */
 
 :root {
+  --sd-body-font: 'NotoSans', sans-serif;
+  --sd-text-font: 'NotoSans', sans-serif;
+  --sd-button-font: 'NotoSans', sans-serif;
   --sd-main-accent-color:hsl(180deg 60% 60%);
   --sd-input-placeholder-text-color:hsl(180deg 60% 60%);
   --sd-secondary-color:hsl(0deg 0% 13%);

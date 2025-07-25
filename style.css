@@ -3,9 +3,16 @@
   font-family: 'NotoSans';
   font-style: normal;
   font-weight: 100;
-
-src: local('NotoSansNerd'), url('themes/assets/notosans-nerdfont-regular.ttf')
+  src: local('NotoSansNerd'), url('themes/assets/notosans-nerdfont-regular.ttf')
 }
+@font-face {
+  font-display: swap;
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 100;
+  src: local('IBMPlexMonoNerd'), url('themes/assets/ibmplexmono-nerdfont-medium.ttf')
+}
+
 
 .icon-sdnext {
   mask-image: url(./html/favicon.svg);
@@ -66,15 +73,26 @@ src: local('NotoSansNerd'), url('themes/assets/notosans-nerdfont-regular.ttf')
   --sd-panel-border-color: rgba(64, 64, 64, 0.75);
   --sd-panel-padding: 5px;
   --sd-scrollbar-color: var(--sd-panel-border-color);
+  --sd-body-font: 'IBM Plex Mono', monospace;
+  --sd-text-font: 'IBM Plex Mono', monospace;
+  --sd-button-font: 'NotoSans', sans-serif;
 }
 
 body {
   --sd-display-legacy: 'block';
   background-color: var(--sd-main-background-color);
   color: var(--sd-label-color);
-  font-family: "IBM Plex Mono", monospace;
+  font-family: var(--sd-body-font);
   font-size: var(--sd-input-font-size);
   margin: 0;
+}
+
+button {
+  font-family: var(--sd-button-font);
+}
+
+textarea {
+  font-family: var(--sd-text-font);
 }
 
 .portal,
@@ -3544,6 +3562,7 @@ div[data-testid="image"] canvas {
 
 .group-row {
   gap: 0;
+  align-items: center;
 }
 
 .group-row>* button, .group-row>* {
@@ -3916,7 +3935,7 @@ input[type="checkbox"] {
   background-color: rgba(20, 20, 20, 0.75);
   display: none;
   flex-direction: row;
-  font-family: 'NotoSans';
+  font-family: inherit;
   height: 100%;
   left: 0;
   overflow: auto;
