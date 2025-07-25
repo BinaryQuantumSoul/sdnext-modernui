@@ -4158,11 +4158,6 @@ input[type="checkbox"] {
   padding-right: calc(var(--sd-panel-padding) / 2);
 }
 
-.media-desktop #accordion-control,
-.media-desktop #accordion-video {
-  margin: var(--sd-panel-padding) 0 var(--sd-panel-padding) calc(2* var(--sd-border-size));
-}
-
 .media-mobile #accordion-control,
 .media-mobile #accordion-video {
   background: transparent;
@@ -4214,7 +4209,7 @@ input[type="checkbox"] {
 }
 
 .template>.layout {
-  padding-right: var(--sd-border-size);
+  padding: 4px;
 }
 
 .template>.full-height {

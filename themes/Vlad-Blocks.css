@@ -41,7 +41,6 @@
   --sd-button-selected-text-color: hsl(0deg 0% 80%);
   --sd-button-hover-color: hsl(180deg 60% 20%);
   --sd-button-hover-text-color: hsl(0deg 0% 80%);
-
   color-scheme: dark;
 }
 
@@ -72,7 +71,7 @@
 }
 
 *.gradio-gallery .preview img {
-    background-color: var(--sd-group-background-color);
+  background-color: var(--sd-group-background-color);
 }
 
 .empty {
@@ -126,4 +125,8 @@
 
 .gradio-textbox {
   padding: 0 !important;
+}
+
+.gradio-accordion {
+  background-color: unset !important;
 }
