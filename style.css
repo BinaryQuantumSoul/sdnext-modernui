@@ -1168,9 +1168,60 @@ li.item span {
 
 .gallery-separator {
   display: block !important;
-  padding: 0.5em;
   width: 100%;
 }
+
+.gallery-separator {
+  cursor: cell;
+  padding: 8px;
+  border-radius: var(--sd-border-radius);
+  margin: 0;
+  user-select: none;
+  align-items: center;
+  gap: 8px;
+  max-width: 100%;
+}
+.gallery-separator:hover {
+  background-color: var(--sd-button-hover-color);
+}
+
+.gallery-separator:hover .gallery-separator-arrow,
+.gallery-separator:hover .gallery-separator-name,
+.gallery-separator:hover .gallery-separator-count {
+  color: var(--sd-input-hover-text-color);
+}
+
+
+
+.gallery-separator-arrow {
+  display: inline-block;
+  transition: transform 0.2s ease-in-out;
+  flex-shrink: 0;
+  color: var(--sd-input-text-color);
+}
+
+.gallery-separator-name {
+  flex: 1;
+  min-width: 0;
+  max-width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-left: 8px;
+  margin-right: 8px;
+}
+
+
+.gallery-separator-count {
+  color: var(--sd-input-placeholder-text-color);
+  font-size: 0.9em;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+
+
+
 
 *.gradio-gallery .preview button[aria-label] {
   height: var(--sd-input-height);
@@ -4796,6 +4847,7 @@ button.interrogate-blip:hover::after {
 
 #tab-gallery-folders {
   justify-content: start;
+  gap: var(--sd-gap-size);
 }
 
 #tab-gallery-files {
@@ -4805,6 +4857,15 @@ button.interrogate-blip:hover::after {
 
 #tab-gallery-sort-buttons>.form {
   display: flex;
+  gap: 0;
+}
+
+#tab-gallery-search textarea {
+  resize: none;
+}
+
+#tab-gallery-status {
+  color: var(--sd-button-selected-text-color);
 }
 
 gallery-folder {

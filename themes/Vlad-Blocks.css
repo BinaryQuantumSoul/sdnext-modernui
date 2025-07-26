@@ -52,6 +52,10 @@
   gap: 2px !important;
 }
 
+.form {
+  gap: 8px;
+}
+
 .extra-network-subdirs {
   gap: 2px;
   margin-left: -4px;
@@ -93,10 +97,6 @@
 
 .gradio-row {
   padding-bottom: 1em !important;
-}
-
-.padded {
-  padding-right: 1em !important;
 }
 
 .padding {
