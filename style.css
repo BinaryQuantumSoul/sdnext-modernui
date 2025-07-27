@@ -48,6 +48,7 @@
   --sd-group-border-color: hsl(0deg 0% 16%);
   --sd-group-border-radius: 7px;
   --sd-group-border-size: 2px;
+  --sd-button-height: 2.4em;
   --sd-group-gap: 6px;
   --sd-group-padding: 2px;
   --sd-input-background-color: rgba(0, 0, 0, 0.25);
@@ -1219,10 +1220,6 @@ li.item span {
   margin-left: auto;
 }
 
-
-
-
-
 *.gradio-gallery .preview button[aria-label] {
   height: var(--sd-input-height);
   width: var(--sd-input-height);
@@ -2111,8 +2108,8 @@ div#layout-3 {
 }
 
 .gradio-button:has([class*="icon-2"])::before {
-  background-color: var(--sd-main-accent-color);
-  border-radius: 50%;
+  background-color: var(--color-trace);
+  border-radius: var(--sd-border-radius);
   padding: 1px;
   right: -1px;
   top: -1px;
@@ -2702,6 +2699,7 @@ div#main-nav {
   gap: var(--sd-gap-size);
   justify-content: center;
   padding: 0;
+  height: var(--sd-button-height);
 }
 
 .sd-button .mask-icon {
@@ -2743,6 +2741,10 @@ button:hover svg {
   padding: 0;
 }
 
+.generate-icons {
+  gap: var(--sd-gap-size) !important;
+}
+
 .sd-button .gradio-button {
   align-items: center;
   border: 0;
@@ -2764,12 +2766,6 @@ button:hover svg {
 
 .force-padding {
   padding: var(--sd-panel-padding) !important;
-}
-
-.sd-button .portal {
-  background: transparent;
-  outline: 0;
-  padding: 0;
 }
 
 .sd-button .portal button {
@@ -3617,7 +3613,6 @@ div[data-testid="image"] canvas {
 }
 
 .group-row>* button, .group-row>* {
-  border-radius: 0 !important;
   height: 2.7em;
   min-width: 2.7em;
   padding: 0;
@@ -4648,6 +4643,7 @@ button>span {
 
 #control_dynamic_group {
   align-items: center;
+  gap: 0.5em;
 }
 
 #control-columns>div,
@@ -5163,6 +5159,12 @@ gallery-folder:hover {
 .locale-indicator:hover {
   background-color: var(--sd-button-hover-color);
   color: var(--sd-button-hover-text-color);
+}
+
+.performance, .performance p {
+    text-wrap: auto;
+    color: var(--color-trace) !important;
+    font-size: 0.9em !important;
 }
 
 #control-result,
