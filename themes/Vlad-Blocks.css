@@ -41,6 +41,7 @@
   --sd-button-selected-text-color: hsl(0deg 0% 80%);
   --sd-button-hover-color: hsl(180deg 60% 20%);
   --sd-button-hover-text-color: hsl(0deg 0% 80%);
+  --sd-extra-gap: calc(2*var(--sd-gap-size));
   color-scheme: dark;
 }
 
@@ -113,10 +114,6 @@
 
 .extra-network-subdirs>button, .settings-tabs button {
   padding: 6px;
-}
-
-.full-height {
-  margin-bottom: 4px;
 }
 
 .locale-indicator {

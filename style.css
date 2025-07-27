@@ -70,6 +70,7 @@
   --sd-outline-color: var(--sd-button-hover-color);
   --sd-outline-size: calc(var(--sd-border-size) * 0.8);
   --sd-outside-gap-size: 8px;
+  --sd-extra-gap: 0;
   --sd-panel-background-color: rgba(64, 64, 64, 0.5);
   --sd-panel-border-color: rgba(64, 64, 64, 0.75);
   --sd-panel-padding: 5px;
@@ -888,7 +889,7 @@ button:hover .mask-icon {
   flex-direction: column;
   height: 100%;
   justify-content: center;
-  min-height: 15vh;
+  min-height: 5vh;
   width: 100%;
 }
 
@@ -1153,6 +1154,7 @@ li.item span {
   object-fit: contain;
   padding: 0;
   width: 100%;
+  background-color: transparent;
 }
 
 * button.thumbnail-item.thumbnail-small {
@@ -1371,6 +1373,14 @@ li.item span {
   display: flex;
   flex-direction: column;
   outline: var(--sd-border-size) solid var(--sd-panel-border-color);
+}
+
+.margin-top {
+  margin-top: var(--sd-extra-gap);
+}
+
+.margin-bottom {
+  margin-bottom: var(--sd-extra-gap);
 }
 
 .accordion-container {
@@ -2749,7 +2759,6 @@ button:hover svg {
   align-items: center;
   border: 0;
   display: flex;
-  min-height: unset;
   min-width: unset;
   padding: 0;
   padding: var(--sd-panel-padding);
@@ -3431,6 +3440,22 @@ span.star_count b {
   width: 100%;
 }
 
+#control-tab-input .tabitem,
+#control-tab-input .gap,
+#control-tab-init .tabitem,
+#control-tab-init .gap {
+    padding: 0;
+}
+
+#control-tab-input .gradio-row {
+    height: var(--sd-button-height);
+    padding: 0;
+}
+
+#control_out_gallery_tabitem {
+  overflow-y: hidden;
+}
+
 .gradio-file {
   color: var(--sd-input-secondary-text-color);
 }
@@ -3549,7 +3574,7 @@ position: relative
 .image-container {
   align-self: center;
   display: flex;
-  min-height: 15vh !important;
+  min-height: 5vh !important;
   position: relative;
   text-align: center;
 }
@@ -4644,6 +4669,9 @@ button>span {
 #control_dynamic_group {
   align-items: center;
   gap: 0.5em;
+  margin: 0;
+  flex-grow: 0;
+  min-width: fit-content;
 }
 
 #control-columns>div,
@@ -5212,8 +5240,4 @@ gallery-folder:hover {
 
 #control_column_fixed2 {
   flex-grow: 0;
-}
-
-#control_out_gallery_tabitem {
-  overflow: none;
 }
