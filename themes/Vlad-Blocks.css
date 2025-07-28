@@ -7,7 +7,7 @@
   --sd-main-accent-color:hsl(180deg 60% 60%);
   --sd-input-placeholder-text-color:hsl(180deg 60% 60%);
   --sd-secondary-color:hsl(0deg 0% 13%);
-  --sd-main-background-color:hsl(0deg 0% 10%);
+  --sd-main-background-color:hsl(0deg 0% 9%);
   --sd-button-normal-color:hsl(0deg 5% 18%);
   --sd-input-height:36px;
   --sd-input-slider-height:0.4;
@@ -17,7 +17,7 @@
   --sd-label-color:hsl(50, 10%, 80%);
   --sd-input-border-size:0;
   --sd-input-text-color:hsl(0deg 0% 80%);
-  --sd-input-background-color:hsl(180deg 0% 10);
+  --sd-input-background-color:hsl(180deg 0% 9);
   --sd-input-border-color:hsl(180deg 0% 0%);
   --sd-input-hover-text-color:hsl(50deg 10% 80%);
   --sd-panel-background-color:hsl(0deg 0% 13%);

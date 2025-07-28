@@ -11,7 +11,7 @@ def on_ui_settings():
         "uiux_no_slider_layout": OptionInfo(False, "Hide input range sliders"),
         "uiux_show_labels_aside": OptionInfo(False, "Show labels for aside tabs"),
         "uiux_show_labels_main": OptionInfo(False, "Show labels for main tabs"),
-        "uiux_show_labels_tabs": OptionInfo(False, "Show labels for page tabs"),
+        "uiux_show_labels_tabs": OptionInfo(True, "Show labels for page tabs"),
         "uiux_show_input_range_ticks": OptionInfo(True, "Show ticks for input range slider", gr.Checkbox, {"visible": False}),
         "uiux_no_headers_params": OptionInfo(False, "Hide params headers", gr.Checkbox, {"visible": False}),
         "uiux_show_outline_params": OptionInfo(True, "Show parameter outline", gr.Checkbox, {"visible": False}),
