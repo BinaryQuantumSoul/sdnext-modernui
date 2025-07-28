@@ -1825,20 +1825,22 @@ h1 {
 }
 
 .extra-network-cards .card .overlay .tags {
-  background: rgba(0, 0, 0, 0.40);
-  display: none;
+  background: var(--sd-panel-background-color);
   overflow-wrap: break-word;
   padding: 4px;
   position: absolute;
   top: 100%;
+  opacity: 0.9;
+  display: none;
 }
 
 .extra-network-cards .card .overlay .tag {
-  background: var(--neutral-700);
+  background: var(--sd-button-hover-color);
   cursor: pointer;
   display: inline-block;
-  margin: 2px;
-  padding: 2px;
+  margin: var(--sd-gap-size);
+  padding: var(--sd-gap-size);
+  border-radius: var(--sd-border-radius);
 }
 
 .extra-network-cards .card .actions>span {
@@ -5242,4 +5244,15 @@ gallery-folder:hover {
     max-height: 2em;
     opacity: 0.7;
     margin: 0.4em;
+}
+
+.extra-network-cards .version {
+    z-index: 999;
+    color: var(--sd-input-hover-text-color);
+    position: absolute;
+    top: 0;
+    right: 0.5em;
+    filter: drop-shadow(2px 4px 6px black);
+    font-size: 1.3em;
+    font-variant: all-small-caps;
 }
