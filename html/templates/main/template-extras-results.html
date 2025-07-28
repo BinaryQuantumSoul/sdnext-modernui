@@ -40,24 +40,25 @@
           <div class="flexbox col shrink">
             <h2>Output</h2>
           </div>
+
           <div id="extras_generate_group" class="flexbox row flex-end group-row generate-icons">
-            <div class="xtabs-anchor flexbox" anchorNav="#mode_extras > .tab-nav">
-              <div anchor="1,2,3" class="flexbox row flex-end group-row">
-                <button title="Generate" class="sd-button generate">
-                  <div data-selector="#extras_generate" data-parent-selector="#tab_process" droppable="true" class="portal no-bg shrink invisible">
-                    <div class="mask-icon icon-generate"></div>
-                    <span>Generate</span>
-                  </div>
-                </button>
-                <div title="Skip" data-selector="#extras_skip" data-parent-selector="#tab_process" droppable="true" class="portal invisible shrink no-bg no-padding-one disable sd-button">
-                  <div class="mask-icon icon-skip"></div>
-                </div>
-                <div title="Interrupt" data-selector="#extras_interrupt" data-parent-selector="#tab_process" droppable="true" class="portal invisible shrink no-bg no-padding-one disable sd-button">
-                  <div class="mask-icon icon-stop"></div>
-                </div>
+            <button title="Generate" class="sd-button generate">
+              <div data-selector="#extras_generate" data-parent-selector="#tab_process" droppable="true" class="portal no-bg shrink invisible btn-generate">
+                <div class="mask-icon icon-generate"></div>
+                <span>Generate</span>
               </div>
+            </button>
+            <div title="Skip" data-selector="#extras_skip" data-parent-selector="#tab_process" droppable="true" class="portal no-bg shrink invisible">
+              <div class="mask-icon icon-skip"></div>
+            </div>
+            <div title="Pause" data-selector="#extras_pause" data-parent-selector="#tab_process" droppable="true" class="portal no-bg shrink invisible">
+              <div class="mask-icon icon-pause"></div>
+            </div>
+            <div title="Interrupt" data-selector="#extras_interrupt" data-parent-selector="#tab_process" droppable="true" class="portal no-bg shrink invisible">
+              <div class="mask-icon icon-stop"></div>
             </div>
           </div>
+
         </div>
         <div class="panel no-tr flexbox col">
           <div data-selector="#extras_gallery" data-parent-selector="#tab_process" class="portal full-height no-bg no-padding" droppable="true">
@@ -86,6 +87,7 @@
                     <div class="mask-icon icon-delete"></div>
                   </div>
                 </button>
+
                 <button class="sd-button only-legacy" data-click="#txt2img_nav">
                   <div data-selector="#txt2img_tab" data-parent-selector="#image_buttons_extras" droppable="true" class="portal invisible">
                     <div class="mask-icon icon-2txt2img"></div>

@@ -1,11 +1,39 @@
 <div class="layout">
   <div class="flexbox col">
     <div id="img2img-columns" class="flexbox row">
+
       <div id="img2img-template-column-input" class="flexbox col grow">
         <div class="flexbox row shrink panel padding no-br only-desktop">
           <div class="flexbox col shrink">
             <h2>Input</h2>
           </div>
+          <div id="img2img_generate_group" class="flexbox row flex-end group-row generate-icons">
+            <button title="Generate" class="sd-button generate">
+              <div data-selector="#img2img_generate" data-parent-selector="#tab_img2img" droppable="true" class="portal no-bg shrink invisible btn-generate">
+                <div class="mask-icon icon-generate"></div>
+                <span>Generate</span>
+              </div>
+            </button>
+            <div data-selector="#img2img_reprocess" data-parent-selector="#tab_img2img" droppable="true" class="portal no-bg shrink invisible">
+              <div class="mask-icon icon-reprocess"></div>
+            </div>
+            <button title="Generate forever" id="img2img_loop" toggle="true" class="sd-button">
+              <div id="mask-icon-loop" class="mask-icon icon-loop"></div>
+            </button>
+            <div title="Skip" data-selector="#img2img_skip" data-parent-selector="#tab_img2img" droppable="true" class="portal no-bg shrink invisible">
+              <div class="mask-icon icon-skip"></div>
+            </div>
+            <div title="Pause" data-selector="#img2img_pause" data-parent-selector="#tab_img2img" droppable="true" class="portal no-bg shrink invisible">
+              <div class="mask-icon icon-pause"></div>
+            </div>
+            <div title="Interrupt" data-selector="#img2img_interrupt" data-parent-selector="#tab_img2img" droppable="true" class="portal no-bg shrink invisible">
+              <div class="mask-icon icon-stop"></div>
+            </div>
+            <div data-selector="#img2img_enqueue" data-parent-selector="#tab_img2img" droppable="true" class="portal no-bg shrink invisible">
+              <div class="mask-icon icon-enqueue"></div>
+            </div>
+          </div>
+
         </div>
         <div class="panel no-tr flexbox col">
           <div data-selector="#mode_img2img" data-parent-selector="#tab_img2img" class="portal no-bg no-padding"></div>
@@ -101,40 +129,11 @@
           </div>
         </div>
       </div>
+
       <div id="img2img-template-column-output" class="flexbox col grow">
         <div id="img2img_results_header_panel" class="flexbox row shrink panel padding no-br margin-top only-desktop">
           <div class="flexbox col shrink">
             <h2>Output</h2>
-          </div>
-          <div id="img2img_generate_group" class="flexbox row flex-end group-row generate-icons">
-            <button title="Generate" class="sd-button generate">
-              <div data-selector="#img2img_generate" data-parent-selector="#tab_img2img" droppable="true" class="portal no-bg shrink invisible">
-                <div class="mask-icon icon-generate"></div>
-                <span>Generate</span>
-              </div>
-            </button>
-            <button title="Reprocess" class="sd-button">
-              <div data-selector="#img2img_reprocess" data-parent-selector="#tab_img2img" droppable="true" class="portal no-bg shrink invisible">
-                <div class="mask-icon icon-reprocess"></div>
-              </div>
-            </button>
-            <button title="Generate forever" id="img2img_loop" toggle="true" class="sd-button">
-              <div class="mask-icon icon-loop"></div>
-            </button>
-            <div title="Skip" data-selector="#img2img_skip" data-parent-selector="#tab_img2img" droppable="true" class="portal invisible shrink no-bg no-padding-one sd-button sd-button">
-              <div class="mask-icon icon-skip"></div>
-            </div>
-            <div title="Pause" data-selector="#img2img_pause" data-parent-selector="#tab_img2img" droppable="true" class="portal invisible shrink no-bg no-padding-one sd-button sd-button">
-              <div class="mask-icon icon-pause"></div>
-            </div>
-            <div title="Interrupt" data-selector="#img2img_interrupt" data-parent-selector="#tab_img2img" droppable="true" class="portal invisible shrink no-bg no-padding-one sd-button sd-button">
-              <div class="mask-icon icon-stop"></div>
-            </div>
-            <button title="Enqueue" class="sd-button generate">
-              <div data-selector="#img2img_enqueue" data-parent-selector="#tab_img2img" droppable="true" class="portal no-bg shrink invisible">
-                <div class="mask-icon icon-enqueue"></div>
-              </div>
-            </button>
           </div>
         </div>
         <div class="panel no-tr flexbox col">
@@ -164,12 +163,13 @@
                     <div class="mask-icon icon-delete"></div>
                   </div>
                 </button>
-                <button class="sd-button" data-click="#txt2img_nav">
+
+                <button class="sd-button only-legacy" data-click="#txt2img_nav">
                   <div data-selector="#txt2img_tab" data-parent-selector="#tab_img2img" droppable="true" class="portal invisible">
                     <div class="mask-icon icon-2txt2img"></div>
                   </div>
                 </button>
-                <button class="sd-button" data-click="#img2img_nav, #img2img_params">
+                <button class="sd-button only-legacy" data-click="#img2img_nav, #img2img_params">
                   <div data-selector="#img2img_tab" data-parent-selector="#tab_img2img" droppable="true" class="portal invisible">
                     <div class="mask-icon icon-2img2img"></div>
                   </div>

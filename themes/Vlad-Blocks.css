@@ -14,12 +14,12 @@
   --sd-input-icon-height:calc(var(--sd-input-height) - var(--sd-input-border-size) * 2);
   --sd-input-padding:4px 10px;
   --sd-input-line-height:24px;
-  --sd-label-color:hsl(180deg 10% 70%);
+  --sd-label-color:hsl(50, 10%, 80%);
   --sd-input-border-size:0;
   --sd-input-text-color:hsl(0deg 0% 80%);
   --sd-input-background-color:hsl(180deg 0% 10);
   --sd-input-border-color:hsl(180deg 0% 0%);
-  --sd-input-hover-text-color:hsl(0deg 6% 13%);
+  --sd-input-hover-text-color:hsl(50deg 10% 80%);
   --sd-panel-background-color:hsl(0deg 0% 13%);
   --sd-panel-border-color:hsl(0deg 0% 26%);
   --sd-panel-padding:4px;
@@ -126,4 +126,53 @@
 
 .gradio-accordion {
   background-color: unset !important;
+}
+
+.settings-tabs .tab-nav {
+  gap: var(--sd-gap-size);
+  background-color: transparent;
+}
+.settings-tabs .tab-nav br {
+  display: none;
+}
+
+button>.mask-icon,
+button>span {
+  height: 1.5em;
+  min-width: 1.3em;
+  line-height: 1.3em;
+  margin: 0.2em;
+  pointer-events: none;
+  filter: drop-shadow(1px 1px 2px black);
+}
+
+.mask-icon {
+    filter: blur(4px) !important;
+}
+
+.btn-generate button {
+  color: hsl(145, 60%, 75%);
+}
+
+.icon-generate, .icon-loop, .icon-save {
+  background-color: hsl(145, 60%, 75%) !important;
+}
+.icon-skip {
+  background-color: hsl(50, 30%, 75%) !important;
+}
+.icon-pause, .icon-magic {
+  background-color: hsl(50, 60%, 75%) !important;
+}
+.icon-stop, .icon-delete {
+  background-color: hsl(0, 60%, 75%) !important;
+}
+.icon-enqueue, .icon-reprocess {
+  background-color: hsl(145, 30%, 75%) !important;
+}
+.icon-skip, .icon-folder, .icon-info, .icon-paste, .refresh {
+  background-color: hsl(195, 30%, 75%) !important;
+}
+
+.generate.active>.portal>button {
+  filter: drop-shadow(2px 4px 6px black)
 }

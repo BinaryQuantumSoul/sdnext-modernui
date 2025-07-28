@@ -33,32 +33,35 @@
             <div id="video_prompts_tabitem" class="xtabs-item">
               <div class="layout">
                 <div class="layout-header">
-                  <div class="flexbox no-padding row">
-                    <div class="flexbox no-border no-bg shrink row">
-                      <div data-parent-selector="#tab_video" data-selector="#video_paste" droppable="true" class="portal shrink invisible">
-                        <div class="mask-icon icon-magic"></div>
+
+                  <div class="prompt-header">
+                    <h2>Prompt</h2>
+                      <div class="flexbox no-border no-bg shrink row">
+                        <div data-parent-selector="#tab_video" data-selector="#video_paste" droppable="true" class="portal shrink invisible">
+                          <div class="mask-icon icon-magic"></div>
+                        </div>
+                        <div data-parent-selector="#video_tools" data-selector="#video_clear_prompt_btn" droppable="true" class="portal shrink invisible">
+                          <div class="mask-icon icon-delete"></div>
+                        </div>
                       </div>
-                      <div data-parent-selector="#video_tools" data-selector="#video_clear_prompt_btn" droppable="true" class="portal shrink invisible">
-                        <div class="mask-icon icon-delete"></div>
-                      </div>
+                  </div>
+                  <div class="styles flexbox no-border no-bg row">
+                    <div data-parent-selector="#video_styles_row" data-selector="#video_styles" class="portal no-min-width"></div>
+                    <div data-parent-selector="#video_styles_row" data-selector="#video_styles_refresh" droppable="true" class="portal shrink invisible">
+                      <div class="mask-icon refresh"></div>
                     </div>
-                    <div class="styles flexbox no-border no-bg row">
-                      <div data-parent-selector="#video_styles_row" data-selector="#video_styles" class="portal no-min-width"></div>
-                      <div data-parent-selector="#video_styles_row" data-selector="#video_styles_refresh" droppable="true" class="portal shrink invisible">
-                        <div class="mask-icon refresh"></div>
-                      </div>
-                      <div data-parent-selector="#video_styles_row" data-selector="#video_styles_apply" droppable="true" class="portal shrink invisible">
-                        <div class="mask-icon icon-paste"></div>
-                      </div>
-                      <div data-parent-selector="#video_styles_row" data-selector="#video_styles_save" droppable="true" class="portal shrink invisible">
-                        <div class="mask-icon icon-save"></div>
-                      </div>
+                    <div data-parent-selector="#video_styles_row" data-selector="#video_styles_apply" droppable="true" class="portal shrink invisible">
+                      <div class="mask-icon icon-paste"></div>
+                    </div>
+                    <div data-parent-selector="#video_styles_row" data-selector="#video_styles_save" droppable="true" class="portal shrink invisible">
+                      <div class="mask-icon icon-save"></div>
                     </div>
                   </div>
+
                 </div>
                 <div class="layout-content">
                   <div class="flexbox col">
-                    <div id="split-video-prompts" direction="vertical" gutterSize="8" class="split">
+                    <div id="split-video-prompts" direction="vertical" gutterSize="6" class="split main-prompt">
                       <div data-minSize="0" data-initSize="50" id="split-video-prompt-up" class="split-container">
                         <div class="layout">
                           <div class="layout-content">

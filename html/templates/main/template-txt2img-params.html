@@ -43,40 +43,40 @@
         <div class="xtabs-items">
           <div id="txt2img_prompts_tabitem_group" class="flexbox col">
             <div id="txt2img_prompts_tabitem" class="xtabs-item">
+
               <div class="layout-header">
-                <div class="flexbox no-padding row">
-                  <div class="flexbox no-border no-bg shrink row">
-                    <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_paste" droppable="true" class="portal shrink invisible">
-                      <div class="mask-icon icon-magic"></div>
+                <div class="prompt-header">
+                  <h2>Prompt</h2>
+                    <div class="flexbox no-border no-bg shrink row">
+                      <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_paste" droppable="true" class="portal shrink invisible">
+                        <div class="mask-icon icon-magic"></div>
+                      </div>
+                      <div data-parent-selector="#txt2img_tools" data-selector="#txt2img_clear_prompt_btn" droppable="true" class="portal shrink invisible">
+                        <div class="mask-icon icon-delete"></div>
+                      </div>
                     </div>
-                    <div data-parent-selector="#txt2img_tools" data-selector="#txt2img_clear_prompt_btn" droppable="true" class="portal shrink invisible">
-                      <div class="mask-icon icon-delete"></div>
-                    </div>
+                </div>
+                <div class="flexbox no-border no-bg row">
+                  <div data-parent-selector="#txt2img_styles_row" data-selector="#txt2img_styles" class="portal no-min-width"></div>
+                  <div data-parent-selector="#txt2img_styles_row" data-selector="#txt2img_styles_refresh" droppable="true" class="portal shrink invisible">
+                    <div class="mask-icon refresh"></div>
                   </div>
-                  <div class="flexbox no-border no-bg row">
-                    <div data-parent-selector="#txt2img_styles_row" data-selector="#txt2img_styles" class="portal no-min-width"></div>
-                    <div data-parent-selector="#txt2img_styles_row" data-selector="#txt2img_styles_refresh" droppable="true" class="portal shrink invisible">
-                      <div class="mask-icon refresh"></div>
-                    </div>
-                    <div data-parent-selector="#txt2img_styles_row" data-selector="#txt2img_styles_apply" droppable="true" class="portal shrink invisible">
-                      <div class="mask-icon icon-paste"></div>
-                    </div>
-                    <div data-parent-selector="#txt2img_styles_row" data-selector="#txt2img_styles_save" droppable="true" class="portal shrink invisible">
-                      <div class="mask-icon icon-save"></div>
-                    </div>
+                  <div data-parent-selector="#txt2img_styles_row" data-selector="#txt2img_styles_apply" droppable="true" class="portal shrink invisible">
+                    <div class="mask-icon icon-paste"></div>
+                  </div>
+                  <div data-parent-selector="#txt2img_styles_row" data-selector="#txt2img_styles_save" droppable="true" class="portal shrink invisible">
+                    <div class="mask-icon icon-save"></div>
                   </div>
                 </div>
               </div>
               <div class="layout-content">
                 <div class="flexbox col">
-                  <div id="split-txt2img-prompt" direction="vertical" gutterSize="8" class="split">
+                  <div id="split-txt2img-prompt" direction="vertical" gutterSize="6" class="split main-prompt">
                     <div data-minSize="0" data-initSize="50" id="split-txt2img-prompt-up" class="split-container">
                       <div class="layout">
                         <div class="layout-content">
                           <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_prompt" class="portal no-bg"></div>
-                        </div>
-                        <div class="layout-footer">
-                          <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_token_counter" class="portal relative token-counter" data-timeout="1000"></div>
+                          <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_token_counter" class="portal bottom-right" data-timeout="1000"></div>
                         </div>
                       </div>
                     </div>
@@ -84,9 +84,7 @@
                       <div class="layout">
                         <div class="layout-content">
                           <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_neg_prompt" class="portal no-bg"></div>
-                        </div>
-                        <div class="layout-footer">
-                          <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_negative_token_counter" data-timeout="1000" class="portal relative token-counter"></div>
+                          <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_negative_token_counter" data-timeout="1000" class="portal bottom-right"></div>
                         </div>
                       </div>
                     </div>

@@ -5,35 +5,32 @@
     </div>
     <div id="txt2img_generate_group" class="flexbox row flex-end group-row generate-icons">
       <button title="Generate" class="sd-button generate">
-        <div data-selector="#txt2img_generate" data-parent-selector="#tab_txt2img" droppable="true" class="portal no-bg shrink invisible">
+        <div data-selector="#txt2img_generate" data-parent-selector="#tab_txt2img" droppable="true" class="portal no-bg shrink invisible btn-generate">
           <div class="mask-icon icon-generate"></div>
           <span>Generate</span>
         </div>
       </button>
-      <button title="Reprocess" class="sd-button">
-        <div data-selector="#txt2img_reprocess" data-parent-selector="#tab_txt2img" droppable="true" class="portal no-bg shrink invisible">
-          <div class="mask-icon icon-reprocess"></div>
-        </div>
-      </button>
+      <div data-selector="#txt2img_reprocess" data-parent-selector="#tab_txt2img" droppable="true" class="portal no-bg shrink invisible">
+        <div class="mask-icon icon-reprocess"></div>
+      </div>
       <button title="Generate forever" id="txt2img_loop" toggle="true" class="sd-button">
         <div id="mask-icon-loop" class="mask-icon icon-loop"></div>
       </button>
-      <div title="Skip" data-selector="#txt2img_skip" data-parent-selector="#tab_txt2img" droppable="true" class="portal invisible shrink no-bg no-padding-one sd-button">
+      <div title="Skip" data-selector="#txt2img_skip" data-parent-selector="#tab_txt2img" droppable="true" class="portal no-bg shrink invisible">
         <div class="mask-icon icon-skip"></div>
       </div>
-      <div title="Pause" data-selector="#txt2img_pause" data-parent-selector="#tab_txt2img" droppable="true" class="portal invisible shrink no-bg no-padding-one sd-button">
+      <div title="Pause" data-selector="#txt2img_pause" data-parent-selector="#tab_txt2img" droppable="true" class="portal no-bg shrink invisible">
         <div class="mask-icon icon-pause"></div>
       </div>
-      <div title="Interrupt" data-selector="#txt2img_interrupt" data-parent-selector="#tab_txt2img" droppable="true" class="portal invisible shrink no-bg no-padding-one sd-button">
+      <div title="Interrupt" data-selector="#txt2img_interrupt" data-parent-selector="#tab_txt2img" droppable="true" class="portal no-bg shrink invisible">
         <div class="mask-icon icon-stop"></div>
       </div>
-      <button title="Enqueue" class="sd-button generate">
-        <div data-selector="#txt2img_enqueue" data-parent-selector="#tab_txt2img" droppable="true" class="portal no-bg shrink invisible">
-          <div class="mask-icon icon-enqueue"></div>
-        </div>
-      </button>
+      <div data-selector="#txt2img_enqueue" data-parent-selector="#tab_txt2img" droppable="true" class="portal no-bg shrink invisible">
+        <div class="mask-icon icon-enqueue"></div>
+      </div>
     </div>
   </div>
+
   <div data-selector="#txt2img_gallery" data-parent-selector="#tab_txt2img" class="portal full-height no-tr no-br no-padding" droppable="true">
     <div class="flexbox col progress-flex">
       <div data-selector="#txt2img_gallery_container" data-parent-selector="gradio-app" class="portal"></div>
@@ -61,12 +58,12 @@
           </div>
         </button>
 
-        <button class="sd-button" data-click="#txt2img_nav">
+        <button class="sd-button only-legacy" data-click="#txt2img_nav">
           <div data-selector="#txt2img_tab" data-parent-selector="#tab_txt2img" droppable="true" class="portal invisible">
             <div class="mask-icon icon-2txt2img"></div>
           </div>
         </button>
-        <button class="sd-button" data-click="#img2img_nav, #img2img_params">
+        <button class="sd-button only-legacy" data-click="#img2img_nav, #img2img_params">
           <div data-selector="#img2img_tab" data-parent-selector="#tab_txt2img" droppable="true" class="portal invisible">
             <div class="mask-icon icon-2img2img"></div>
           </div>
