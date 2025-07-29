@@ -101,10 +101,10 @@ textarea {
 }
 
 hr {
-    width: 100%;
-    height: var(--sd-gap-size);
-    border: none;
-    background-color: var(--sd-button-selected-color);
+  width: 100%;
+  height: var(--sd-gap-size);
+  border: none;
+  background-color: var(--sd-button-selected-color);
 }
 
 .portal,
@@ -1335,38 +1335,37 @@ li.item span {
 }
 
 * .gutter.gutter-horizontal {
-
   background: linear-gradient(90deg,
-      rgba(0, 0, 0, 0) 40%,
-      var(--sd-panel-background-color) 45%,
-      var(--sd-panel-background-color) 55%,
-      rgba(0, 0, 0, 0) 60%);
+    rgba(0, 0, 0, 0) 40%,
+    var(--sd-panel-background-color) 45%,
+    var(--sd-panel-background-color) 55%,
+    rgba(0, 0, 0, 0) 60%);
 }
 
 * .gutter.gutter-horizontal:hover {
   cursor: col-resize;
   background: linear-gradient(90deg,
-      rgba(0, 0, 0, 0) 40%,
-      var(--sd-main-accent-color) 45%,
-      var(--sd-main-accent-color) 55%,
-      rgba(0, 0, 0, 0) 60%);
+    rgba(0, 0, 0, 0) 40%,
+    var(--sd-main-accent-color) 45%,
+    var(--sd-main-accent-color) 55%,
+    rgba(0, 0, 0, 0) 60%);
 }
 
 * .gutter.gutter-vertical {
   background: linear-gradient(0deg,
-      rgba(0, 0, 0, 0) 40%,
-      var(--sd-input-background-color) 45%,
-      var(--sd-input-background-color) 55%,
-      rgba(0, 0, 0, 0) 60%);
+    rgba(0, 0, 0, 0) 40%,
+    var(--sd-input-background-color) 45%,
+    var(--sd-input-background-color) 55%,
+    rgba(0, 0, 0, 0) 60%);
 }
 
 * .gutter.gutter-vertical:hover {
   cursor: row-resize;
   background: linear-gradient(0deg,
-      rgba(0, 0, 0, 0) 40%,
-      var(--sd-main-accent-color) 45%,
-      var(--sd-main-accent-color) 55%,
-      rgba(0, 0, 0, 0) 60%);
+    rgba(0, 0, 0, 0) 40%,
+    var(--sd-main-accent-color) 45%,
+    var(--sd-main-accent-color) 55%,
+    rgba(0, 0, 0, 0) 60%);
 }
 
 .gutter:has(+ #split-right .accordion-vertical:not(.expand)),
@@ -1838,14 +1837,14 @@ h1 {
 }
 
 .extra-network-cards .version {
-    z-index: 40;
-    color: var(--sd-input-hover-text-color);
-    position: absolute;
-    top: 0;
-    right: 0.5em;
-    filter: drop-shadow(2px 4px 6px black);
-    font-size: 1.3em;
-    font-variant: all-small-caps;
+  z-index: 40;
+  color: var(--sd-input-hover-text-color);
+  position: absolute;
+  top: 0;
+  right: 0.5em;
+  filter: drop-shadow(2px 4px 6px black);
+  font-size: 1.3em;
+  font-variant: all-small-caps;
 }
 
 .extra-network-cards .card .tags {
@@ -2854,12 +2853,11 @@ button:hover svg {
   transform: rotate(30deg);
   width: 200px;
   z-index: 1;
-
-background-image: linear-gradient(90deg,
-      rgba(0, 0, 0, 0.1) 0%,
-      rgba(0, 0, 0, 0.1) 50%,
-      rgba(255, 255, 255, 0) 51%,
-      rgba(255, 255, 255, 0) 100%);
+  background-image: linear-gradient(90deg,
+    rgba(0, 0, 0, 0.1) 0%,
+    rgba(0, 0, 0, 0.1) 50%,
+    rgba(255, 255, 255, 0) 51%,
+    rgba(255, 255, 255, 0) 100%);
 }
 
 .generate.active>.portal>button {
@@ -3458,12 +3456,12 @@ span.star_count b {
 #control-tab-input .gap,
 #control-tab-init .tabitem,
 #control-tab-init .gap {
-    padding: 0;
+  padding: 0;
 }
 
 #control-tab-input .gradio-row {
-    height: var(--sd-button-height);
-    padding: 0;
+  height: var(--sd-button-height);
+  padding: 0;
 }
 
 #control_out_gallery_tabitem {
@@ -3543,23 +3541,13 @@ position: relative
 }
 
 @keyframes bg-slide {
-  from {
-    background-position: 0%;
-  }
-
-  to {
-    background-position: -100%;
-  }
+  from { background-position: 0%; }
+  to { background-position: -100%; }
 }
 
 @keyframes fade-in {
-  0% {
-    opacity: 0;
-  }
-
-  100% {
-    opacity: 1;
-  }
+  0% { opacity: 0; }
+  100% { opacity: 1; }
 }
 
 .icon-letters {
@@ -4005,12 +3993,12 @@ input[type="radio"]  {
 }
 
 input[type="checkbox"] {
-    min-height: var(--sd-input-line-height);
-    appearance: none;
-    mask-image: url(./html/svg/square.svg);
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-color: var(--sd-muted-color);
+  min-height: var(--sd-input-line-height);
+  appearance: none;
+  mask-image: url(./html/svg/square.svg);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-color: var(--sd-muted-color);
 }
 
 input[type="checkbox"]:hover {
@@ -4138,13 +4126,8 @@ input[type="checkbox"]:checked {
 }
 
 @keyframes fade-out {
-  0% {
-    opacity: 1;
-  }
-
-  100% {
-    opacity: 0;
-  }
+  0% { opacity: 1; }
+  100% { opacity: 0; }
 }
 
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
@@ -5007,35 +4990,18 @@ gallery-folder:hover {
 }
 
 @keyframes move {
-  from {
-    background-position-x: 0, -40px;
-  }
-
-  to {
-    background-position-x: 0, 40px;
-  }
+  from { background-position-x: 0, -40px; }
+  to { background-position-x: 0, 40px; }
 }
 
 @keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 @keyframes color {
-  from {
-
-    filter: hue-rotate(0deg)
-  }
-
-  to {
-
-    filter: hue-rotate(360deg)
-  }
+  from { filter: hue-rotate(0deg) }
+  to { filter: hue-rotate(360deg) }
 }
 
 .grow .gradio-tabs {
@@ -5210,9 +5176,9 @@ gallery-folder:hover {
 }
 
 .performance, .performance p {
-    text-wrap: auto;
-    color: var(--color-trace) !important;
-    font-size: 0.9em !important;
+  text-wrap: auto;
+  color: var(--color-trace) !important;
+  font-size: 0.9em !important;
 }
 
 #control-result,
@@ -5283,11 +5249,19 @@ gallery-folder:hover {
 }
 
 .bottom-right {
-    display: block;
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    max-height: 2em;
-    opacity: 0.7;
-    margin: 0.4em;
+  display: block;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  max-height: 2em;
+  opacity: 0.7;
+  margin: 0.4em;
+}
+
+#sd-primary-color {
+  opacity: 0.1;
+}
+
+#sd-primary-color:hover {
+  opacity: 1.0;
 }

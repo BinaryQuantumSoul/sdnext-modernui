@@ -332,6 +332,7 @@ async function setupGenerateObservers() {
   }
 
   function enableButtonAnimation(parentButton, enable) {
+    if (!parentButton) return;
     if (enable) parentButton.classList.add('active');
     else parentButton.classList.remove('active');
   }
