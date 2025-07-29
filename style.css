@@ -1820,11 +1820,18 @@ h1 {
   filter: grayscale(100%);
 }
 
-.extra-network-cards .card:hover .overlay {
-  background: rgba(0, 0, 0, 0.40);
+.extra-network-cards .version {
+    z-index: 40;
+    color: var(--sd-input-hover-text-color);
+    position: absolute;
+    top: 0;
+    right: 0.5em;
+    filter: drop-shadow(2px 4px 6px black);
+    font-size: 1.3em;
+    font-variant: all-small-caps;
 }
 
-.extra-network-cards .card .overlay .tags {
+.extra-network-cards .card .tags {
   background: var(--sd-panel-background-color);
   overflow-wrap: break-word;
   padding: 4px;
@@ -1832,15 +1839,21 @@ h1 {
   top: 100%;
   opacity: 0.9;
   display: none;
+  z-index: 50;
 }
 
-.extra-network-cards .card .overlay .tag {
+.extra-network-cards .card .tag {
   background: var(--sd-button-hover-color);
+  font-size: 0.9em;
   cursor: pointer;
   display: inline-block;
   margin: var(--sd-gap-size);
   padding: var(--sd-gap-size);
   border-radius: var(--sd-border-radius);
+}
+
+.extra-network-cards .card .tag:hover {
+  filter: drop-shadow(2px 4px 6px black);
 }
 
 .extra-network-cards .card .actions>span {
@@ -1851,8 +1864,8 @@ h1 {
   display: block;
 }
 
-.extra-network-cards .card:hover .overlay .tags {
-  display: block;
+.extra-network-cards .card:hover .tags {
+  display: grid;
 }
 
 .extra-network-cards .card .actions {
@@ -5244,15 +5257,4 @@ gallery-folder:hover {
     max-height: 2em;
     opacity: 0.7;
     margin: 0.4em;
-}
-
-.extra-network-cards .version {
-    z-index: 999;
-    color: var(--sd-input-hover-text-color);
-    position: absolute;
-    top: 0;
-    right: 0.5em;
-    filter: drop-shadow(2px 4px 6px black);
-    font-size: 1.3em;
-    font-variant: all-small-caps;
 }
