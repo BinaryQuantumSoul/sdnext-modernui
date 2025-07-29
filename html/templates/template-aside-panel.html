@@ -1,9 +1,9 @@
 <div id="accordion-aside" iconTrigger="#acc-arrow-button" iconFullTrigger="#acc-full-button" class="accordion accordion-vertical no-drag">
   <div class="accordion-bar">
-    <button id="acc-arrow-button" class="sd-button">
+    <button id="acc-arrow-button" class="sd-button acc-button">
       <div class="mask-icon accordion-icon icon-arrow-down"></div>
     </button>
-    <button id="acc-full-button" class="sd-button only-desktop">
+    <button id="acc-full-button" class="sd-button acc-button only-desktop">
       <div class="mask-icon accordion-full-icon icon-arrow-down"></div>
     </button>
     <div class="flexbox col"></div>
@@ -58,10 +58,10 @@
     <div template="aside/template-extra-networks" class="template"></div>
 
     <div id="layout-console-log">
-      <div id="split-console" gutterSize="8" direction="vertical" class="split">
+      <div id="split-console" gutterSize="6" direction="vertical" class="split">
         <h2>Server log
           <div id='btn_console_log_server_wrap' class="mask-icon overlay-icon icon-wrap" title="wrap log lines"></div>
-        </h2>       
+        </h2>
         <div data-minSize="0" data-initSize="50" id="split-console-up" class="split-container">
           <div data-selector="#logMonitorData" data-parent-selector="gradio-app" class="portal no-bg no-padding"></div>
         </div>

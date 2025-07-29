@@ -11,11 +11,9 @@ let appUiUx;
 let isBackendDiffusers;
 let isMediaMobile;
 
-//= ====================== OVERRIDES =======================
 window.getUICurrentTabContent = () => gradioApp().querySelector('.xtabs-item:not(.hidden) > .split');
 window.getSettingsTabs = () => gradioApp().querySelectorAll('#layout-settings .tabitem');
 
-//= ====================== READY STATES =======================
 function functionWaitForFlag(checkFlag) {
   return async function () { // eslint-disable-line func-names
     return new Promise((resolve) => {
@@ -31,7 +29,6 @@ let uiFlagPortalInitialized = false;
 window.waitForUiReady = functionWaitForFlag(() => uiFlagInitialized);
 const waitForUiPortal = functionWaitForFlag(() => uiFlagPortalInitialized);
 
-//= ====================== UTILS =======================
 function logPrettyPrint() {
   let output = '';
   let arg;
@@ -90,7 +87,6 @@ const getStored = (key) => {
   return val;
 };
 
-//= ====================== MOBILE =======================
 function applyDefaultLayout(isMobile) {
   isMediaMobile = isMobile;
 
@@ -173,7 +169,7 @@ async function extraTweaks() {
   new ResizeObserver(() => adjustFlexDirection(controlColumns)).observe(controlColumns);
 
   // Extra networks tab
-  ['txt2img', 'img2img', 'control'].forEach((key) => {
+  ['txt2img', 'img2img', 'control', 'video'].forEach((key) => {
     const buttonNav = document.getElementById(`${key}_nav`);
     const buttonEN = document.getElementById(`btn-en-layout-${key}`);
     buttonNav.addEventListener('click', () => {
@@ -185,10 +181,15 @@ async function extraTweaks() {
   const txt2imgNav = document.getElementById('txt2img_nav');
   const img2imgNav = document.getElementById('img2img_nav');
   const controlNav = document.getElementById('control_nav');
+  const videoNav = document.getElementById('video_nav');
+
+  logoNav.addEventListener('click', () => controlNav.click());
+  const buttonCurrent = document.getElementById(getStored('tab-main_group-current')) || logoNav;
+  buttonCurrent.click();
 
   const handleTabChange = (evt) => { // required to keep js detection code happy
     const tabname = evt.target.id.split('_')[0];
-    for (const tab of ['txt2img', 'img2img', 'control']) {
+    for (const tab of ['txt2img', 'img2img', 'control', 'video']) {
       document.getElementById(`tab_${tab}`).style.display = tabname === tab ? 'block' : 'none';
     }
   };
@@ -196,13 +197,7 @@ async function extraTweaks() {
   txt2imgNav.addEventListener('click', handleTabChange);
   img2imgNav.addEventListener('click', handleTabChange);
   controlNav.addEventListener('click', handleTabChange);
-
-  logoNav.addEventListener('click', () => { // default tab
-    if (isBackendDiffusers) controlNav.click();
-    else txt2imgNav.click();
-  });
-  const buttonCurrent = document.getElementById(getStored('tab-main_group-current')) || logoNav;
-  buttonCurrent.click();
+  videoNav.addEventListener('click', handleTabChange);
 
   // Log wrapping
   document.getElementById('btn_console_log_server_wrap').onclick = () => {
@@ -264,7 +259,10 @@ async function uiuxOptionSettings() {
   setupUiUxSetting('uiux_show_labels_aside', 'option-aside-labels');
   setupUiUxSetting('uiux_show_labels_main', 'option-main-labels');
   setupUiUxSetting('uiux_show_labels_tabs', 'option-tab-labels');
+  setupUiUxSetting('uiux_show_labels_tabs', 'option-txt2img-labels');
+  setupUiUxSetting('uiux_show_labels_tabs', 'option-img2img-labels');
   setupUiUxSetting('uiux_show_labels_tabs', 'option-control-labels');
+  setupUiUxSetting('uiux_show_labels_tabs', 'option-video-labels');
   setupUiUxSetting('uiux_no_headers_params', 'option-hide-headers-params');
   setupUiUxSetting('uiux_show_outline_params', 'option-show-outline-params');
 
@@ -277,7 +275,7 @@ async function uiuxOptionSettings() {
   // settings mobile scale
   function uiux_mobile_scale(value) {
     const viewport = document.head.querySelector('meta[name="viewport"]');
-    viewport.setAttribute('content', `width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=${value}`);
+    if (viewport) viewport.setAttribute('content', `width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=${value}`);
   }
   el = gradioApp().querySelector('#setting_uiux_mobile_scale input[type=number]');
   if (el) el.addEventListener('change', (e) => uiux_mobile_scale(e.target.value));
@@ -334,6 +332,7 @@ async function setupGenerateObservers() {
   }
 
   function enableButtonAnimation(parentButton, enable) {
+    if (!parentButton) return;
     if (enable) parentButton.classList.add('active');
     else parentButton.classList.remove('active');
   }
@@ -406,11 +405,13 @@ loadAllPortals = logFn(loadAllPortals); // eslint-disable-line no-func-assign
 
 function movePortal(portalElem, tries, index, length) {
   const MAX_TRIES = 3;
-  const sp = portalElem.getAttribute('data-parent-selector');
-  const s = portalElem.getAttribute('data-selector');
-  const targetElem = document.querySelector(`${sp} ${s}`); // (tries % 2 == 0) ? document.querySelector(`${sp} ${s}`) : appUiUx.querySelector(`${s}`);
+  const parentSelector = portalElem.getAttribute('data-parent-selector');
+  const dataSelector = portalElem.getAttribute('data-selector');
+  const targetElem = document.querySelector(`${parentSelector} ${dataSelector}`);
+  // const allElements = document.querySelectorAll(`${parentSelector} ${dataSelector}`);
+  // if (allElements.length > 1) error(`Multiple elements num=${allElements.length} selector=${parentSelector} ${dataSelector}`, allElements);
   if (portalElem && targetElem) {
-    if (window.opts.uiux_enable_console_log) log('UI register', index, sp, s, tries);
+    if (window.opts.uiux_enable_console_log) log('UI register', index, parentSelector, dataSelector, tries);
     portalElem.append(targetElem);
     portalTotal += 1;
     const droppable = portalElem.getAttribute('droppable');
@@ -429,7 +430,7 @@ function movePortal(portalElem, tries, index, length) {
     const delay = timeout ? parseInt(timeout) : 500;
     setTimeout(() => movePortal(portalElem, tries + 1, index, length), delay);
   } else {
-    error('Element not found', { index, parent: sp, id: s });
+    error('Element not found', { index, parent: parentSelector, id: dataSelector, el: portalElem, tgt: targetElem });
     if (window.opts.uiux_enable_console_log) portalElem.style.backgroundColor = 'pink';
     portalTotal += 1;
   }
@@ -651,7 +652,6 @@ function initButtonComponents() {
       });
     }
 
-    // Useful to switch tab after button click
     const extraClicks = elem.getAttribute('data-click');
     if (extraClicks) {
       elem.addEventListener('click', () => {
@@ -721,8 +721,6 @@ async function createButtonsForExtensions() {
     }
   });
 }
-
-//= ====================== TEMPLATES =======================
 async function replaceRootTemplate() {
   appUiUx = document.querySelector(uiux_app_id);
   gradioApp().insertAdjacentElement('afterbegin', appUiUx);
@@ -751,17 +749,18 @@ async function loadCurrentTemplate(data) {
     const response = await fetch(uri, { cache: 'reload' });
 
     if (!response.ok) {
-      log('UI failed to load template', curr_data.template);
-      curr_data.target.setAttribute('status', 'error');
+      log('UI failed to load template', curr_data.template, curr_data.target);
+      if (curr_data.target) curr_data.target.setAttribute('status', 'error');
     } else {
       const text = await response.text();
       const tempDiv = document.createElement('div');
       tempDiv.innerHTML = curr_data.key ? text.replace(/\s*\{\{.*?\}\}\s*/g, curr_data.key) : text;
       const nestedData = getNestedTemplates(tempDiv);
       data.push(...nestedData);
-
-      curr_data.target.setAttribute('status', 'true');
-      curr_data.target.append(tempDiv.firstElementChild);
+      if (curr_data.target) {
+        curr_data.target.setAttribute('status', 'true');
+        curr_data.target.append(tempDiv.firstElementChild);
+      }
     }
     return loadCurrentTemplate(data);
   }
@@ -780,7 +779,6 @@ async function loadAllTemplates() {
 }
 loadAllTemplates = logFn(loadAllTemplates); // eslint-disable-line no-func-assign
 
-//= ====================== INITIALIZATION =======================
 async function removeStyleAssets() {
   // Remove specific stylesheets
   let removedStylesheets = 0;
@@ -833,7 +831,6 @@ async function setupLogger() {
   window.logger = logMonitorJS;
 }
 
-//= ====================== MAIN ROUTINE =======================
 async function mainUiUx() {
   logStartup();
   await removeStyleAssets();
@@ -850,6 +847,7 @@ async function mainUiUx() {
   setupGenerateObservers();
   setupControlDynamicObservers();
   uiuxOptionSettings();
+  setUserColors();
   showContributors();
   switchMobile();
   extraTweaks();

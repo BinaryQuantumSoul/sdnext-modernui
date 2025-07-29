@@ -43,7 +43,7 @@ async function showContributors() {
   contributors_view.append(temp);
   contributors_btn.addEventListener('click', async (evt) => {
     if (!contributors_btn.getAttribute('data-visited')) {
-      contributors_btn.setAttribute('data-visited', 'true');
+      if (contributors_btn) contributors_btn.setAttribute('data-visited', 'true');
       const promise = getContributorsMultiple(['vladmandic/sdnext', 'BinaryQuantumSoul/sdnext-ui-ux']);
       promise.then((result) => {
         temp.innerHTML = '';

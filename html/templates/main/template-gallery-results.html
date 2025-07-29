@@ -4,12 +4,12 @@
       <h2>Preview</h2>
     </div>
   </div>
-  <div data-selector="#gallery_gallery" data-parent-selector="#tab_gallery" class="portal full-height no-tr no-br" droppable="true">
+  <div data-selector="#gallery_gallery" data-parent-selector="#tab_gallery" class="portal full-height no-tr no-br no-padding" droppable="true">
     <div class="flexbox col progress-flex">
       <div data-selector="#gallery_gallery_container" data-parent-selector="gradio-app" class="portal"></div>
     </div>
   </div>
-  <div iconTrigger="#info_icon_btn_gallery" class="accordion no-tr">
+  <div iconTrigger="#info_icon_btn_gallery" class="accordion no-tr margin-top">
     <div class="accordion-bar no-tr">
       <div class="flexbox row center">
         <button id="info_icon_btn_gallery" toggle="true" class="sd-button">
@@ -40,8 +40,8 @@
             <div class="mask-icon icon-2img2img"></div>
           </div>
         </button>
-        <button class="sd-button only-diffusers" data-click="#control_nav">
-          <div data-selector="#control_tab" data-parent-selector="#tab_gallery" droppable="true" class="portal only-diffusers invisible">
+        <button class="sd-button" data-click="#control_nav">
+          <div data-selector="#control_tab" data-parent-selector="#tab_gallery" droppable="true" class="portal invisible">
             <div class="mask-icon icon-2control"></div>
           </div>
         </button>

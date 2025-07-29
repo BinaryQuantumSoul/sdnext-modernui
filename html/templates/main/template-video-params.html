@@ -1,139 +1,118 @@
-<div id="layout-video" class="layout">
-  <div class="layout-header">
-    <div class="flexbox row shrink panel padding no-br">
-      <div class="flexbox row no-wrap flex-start group-row tab-header">
+<div class="full-height flexbox col">
+  <div id="accordion-video" iconTrigger="#acc-arrow-button-video" class="accordion accordion-vertical left no-drag">
+    <div class="accordion-bar">
+      <button id="acc-arrow-button-video" class="sd-button acc-button only-desktop">
+        <div id="mask-icon-acc-arrow-video" class="mask-icon accordion-icon icon-arrow-down"></div>
+      </button>
+      <div class="flexbox col"></div>
+      <div id="sidebar_video" class="flexbox col shrink group-col">
         <button title="Prompts" tabItemId="#video_prompts_tabitem" tabGroup="video" id="video_prompts" active="true" class="xtabs-tab shrink">
           <div class="mask-icon icon-folder-bookmark"></div>
           <span>Prompts</span>
         </button>
-        <button title="Params" tabItemId="#video_params_tabitem" tabGroup="video" id="video_params" class="xtabs-tab shrink">
+        <button title="Generic" tabItemId=".video_generic_tabitem" tabGroup="video" id="video_params_generic" class="xtabs-tab shrink">
           <div class="mask-icon icon-folder-grid"></div>
-          <span>Params</span>
+          <span>Generic</span>
         </button>
-        <button title="Results" tabItemId="#video_results_mobile_tabitem" tabGroup="video" id="video_results_mobile" class="xtabs-tab only-mobile">
-          <div class="mask-icon icon-results"></div>
-          <span>Results</span>
+        <button title="FramePack" tabItemId=".video_framepack_tabitem" tabGroup="video" id="video_params_framepack" class="xtabs-tab shrink">
+          <div class="mask-icon icon-folder-grid"></div>
+          <span>FramePack</span>
         </button>
-      </div>
-      <div class="flexbox col shrink align-end">
-        <h2>Video</h2>
+        <button title="LTX" tabItemId=".video_ltx_tabitem" tabGroup="video" id="video_params_ltx" class="xtabs-tab shrink">
+          <div class="mask-icon icon-folder-grid"></div>
+          <span>LTX</span>
+        </button>
       </div>
     </div>
-  </div>
-  <div class="layout-content">
-    <div class="xtabs panel no-tr no-padding">
-      <div class="xtabs-items">
-        <div id="video_prompts_tabitem_group" class="flexbox col">
-          <div id="video_prompts_tabitem" class="xtabs-item">
-            <div class="layout">
-              <div class="layout-header">
-                <div class="flexbox no-padding row">
-                  <div class="flexbox no-border no-bg shrink row">
-                    <div data-parent-selector="#tab_video" data-selector="#video_paste" droppable="true" class="portal shrink invisible">
-                      <div class="mask-icon icon-magic"></div>
-                    </div>
-                    <div data-parent-selector="#video_tools" data-selector="#video_clear_prompt_btn" droppable="true" class="portal shrink invisible">
-                      <div class="mask-icon icon-delete"></div>
-                    </div>
+
+    <div class="accordion-container">
+      <div id="video-params" class="layout">
+        <div class="layout-content">
+
+          <div id="video_prompts_tabitem_group" class="flexbox col">
+            <div id="video_prompts_tabitem" class="xtabs-item">
+              <div class="layout">
+                <div class="layout-header">
+
+                  <div class="prompt-header">
+                    <h2>Prompt</h2>
+                      <div class="flexbox no-border no-bg shrink row">
+                        <div data-parent-selector="#tab_video" data-selector="#video_paste" droppable="true" class="portal shrink invisible">
+                          <div class="mask-icon icon-magic"></div>
+                        </div>
+                        <div data-parent-selector="#video_tools" data-selector="#video_clear_prompt_btn" droppable="true" class="portal shrink invisible">
+                          <div class="mask-icon icon-delete"></div>
+                        </div>
+                      </div>
                   </div>
-                  <div class="flexbox no-border no-bg row">
+                  <div class="styles flexbox no-border no-bg row">
                     <div data-parent-selector="#video_styles_row" data-selector="#video_styles" class="portal no-min-width"></div>
                     <div data-parent-selector="#video_styles_row" data-selector="#video_styles_refresh" droppable="true" class="portal shrink invisible">
                       <div class="mask-icon refresh"></div>
                     </div>
-                    <div data-parent-selector="#video_styles_row" data-selector="#video_styles_apply" droppable="true" class="portal only-diffusers shrink invisible">
+                    <div data-parent-selector="#video_styles_row" data-selector="#video_styles_apply" droppable="true" class="portal shrink invisible">
                       <div class="mask-icon icon-paste"></div>
                     </div>
-                    <div data-parent-selector="#video_styles_row" data-selector="#video_styles_save" droppable="true" class="portal only-diffusers shrink invisible">
+                    <div data-parent-selector="#video_styles_row" data-selector="#video_styles_save" droppable="true" class="portal shrink invisible">
                       <div class="mask-icon icon-save"></div>
                     </div>
                   </div>
+
                 </div>
-              </div>
-              <div class="layout-content">
-                <div class="flexbox col">
-                  <div id="split-video-prompt" direction="vertical" gutterSize="8" class="split">
-                    <div data-minSize="0" data-initSize="50" id="split-video-prompt-up" class="split-container">
-                      <div class="layout">
-                        <div class="layout-content">
-                          <div data-parent-selector="#tab_video" data-selector="#video_prompt" class="portal no-bg"></div>
-                        </div>
-                        <div class="layout-footer">
-                          <div data-parent-selector="#tab_video" data-selector="#video_token_counter" class="portal relative token-counter" data-timeout="1000"></div>
+                <div class="layout-content">
+                  <div class="flexbox col">
+                    <div id="split-video-prompts" direction="vertical" gutterSize="6" class="split main-prompt">
+                      <div data-minSize="0" data-initSize="50" id="split-video-prompt-up" class="split-container">
+                        <div class="layout">
+                          <div class="layout-content">
+                            <div data-parent-selector="#tab_video" data-selector="#video_prompt" class="portal no-bg"></div>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div data-minSize="0" data-initSize="50" id="split-video-prompt-down" class="split-container">
-                      <div class="layout">
-                        <div class="layout-content">
-                          <div data-parent-selector="#tab_video" data-selector="#video_neg_prompt" class="portal no-bg"></div>
-                        </div>
-                        <div class="layout-footer">
-                          <div data-parent-selector="#tab_video" data-selector="#video_negative_token_counter" data-timeout="1000" class="portal relative token-counter"></div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="flexbox col outline-params">
-                    <div class="flexbox col spacer-group"></div>
-
-                    <h2>Model</h2>
-                    <div class="flexbox row group">
-                      <div class="flexbox row">
-                        <div data-parent-selector="#tab_video" data-selector="#video_engine" class="portal"></div>
-                        <div data-parent-selector="#tab_video" data-selector="#video_model" class="portal"></div>
-                        <div class="flexbox col center panel unset-min-width shrink">
-                          <div data-selector="#video_model_load" data-parent-selector="#tab_video" droppable="true" class="portal invisible tool">
-                            <div class="mask-icon icon-install"></div>
+                      <div data-minSize="0" data-initSize="50" id="split-video-prompt-down" class="split-container">
+                        <div class="layout">
+                          <div class="layout-content">
+                            <div data-parent-selector="#tab_video" data-selector="#video_neg_prompt" class="portal no-bg"></div>
                           </div>
                         </div>
                       </div>
                     </div>
-                    <div class="flexbox row group">
-                      <div data-parent-selector="#tab_video" data-selector="#video_model_url" class="portal"></div>
-                    </div>
-
-                    <h2>Size</h2>
-                    <div class="flexbox row group">
-                      <div class="flexbox col">
-                        <div class="flexbox row group">
-                          <div data-parent-selector="#tab_video" data-selector="#video_width" class="portal"></div>                       
-                          <div data-parent-selector="#tab_video" data-selector="#video_height" class="portal"></div>
-                        </div>
-                        <div data-parent-selector="#tab_video" data-selector="#video_frames" class="portal"></div>
-                      </div>
-                      <div class="flexbox col center panel unset-min-width shrink">
-                        <div data-selector="#video_res_switch_btn" data-parent-selector="#tab_video" droppable="true" class="portal invisible tool">
-                          <div class="mask-icon icon-res-switch"></div>
-                        </div>
-                        <div data-selector="#video_ar" data-parent-selector="#tab_video" class="portal no-bg"></div>
-                      </div>
-                    </div>
-                    <div class="flexbox row">
-                      <div class="flexbox no-border row">
-                        <div data-parent-selector="#tab_video" data-selector="#video_seed" class="portal no-min-width"></div>
-                        <div data-parent-selector="#tab_video" data-selector="#video_random_seed" droppable="true" class="portal invisible shrink">
-                          <div class="mask-icon icon-dice"></div>
-                        </div>
-                        <div data-parent-selector="#tab_video" data-selector="#video_reuse_seed" droppable="true" class="portal shrink invisible">
-                          <div class="mask-icon icon-recycle"></div>
-                        </div>
-                      </div>
-                    </div>  
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div id="video_params_tabitem_group" class="flexbox col outline-params">
-          <div id="video_params_tabitem" class="xtabs-item">
-            <div class="flexbox col auto-scroll">
-              <div data-parent-selector="#tab_video" data-selector="#video_parameters_accordion" class="portal only-diffusers"></div>
-              <div data-parent-selector="#tab_video" data-selector="#video_decode_accordion" class="portal only-diffusers"></div>
-              <div data-parent-selector="#tab_video" data-selector="#video_init_accordion" class="portal only-diffusers"></div>
-              <div data-parent-selector="#tab_video" data-selector="#video_output_accordion" class="portal only-diffusers"></div>
+
+        <div class="layout-content">
+          <div id="video_params_generic_tabitem_group" class="outline-params">
+            <div id="video_params_generic_tabitem" class="xtabs-item video_generic_tabitem">
+              <div class="flexbox col">
+                <h2>Generic</h2>
+                <div data-parent-selector="#tab_video" data-selector="#video_settings" class="portal no-bg"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="layout-content">
+          <div id="video_params_framepack_tabitem_group" class="outline-params">
+            <div id="video_params_framepack_tabitem" class="xtabs-item video_framepack_tabitem">
+              <div class="flexbox col">
+                <h2>FramePack</h2>
+                <div data-parent-selector="#tab_video" data-selector="#framepack_settings" class="portal no-bg"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="layout-content">
+          <div id="video_params_ltx_tabitem_group" class="outline-params">
+            <div id="video_params_ltx_tabitem" class="xtabs-item video_ltx_tabitem">
+              <div class="flexbox col">
+                <h2>LTXVideo</h2>
+                <div data-parent-selector="#tab_video" data-selector="#ltx_settings" class="portal no-bg"></div>
+              </div>
             </div>
           </div>
         </div>
@@ -141,8 +120,5 @@
       </div>
     </div>
 
-    <div id="video_results_generate_tabitem_group" class="flexbox col panel no-grow only-mobile">
-      <div id="video_results_generate_tabitem" mobile="#video_generate_group" class="xtabs-item"></div>
-    </div>
   </div>
 </div>

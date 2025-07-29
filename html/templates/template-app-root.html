@@ -6,7 +6,6 @@
           <div class="mask-icon icon-sdnext"></div>
           <span>SD.Next</span>
         </button>
-        <div class="flexbox col spacer-v"></div>
       </div>
       <div id="main_nav_content" class="layout-content">
         <div id="main-nav-bar" class="flexbox col shrink">
@@ -18,11 +17,11 @@
             <div class="mask-icon icon-img2img"></div>
             <span>Image</span>
           </button>
-          <button title="Control" id="control_nav" tabItemId="#split-app, #control_tabitem" tabGroup="main_group" active="true" data-click="#tabs" class="xtabs-tab only-diffusers">
+          <button title="Control" id="control_nav" tabItemId="#split-app, #control_tabitem" tabGroup="main_group" active="true" data-click="#tabs" class="xtabs-tab">
             <div class="mask-icon icon-control"></div>
             <span>Control</span>
           </button>
-          <button title="Video" id="video_nav" tabItemId="#split-app, #video_tabitem" tabGroup="main_group" active="true" data-click="#tabs" class="xtabs-tab only-diffusers">
+          <button title="Video" id="video_nav" tabItemId="#split-app, #video_tabitem" tabGroup="main_group" active="true" data-click="#tabs" class="xtabs-tab">
             <div class="mask-icon icon-video"></div>
             <span>Video</span>
           </button>
@@ -43,6 +42,10 @@
         </div>
       </div>
       <div class="layout-footer">
+        <button title="Documentation" class="xtabs-tab" onclick="window.open('https://vladmandic.github.io/sdnext-docs/', '_blank')">
+          <div class="mask-icon icon-docs"></div>
+          <span>Docs</span>
+        </button>
         <button title="GitHub" class="xtabs-tab" onclick="window.open('https://github.com/vladmandic/sdnext', '_blank')">
           <div class="mask-icon icon-github"></div>
           <span>GitHub</span>
@@ -55,24 +58,25 @@
           <div class="mask-icon icon-contributors"></div>
           <span>Contributors</span>
         </button>
-        <div class="locale">
-          <div id="locale-container" class="xtabs-tab no-drag locale-indicator"></div>
+        <div class="locale flexbox">
+          <div id="locale-container" class="xtabs-tab no-drag locale-indicator" title="User interface locale"></div>
+          <input id="sd-primary-color" type="color" class="color-indicator" title="User interface primary color" value="#29A3A3">
         </div>
       </div>
     </div>
     <div id="layout_main_wrapper" class="layout grow initial">
       <div class="layout-content">
-        <div class="flexbox row relative">
+        <div class="flexbox row relative main">
           <div id="no-split-app" class="xtabs-item">
             <div id="contributors_tabitem_parent">
               <div id="contributors_tabitem" class="xtabs-item no-padding"></div>
             </div>
           </div>
-          <div id="split-app" gutterSize="8" direction="horizontal" class="split">
+          <div id="split-app" gutterSize="6" direction="horizontal" class="split">
             <div data-minSize="0" data-initSize="100" id="split-left" class="split-container">
               <div id="txt2img_tabitem_parent">
                 <div id="txt2img_tabitem" class="xtabs-item no-padding">
-                  <div id="split-txt2img" direction="horizontal" gutterSize="8" class="split">
+                  <div id="split-txt2img" direction="horizontal" gutterSize="6" class="split">
                     <div data-minSize="0" data-initSize="50" id="split-txt2img-left" class="split-container params">
                       <div template="main/template-txt2img-params" class="template"></div>
                     </div>
@@ -84,7 +88,7 @@
               </div>
               <div id="img2img_tabitem_parent">
                 <div id="img2img_tabitem" class="xtabs-item no-padding">
-                  <div id="split-img2img" direction="horizontal" gutterSize="8" class="split">
+                  <div id="split-img2img" direction="horizontal" gutterSize="6" class="split">
                     <div data-minSize="0" data-initSize="34" id="split-img2img-left" class="split-container params">
                       <div template="main/template-img2img-params" class="template"></div>
                     </div>
@@ -96,7 +100,7 @@
               </div>
               <div id="control_tabitem_parent">
                 <div id="control_tabitem" class="xtabs-item no-padding">
-                  <div id="split-control" direction="horizontal" gutterSize="8" class="split">
+                  <div id="split-control" direction="horizontal" gutterSize="6" class="split">
                     <div data-minSize="0" data-initSize="34" id="split-control-left" class="split-container params">
                       <div template="main/template-control-params" class="template"></div>
                     </div>
@@ -108,7 +112,7 @@
               </div>
               <div id="video_tabitem_parent">
                 <div id="video_tabitem" class="xtabs-item no-padding">
-                  <div id="split-video" direction="horizontal" gutterSize="8" class="split">
+                  <div id="split-video" direction="horizontal" gutterSize="6" class="split">
                     <div data-minSize="0" data-initSize="34" id="split-video-left" class="split-container params">
                       <div template="main/template-video-params" class="template"></div>
                     </div>
@@ -120,7 +124,7 @@
               </div>
               <div id="extras_tabitem_parent">
                 <div id="extras_tabitem" class="xtabs-item no-padding">
-                  <div id="split-extras" direction="horizontal" gutterSize="8" class="split">
+                  <div id="split-extras" direction="horizontal" gutterSize="6" class="split">
                     <div data-minSize="0" data-initSize="34" id="split-extras-left" class="split-container params">
                       <div template="main/template-extras-params" class="template"></div>
                     </div>
@@ -132,7 +136,7 @@
               </div>
               <div id="caption_tabitem_parent">
                 <div id="caption_tabitem" class="xtabs-item no-padding">
-                  <div id="split-caption" direction="horizontal" gutterSize="8" class="split">
+                  <div id="split-caption" direction="horizontal" gutterSize="6" class="split">
                     <div data-minSize="0" data-initSize="34" id="split-caption-left" class="split-container params">
                       <div template="main/template-caption-params" class="template"></div>
                     </div>
@@ -144,7 +148,7 @@
               </div>
               <div id="gallery_tabitem_parent">
                 <div id="gallery_tabitem" class="xtabs-item no-padding">
-                  <div id="split-gallery" direction="horizontal" gutterSize="8" class="split">
+                  <div id="split-gallery" direction="horizontal" gutterSize="6" class="split">
                     <div data-minSize="0" data-initSize="50" id="split-gallery-left" class="split-container params">
                       <div template="main/template-gallery-params" class="template"></div>
                     </div>

@@ -65,6 +65,8 @@
     "generateForever": "readonly",
     // contributors.js
     "showContributors": "readonly",
+    // color-hue.js
+    "setUserColors": "readonly",
     // ui.js
     "opts": "writable",
     "sortUIElements": "readonly",
