@@ -11,11 +11,9 @@ let appUiUx;
 let isBackendDiffusers;
 let isMediaMobile;
 
-//= ====================== OVERRIDES =======================
 window.getUICurrentTabContent = () => gradioApp().querySelector('.xtabs-item:not(.hidden) > .split');
 window.getSettingsTabs = () => gradioApp().querySelectorAll('#layout-settings .tabitem');
 
-//= ====================== READY STATES =======================
 function functionWaitForFlag(checkFlag) {
   return async function () { // eslint-disable-line func-names
     return new Promise((resolve) => {
@@ -31,7 +29,6 @@ let uiFlagPortalInitialized = false;
 window.waitForUiReady = functionWaitForFlag(() => uiFlagInitialized);
 const waitForUiPortal = functionWaitForFlag(() => uiFlagPortalInitialized);
 
-//= ====================== UTILS =======================
 function logPrettyPrint() {
   let output = '';
   let arg;
@@ -90,7 +87,6 @@ const getStored = (key) => {
   return val;
 };
 
-//= ====================== MOBILE =======================
 function applyDefaultLayout(isMobile) {
   isMediaMobile = isMobile;
 
@@ -655,7 +651,6 @@ function initButtonComponents() {
       });
     }
 
-    // Useful to switch tab after button click
     const extraClicks = elem.getAttribute('data-click');
     if (extraClicks) {
       elem.addEventListener('click', () => {
@@ -725,8 +720,6 @@ async function createButtonsForExtensions() {
     }
   });
 }
-
-//= ====================== TEMPLATES =======================
 async function replaceRootTemplate() {
   appUiUx = document.querySelector(uiux_app_id);
   gradioApp().insertAdjacentElement('afterbegin', appUiUx);
@@ -785,7 +778,6 @@ async function loadAllTemplates() {
 }
 loadAllTemplates = logFn(loadAllTemplates); // eslint-disable-line no-func-assign
 
-//= ====================== INITIALIZATION =======================
 async function removeStyleAssets() {
   // Remove specific stylesheets
   let removedStylesheets = 0;
@@ -838,7 +830,6 @@ async function setupLogger() {
   window.logger = logMonitorJS;
 }
 
-//= ====================== MAIN ROUTINE =======================
 async function mainUiUx() {
   logStartup();
   await removeStyleAssets();
@@ -855,6 +846,7 @@ async function mainUiUx() {
   setupGenerateObservers();
   setupControlDynamicObservers();
   uiuxOptionSettings();
+  setUserColors();
   showContributors();
   switchMobile();
   extraTweaks();

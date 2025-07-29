@@ -1,11 +1,14 @@
 /* Author: VladMandic */
 
 :root {
+  --sd-primary-h: 180deg;
+  --sd-primary-s: 60%;
+  --sd-primary-l: 40%;
   --sd-body-font: 'NotoSans', sans-serif;
   --sd-text-font: 'NotoSans', sans-serif;
   --sd-button-font: 'NotoSans', sans-serif;
-  --sd-main-accent-color:hsl(180deg 30% 40%);
-  --sd-input-placeholder-text-color:hsl(180deg 60% 60%);
+  --sd-main-accent-color:hsl(var(--sd-primary-h) 30% 40%);
+  --sd-input-placeholder-text-color:hsl(var(--sd-primary-h) var(--sd-primary-s) 60%);
   --sd-secondary-color:hsl(0deg 0% 13%);
   --sd-main-background-color:hsl(0deg 0% 9%);
   --sd-button-normal-color:hsl(0deg 5% 18%);
@@ -14,11 +17,12 @@
   --sd-input-icon-height:calc(var(--sd-input-height) - var(--sd-input-border-size) * 2);
   --sd-input-padding:4px 10px;
   --sd-input-line-height:24px;
+  --sd-muted-color:hsl(50, 10%, 60%);
   --sd-label-color:hsl(50, 10%, 80%);
+  --sd-input-text-color:hsl(0deg 0% 90%);
   --sd-input-border-size:0;
-  --sd-input-text-color:hsl(0deg 0% 85%);
-  --sd-input-background-color:hsl(180deg 0% 9);
-  --sd-input-border-color:hsl(180deg 0% 0%);
+  --sd-input-background-color:hsl(var(--sd-primary-h) 0% 9);
+  --sd-input-border-color:hsl(var(--sd-primary-h) 0% 0%);
   --sd-input-hover-text-color:hsl(50deg 10% 80%);
   --sd-panel-background-color:hsl(0deg 0% 13%);
   --sd-panel-border-color:hsl(0deg 0% 26%);
@@ -37,9 +41,9 @@
   --sd-outline-color: var(--sd-button-hover-color);
   --sd-outline-size: calc(var(--sd-border-size) * 0.8);
   --sd-button-normal-text-color: var(--sd-input-text-color);
-  --sd-button-selected-color: hsl(180deg 60% 30%);
+  --sd-button-selected-color: hsl(var(--sd-primary-h) var(--sd-primary-s) 30%);
   --sd-button-selected-text-color: hsl(0deg 0% 80%);
-  --sd-button-hover-color: hsl(180deg 60% 20%);
+  --sd-button-hover-color: hsl(var(--sd-primary-h) var(--sd-primary-s) 20%);
   --sd-button-hover-text-color: hsl(0deg 0% 80%);
   --sd-extra-gap: calc(2*var(--sd-gap-size));
   color-scheme: dark;
