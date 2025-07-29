@@ -4,7 +4,7 @@
   --sd-body-font: 'NotoSans', sans-serif;
   --sd-text-font: 'NotoSans', sans-serif;
   --sd-button-font: 'NotoSans', sans-serif;
-  --sd-main-accent-color:hsl(180deg 60% 60%);
+  --sd-main-accent-color:hsl(180deg 30% 40%);
   --sd-input-placeholder-text-color:hsl(180deg 60% 60%);
   --sd-secondary-color:hsl(0deg 0% 13%);
   --sd-main-background-color:hsl(0deg 0% 9%);
@@ -16,7 +16,7 @@
   --sd-input-line-height:24px;
   --sd-label-color:hsl(50, 10%, 80%);
   --sd-input-border-size:0;
-  --sd-input-text-color:hsl(0deg 0% 80%);
+  --sd-input-text-color:hsl(0deg 0% 85%);
   --sd-input-background-color:hsl(180deg 0% 9);
   --sd-input-border-color:hsl(180deg 0% 0%);
   --sd-input-hover-text-color:hsl(50deg 10% 80%);
