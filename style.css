@@ -29,7 +29,7 @@
   --sd-primary-h: 180deg;
   --color-blue: paleturquoise;
   --color-debug: #7F7F7F;
-  --color-error: #BE0000;
+  --color-error: #9E2020;
   --color-green: palegreen;
   --color-info: #D4D4D4;
   --color-red: palevioletred;
@@ -5245,8 +5245,7 @@ gallery-folder:hover {
 }
 
 .token-counter.error span {
-  background: 2px solid rgba(255, 0, 0, 0.4) !important;
-  box-shadow: 0 0 0.0 0.3em rgba(255, 0, 0, 0.15), inset 0 0 0.6em rgba(255, 0, 0, 0.075);
+  background-color: var(--color-error);
 }
 
 .bottom-right {
@@ -5257,6 +5256,7 @@ gallery-folder:hover {
   max-height: 2em;
   opacity: 0.7;
   margin: 0.4em;
+  background-color: unset;
 }
 
 #sd-primary-color {
