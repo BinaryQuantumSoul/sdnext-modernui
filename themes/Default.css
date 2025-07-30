@@ -17,7 +17,7 @@
   --sd-input-icon-height:calc(var(--sd-input-height) - var(--sd-input-border-size) * 2);
   --sd-input-padding:4px 10px;
   --sd-input-line-height:24px;
-  --sd-muted-color:hsl(50, 10%, 60%);
+  --sd-muted-color:hsl(50, 5%, 35%);
   --sd-label-color:hsl(50, 10%, 80%);
   --sd-input-text-color:hsl(0deg 0% 90%);
   --sd-input-border-size:0;

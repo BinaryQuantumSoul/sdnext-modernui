@@ -3903,6 +3903,7 @@ h2 {
   font-size: 18px;
   font-weight: 400;
   margin: 2px 5px;
+  cursor: help;
 }
 
 #about_tabitem ul {
@@ -3993,12 +3994,8 @@ div#quicksettings div+button {
   pointer-events: all;
 }
 
-input[type="radio"]  {
-  accent-color: var(--sd-main-accent-color);
+input[type="checkbox"], input[type="radio"] {
   cursor: pointer;
-}
-
-input[type="checkbox"] {
   min-height: var(--sd-input-line-height);
   appearance: none;
   mask-image: url(./html/svg/square.svg);
@@ -4008,11 +4005,11 @@ input[type="checkbox"] {
   scale: 0.8;
 }
 
-input[type="checkbox"]:hover {
-  background-color: var(--sd-button-hover-color);
+input[type="checkbox"]:hover, input[type="radio"]:hover {
+  background-color: var(--sd-button-selected-color);
 }
 
-input[type="checkbox"]:checked {
+input[type="checkbox"]:checked, input[type="radio"]:checked {
   mask-image: url(./html/svg/square-xmark.svg);
 }
 
