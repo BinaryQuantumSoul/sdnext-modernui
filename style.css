@@ -372,7 +372,7 @@ hr {
   margin-bottom: 0;
 }
 
-*.gradio-slider input[type="range"] {
+*.gradio-slider input[type="range"], .brush input[type="range"]  {
   height: calc(var(--sd-input-height) * var(--sd-input-slider-height));
   margin-bottom: var(--sd-gap-size);
   margin-top: calc(0.5 * var(--sd-gap-size));
@@ -592,6 +592,8 @@ input[type="color"] {
 *.gradio-image .image-container {
   max-height: 100%;
   max-width: 100%;
+  width: 100%;
+  height: 100%;
 }
 
 *.block {
@@ -3562,6 +3564,8 @@ position: relative
 .center.boundedheight.flex {
   height: 100% !important;
   width: auto !important;
+  font-size: 0.9em;
+  color: var(--sd-label-color);
 }
 
 .image-container .center.boundedheight.flex {
@@ -3611,8 +3615,10 @@ div[data-testid="image"] canvas {
   gap: var(--sd-gap-size);
   height: auto;
   min-height: unset;
-  top: 70px;
+  top: 3em;
+  right: 0.2em;
   width: auto;
+  padding: 0;
 }
 
 [id*="label_copy_to"] {
