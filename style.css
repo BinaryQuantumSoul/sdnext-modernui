@@ -4717,6 +4717,7 @@ button>span {
 #control-columns svg {
   max-width: 100%;
   object-position: top;
+  width: 100%;
 }
 
 #control-columns.flex-force-column,
@@ -4812,22 +4813,22 @@ div#video_params_control_tabitem .video-settings .gradio-accordion .form {
 button.interrogate,
 button.interrogate-clip,
 button.interrogate-blip {
-  margin: var(--sd-panel-padding);
   opacity: 0.5;
   position: absolute;
   background: var(--sd-panel-background-color);
+  z-index: 1;
 }
 
 button.interrogate {
-  right: calc(4*var(--sd-panel-padding) + var(--sd-input-height));
+  right: 5.8em;
 }
 
 button.interrogate-clip {
-  right: calc(3*var(--sd-panel-padding) + 2*var(--sd-input-height));
+  left: 1em;
 }
 
 button.interrogate-blip {
-  right: calc(2*var(--sd-panel-padding) + var(--sd-input-height));
+  left: 3em;
 }
 
 button.interrogate-clip::after,
