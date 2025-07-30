@@ -7,6 +7,7 @@
           <div class="flexbox col shrink">
             <h2>Input</h2>
           </div>
+
           <div id="img2img_generate_group" class="flexbox row flex-end group-row generate-icons">
             <button title="Generate" class="sd-button generate">
               <div data-selector="#img2img_generate" data-parent-selector="#tab_img2img" droppable="true" class="portal no-bg shrink invisible btn-generate">
@@ -33,10 +34,11 @@
               <div class="mask-icon icon-enqueue"></div>
             </div>
           </div>
-
         </div>
+
         <div class="panel no-tr flexbox col">
           <div data-selector="#mode_img2img" data-parent-selector="#tab_img2img" class="portal no-bg no-padding"></div>
+          <!-- <div data-selector="#img2img_interrogate_input" data-parent-selector="#tab_img2img" class="portal"></div> -->
           <div class="xtabs-anchor flexbox shrink" anchorNav="#mode_img2img > .tab-nav">
             <div anchor="1" class="flexbox row center panel no-tr">
               <button class="sd-button disable">
@@ -141,6 +143,7 @@
             <div class="flexbox col progress-flex">
               <div data-selector="#img2img_gallery_container" data-parent-selector="gradio-app" class="portal"></div>
             </div>
+            <div data-selector="#img2img_interrogate_output" data-parent-selector="#img2img_gallery_container" class="portal"></div>
           </div>
           <div iconTrigger="#info_icon_btn_img2img" class="accordion no-tr">
             <div class="accordion-bar no-tr">

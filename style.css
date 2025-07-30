@@ -372,7 +372,7 @@ hr {
   margin-bottom: 0;
 }
 
-*.gradio-slider input[type="range"] {
+*.gradio-slider input[type="range"], .brush input[type="range"]  {
   height: calc(var(--sd-input-height) * var(--sd-input-slider-height));
   margin-bottom: var(--sd-gap-size);
   margin-top: calc(0.5 * var(--sd-gap-size));
@@ -592,6 +592,8 @@ input[type="color"] {
 *.gradio-image .image-container {
   max-height: 100%;
   max-width: 100%;
+  width: 100%;
+  height: 100%;
 }
 
 *.block {
@@ -3562,6 +3564,8 @@ position: relative
 .center.boundedheight.flex {
   height: 100% !important;
   width: auto !important;
+  font-size: 0.9em;
+  color: var(--sd-label-color);
 }
 
 .image-container .center.boundedheight.flex {
@@ -3611,8 +3615,10 @@ div[data-testid="image"] canvas {
   gap: var(--sd-gap-size);
   height: auto;
   min-height: unset;
-  top: 70px;
+  top: 3em;
+  right: 0.2em;
   width: auto;
+  padding: 0;
 }
 
 [id*="label_copy_to"] {
@@ -3897,6 +3903,7 @@ h2 {
   font-size: 18px;
   font-weight: 400;
   margin: 2px 5px;
+  cursor: help;
 }
 
 #about_tabitem ul {
@@ -3987,12 +3994,8 @@ div#quicksettings div+button {
   pointer-events: all;
 }
 
-input[type="radio"]  {
-  accent-color: var(--sd-main-accent-color);
+input[type="checkbox"], input[type="radio"] {
   cursor: pointer;
-}
-
-input[type="checkbox"] {
   min-height: var(--sd-input-line-height);
   appearance: none;
   mask-image: url(./html/svg/square.svg);
@@ -4002,11 +4005,11 @@ input[type="checkbox"] {
   scale: 0.8;
 }
 
-input[type="checkbox"]:hover {
-  background-color: var(--sd-button-hover-color);
+input[type="checkbox"]:hover, input[type="radio"]:hover {
+  background-color: var(--sd-button-selected-color);
 }
 
-input[type="checkbox"]:checked {
+input[type="checkbox"]:checked, input[type="radio"]:checked {
   mask-image: url(./html/svg/square-xmark.svg);
 }
 
@@ -4711,6 +4714,7 @@ button>span {
 #control-columns svg {
   max-width: 100%;
   object-position: top;
+  width: 100%;
 }
 
 #control-columns.flex-force-column,
@@ -4806,22 +4810,22 @@ div#video_params_control_tabitem .video-settings .gradio-accordion .form {
 button.interrogate,
 button.interrogate-clip,
 button.interrogate-blip {
-  margin: var(--sd-panel-padding);
   opacity: 0.5;
   position: absolute;
   background: var(--sd-panel-background-color);
+  z-index: 1;
 }
 
 button.interrogate {
-  right: calc(4*var(--sd-panel-padding) + var(--sd-input-height));
+  right: 5.8em;
 }
 
 button.interrogate-clip {
-  right: calc(3*var(--sd-panel-padding) + 2*var(--sd-input-height));
+  left: 1em;
 }
 
 button.interrogate-blip {
-  right: calc(2*var(--sd-panel-padding) + var(--sd-input-height));
+  left: 3em;
 }
 
 button.interrogate-clip::after,
