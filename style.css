@@ -5384,3 +5384,25 @@ div#changelog_result p {
   font-size: 0.9em;
   margin-top: 0.2em;
 }
+
+#models_input_container .gap > div {
+  display: content;
+}
+
+#models_input_container tr {
+  line-height: 1.2em;
+  vertical-align: baseline;
+}
+
+.sort-button {
+  display:none;
+}
+
+#models_input_container td:last-of-type {
+  font-size: 0.8em;
+}
+
+#models_input_container td div {
+  max-height: 5em;
+  overflow-y: auto;
+}
