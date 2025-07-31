@@ -3950,6 +3950,15 @@ div#quicksettings div+button {
   margin-bottom: var(--sd-panel-padding);
 }
 
+#quicksettings_reset {
+  position: absolute;
+  right: 0.6em;
+  top: 0.6em;
+}
+#quicksettings_reset:hover {
+  background-color: var(--color-red);
+}
+
 .relative {
   position: relative;
 }
