@@ -11,7 +11,6 @@
   --sd-input-placeholder-text-color:hsl(var(--sd-primary-h) var(--sd-primary-s) 60%);
   --sd-secondary-color:hsl(0deg 0% 13%);
   --sd-main-background-color:hsl(0deg 0% 9%);
-  --sd-button-normal-color:hsl(0deg 5% 18%);
   --sd-input-height:36px;
   --sd-input-slider-height:0.4;
   --sd-input-icon-height:calc(var(--sd-input-height) - var(--sd-input-border-size) * 2);
@@ -36,16 +35,17 @@
   --sd-group-border-size:0;
   --sd-group-border-color:hsl(0deg 0% 13%);
   --sd-group-gap:6px;
+  --sd-extra-gap: calc(2*var(--sd-gap-size));
   --sd-outside-gap-size:8px;
   --sd-scrollbar-color: var(--sd-panel-border-color);
   --sd-outline-color: var(--sd-button-hover-color);
   --sd-outline-size: calc(var(--sd-border-size) * 0.8);
-  --sd-button-normal-text-color: var(--sd-input-text-color);
-  --sd-button-selected-color: hsl(var(--sd-primary-h) var(--sd-primary-s) 30%);
-  --sd-button-selected-text-color: hsl(0deg 0% 80%);
+  --sd-button-normal-color:hsl(0deg 5% 18%);
   --sd-button-hover-color: hsl(var(--sd-primary-h) var(--sd-primary-s) 20%);
+  --sd-button-selected-color: hsl(var(--sd-primary-h) var(--sd-primary-s) 30%);
+  --sd-button-normal-text-color: var(--sd-input-text-color);
   --sd-button-hover-text-color: hsl(0deg 0% 80%);
-  --sd-extra-gap: calc(2*var(--sd-gap-size));
+  --sd-button-selected-text-color: hsl(0deg 0% 80%);
   color-scheme: dark;
 }
 
