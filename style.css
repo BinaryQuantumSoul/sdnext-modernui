@@ -4479,7 +4479,7 @@ input[type="range"]::-ms-fill-upper {
 }
 
 .md h2 {
-  padding: 0.5em;
+  padding: 0.5em 0em 0.1em 0.3em;
 }
 
 .md ul {
@@ -4494,7 +4494,7 @@ input[type="range"]::-ms-fill-upper {
 }
 
 .md p {
-  margin-left: 2em;
+  margin-left: 1em;
 }
 
 #tab_extensions input[disabled="disabled"] {
@@ -5269,4 +5269,118 @@ gallery-folder:hover {
 
 #sd-primary-color:hover {
   opacity: 1.0;
+}
+
+#system_tab_wiki .gap, #system_tab_wiki .gap>div {
+  gap: 0 !important;
+  padding: 0;
+  margin: 0;
+}
+
+#changelog_result {
+  margin-bottom: 1em;
+}
+
+div#changelog_result p {
+  display: contents;
+}
+
+.changelog_arrow {
+  font-size: 2em !important;
+  cursor: pointer;
+  color: var(--sd-button-selected-color) !important;
+}
+
+.changelog_arrow:hover {
+  color: var(--sd-button-hover-color);
+}
+
+#changelog_markdown h2 {
+  margin: 0.5em 0;
+  padding: 0;
+}
+
+.docs-search textarea {
+  height: 1em !important;
+  resize: none !important
+}
+
+.github-result, #docs_result {
+  max-height: 38vh;
+  overflow-y: auto;
+}
+
+.github-result a {
+  margin: 0;
+  padding: 0;
+  background-color: unset !important;
+}
+
+.github-result h3, .github-md h3 {
+  margin: 0;
+  padding: 0;
+  font-size: 1.1em;
+}
+
+.github-page {
+  background-color: var(--sd-button-selected-color);
+  margin: 1em 0 0.2em 0;
+  border-radius: var(--sd-border-radius);
+  padding: 4px;
+  font-size: 1em;
+  font-weight: 400;
+  cursor: help;
+}
+
+.github-page h3:hover {
+  background-color: var(--sd-button-hover-color);
+}
+
+.github-result li {
+  color: var(--sd-main-accent-color);
+  font-size: 0.9em;
+  display: ruby;
+}
+
+.github-md, .docs-md {
+  background-color: var(--sd-main-background-color);
+  padding: 0.2em;
+}
+
+.docs-results {
+  background-color: var(--sd-group-background-color);
+}
+
+.docs-card {
+  margin: 1em 0;
+  background-color: var(--sd-main-background-color);
+  cursor: help;
+  padding: 0.5em;
+}
+
+.docs-card-title {
+  font-size: 1.2em;
+  line-height: 1.6em;
+  color: var(--sd-main-accent-color);
+}
+
+.docs-card-h1 {
+  font-weight: bold;
+  font-size: 1.0;
+  color: var(--sd-input-text-color);
+}
+
+.docs-card-h2 {
+  font-size: 1.0;
+  color: var(--sd-input-text-color);
+  max-height: 4em;
+  overflow: hidden;
+}
+
+.docs-card-footer {
+  display: flex;
+  justify-content: space-between;
+  color: var(--sd-panel-border-color);
+  font-size: 0.9em;
+  margin-top: 0.2em;
 }
