@@ -2150,9 +2150,9 @@ div#layout-3 {
 }
 
 #btn_console::after {
-  background-color: darkred;
+  background-color: transparent;
   border-radius: var(--sd-border-radius);
-  color: white;
+  color: darkred;
   content: attr(error-count);
   font-size: 0.8em;
   position: absolute;
