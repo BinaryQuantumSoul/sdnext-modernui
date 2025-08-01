@@ -2151,15 +2151,16 @@ div#layout-3 {
 
 #btn_console::after {
   background-color: darkred;
-  border-radius: 50%;
+  border-radius: var(--sd-border-radius);
   color: white;
   content: attr(error-count);
   font-size: 0.8em;
-  padding: 0 0.5em;
   position: absolute;
-  right: -5px;
-  top: -5px;
-  width: 1.1em;
+  right: -0.2em;
+  top: -0.2em;
+  width: 1.4em;
+  height: 1.3em;
+  line-height: 1.5em;
 }
 
 .icon-2extras {
