@@ -3474,6 +3474,7 @@ span.star_count b {
 
 .gradio-file {
   color: var(--sd-input-secondary-text-color);
+  cursor: copy;
 }
 
 #pnginfo_image [data-testid="image"] img {
