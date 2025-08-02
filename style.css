@@ -5507,6 +5507,10 @@ div#changelog_result p {
   max-height: 50vh;
 }
 
+#civit_metadata {
+    overflow: auto;
+}
+
 .simple-table tr {
   vertical-align: baseline;
 }
