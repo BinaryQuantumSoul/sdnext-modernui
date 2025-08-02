@@ -151,6 +151,10 @@ hr {
   margin-top: 4em;
 }
 
+#video_gallery {
+  min-height: 50vh;
+}
+
 .flexbox.row {
   flex-direction: row;
   margin-bottom: auto;
