@@ -1772,9 +1772,18 @@ h1 {
   outline: none;
 }
 
+#model-cards {
+  height: unset;
+}
+
 .extra-networks-tab {
   background-color: var(--sd-panel-background-color);
   padding: 0 !important;
+}
+
+#models_civitai_tab textarea {
+  resize: none !important;
+  max-height: 2em;
 }
 
 .extra-networks-page {
@@ -1820,6 +1829,7 @@ h1 {
   position: absolute;
   width: 100%;
   z-index: 10;
+  text-wrap-mode: wrap;
 }
 
 .extra-network-cards .card .overlay .name {
@@ -1848,7 +1858,7 @@ h1 {
   position: absolute;
   top: 0;
   right: 0.5em;
-  filter: drop-shadow(2px 4px 6px black);
+  filter: drop-shadow(2px 2px 1px black);
   font-size: 1.3em;
   font-variant: all-small-caps;
 }
@@ -1925,6 +1935,7 @@ h1 {
   transform: translate(-50%, 50%);
   width: fit-content;
   z-index: 100;
+  box-shadow: 0px 0px 8px var(--sd-label-color);
 }
 
 .extra-details>div {
@@ -5507,7 +5518,7 @@ div#changelog_result p {
 }
 
 #civit_metadata {
-    overflow: auto;
+  overflow: auto;
 }
 
 .simple-table tr {
@@ -5515,7 +5526,7 @@ div#changelog_result p {
 }
 
 .simple-table thead tr {
-    background-color: var(--sd-main-accent-color) !important;
+  background-color: var(--sd-main-accent-color) !important;
 }
 
 .simple-table tr:nth-child(odd) {
@@ -5523,12 +5534,12 @@ div#changelog_result p {
 }
 
 .simple-table td {
-    padding: 0.2em !important;
+  padding: 0.2em !important;
 }
 
 .simple-table td:nth-child(1) {
-    color: var(--sd-main-accent-color);
-    font-weight: bold;
+  color: var(--sd-main-accent-color);
+  font-weight: bold;
 }
 
 .model-config {
@@ -5536,4 +5547,15 @@ div#changelog_result p {
   opacity: 0.8;
   max-height: 6em;
   overflow-y: auto;
+}
+
+#layout-models .flexbox.col {
+  flex-grow: 0;
+}
+
+#model-details {
+  overflow-x: hidden;
+  overflow-y: auto;
+  white-space: break-spaces;
+  max-height: 33vh;
 }
