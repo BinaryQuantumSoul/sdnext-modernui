@@ -5504,7 +5504,6 @@ div#changelog_result p {
 
 #model_list_table {
   overflow: auto;
-  max-height: 50vh;
 }
 
 #civit_metadata {
@@ -5515,8 +5514,21 @@ div#changelog_result p {
   vertical-align: baseline;
 }
 
+.simple-table thead tr {
+    background-color: var(--sd-main-accent-color) !important;
+}
+
+.simple-table tr:nth-child(odd) {
+  background-color: var(--sd-button-normal-color);
+}
+
 .simple-table td {
     padding: 0.2em !important;
+}
+
+.simple-table td:nth-child(1) {
+    color: var(--sd-main-accent-color);
+    font-weight: bold;
 }
 
 .model-config {
