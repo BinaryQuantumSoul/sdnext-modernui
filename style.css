@@ -100,6 +100,10 @@ textarea {
   font-family: var(--sd-text-font);
 }
 
+h4 {
+  margin: 0.2em 0em 0.2em 0em;
+}
+
 hr {
   width: 100%;
   height: var(--sd-gap-size);
@@ -1994,9 +1998,9 @@ h1 {
 *.extra-network-cards .card {
   display: flex;
   height: var(--card-size);
+  width: var(--card-size);
   justify-content: center;
   margin: 0;
-  width: var(--card-size);
 }
 
 *.extra-network-cards .card img {
@@ -5500,10 +5504,6 @@ div#changelog_result p {
   display:none;
 }
 
-#models_input_container td:last-of-type {
-  font-size: 0.8em;
-}
-
 #models_input_container td div {
   max-height: 5em;
   overflow-y: auto;
@@ -5535,6 +5535,15 @@ div#changelog_result p {
 
 .simple-table td {
   padding: 0.2em !important;
+  white-space: pre-wrap;
+}
+
+.simple-table td div {
+  padding: 0.2em !important;
+  white-space: pre-wrap;
+  max-height: 7em;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .simple-table td:nth-child(1) {
@@ -5554,8 +5563,30 @@ div#changelog_result p {
 }
 
 #model-details {
-  overflow-x: hidden;
-  overflow-y: auto;
-  white-space: break-spaces;
-  max-height: 33vh;
+  white-space: normal;
+  max-height: 36vh;
+  padding: 0;
+  margin: 0;
+  background-color: var(--sd-button-normal-color);
+  padding: 0.2em;
+  margin-bottom: 1em;
+  border-radius: var(--sd-border-radius);
+  text-align: justify;
+  overflow: auto;
+}
+
+#model-details tr {
+  vertical-align: top;
+}
+
+.link {
+  background-color: var(--sd-group-background-color);
+  cursor: pointer;
+  color: var(--sd-button-hover-text-color);
+  border-radius: var(--sd-border-radius);
+  width: 2em;
+}
+
+.link:hover {
+  background-color: var(--sd-button-selected-color);
 }
