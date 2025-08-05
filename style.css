@@ -2001,6 +2001,15 @@ h1 {
   width: var(--card-size);
   justify-content: center;
   margin: 0;
+  background-color: var(--sd-input-background-color);
+  border: var(--sd-border-size) solid var(--sd-input-background-color);
+  border-radius: var(--sd-border-radius);
+  position: relative;
+}
+
+*.extra-network-cards .card-selected {
+  transform: scale(0.9);
+  box-shadow: 0 0 2em var(--sd-button-selected-color);
 }
 
 *.extra-network-cards .card img {
@@ -2037,13 +2046,6 @@ h1 {
   background-color: var(--sd-label-color);
   height: 24px;
   width: 24px;
-}
-
-*.extra-network-cards .card {
-  background-color: var(--sd-input-background-color);
-  border: var(--sd-border-size) solid var(--sd-input-background-color);
-  border-radius: var(--sd-border-radius);
-  position: relative;
 }
 
 .extra-network-cards .card .actions {
