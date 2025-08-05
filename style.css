@@ -2890,10 +2890,6 @@ button:hover svg {
   z-index: 1;
 }
 
-* #extensions_installed_top {
-  display: flex !important;
-}
-
 *.notransition {
   animation: none !important;
   transition: none !important;
@@ -3283,178 +3279,6 @@ td.gridjs-td {
 
 #layout-extra-networks>div {
   overflow: hidden;
-}
-
-.tabs_extensions .gradio-column {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-}
-
-.tabs_extensions colgroup {
-  display: none;
-}
-
-.tabs_extensions table {
-  background-color: var(--sd-panel-background-color);
-  width: 100%;
-}
-
-.tabs_extensions thead {
-  display: none;
-}
-
-.tabs_extensions tbody {
-  content-visibility: auto;
-  display: grid;
-  gap: var(--sd-gap-size);
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  padding: 15px;
-}
-
-.tabs_extensions tr {
-  background-color: var(--sd-input-background-color);
-  border: var(--sd-border-size) solid var(--sd-input-border-color);
-  border-radius: var(--sd-border-radius);
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  padding: var(--sd-panel-padding);
-  position: relative;
-}
-
-.tabs_extensions td {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  gap: 5px;
-  overflow-wrap: anywhere;
-  text-wrap: wrap;
-}
-
-.tabs_extensions td:has(p.info) {
-  flex-direction: column;
-  flex-grow: 1;
-  gap: 10px;
-  justify-content: space-between;
-}
-
-.tabs_extensions td p.info:has(span) {
-  align-items: flex-end;
-  display: flex;
-  flex-direction: row;
-  flex-grow: 0;
-  flex-wrap: wrap;
-  gap: 7px;
-  justify-content: space-between;
-}
-
-.tabs_extensions span.date_added {
-  background-color: var(--sd-input-background-color);
-  border-radius: var(--sd-border-radius);
-  color: var(--sd-input-secondary-text-color);
-  font-size: 11px;
-  max-width: 130px;
-  padding: var(--sd-panel-padding);
-  text-align: justify;
-  text-align-last: justify;
-}
-
-span.star_count {
-  align-items: center;
-  background-color: var(--sd-input-background-color);
-  border-radius: 5px;
-  display: flex;
-  flex-direction: row;
-  font-size: 0;
-  gap: 2px;
-  justify-content: center;
-  justify-items: end;
-  line-height: 0;
-  padding: 5px 10px 5px 5px;
-}
-
-span.star_count b {
-  font-size: 12px;
-}
-
-.tabs_extensions td br {
-  content: "";
-  flex-basis: 100%;
-}
-
-.tabs_extensions td a {
-  display: block;
-  font-size: 14px !important;
-  padding: 5px;
-}
-
-.tabs_extensions td button {
-  align-items: center;
-  display: flex;
-  justify-content: center;
-}
-
-.tabs_extensions td label:has(input) {
-  align-items: flex-start;
-  border-radius: 5px;
-  display: flex;
-  font-size: 14px;
-  gap: 5px;
-  line-height: 23px;
-}
-
-.tabs_extensions td:empty,
-.tabs_extensions td:has(a:empty) {
-  display: none !important;
-}
-
-.tabs_extensions td:nth-child(1) a,
-.tabs_extensions td:nth-child(2) a {
-  background-color: transparent;
-  color: var(--sd-main-accent-color);
-  font-size: 12px;
-  padding: 0;
-}
-
-.tabs_extensions td:nth-child(1) a:hover,
-.tabs_extensions td:nth-child(2) a:hover {
-  color: var(--sd-label-color);
-}
-
-.tabs_extensions td:nth-child(1) a {
-  font-size: 14px;
-}
-
-.tabs_extensions tr {
-  align-content: flex-start;
-  flex-direction: row;
-  flex-wrap: wrap;
-}
-
-.tabs_extensions tr td:nth-child(1) {
-  height: min-content;
-  left: 11px;
-  margin-right: 15px;
-  padding: 0px;
-  position: relative;
-  top: 3px;
-}
-
-.tabs_extensions tr td:nth-child(3) {
-  flex-basis: 100%;
-}
-
-.tabs_extensions tr td:nth-child(5) {
-  align-content: center;
-  order: -1;
-}
-
-.tabs_extensions tr td:has(button) {
-  display: flex;
-  flex-basis: 100%;
-  flex-direction: row;
-  justify-content: space-evenly;
 }
 
 #control-tab-input>.tabitem {
@@ -4603,44 +4427,6 @@ input[type="range"]::-ms-fill-upper {
   margin-left: 1em;
 }
 
-#tab_extensions input[disabled="disabled"] {
-  opacity: 0.5;
-}
-
-.extension-tag {
-  font-size: 95%;
-  font-weight: bold;
-}
-
-.extension-button {
-  font-size: 95% !important;
-  width: 6em;
-}
-
-#extensions .name {
-
-  font-size: 1.1rem
-}
-
-#extensions .type {
-  font-size: 90%;
-  opacity: 0.5;
-  text-align: center;
-}
-
-#extensions .version {
-  opacity: 0.7;
-}
-
-#extensions .info {
-  margin: 0;
-}
-
-#extensions .date {
-  font-size: 90%;
-  opacity: 0.85;
-}
-
 .folder-selector textarea {
   height: 2em !important;
   padding: 6px !important;
@@ -5589,4 +5375,8 @@ div#changelog_result p {
 
 .link:hover {
   background-color: var(--sd-button-selected-color);
+}
+
+#extensions-div {
+  overflow: auto;
 }
