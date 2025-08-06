@@ -81,6 +81,7 @@
   --sd-body-font: 'IBM Plex Mono', monospace;
   --sd-text-font: 'IBM Plex Mono', monospace;
   --sd-button-font: 'NotoSans', sans-serif;
+  --sd-image-fit: contain;
 }
 
 body {
@@ -939,7 +940,7 @@ button:hover .mask-icon {
 
 .gradio-video video {
   height: auto;
-  object-fit: contain;
+  object-fit: var(--sd-image-fit);
   width: 100%;
 }
 
@@ -1158,7 +1159,7 @@ li.item span {
   background-color: var(--sd-input-background-color);
   border: var(--sd-border-size) solid var(--sd-input-border-color);
   max-height: 100vh;
-  object-fit: contain;
+  object-fit: var(--sd-image-fit);
   object-position: top;
   width: 100%;
 }
@@ -1292,7 +1293,7 @@ li.item span {
 * .livePreview {
   background-color: var(--sd-main-background-color);
   max-height: calc(100vh - 130px);
-  object-fit: contain;
+  object-fit: var(--sd-image-fit);
   text-align: center;
   width: 100%;
   z-index: 2;
@@ -1300,7 +1301,7 @@ li.item span {
 
 * .livePreview img {
   height: 100%;
-  object-fit: contain;
+  object-fit: var(--sd-image-fit);
   width: 100%;
 }
 
@@ -1739,7 +1740,7 @@ li.item span {
 
 * .gradio-video video,
 * [data-testid="image"] img {
-  object-fit: contain;
+  object-fit: var(--sd-image-fit);
   width: inherit;
 }
 
@@ -3297,7 +3298,7 @@ td.gridjs-td {
   background-color: var(--sd-panel-background-color);
   color: var(--sd-input-secondary-text-color);
   height: 100%;
-  object-fit: contain;
+  object-fit: var(--sd-image-fit);
   width: 100%;
 }
 
@@ -3311,6 +3312,10 @@ td.gridjs-td {
 #control-tab-input .gradio-row {
   height: var(--sd-button-height);
   padding: 0;
+}
+
+#control-tab-input .gradio-tabitem {
+    height: 0;
 }
 
 #control_out_gallery_tabitem {
@@ -4609,6 +4614,8 @@ button>span {
   max-width: 100%;
   object-position: top;
   width: 100%;
+  height: 100%;
+  object-fit: var(--sd-image-fit);
 }
 
 #control-columns.flex-force-column,
@@ -4703,15 +4710,21 @@ div#video_params_control_tabitem .video-settings .gradio-accordion .form {
 
 button.interrogate,
 button.interrogate-clip,
-button.interrogate-blip {
+button.interrogate-blip,
+button.image-fit {
   opacity: 0.5;
   position: absolute;
+  top: 0.3em;
   background: var(--sd-panel-background-color);
   z-index: 1;
 }
 
 button.interrogate {
   right: 5.8em;
+}
+
+button.image-fit {
+  right: 8.6em;
 }
 
 button.interrogate-clip {
