@@ -109,9 +109,9 @@
     "jobStatusEl": "readonly",
     // loader.js
     "removeSplash": "readonly",
-    // nvml.js
-    "initNVML": "readonly",
-    "disableNVML": "readonly",
+    // gpu.js
+    "initGPU": "readonly",
+    "disableGPU": "readonly",
     // indexdb.js
     "idbGet": "readonly",
     "idbPut": "readonly",

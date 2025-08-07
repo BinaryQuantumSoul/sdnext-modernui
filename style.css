@@ -5405,8 +5405,15 @@ div#changelog_result p {
   width: unset;
 }
 
-.nvml {
+.gpu {
   font-size: 0.9em;
   padding: 0.5em;
   background-color: var(--sd-group-background-color);
+}
+
+#gpu-controls {
+    display: flex;
+    flex-grow: 1;
+    justify-content: space-evenly;
+    background-color: var(--sd-panel-background-color);
 }
