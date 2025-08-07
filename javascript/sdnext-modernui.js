@@ -146,6 +146,24 @@ function switchMobile() {
   }
 }
 
+async function applyAutoHide() {
+  const hideSiblings = (elem) => {
+    if (!elem || elem.nodeName !== 'DIV') return;
+    elem.classList.toggle('hidden-animate');
+    const nextEl = elem.nextElementSibling;
+    hideSiblings(nextEl);
+  };
+
+  appUiUx.querySelectorAll('h2').forEach((elem) => elem.classList.add('auto-hide'));
+  appUiUx.querySelectorAll('.auto-hide').forEach((elem) => {
+    elem.onclick = (evt) => {
+      log('applyAutoHide', evt.target);
+      for (const child of evt.target.children) child.classList.toggle('hidden-animate');
+      hideSiblings(evt.target?.nextElementSibling);
+    };
+  });
+}
+
 //= ====================== UIUX READY =======================
 async function extraTweaks() {
   // System tab click second tab
@@ -851,6 +869,7 @@ async function mainUiUx() {
   showContributors();
   switchMobile();
   extraTweaks();
+  applyAutoHide();
   uiFlagInitialized = true;
 }
 

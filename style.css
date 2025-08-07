@@ -474,6 +474,15 @@ hr {
   display: none;
 }
 
+*.hidden-animate {
+  transform: scaleY(0);
+  max-height: 0;
+  transition-property: transform, max-height;
+  transition-duration: 400ms, 0;
+  transition-delay: 0ms, 400ms;
+  transition-timing-function: linear;
+}
+
 *.gradio-accordion .label-wrap {
   align-items: center;
   background-color: var(--sd-input-background-color);
@@ -3759,6 +3768,15 @@ h2 {
   cursor: help;
 }
 
+h2 {
+  filter: drop-shadow(2px 2px 4px black);
+  cursor: cell;
+}
+
+h2:hover {
+  filter: brightness(1.2);
+}
+
 #about_tabitem ul {
   padding-inline-start: calc(var(--sd-panel-padding) * 4);
 }
@@ -4439,20 +4457,6 @@ input[type="range"]::-ms-fill-upper {
   padding: 6px !important;
 }
 
-.nvml {
-  background: var(--background-fill-primary);
-  border: 1px solid var(--button-primary-border-color);
-  bottom: 10px;
-  color: var(--button-primary-text-color);
-  display: none;
-  font-family: monospace;
-  font-size: 0.7em;
-  padding: 6px;
-  position: fixed;
-  right: 10px;
-  z-index: 50;
-}
-
 #system .tab-nav button:first-child,
 #layout-extra-networks .tab-nav .buttons button:last-child {
   display: none;
@@ -5053,20 +5057,6 @@ gallery-folder:hover {
   width: 2em;
 }
 
-.nvml {
-  background: var(--sd-panel-background-color);
-  border: 1px solid var(--sd-panel-border-color);
-  bottom: 12px;
-  color: var(--button-primary-text-color);
-  display: none;
-  font-family: monospace;
-  font-size: 0.7em;
-  padding: 6px;
-  position: fixed;
-  right: 12px;
-  z-index: 1000;
-}
-
 .locale {
   justify-content: center;
 }
@@ -5394,4 +5384,29 @@ div#changelog_result p {
 
 #extensions-div {
   overflow: auto;
+}
+
+.video-model-link {
+  color: var(--sd-main-accent-color);
+  font-weight: normal;
+  background-color: unset;
+  padding: 0;
+  margin: 0;
+  filter: drop-shadow(2px 2px 2px black);
+}
+
+.video-model-link:hover {
+  background: unset;
+  color: var(--sd-main-accent-color);
+  filter: brightness(1.5);
+}
+
+#video_video_type input {
+  width: unset;
+}
+
+.nvml {
+  font-size: 0.9em;
+  padding: 0.5em;
+  background-color: var(--sd-group-background-color);
 }
