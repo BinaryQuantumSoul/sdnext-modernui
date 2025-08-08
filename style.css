@@ -2709,8 +2709,9 @@ div#main-nav {
   background-color: var(--sd-input-background-color);
   border-radius: 3px;
   color: var(--sd-input-text-color);
-  padding: 2px 10px;
   text-decoration: none;
+  padding: 0.2em;
+  line-height: 1.5em;
 }
 
 * a:not(:has(button)):hover {
@@ -5326,15 +5327,22 @@ div#changelog_result p {
 
 .simple-table td {
   padding: 0.2em !important;
-  white-space: pre-wrap;
 }
 
 .simple-table td div {
   padding: 0.2em !important;
-  white-space: pre-wrap;
+  white-space: normal;
   max-height: 7em;
   overflow-x: hidden;
   overflow-y: auto;
+}
+
+.div-link {
+  cursor: pointer;
+}
+
+.div-link:hover {
+  background-color: var(--sd-main-accent-color);
 }
 
 .simple-table td:nth-child(1) {
