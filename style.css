@@ -1053,6 +1053,7 @@ ul.options {
   background: var(--sd-main-background-color);
   border-radius: var(--sd-border-radius);
   bottom: unset !important;
+  filter: drop-shadow(2px 2px 4px black);
   box-shadow: none;
   color: var(--sd-label-color);
   list-style: none;
