@@ -5434,3 +5434,8 @@ div#changelog_result p {
 #civitai_token textarea:focus, #hf_token textarea:focus, #setting_huggingface_token textarea:focus {
   filter: blur(0);
 }
+
+#control_interrogate_input,
+#img2img_interrogate_input {
+  display: none;
+}
