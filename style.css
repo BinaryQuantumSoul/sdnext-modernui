@@ -5425,3 +5425,12 @@ div#changelog_result p {
     justify-content: space-evenly;
     background-color: var(--sd-panel-background-color);
 }
+
+#civitai_token textarea, #hf_token textarea {
+  filter: blur(4px);
+}
+
+#civitai_token textarea:hover, #hf_token textarea:hover,
+#civitai_token textarea:focus, #hf_token textarea:focus {
+  filter: blur(0);
+}
