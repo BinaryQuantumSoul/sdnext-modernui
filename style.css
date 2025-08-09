@@ -5426,11 +5426,11 @@ div#changelog_result p {
     background-color: var(--sd-panel-background-color);
 }
 
-#civitai_token textarea, #hf_token textarea {
+#civitai_token textarea, #hf_token textarea, #setting_huggingface_token textarea {
   filter: blur(4px);
 }
 
-#civitai_token textarea:hover, #hf_token textarea:hover,
-#civitai_token textarea:focus, #hf_token textarea:focus {
+#civitai_token textarea:hover, #hf_token textarea:hover, #setting_huggingface_token textarea:hover,
+#civitai_token textarea:focus, #hf_token textarea:focus, #setting_huggingface_token textarea:focus {
   filter: blur(0);
 }
