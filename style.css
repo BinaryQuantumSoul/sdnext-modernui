@@ -5427,6 +5427,10 @@ div#changelog_result p {
   background-color: var(--sd-group-background-color);
 }
 
+.gpu table td {
+  padding-right: 1em;
+}
+
 #gpu-controls {
     display: flex;
     flex-grow: 1;
