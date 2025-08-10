@@ -1850,7 +1850,12 @@ h1 {
 .extra-network-cards .card .overlay .name {
   color: white;
   overflow-wrap: break-word;
-  text-shadow: 1px 1px black;
+  text-shadow: 2px 2px 2px black;
+  filter: drop-shadow(0px 0px 4px black);
+}
+
+.extra-network-cards .card .overlay .reference {
+  background-color: rgba(0, 0, 0, 0.2);
 }
 
 .extra-network-cards .card .preview {
