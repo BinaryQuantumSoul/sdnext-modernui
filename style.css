@@ -3878,7 +3878,9 @@ div#quicksettings div+button {
 
 input[type="checkbox"], input[type="radio"] {
   cursor: pointer;
-  min-height: var(--sd-input-line-height);
+  min-height: 24px;
+  max-height: 24px;
+  font-size: 24px;
   appearance: none;
   mask-image: url(./html/svg/square.svg);
   background-size: contain;
