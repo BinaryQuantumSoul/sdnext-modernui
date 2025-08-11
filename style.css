@@ -4607,14 +4607,14 @@ button>span {
 #video-columns>div {
   flex-grow: 1;
   justify-content: flex-start;
-  min-height: 5rem;
-  min-width: 30rem;
+  min-height: 20rem;
+  min-width: 40rem;
 }
 
 #img2img-columns>div,
 #extras-columns>div {
-  min-height: 50%;
-  min-width: 30rem;
+  min-height: 20rem;
+  min-width: 40rem;
 }
 
 #control-columns .panel.no-tr,
