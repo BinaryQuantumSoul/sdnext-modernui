@@ -3850,15 +3850,8 @@ div#quicksettings div+button {
 }
 
 #txt2img_styles .wrap-inner, #img2img_styles .wrap-inner, #control_styles .wrap-inner, #video_styles .wrap-inner {
-  height: 2em;
-  overflow-x: hidden;
-  overflow-y: scroll;
-}
-
-#txt2img_styles .wrap-inner:hover, #img2img_styles .wrap-inner:hover, #control_styles .wrap-inner:hover, #video_styles .wrap-inner:hover {
   height: unset;
-  overflow-x: hidden;
-  overflow-y: visible;
+  overflow-y: auto;
 }
 
 #sidebar_secondary_tabs {
