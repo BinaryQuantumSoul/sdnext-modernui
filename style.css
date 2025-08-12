@@ -13,7 +13,6 @@
   src: local('IBMPlexMonoNerd'), url('themes/assets/ibmplexmono-nerdfont-medium.ttf')
 }
 
-
 .icon-sdnext {
   mask-image: url(./html/favicon.svg);
 }
