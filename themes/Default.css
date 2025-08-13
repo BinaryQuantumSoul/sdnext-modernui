@@ -180,3 +180,24 @@ button>span {
 .generate.active>.portal>button {
   filter: drop-shadow(2px 4px 6px black)
 }
+
+input[type="checkbox"], input[type="radio"] {
+  cursor: pointer;
+  min-height: 24px;
+  max-height: 24px;
+  font-size: 24px;
+  appearance: none;
+  mask-image: url(./html/svg/square.svg);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-color: var(--sd-muted-color);
+  scale: 0.8;
+}
+
+input[type="checkbox"]:hover, input[type="radio"]:hover {
+  background-color: var(--sd-button-selected-color);
+}
+
+input[type="checkbox"]:checked, input[type="radio"]:checked {
+  mask-image: url(./html/svg/square-xmark.svg);
+}
