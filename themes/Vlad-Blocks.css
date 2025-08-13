@@ -187,7 +187,7 @@ input[type="checkbox"], input[type="radio"] {
   max-height: 24px;
   font-size: 24px;
   appearance: none;
-  mask-image: url(./html/svg/square.svg);
+  mask-image: url(../html/svg/square.svg);
   background-size: contain;
   background-repeat: no-repeat;
   background-color: var(--sd-muted-color);
@@ -199,5 +199,5 @@ input[type="checkbox"]:hover, input[type="radio"]:hover {
 }
 
 input[type="checkbox"]:checked, input[type="radio"]:checked {
-  mask-image: url(./html/svg/square-xmark.svg);
+  mask-image: url(../html/svg/square-xmark.svg);
 }
