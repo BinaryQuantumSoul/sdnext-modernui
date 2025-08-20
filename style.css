@@ -4399,6 +4399,17 @@ input[type="range"]::-ms-fill-upper {
   background: var(--sd-main-accent-color) !important;
 }
 
+.tooltip-reload-notice {
+  margin-top: 0.3em;
+}
+
+.tooltip-reload-text {
+  font-size: var(--sd-input-font-size);
+  font-style: italic;
+  opacity: 0.75;
+  display: block;
+}
+
 .modification-indicator {
   display: none;
 }
