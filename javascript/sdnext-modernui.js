@@ -448,8 +448,10 @@ function movePortal(portalElem, tries, index, length) {
     const delay = timeout ? parseInt(timeout) : 500;
     setTimeout(() => movePortal(portalElem, tries + 1, index, length), delay);
   } else {
-    error('Element not found', { index, parent: parentSelector, id: dataSelector, el: portalElem, tgt: targetElem });
-    if (window.opts.uiux_enable_console_log) portalElem.style.backgroundColor = 'pink';
+    if (!dataSelector.endsWith('_enqueue')) {
+      error('Element not found', { index, parent: parentSelector, id: dataSelector, el: portalElem, tgt: targetElem });
+      if (window.opts.uiux_enable_console_log) portalElem.style.backgroundColor = 'pink';
+    }
     portalTotal += 1;
   }
   if (portalTotal === length) uiFlagPortalInitialized = true;
