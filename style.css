@@ -80,7 +80,7 @@
   --sd-body-font: 'IBM Plex Mono', monospace;
   --sd-text-font: 'IBM Plex Mono', monospace;
   --sd-button-font: 'NotoSans', sans-serif;
-  --sd-image-fit: contain;
+  --sd-image-fit: scale-down;
 }
 
 body {
@@ -203,6 +203,11 @@ hr {
 
 .flexbox.group .flexbox:not(.no-border) {
   gap: var(--sd-group-gap);
+}
+
+.fixed-height {
+  height: 100%;
+  overflow-y: none !important;
 }
 
 .grow-all div:not(.shrink) {
@@ -606,11 +611,17 @@ input[type="color"] {
   overflow-wrap: anywhere;
 }
 
+#img2img_image .image-container,
+#control-template-column-input, .image-container {
+  max-height: calc(50vh - 44px);
+}
+
 *.gradio-image .image-container {
   max-height: 100%;
   max-width: 100%;
   width: 100%;
   height: 100%;
+  overflow-y: auto;
 }
 
 *.block {
@@ -1751,6 +1762,7 @@ li.item span {
 * [data-testid="image"] img {
   object-fit: var(--sd-image-fit);
   width: inherit;
+  height: 99%;
 }
 
 .gr-group {
@@ -1961,7 +1973,7 @@ h1 {
 .extra-details>div {
   align-self: flex-start;
   max-height: 80vh;
-  min-height: 40vh;
+  min-height: calc(50vh - 44px);
   overflow-y: auto;
 }
 
@@ -4596,7 +4608,7 @@ button>span {
 
 #img2img-columns>div,
 #extras-columns>div {
-  min-height: 20rem;
+  min-height: 42vh;
   min-width: 40rem;
 }
 
@@ -4605,12 +4617,16 @@ button>span {
   overflow: auto;
 }
 
+#control_gallery .grid-container {
+  height: 99%;
+}
+
 #control-columns img,
 #control-columns svg {
   max-width: 100%;
   object-position: top;
   width: 100%;
-  height: 100%;
+  height: 99%;
   object-fit: var(--sd-image-fit);
 }
 
