@@ -2674,10 +2674,10 @@ div#main-nav {
 .settings-tabs button {
   color: var(--sd-input-placeholder-text-color);
   font-size: 98%;
-  line-height: 1.4em;
   padding: var(--sd-group-padding);
   text-align: left;
   white-space: pre-wrap;
+  min-height: unset;
 }
 
 .extra-network-subdirs {
