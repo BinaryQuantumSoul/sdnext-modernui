@@ -1897,7 +1897,7 @@ h1 {
 
 .extra-network-cards .card .tags {
   background: var(--sd-panel-background-color);
-  overflow-wrap: break-word;
+  overflow-wrap: anywhere;
   padding: 4px;
   position: absolute;
   top: 100%;
