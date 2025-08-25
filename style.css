@@ -2653,7 +2653,7 @@ div#main-nav {
 }
 
 .network-reference {
-  filter: contrast(0.5);
+  filter: contrast(0.9);
 }
 
 .network-reference::before {
