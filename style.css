@@ -2649,16 +2649,25 @@ div#main-nav {
 
 .network-folder::before {
   content: "󰉖 ";
-  margin-right: 0.2em;
+  margin-right: 0.3em;
 }
 
 .network-reference {
-  color: beige !important;
+  filter: contrast(0.5);
 }
 
 .network-reference::before {
   content: "󰴊 ";
-  margin-right: 0.2em;
+  margin-right: 0.3em;
+}
+
+.network-model {
+  opacity: 0.5;
+}
+
+.network-model::before {
+  content: "󰴉 ";
+  margin-right: 0.3em;
 }
 
 .extra-network-subdirs>button,
@@ -2674,7 +2683,7 @@ div#main-nav {
 .extra-network-subdirs {
   height: calc(100vh - 168px);
   max-width: 20%;
-  min-width: max(5%, 120px);
+  min-width: max(5%, 140px);
   overflow-y: auto;
 }
 
