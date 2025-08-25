@@ -2647,6 +2647,20 @@ div#main-nav {
   border-top-left-radius: 0 !important;
 }
 
+.network-folder::before {
+  content: "󰉖 ";
+  margin-right: 0.2em;
+}
+
+.network-reference {
+  color: beige !important;
+}
+
+.network-reference::before {
+  content: "󰴊 ";
+  margin-right: 0.2em;
+}
+
 .extra-network-subdirs>button,
 .settings-tabs button {
   color: var(--sd-input-placeholder-text-color);
