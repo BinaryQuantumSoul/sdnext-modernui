@@ -1099,38 +1099,6 @@ li.item span {
   order: 2;
 }
 
-/* Keep video controls inside the preview block ===== */
-#tab-gallery-video {
-  position: relative;
-  overflow: hidden;
-
-/* Neutralize global absolute wrap for Gallery video only and reserve control space */
-#tab-gallery-video>.wrap {
-  position: static !important;
-  height: 100%;
-  padding-bottom: 36px;       /* reserve space for the controls bar */
-}
-
-/* Pin the control bar to the bottom, inside the component */
-#tab-gallery-video .controls {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 101;               /* above any absolute .wrap rules */
-  padding: 6px;
-  width: 100%;
-}
-
-/* Ensure the video itself fits above the controls area */
-#tab-gallery-video video {
-  display: block;
-  width: 100%;
-  height: calc(100% - 36px) !important;
-  max-height: calc(100% - 36px);
-  object-fit: contain;
-}
-
 *.token {
   border-radius: var(--sd-border-radius);
   color: var(--sd-input-text-color);

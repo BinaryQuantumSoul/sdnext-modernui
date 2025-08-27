@@ -65,66 +65,6 @@ function logPrettyPrint() {
   return output;
 }
 
-// Gallery video mounting
-function findVisibleGalleryPreviewContainer() {
-  const app = gradioApp();
-  // Prefer the live, portaled gallery preview area
-  // 1) a container that holds a .gradio-gallery with a .preview section
-  const candidates = Array.from(app.querySelectorAll('.gradio-gallery'))
-    .map((g) => g.closest('[id$="_results"], [id$="_gallery_container"], .portal, .gr-block, .gr-form, .gradio-row'))
-    .filter(Boolean);
-  // 2) Explicit Gallery results containers if present
-  const explicit = app.querySelector('#gallery_gallery_container') || app.querySelector('#gallery_results');
-  if (explicit) candidates.unshift(explicit);
-  // Pick the first visible one
-  return candidates.find((el) => el && el.offsetParent !== null) || explicit || app;
-}
-
-function forceShow(el) {
-  if (!el) return;
-  // Gradio sometimes keeps "hidden" or inline display:none; clear both.
-  el.removeAttribute('hidden');
-  el.classList.remove('hidden', 'hide');
-  el.style.display = ''; // revert to stylesheet control
-}
-
-function mountGalleryVideoIntoPreview() {
-  try {
-    const app = gradioApp();
-    const videoEl = app.querySelector('#tab-gallery-video');
-    if (!videoEl) return;
-    const target = findVisibleGalleryPreviewContainer();
-    if (!target) return;
-    // Only move if needed (avoid DOM churn)
-    if (videoEl.parentElement !== target) {
-      target.appendChild(videoEl);
-    }
-    forceShow(videoEl);
-  } catch (_) { /* non-fatal */ }
-}
-
-// Re-assert mounting whenever the DOM is re-parented by portals/layout changes,
-// or when #tab-gallery-video is lazily created after first click.
-function observeGalleryVideoMount() {
-  const root = gradioApp() || document.body;
-  if (!root) return;
-  const debounced = (() => {
-    let t;
-    return () => {
-      clearTimeout(t);
-      t = setTimeout(() => {
-        // Try a couple of times in case of rapid portal moves
-        mountGalleryVideoIntoPreview();
-        setTimeout(mountGalleryVideoIntoPreview, 60);
-      }, 30);
-    };
-  })();
-  const obs = new MutationObserver((muts) => {
-    if (muts.some((m) => m.addedNodes.length || m.removedNodes.length)) debounced();
-  });
-  obs.observe(root, { childList: true, subtree: true, attributes: true });
-}
-
 const setStored = (key, val) => {
   if (!window.opts.uiux_persist_layout) return;
   try {
@@ -924,10 +864,6 @@ async function mainUiUx() {
   initTabComponents();
   initButtonComponents();
   await waitForUiPortal();
-  // Ensure the Gallery video is inside the visible preview column and shown
-  mountGalleryVideoIntoPreview();
-  observeGalleryVideoMount();
-
   setupGenerateObservers();
   setupControlDynamicObservers();
   uiuxOptionSettings();
