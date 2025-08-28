@@ -5473,3 +5473,20 @@ div#changelog_result p {
 #img2img_interrogate_input {
   display: none;
 }
+
+#gallery-image {
+  padding: 0;
+}
+
+#gallery-video {
+  padding: 0;
+  flex: 0;
+}
+
+#gallery-video .wrap {
+  place-self: center;
+}
+
+#gallery-video video {
+  width: 100%;
+}
