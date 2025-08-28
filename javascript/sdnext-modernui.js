@@ -298,6 +298,14 @@ async function uiuxOptionSettings() {
   el = gradioApp().querySelector('#setting_uiux_mobile_scale input[type=number]');
   if (el) el.addEventListener('change', (e) => uiux_mobile_scale(e.target.value));
   uiux_mobile_scale(window.opts.uiux_mobile_scale);
+
+  // set panel min width
+  function uiux_panel_min_width(value) {
+    document.documentElement.style.setProperty('--sd-panel-min-width', `${value}em`);
+  }
+  el = gradioApp().querySelector('#setting_uiux_panel_min_width input[type=number]');
+  if (el) el.addEventListener('change', (e) => uiux_panel_min_width(e.target.value));
+  uiux_panel_min_width(window.opts.uiux_panel_min_width);
 }
 
 async function setupControlDynamicObservers() {

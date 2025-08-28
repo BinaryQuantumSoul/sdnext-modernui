@@ -81,6 +81,7 @@
   --sd-text-font: 'IBM Plex Mono', monospace;
   --sd-button-font: 'NotoSans', sans-serif;
   --sd-image-fit: scale-down;
+  --sd-panel-min-width: 30em;
 }
 
 body {
@@ -4621,18 +4622,13 @@ button>span {
   min-width: fit-content;
 }
 
+#img2img-columns>div,
 #control-columns>div,
-#video-columns>div {
+#video-columns>div,
+#extras-columns>div {
   flex-grow: 1;
   justify-content: flex-start;
-  min-height: 20rem;
-  min-width: 40rem;
-}
-
-#img2img-columns>div,
-#extras-columns>div {
-  min-height: 42vh;
-  min-width: 40rem;
+  min-width: var(--sd-panel-min-width);
 }
 
 #control-columns .panel.no-tr,
