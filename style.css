@@ -1867,8 +1867,7 @@ h1 {
 }
 
 .extra-network-cards .card .overlay .reference {
-  color: beige;
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgba(0, 0, 0, 0.3);
 }
 
 .extra-network-cards .card .preview {
