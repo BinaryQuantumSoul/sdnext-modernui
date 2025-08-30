@@ -2370,17 +2370,13 @@ div#layout-3 {
   mask-image: url(./html/svg/t-box-line.svg);
 }
 
-.icon-txt2img {
-  mask-image: url(./html/svg/t-box-line.svg);
-}
-
 .icon-img2img {
-  mask-image: url(./html/svg/image-line.svg);
+  mask-image: url(./html/svg/image-polaroid.svg);
 }
 
 .icon-control,
 .icon-2control {
-  mask-image: url(./html/svg/robot-2-line.svg);
+  mask-image: url(./html/svg/image-line.svg);
 }
 
 .icon-extras {
