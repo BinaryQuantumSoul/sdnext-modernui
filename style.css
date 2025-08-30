@@ -612,11 +612,6 @@ input[type="color"] {
   overflow-wrap: anywhere;
 }
 
-#img2img_image .image-container,
-#control-template-column-input, .image-container {
-  max-height: calc(50vh - 44px);
-}
-
 *.gradio-image .image-container {
   max-height: 100%;
   max-width: 100%;
