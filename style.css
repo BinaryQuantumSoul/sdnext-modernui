@@ -3357,7 +3357,7 @@ td.gridjs-td {
 }
 
 #control-tab-input .gradio-tabitem {
-    height: 0;
+  height: 0;
 }
 
 #control_out_gallery_tabitem {
@@ -4133,6 +4133,8 @@ div#quicksettings div+button {
   padding-right: calc(var(--sd-panel-padding) / 2);
 }
 
+.media-mobile #accordion-txt2img,
+.media-mobile #accordion-img2img,
 .media-mobile #accordion-control,
 .media-mobile #accordion-video {
   background: transparent;
@@ -4143,6 +4145,8 @@ div#quicksettings div+button {
   padding: 0;
 }
 
+.media-mobile #accordion-txt2img .accordion-bar,
+.media-mobile #accordion-img2img .accordion-bar,
 .media-mobile #accordion-control .accordion-bar,
 .media-mobile #accordion-video .accordion-bar {
   border-bottom-left-radius: 0 !important;
@@ -4150,23 +4154,54 @@ div#quicksettings div+button {
   flex-direction: row-reverse;
   margin-bottom: var(--sd-panel-padding);
   min-height: unset;
+  background-color: var(--sd-button-normal-color);
 }
-
+.media-mobile #accordion-txt2img .accordion-bar .flexbox.col,
+.media-mobile #accordion-img2img .accordion-bar .flexbox.col,
 .media-mobile #accordion-control .accordion-bar .flexbox.col,
 .media-mobile #accordion-video .accordion-bar .flexbox.col {
   min-width: unset;
 }
 
+.media-mobile #sidebar_txt2img,
+.media-mobile #sidebar_img2img,
 .media-mobile #sidebar_control,
 .media-mobile #sidebar_video {
   flex-direction: row;
+  flex-wrap: wrap;
+  flex-basis: auto;
+  justify-content: flex-start;
 }
 
+.media-mobile #sidebar_txt2img button,
+.media-mobile #sidebar_img2img button,
+.media-mobile #sidebar_control button,
+.media-mobile #sidebar_video button {
+  width: auto;
+  min-width: 10em;
+}
+
+.media-mobile #accordion-txt2img .accordion-container,
+.media-mobile #accordion-img2img .accordion-container,
 .media-mobile #accordion-control .accordion-container,
 .media-mobile #accordion-video .accordion-container {
   background: var(--sd-panel-background-color);
   margin: 0;
   min-height: unset;
+}
+
+div#gallery_results_mobile_tabitem {
+  min-height: 38vh;
+}
+
+.media-mobile #tab-gallery-folders,
+.media-mobile #tab-gallery-files {
+  max-height: 30vh;
+  overflow-y: scroll;
+}
+
+.media-mobile .gradio-gallery .preview img {
+  min-height: fit-content;
 }
 
 .option-aside-labels div#sidebar_secondary_tabs button {
@@ -4851,8 +4886,12 @@ gallery-folder:hover {
 }
 
 #split-settings-left {
-
   min-width: 10em
+}
+
+.break {
+  flex-basis: 100%;
+  height: 0;
 }
 
 .splash {
@@ -4871,14 +4910,17 @@ gallery-folder:hover {
   font-family: monospace;
   font-variant: all-petite-caps;
   margin-top: 2em;
+  font-size: 1.2em;
 }
 
 .splash-img {
-  animation: color 10s infinite alternate;
-  background-repeat: no-repeat;
-  height: 512px;
   margin: 10% auto 0 auto;
   width: 512px;
+  height: 512px;
+  background-repeat: no-repeat;
+  animation: hue 5s infinite alternate;
+  max-width: 80vw;
+  background-size: contain;
 }
 
 .loading {
@@ -5440,10 +5482,10 @@ div#changelog_result p {
 }
 
 #gpu-controls {
-    display: flex;
-    flex-grow: 1;
-    justify-content: space-evenly;
-    background-color: var(--sd-panel-background-color);
+  display: flex;
+  flex-grow: 1;
+  justify-content: space-evenly;
+  background-color: var(--sd-panel-background-color);
 }
 
 #civitai_token textarea, #hf_token textarea, #setting_huggingface_token textarea {
