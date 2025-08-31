@@ -4555,6 +4555,12 @@ input[type="range"]::-ms-fill-upper {
 #system_header>div>button {
   height: 100%;
   width: 100%;
+  word-spacing: 10em;
+}
+
+#system_header>div:hover,
+#system_header>div>button:hover {
+  background-color: var(--color-red);
 }
 
 .gradio-row:has(> .hidden:only-child) {

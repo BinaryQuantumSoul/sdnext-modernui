@@ -185,9 +185,7 @@ async function extraTweaks() {
   ['txt2img', 'img2img', 'control', 'video'].forEach((key) => {
     const buttonNav = document.getElementById(`${key}_nav`);
     const buttonEN = document.getElementById(`btn-en-layout-${key}`);
-    buttonNav.addEventListener('click', () => {
-      buttonEN.click();
-    });
+    buttonNav?.addEventListener('click', () => buttonEN?.click());
   });
 
   const logoNav = document.getElementById('logo_nav');
