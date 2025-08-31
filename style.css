@@ -264,11 +264,6 @@ hr {
   min-width: min(200px, 100%);
 }
 
-*.gradio-button.tool {
-  align-self: flex-end;
-  padding: 0px 4px;
-}
-
 .fb-50 {
   flex-basis: 49%;
 }
@@ -286,8 +281,17 @@ hr {
   padding: 0;
 }
 
+*.gradio-button.tool {
+  align-self: flex-end;
+  background: unset;
+}
+
+*.gradio-button.tool div {
+  scale: 0.9em;
+  padding: 0;
+}
+
 .invisible *.gradio-button.tool {
-  background-color: var(--sd-button-normal-color);
   font-size: 0;
   line-height: 0;
   min-width: var(--sd-input-height);
@@ -1591,6 +1595,7 @@ li.item span {
   min-height: 16px;
   overflow: auto;
   padding: var(--sd-border-size);
+  overflow-x: hidden;
 }
 
 .layout-header .group-row button {

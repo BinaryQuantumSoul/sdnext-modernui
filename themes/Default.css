@@ -152,7 +152,7 @@ button>span {
 }
 
 .mask-icon {
-    filter: blur(4px) !important;
+  filter: blur(4px) !important;
 }
 
 .btn-generate button {

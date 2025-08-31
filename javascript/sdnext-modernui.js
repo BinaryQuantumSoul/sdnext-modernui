@@ -1,9 +1,9 @@
 // Original credits: <https://github.com/anapnoe/stable-diffusion-webui-ux/blob/8307896c59032a9cdac1ab24c975102ff9a674d3/extensions-builtin/anapnoe-sd-uiux/javascript/anapnoe_sd_uiux_core.js>
 
-const template_path = '/file=extensions-builtin/sdnext-modernui/html/templates/';
-const template_root = 'template-app-root';
-const uiux_app_id = '#sdnext_app';
-const uiux_tab_id = '#tab_sdnext_uiux_core';
+const htmlPath = '/file=extensions-builtin/sdnext-modernui/html';
+const rootTemplate = 'template-app-root';
+const appId = '#sdnext_app';
+const tabId = '#tab_sdnext_uiux_core';
 
 const split_instances = [];
 let portalTotal = 0;
@@ -687,6 +687,56 @@ function initButtonComponents() {
   });
 }
 
+const buttonMap = {
+  apply: 'paste',
+  clear: 'empty-set',
+  close: 'square-xmark',
+  list: 'list',
+  load: 'floppy-disk-circle-arrow-right',
+  model: 'database',
+  override: 'sliders',
+  preview: 'image',
+  random: 'shuffle',
+  refresh: 'arrows-rotate',
+  remove: 'eraser',
+  reset: 'empty-set',
+  reuse: 'recycle',
+  save: 'floppy-disk',
+  scan: 'radar',
+  search: 'magnifying-glass',
+  select: 'pen-swirl',
+  size: 'ruler-triangle',
+  sort: 'sort',
+  swap: 'arrow-up-arrow-down',
+  upload: 'upload',
+  view: 'grid',
+};
+const iconKeys = Object.keys(buttonMap);
+
+async function setupToolButtons() {
+  const t0 = performance.now();
+  if (!appUiUx) return;
+  const processed = new Set();
+  for (const key of iconKeys) {
+    const iconName = buttonMap[key];
+    const nodes = appUiUx.querySelectorAll(`.tool[id$="${key}"]`);
+    nodes.forEach((el) => {
+      if (processed.has(el)) return;
+      processed.add(el);
+      const wrapper = document.createElement('div');
+      wrapper.className = 'mask-icon';
+      wrapper.style.maskImage = `url(${htmlPath}/svg/${iconName}.svg)`;
+      while (el.firstChild) wrapper.appendChild(el.firstChild);
+      el.appendChild(wrapper);
+    });
+  }
+  const t1 = performance.now();
+  log('setupToolButtons', Math.round(t1 - t0));
+  // appUiUx.querySelectorAll('.tool').forEach((el) => {
+  //   if (!processed.has(el)) error('toolButton', el.id);
+  // });
+}
+
 async function setupAnimationEventListeners() {
   const notransition = window.opts.uiux_disable_transitions;
   document.addEventListener('animationstart', (e) => {
@@ -748,7 +798,7 @@ async function createButtonsForExtensions() {
   });
 }
 async function replaceRootTemplate() {
-  appUiUx = document.querySelector(uiux_app_id);
+  appUiUx = document.querySelector(appId);
   gradioApp().insertAdjacentElement('afterbegin', appUiUx);
 }
 
@@ -770,7 +820,7 @@ async function loadCurrentTemplate(data) {
   const curr_data = data.shift();
   if (curr_data) {
     if (window.opts.uiux_enable_console_log) log('loadTemplate', curr_data.template);
-    const uri = `${window.subpath}${template_path}${curr_data.template}.html?${Date.now()}`;
+    const uri = `${window.subpath}${htmlPath}/templates/${curr_data.template}.html?${Date.now()}`;
     const response = await fetch(uri, { cache: 'reload' });
 
     if (!response.ok) {
@@ -795,8 +845,8 @@ async function loadCurrentTemplate(data) {
 async function loadAllTemplates() {
   const data = [
     {
-      template: template_root,
-      target: document.querySelector(uiux_tab_id),
+      template: rootTemplate,
+      target: document.querySelector(tabId),
     },
   ];
   await loadCurrentTemplate(data);
@@ -866,6 +916,7 @@ async function mainUiUx() {
   await loadAllPortals();
   initTabComponents();
   initButtonComponents();
+  setupToolButtons();
   await waitForUiPortal();
   setupGenerateObservers();
   setupControlDynamicObservers();
