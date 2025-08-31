@@ -284,6 +284,7 @@ hr {
 *.gradio-button.tool {
   align-self: flex-end;
   background: unset;
+  padding: 0;
 }
 
 *.gradio-button.tool div {
