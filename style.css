@@ -5075,7 +5075,7 @@ gallery-folder:hover {
   display: table-row-group !important;
 }
 
-.card:has(>img[src*="card-no-preview.png"])::after {
+.card:has(>img[src*="missing.png"])::after {
   background-color: var(--data-color);
   border-radius: var(--sd-border-radius);
   content: '';
