@@ -82,6 +82,7 @@
   --sd-button-font: 'NotoSans', sans-serif;
   --sd-image-fit: scale-down;
   --sd-panel-min-width: 30em;
+  --sd-grid-image-size: 150px;
 }
 
 body {
@@ -1139,7 +1140,8 @@ li.item span {
 *.grid-container {
   display: grid;
   gap: var(--sd-gap-size);
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(var(--sd-grid-image-size), 1fr));
+  align-content: start;
 }
 
 *.thumbnails.scroll-hide {

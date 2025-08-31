@@ -68,22 +68,18 @@ function logPrettyPrint() {
 const setStored = (key, val) => {
   if (!window.opts.uiux_persist_layout) return;
   try {
-    localStorage.setItem(`ui-${key}`, JSON.stringify(val));
     // log(`setStored: ${key}=${val}`);
-  } catch {
-    /* unsupported on mobile */
-  }
+    localStorage.setItem(`ui-${key}`, JSON.stringify(val));
+  } catch { /* unsupported on mobile */ }
 };
 
 const getStored = (key) => {
   if (!window.opts.uiux_persist_layout) return undefined;
   let val;
   try {
-    val = JSON.parse(localStorage.getItem(`ui-${key}`));
     // log(`getStored: ${key}=${val}`);
-  } catch {
-    /* unsupported on mobile */
-  }
+    val = JSON.parse(localStorage.getItem(`ui-${key}`));
+  } catch { /* unsupported on mobile */ }
   return val;
 };
 
@@ -164,7 +160,6 @@ async function applyAutoHide() {
   });
 }
 
-//= ====================== UIUX READY =======================
 async function extraTweaks() {
   // System tab click second tab
   document.querySelectorAll('#system .tab-nav button')[1].click();
@@ -243,7 +238,7 @@ async function uiuxOptionSettings() {
   sdMaxOutputResolution(window.opts.uiux_max_resolution_output);
 
   // settings input ranges
-  function uiux_show_input_range_ticks(value, interactive) {
+  function showInputRangeTicks(value, interactive) {
     if (value) {
       gradioApp().querySelectorAll("input[type='range']").forEach((elem) => {
         const spacing = (elem.step / (elem.max - elem.min)) * 100.0;
@@ -258,8 +253,8 @@ async function uiuxOptionSettings() {
   }
 
   el = gradioApp().querySelector('#setting_uiux_show_input_range_ticks input');
-  if (el) el.addEventListener('click', (e) => uiux_show_input_range_ticks(e.target.checked, true));
-  uiux_show_input_range_ticks(window.opts.uiux_show_input_range_ticks);
+  if (el) el.addEventListener('click', (e) => showInputRangeTicks(e.target.checked, true));
+  showInputRangeTicks(window.opts.uiux_show_input_range_ticks);
 
   // settings looks
   function setupUiUxSetting(settingId, className) {
@@ -291,21 +286,25 @@ async function uiuxOptionSettings() {
   // gradioApp().getElementById('tab_control').style.display = window.opts.uiux_hide_legacy ? 'block' : 'none';
 
   // settings mobile scale
-  function uiux_mobile_scale(value) {
+  function mobileScale(value) {
     const viewport = document.head.querySelector('meta[name="viewport"]');
     if (viewport) viewport.setAttribute('content', `width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=${value}`);
   }
   el = gradioApp().querySelector('#setting_uiux_mobile_scale input[type=number]');
-  if (el) el.addEventListener('change', (e) => uiux_mobile_scale(e.target.value));
-  uiux_mobile_scale(window.opts.uiux_mobile_scale);
+  if (el) el.addEventListener('change', (e) => mobileScale(e.target.value));
+  mobileScale(window.opts.uiux_mobile_scale);
 
   // set panel min width
-  function uiux_panel_min_width(value) {
-    document.documentElement.style.setProperty('--sd-panel-min-width', `${value}em`);
-  }
+  const panelMinWidth = (value) => document.documentElement.style.setProperty('--sd-panel-min-width', `${value}em`);
   el = gradioApp().querySelector('#setting_uiux_panel_min_width input[type=number]');
-  if (el) el.addEventListener('change', (e) => uiux_panel_min_width(e.target.value));
-  uiux_panel_min_width(window.opts.uiux_panel_min_width);
+  if (el) el.addEventListener('change', (e) => panelMinWidth(e.target.value));
+  panelMinWidth(window.opts.uiux_panel_min_width);
+
+  // set grid image size
+  const gridImageSize = (value) => document.documentElement.style.setProperty('--sd-grid-image-size', `${value}px`);
+  el = gradioApp().querySelector('#setting_uiux_grid_image_size input[type=number]');
+  if (el) el.addEventListener('change', (e) => gridImageSize(e.target.value));
+  gridImageSize(window.opts.uiux_grid_image_size);
 }
 
 async function setupControlDynamicObservers() {
@@ -322,11 +321,8 @@ async function setupControlDynamicObservers() {
   function setupDynamicListener(dynamic, elems, storedKey) {
     function toggleDynamicElements(dynamicEl) {
       elems.forEach((elem) => {
-        if (dynamicEl.checked) {
-          elem.classList.remove('hidden');
-        } else {
-          elem.classList.add('hidden');
-        }
+        if (dynamicEl.checked) elem.classList.remove('hidden');
+        else elem.classList.add('hidden');
       });
     }
 
@@ -406,11 +402,8 @@ async function setupGenerateObservers() {
     if (tpb) {
       new MutationObserver(() => {
         if (tpb.textContent && !tpb.querySelector('span')) {
-          if (tpb.textContent === 'Pause') {
-            addButtonIcon(tpb, 'icon-pause');
-          } else {
-            addButtonIcon(tpb, 'icon-play');
-          }
+          if (tpb.textContent === 'Pause') addButtonIcon(tpb, 'icon-pause');
+          else addButtonIcon(tpb, 'icon-play');
           addButtonSpan(tpb, '');
         }
       }).observe(tpb, { childList: true, subtree: true });
@@ -418,7 +411,6 @@ async function setupGenerateObservers() {
   });
 }
 
-//= ====================== SETUP =======================
 async function loadAllPortals() {
   appUiUx.querySelectorAll('.portal').forEach((elem, index, array) => {
     const onlyDiffusers = elem.classList.contains('only-diffusers');
@@ -437,7 +429,7 @@ function movePortal(portalElem, tries, index, length) {
   // const allElements = document.querySelectorAll(`${parentSelector} ${dataSelector}`);
   // if (allElements.length > 1) error(`Multiple elements num=${allElements.length} selector=${parentSelector} ${dataSelector}`, allElements);
   if (portalElem && targetElem) {
-    if (window.opts.uiux_enable_console_log) log('UI register', index, parentSelector, dataSelector, tries);
+    if (window.opts.uiux_enable_console_log) log('registerPortal', index, parentSelector, dataSelector, tries);
     portalElem.append(targetElem);
     portalTotal += 1;
     const droppable = portalElem.getAttribute('droppable');
@@ -474,35 +466,42 @@ function initSplitComponents() {
     const ids = [];
     const initSizes = [];
     const minSizes = [];
+    const maxSizes = [];
     const containers = appUiUx.querySelectorAll(`#${id} > div.split-container`);
     containers.forEach(((c) => {
-      const ji = c.getAttribute('data-initSize');
-      const jm = c.getAttribute('data-minSize');
+      const initSize = c.getAttribute('data-initSize');
+      const minSize = c.getAttribute('data-minSize');
+      const maxSize = c.getAttribute('data-maxSize');
       ids.push(`#${c.id}`);
       try {
         const storedSize = getStored(`${id}-sizes`);
         if (storedSize && Array.isArray(storedSize) && storedSize.every((n) => typeof n === 'number')) {
           initSizes.push(storedSize[c.id.includes('left') || c.id.includes('up') ? 0 : 1]);
         } else {
-          initSizes.push(ji ? parseInt(ji) : 100 / containers.length);
+          initSizes.push(initSize ? parseInt(initSize) : 100 / containers.length);
         }
       } catch {
-        initSizes.push(ji ? parseInt(ji) : 100 / containers.length);
+        initSizes.push(initSize ? parseInt(initSize) : 100 / containers.length);
       }
-      minSizes.push(jm ? parseInt(jm) : Infinity);
+      minSizes.push(minSize ? parseInt(minSize) : 0);
+      maxSizes.push(maxSize ? parseInt(maxSize) : Infinity);
     }));
-    if (window.opts.uiux_enable_console_log) log('UI split component', ids, initSizes, minSizes, direction, gutterSize);
+    if (window.opts.uiux_enable_console_log) log('splitComponent', ids, initSizes, minSizes, direction, gutterSize);
     const onDragEnd = (evt) => setStored(`${id}-sizes`, evt);
+    // log('splitSizes', id, initSizes, minSizes, maxSizes);
     split_instances[id] = Split(ids, { // eslint-disable-line no-undef
       sizes: initSizes,
       minSize: minSizes,
+      maxSize: maxSizes,
       direction,
       gutterSize: parseInt(gutterSize),
       snapOffset: 0,
       dragInterval: 1,
       onDragEnd,
       elementStyle(dimension, size, gs) {
-        return { 'flex-basis': `calc(${size}% - ${gs}px)` };
+        return {
+          'flex-basis': `calc(${size}% - ${gs}px)`,
+        };
       },
       gutterStyle(dimension, gs) {
         return {
@@ -679,7 +678,6 @@ function initButtonComponents() {
         }
       });
     }
-
     const extraClicks = elem.getAttribute('data-click');
     if (extraClicks) {
       elem.addEventListener('click', () => {
@@ -759,7 +757,6 @@ function getNestedTemplates(container) {
   container.querySelectorAll('.template:not([status])').forEach((el) => {
     const template = el.getAttribute('template');
     const key = el.getAttribute('key');
-
     nestedData.push({
       template,
       key,
@@ -772,12 +769,12 @@ function getNestedTemplates(container) {
 async function loadCurrentTemplate(data) {
   const curr_data = data.shift();
   if (curr_data) {
-    if (window.opts.uiux_enable_console_log) log('UI loading template', curr_data.template);
+    if (window.opts.uiux_enable_console_log) log('loadTemplate', curr_data.template);
     const uri = `${window.subpath}${template_path}${curr_data.template}.html?${Date.now()}`;
     const response = await fetch(uri, { cache: 'reload' });
 
     if (!response.ok) {
-      log('UI failed to load template', curr_data.template, curr_data.target);
+      error('loadTemplate', curr_data.template, curr_data.target);
       if (curr_data.target) curr_data.target.setAttribute('status', 'error');
     } else {
       const text = await response.text();
@@ -818,9 +815,9 @@ async function removeStyleAssets() {
   `).forEach((stylesheet) => {
     stylesheet.remove();
     removedStylesheets++;
-    if (window.opts.uiux_enable_console_log) log('UI removed stylesheet', stylesheet.getAttribute('href'));
+    if (window.opts.uiux_enable_console_log) log('removeStylesheet', stylesheet.getAttribute('href'));
   });
-  log('UI removeStyleSheets', removedStylesheets);
+  log('removeStyleSheets', removedStylesheets);
 
   // Remove inline styles and svelte classes
   const stylers = document.querySelectorAll('.styler, [class*="svelte"]:not(input)');
@@ -833,12 +830,10 @@ async function removeStyleAssets() {
       removedCount++;
     }
 
-    [...element.classList].filter((className) => className.match(/^svelte.*/)).forEach((svelteClass) => {
-      element.classList.remove(svelteClass);
-    });
+    [...element.classList].filter((className) => className.match(/^svelte.*/)).forEach((svelteClass) => element.classList.remove(svelteClass));
     count++;
   });
-  log('UI removeElements', `${removedCount}/${count}`);
+  log('removeElements', `${removedCount}/${count}`);
 }
 
 function logStartup() {
@@ -846,7 +841,7 @@ function logStartup() {
   const filteredOpts = Object.entries(window.opts).filter(([key, value]) => key.startsWith('uiux') && typeof value !== 'string');
   const uiOpts = {};
   for (const [key, value] of filteredOpts) uiOpts[key] = value;
-  log('UI settings', uiOpts);
+  log('settings', uiOpts);
   if (navigator.userAgent.toLowerCase().includes('firefox')) {
     log('UI: Go to the Firefox about:config page, then search and toggle layout. css.has-selector. enabled');
   }
