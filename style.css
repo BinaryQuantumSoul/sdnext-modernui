@@ -419,13 +419,6 @@ hr {
   padding: var(--sd-input-padding);
 }
 
-*.gradio-dropdown label {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  justify-content: space-between;
-}
-
 * button {
   min-height: var(--sd-input-height);
   min-width: var(--sd-input-height);
@@ -456,6 +449,13 @@ hr {
   display: flex;
   flex-wrap: wrap;
   position: relative;
+}
+
+*.gradio-dropdown label {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-between;
 }
 
 *.gradio-dropdown div.wrap,
@@ -1071,15 +1071,14 @@ ul.options {
   list-style: none;
   margin: 0px !important;
   margin-top: calc(var(--sd-border-size) * -1) !important;
-  max-height: 25vh !important;
   max-width: 50vh;
   min-width: fit-content;
+  max-height: 500px !important;
   outline: var(--sd-border-size) solid var(--sd-input-border-color);
   overflow: auto;
   overflow-x: hidden;
   padding: 0;
   position: absolute;
-  top: var(--sd-input-height) !important;
   width: 100% !important;
   z-index: 99999;
 }

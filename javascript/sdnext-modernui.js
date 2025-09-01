@@ -731,8 +731,24 @@ async function setupToolButtons() {
   const t1 = performance.now();
   log('setupToolButtons', Math.round(t1 - t0));
   // appUiUx.querySelectorAll('.tool').forEach((el) => {
-  //   if (!processed.has(el)) error('toolButton', el.id);
+  //   if (!vprocessed.has(el)) error('toolButton', el.id);
   // });
+}
+
+async function setupDropdowns() {
+  appUiUx.querySelectorAll('.gradio-dropdown').forEach((el) => {
+    el.addEventListener('click', () => {
+      const options = el.querySelector('.options');
+      if (!options) return;
+      const rect = options.getBoundingClientRect();
+      if (rect.bottom > window.innerHeight) {
+        const offset = Math.min(500, rect.height);
+        options.style.cssText = `top: -${offset}px !important;`; // dropdrop top offset
+      } else {
+        options.style.cssText = 'top: 2.2em;'; // dropdown bellow, not over
+      }
+    });
+  });
 }
 
 async function setupAnimationEventListeners() {
@@ -915,6 +931,7 @@ async function mainUiUx() {
   initTabComponents();
   initButtonComponents();
   setupToolButtons();
+  setupDropdowns();
   await waitForUiPortal();
   setupGenerateObservers();
   setupControlDynamicObservers();
