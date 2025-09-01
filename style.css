@@ -1767,6 +1767,7 @@ li.item span {
   object-fit: var(--sd-image-fit);
   width: inherit;
   height: 99%;
+  object-position: top;
 }
 
 .gr-group {
