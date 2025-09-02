@@ -5,11 +5,9 @@ const rootTemplate = 'template-app-root';
 const appId = '#sdnext_app';
 const tabId = '#tab_sdnext_uiux_core';
 
-const split_instances = [];
 let portalTotal = 0;
 let appUiUx;
 let isBackendDiffusers;
-let isMediaMobile;
 
 window.getUICurrentTabContent = () => gradioApp().querySelector('.xtabs-item:not(.hidden) > .split');
 window.getSettingsTabs = () => gradioApp().querySelectorAll('#layout-settings .tabitem');
@@ -28,6 +26,7 @@ let uiFlagPortalInitialized = false;
 
 window.waitForUiReady = functionWaitForFlag(() => uiFlagInitialized);
 const waitForUiPortal = functionWaitForFlag(() => uiFlagPortalInitialized);
+const isMobile = () => window.innerWidth < window.innerHeight;
 
 function logPrettyPrint() {
   let output = '';
@@ -68,7 +67,6 @@ function logPrettyPrint() {
 const setStored = (key, val) => {
   if (!window.opts.uiux_persist_layout) return;
   try {
-    // log(`setStored: ${key}=${val}`);
     localStorage.setItem(`ui-${key}`, JSON.stringify(val));
   } catch { /* unsupported on mobile */ }
 };
@@ -77,17 +75,14 @@ const getStored = (key) => {
   if (!window.opts.uiux_persist_layout) return undefined;
   let val;
   try {
-    // log(`getStored: ${key}=${val}`);
     val = JSON.parse(localStorage.getItem(`ui-${key}`));
   } catch { /* unsupported on mobile */ }
   return val;
 };
 
-function applyDefaultLayout(isMobile) {
-  isMediaMobile = isMobile;
-
+function applyDefaultLayout(mobile) {
   appUiUx.querySelectorAll('[mobile]').forEach((tabItem) => {
-    if (isMobile) {
+    if (mobile) {
       if (tabItem.childElementCount === 0) {
         const mobile_target = appUiUx.querySelector(tabItem.getAttribute('mobile'));
         if (mobile_target) {
@@ -104,16 +99,11 @@ function applyDefaultLayout(isMobile) {
       }
     }
   });
-
-  if (isMobile) {
+  if (mobile) {
     // additional mobile actions
     appUiUx.querySelector('.accordion-vertical.expand #mask-icon-acc-arrow')?.click();
-    if (!appUiUx.querySelector('.accordion-vertical.expand #mask-icon-acc-arrow-control')) {
-      appUiUx.querySelector('.accordion-vertical #mask-icon-acc-arrow-control')?.click();
-    }
-    if (appUiUx.querySelector('#accordion-aside')?.classList.contains('expand')) {
-      appUiUx.querySelector('#acc-arrow-button')?.click(); // collapse networks in mobile view
-    }
+    if (!appUiUx.querySelector('.accordion-vertical.expand #mask-icon-acc-arrow-control')) appUiUx.querySelector('.accordion-vertical #mask-icon-acc-arrow-control')?.click();
+    if (appUiUx.querySelector('#accordion-aside')?.classList.contains('expand')) appUiUx.querySelector('#acc-arrow-button')?.click(); // collapse networks in mobile view
     appUiUx.querySelector('#control_dynamic_input:not(:checked)')?.click();
     appUiUx.querySelector('#control_dynamic_control:not(:checked)')?.click();
     appUiUx.classList.add('media-mobile');
@@ -127,14 +117,10 @@ function applyDefaultLayout(isMobile) {
 }
 
 function switchMobile() {
-  function detectMobile() {
-    return window.innerWidth < window.innerHeight;
-  }
-
   const optslayout = window.opts.uiux_default_layout;
   if (optslayout === 'Auto') {
-    window.addEventListener('resize', () => applyDefaultLayout(detectMobile()));
-    applyDefaultLayout(detectMobile());
+    window.addEventListener('resize', () => applyDefaultLayout(isMobile()));
+    applyDefaultLayout(isMobile());
   } else if (optslayout === 'Mobile') {
     applyDefaultLayout(true);
   } else if (optslayout === 'Desktop') {
@@ -305,117 +291,8 @@ async function uiuxOptionSettings() {
   gridImageSize(window.opts.uiux_grid_image_size);
 }
 
-async function setupControlDynamicObservers() {
-  const dynamicInput = document.getElementById('control_dynamic_input');
-  const dynamicInit = document.getElementById('control_dynamic_init');
-  const dynamicControl = document.getElementById('control_dynamic_control');
-
-  const qInputCtrl = '#control-template-column-input, #control_params_mask, #control_dynamic_resize';
-  const qInputBtn = '[tabitemid="#control_resize_mask_tabitem"], [tabitemid="#control_before_scale_by_tabitem"], [tabitemid="#control_before_scale_to_tabitem"]';
-  const inputElems = document.querySelectorAll(`${qInputCtrl}, ${qInputBtn}`);
-  const initElems = document.querySelectorAll('#control-template-column-init');
-  const controlElems = document.querySelectorAll('#control-template-column-preview');
-
-  function setupDynamicListener(dynamic, elems, storedKey) {
-    function toggleDynamicElements(dynamicEl) {
-      elems.forEach((elem) => {
-        if (dynamicEl.checked) elem.classList.remove('hidden');
-        else elem.classList.add('hidden');
-      });
-    }
-
-    dynamic.addEventListener('click', () => {
-      if (!isMediaMobile) setStored(storedKey, dynamic.checked);
-      toggleDynamicElements(dynamic, elems);
-    });
-    dynamic.checked = getStored(storedKey) || false;
-    toggleDynamicElements(dynamic, elems);
-  }
-
-  setupDynamicListener(dynamicInput, inputElems, 'control-dynamic-input');
-  setupDynamicListener(dynamicInit, initElems, 'control-dynamic-init');
-  setupDynamicListener(dynamicControl, controlElems, 'control-dynamic-control');
-}
-
-async function setupGenerateObservers() {
-  function addButtonIcon(button, iconClass) {
-    const icon = document.createElement('div');
-    icon.classList.add('mask-icon', iconClass);
-    button.appendChild(icon);
-  }
-
-  function addButtonSpan(button, spanText) {
-    const span = document.createElement('span');
-    span.textContent = spanText;
-    if (!spanText) span.style.display = 'none';
-    button.appendChild(span);
-  }
-
-  function enableButtonAnimation(parentButton, enable) {
-    if (!parentButton) return;
-    if (enable) parentButton.classList.add('active');
-    else parentButton.classList.remove('active');
-  }
-
-  const keys = ['#txt2img', '#img2img', '#extras', '#control', '#video'];
-  keys.forEach((key) => {
-    const loop = document.querySelector(`${key}_loop`);
-    if (loop) loop.addEventListener('click', () => generateForever(`${key}_generate`));
-
-    const tgb = document.querySelector(`${key}_generate`);
-    if (tgb) {
-      const tg = tgb.closest('.sd-button');
-
-      new MutationObserver(() => {
-        if (tgb.textContent && !tgb.querySelector('span')) {
-          if (tgb.textContent === 'Generate') {
-            enableButtonAnimation(tg, false);
-            addButtonIcon(tgb, 'icon-generate');
-          } else {
-            enableButtonAnimation(tg, true);
-          }
-          addButtonSpan(tgb, tgb.textContent);
-        }
-      }).observe(tgb, { childList: true, subtree: true });
-    }
-
-    const teb = document.querySelector(`${key}_enqueue`);
-    if (teb) {
-      const te = teb.closest('.sd-button');
-
-      new MutationObserver(() => {
-        if (teb.textContent && !teb.querySelector('span')) {
-          if (teb.textContent === 'Enqueue') {
-            enableButtonAnimation(te, false);
-            addButtonIcon(teb, 'icon-enqueue');
-          } else {
-            enableButtonAnimation(te, true);
-          }
-          addButtonSpan(teb, '');
-        }
-      }).observe(teb, { childList: true, subtree: true });
-    }
-
-    const tpb = document.querySelector(`${key}_pause`);
-    if (tpb) {
-      new MutationObserver(() => {
-        if (tpb.textContent && !tpb.querySelector('span')) {
-          if (tpb.textContent === 'Pause') addButtonIcon(tpb, 'icon-pause');
-          else addButtonIcon(tpb, 'icon-play');
-          addButtonSpan(tpb, '');
-        }
-      }).observe(tpb, { childList: true, subtree: true });
-    }
-  });
-}
-
 async function loadAllPortals() {
-  appUiUx.querySelectorAll('.portal').forEach((elem, index, array) => {
-    const onlyDiffusers = elem.classList.contains('only-diffusers');
-    const onlyOriginal = elem.classList.contains('only-original');
-    if ((onlyDiffusers && !isBackendDiffusers) || (onlyOriginal && isBackendDiffusers)) portalTotal += 1;
-    else movePortal(elem, 1, index, array.length); // eslint-disable-line no-use-before-define
-  });
+  appUiUx.querySelectorAll('.portal').forEach((elem, index, array) => movePortal(elem, 1, index, array.length)); // eslint-disable-line no-use-before-define
 }
 loadAllPortals = logFn(loadAllPortals); // eslint-disable-line no-func-assign
 
@@ -455,302 +332,6 @@ function movePortal(portalElem, tries, index, length) {
   if (portalTotal === length) uiFlagPortalInitialized = true;
 }
 
-function initSplitComponents() {
-  appUiUx.querySelectorAll('div.split').forEach((elem) => {
-    const id = elem.id;
-    const nid = appUiUx.querySelector(`#${id}`);
-    const direction = nid?.getAttribute('direction') === 'vertical' ? 'vertical' : 'horizontal';
-    const gutterSize = nid?.getAttribute('gutterSize') || '8';
-    const ids = [];
-    const initSizes = [];
-    const minSizes = [];
-    const maxSizes = [];
-    const containers = appUiUx.querySelectorAll(`#${id} > div.split-container`);
-    containers.forEach(((c) => {
-      const initSize = c.getAttribute('data-initSize');
-      const minSize = c.getAttribute('data-minSize');
-      const maxSize = c.getAttribute('data-maxSize');
-      ids.push(`#${c.id}`);
-      try {
-        const storedSize = getStored(`${id}-sizes`);
-        if (storedSize && Array.isArray(storedSize) && storedSize.every((n) => typeof n === 'number')) {
-          initSizes.push(storedSize[c.id.includes('left') || c.id.includes('up') ? 0 : 1]);
-        } else {
-          initSizes.push(initSize ? parseInt(initSize) : 100 / containers.length);
-        }
-      } catch {
-        initSizes.push(initSize ? parseInt(initSize) : 100 / containers.length);
-      }
-      minSizes.push(minSize ? parseInt(minSize) : 0);
-      maxSizes.push(maxSize ? parseInt(maxSize) : Infinity);
-    }));
-    if (window.opts.uiux_enable_console_log) log('splitComponent', ids, initSizes, minSizes, direction, gutterSize);
-    const onDragEnd = (evt) => setStored(`${id}-sizes`, evt);
-    // log('splitSizes', id, initSizes, minSizes, maxSizes);
-    split_instances[id] = Split(ids, { // eslint-disable-line no-undef
-      sizes: initSizes,
-      minSize: minSizes,
-      maxSize: maxSizes,
-      direction,
-      gutterSize: parseInt(gutterSize),
-      snapOffset: 0,
-      dragInterval: 1,
-      onDragEnd,
-      elementStyle(dimension, size, gs) {
-        return {
-          'flex-basis': `calc(${size}% - ${gs}px)`,
-        };
-      },
-      gutterStyle(dimension, gs) {
-        return {
-          'flex-basis': `${gs}px`,
-          'min-width': `${gs}px`,
-          'min-height': `${gs}px`,
-        };
-      },
-    });
-  });
-}
-
-function initAccordionComponents() {
-  appUiUx.querySelectorAll('.accordion-bar').forEach((elem) => {
-    const acc = elem.parentElement;
-    const accSplit = acc.closest('.split-container');
-    const accTrigger = appUiUx.querySelector(acc.getAttribute('iconTrigger'));
-    if (accTrigger) elem.classList.add('pointer-events-none');
-    if (acc.className.indexOf('accordion-vertical') !== -1 && accSplit.className.indexOf('split') !== -1) {
-      acc.classList.add('expand');
-      const splitInstance = split_instances[accSplit.parentElement.id];
-      accSplit.setAttribute('data-sizes', JSON.stringify(splitInstance.getSizes()));
-      accTrigger?.addEventListener('click', () => {
-        acc.classList.toggle('expand');
-        setStored(`ui-${acc.id}-class`, acc.className);
-        if (accSplit.className.indexOf('v-expand') !== -1) {
-          accSplit.classList.remove('v-expand');
-          accSplit.style.removeProperty('min-width');
-          splitInstance.setSizes(JSON.parse(accSplit.getAttribute('data-sizes')));
-        } else {
-          accSplit.classList.add('v-expand');
-          const sizes = splitInstance.getSizes();
-          accSplit.setAttribute('data-sizes', JSON.stringify(sizes));
-          if (acc.className.indexOf('left') !== -1) {
-            sizes[sizes.length - 1] = 100;
-            sizes[sizes.length - 2] = 0;
-          } else {
-            sizes[sizes.length - 1] = 0;
-            sizes[sizes.length - 2] = 100;
-          }
-          const padding = parseFloat(window.getComputedStyle(elem, null).getPropertyValue('padding-left')) * 2;
-          accSplit.style.minWidth = `${elem.offsetWidth + padding}px`;
-          splitInstance.setSizes(sizes);
-        }
-      });
-    } else {
-      accTrigger?.addEventListener('click', () => {
-        acc.classList.toggle('expand');
-        setStored(`ui-${acc.id}-class`, acc.className);
-      });
-    }
-
-    const fullTrigger = acc.getAttribute('iconFullTrigger');
-    if (fullTrigger) {
-      appUiUx.querySelector(fullTrigger)?.addEventListener('click', () => {
-        acc.classList.toggle('full-expand');
-        setStored(`ui-${acc.id}-class`, acc.className);
-      });
-    }
-  });
-}
-
-function initTabComponents() {
-  function hideActive(tab) {
-    tab.classList.remove('active');
-    const tabItemId = tab.getAttribute('tabItemId');
-    appUiUx.querySelectorAll(tabItemId).forEach((tabItem) => {
-      tabItem.classList.remove('fade-in');
-      tabItem.classList.add('fade-out');
-    });
-  }
-
-  function showActive(tab) {
-    tab.classList.add('active');
-    const tabItemId = tab.getAttribute('tabItemId');
-    appUiUx.querySelectorAll(tabItemId).forEach((tabItem) => {
-      tabItem.classList.add('fade-in');
-      tabItem.classList.remove('fade-out');
-    });
-  }
-
-  function triggerAccordion(elem, wasActive, checkStored) {
-    const accBar = elem.closest('.accordion-bar');
-    if (!accBar) return;
-    const acc = accBar.parentElement;
-    const accTrigger = appUiUx.querySelector(acc.getAttribute('iconTrigger'));
-    const accFullTrigger = appUiUx.querySelector(acc.getAttribute('iconFullTrigger'));
-    const accStoredClasses = getStored(`ui-${acc.id}-class`) || '';
-    const storedAsCollapsed = accStoredClasses && (accStoredClasses.indexOf('expand') === -1);
-    const storedAsFullExpanded = accStoredClasses && accStoredClasses.indexOf('full-expand') !== -1;
-
-    const shouldExpand = !acc.classList.contains('expand');
-    const shouldCollapse = acc.classList.contains('expand') && !acc.classList.contains('full-expand') && (wasActive || (checkStored && storedAsCollapsed));
-    const shouldFullExpand = acc.classList.contains('expand') && !acc.classList.contains('full-expand') && (checkStored && storedAsFullExpanded);
-
-    if (shouldExpand || shouldCollapse) {
-      if (accTrigger) accTrigger.click();
-      else accBar.click();
-    }
-    if (shouldFullExpand) {
-      if (accFullTrigger) accFullTrigger.click();
-    }
-  }
-
-  appUiUx.querySelectorAll('.xtabs-tab').forEach((elem) => {
-    const tabGroup = elem.getAttribute('tabGroup');
-    const tabParent = elem.parentElement;
-    const uid = tabGroup || tabParent?.id;
-    const siblingTabs = [...(tabGroup ? appUiUx.querySelectorAll(`[tabGroup="${tabGroup}"]`) : tabParent ? tabParent.children : [])].filter((tab) => tab !== elem); // eslint-disable-line no-nested-ternary
-
-    elem.addEventListener('click', () => {
-      if (uid) setStored(`tab-${uid}-current`, elem.id);
-      siblingTabs.filter((tab) => tab.classList.contains('active')).forEach(hideActive);
-      const wasActive = elem.classList.contains('active');
-      showActive(elem);
-      triggerAccordion(elem, wasActive, false);
-    });
-
-    const storedTab = uid ? getStored(`tab-${uid}-current`) || '' : '';
-    const active = storedTab ? storedTab === elem.id : elem.getAttribute('active');
-
-    if (active) {
-      showActive(elem);
-      triggerAccordion(elem, false, true);
-    } else {
-      hideActive(elem);
-    }
-  });
-
-  function showHideAnchors(anchor, index) {
-    Array.from(anchor.children).forEach((elem) => {
-      if (elem.matches(`[anchor*="${index}"]`)) elem.style.display = 'flex';
-      else elem.style.display = 'none';
-    });
-  }
-
-  appUiUx.querySelectorAll('.xtabs-anchor').forEach((anchor) => {
-    const tabNav = document.querySelector(anchor.getAttribute('anchorNav'));
-    if (tabNav) {
-      const observer = new MutationObserver(() => {
-        const index = Array.from(tabNav.children).findIndex((btn) => btn.classList.contains('selected')) + 1;
-        showHideAnchors(anchor, index);
-      });
-      observer.observe(tabNav, { attributes: true, attributeFilter: ['class'], childList: true });
-    }
-    showHideAnchors(anchor, 1);
-  });
-}
-
-function initButtonComponents() {
-  appUiUx.querySelectorAll('.sd-button').forEach((elem) => {
-    const toggle = elem.getAttribute('toggle');
-    const active = elem.getAttribute('active');
-    const input = elem.querySelector('input');
-
-    if (input) {
-      if (input.checked === true && !active) input.click();
-      else if (input.checked === false && active) input.click();
-    }
-    if (active) elem.classList.add('active');
-    else elem.classList.remove('active');
-    if (toggle) {
-      elem.addEventListener('click', (e) => {
-        const inputEl = elem.querySelector('input');
-        if (inputEl) {
-          inputEl.click();
-          if (inputEl.checked === true) {
-            elem.classList.add('active');
-          } else if (inputEl.checked === false) {
-            elem.classList.remove('active');
-          }
-        } else {
-          elem.classList.toggle('active');
-        }
-      });
-    }
-    const extraClicks = elem.getAttribute('data-click');
-    if (extraClicks) {
-      elem.addEventListener('click', () => {
-        document.querySelectorAll(extraClicks).forEach((el) => el.click());
-      });
-    }
-  });
-}
-
-const buttonMap = {
-  apply: 'paste',
-  clear: 'empty-set',
-  close: 'square-xmark',
-  list: 'list',
-  load: 'floppy-disk-circle-arrow-right',
-  model: 'database',
-  override: 'sliders',
-  preview: 'image',
-  random: 'shuffle',
-  refresh: 'arrows-rotate',
-  remove: 'eraser',
-  reset: 'empty-set',
-  reuse: 'recycle',
-  save: 'floppy-disk',
-  scan: 'radar',
-  search: 'magnifying-glass',
-  select: 'pen-swirl',
-  size: 'ruler-triangle',
-  sort: 'sort',
-  swap: 'arrow-up-arrow-down',
-  upload: 'upload',
-  view: 'grid',
-};
-const iconKeys = Object.keys(buttonMap);
-
-async function setupToolButtons() {
-  const t0 = performance.now();
-  if (!appUiUx) return;
-  const processed = new Set();
-  for (const key of iconKeys) {
-    const iconName = buttonMap[key];
-    const nodes = appUiUx.querySelectorAll(`.tool[id$="${key}"]`);
-    nodes.forEach((el) => {
-      if (processed.has(el)) return;
-      processed.add(el);
-      const wrapper = document.createElement('div');
-      wrapper.className = 'mask-icon';
-      wrapper.style.maskImage = `url(${htmlPath}/svg/${iconName}.svg)`;
-      while (el.firstChild) wrapper.appendChild(el.firstChild);
-      el.appendChild(wrapper);
-    });
-  }
-  const t1 = performance.now();
-  log('setupToolButtons', Math.round(t1 - t0));
-  // appUiUx.querySelectorAll('.tool').forEach((el) => {
-  //   if (!vprocessed.has(el)) error('toolButton', el.id);
-  // });
-}
-
-async function setupDropdowns() {
-  appUiUx.querySelectorAll('.gradio-dropdown').forEach((el) => {
-    el.addEventListener('click', () => {
-      const options = el.querySelector('.options');
-      if (!options) return;
-      const rect = options.getBoundingClientRect();
-      if (rect.bottom > window.innerHeight) {
-        const offset = Math.min(500, rect.height);
-        options.style.cssText = `top: -${offset}px !important;`; // dropdrop top offset
-      } else {
-        options.style.cssText = 'top: 2.2em;'; // dropdown bellow, not over
-      }
-    });
-  });
-}
-
 async function setupAnimationEventListeners() {
   const notransition = window.opts.uiux_disable_transitions;
   document.addEventListener('animationstart', (e) => {
@@ -769,48 +350,6 @@ async function setupAnimationEventListeners() {
   });
 }
 
-async function checkBackend() {
-  if (window.opts.sd_backend === 'original') {
-    appUiUx.classList.add('backend-original');
-    isBackendDiffusers = false;
-    window.opts.uiux_hide_legacy = false;
-  } else if (window.opts.sd_backend === 'diffusers') {
-    appUiUx.classList.add('backend-diffusers');
-    isBackendDiffusers = true;
-  }
-}
-
-async function createButtonsForExtensions() {
-  const other_extensions = document.querySelector('#other_extensions');
-  const other_views = document.querySelector('#split-left');
-  const no_button_tabs = ['tab_txt2img', 'tab_img2img', 'tab_control', 'tab_video', 'tab_process', 'tab_caption', 'tab_gallery', 'tab_models', 'tab_extensions', 'tab_system', 'tab_info', 'tab_sdnext_uiux_core'];
-  const snakeToCamel = (str) => str.replace(/(_\w)/g, (match) => match[1].toUpperCase());
-  document.querySelectorAll('#tabs > .tabitem').forEach((c) => {
-    const cid = c.id;
-    const nid = cid.replace('tab_', '').replace('_tab', '');
-    if (!no_button_tabs.includes(cid)) {
-      const temp = document.createElement('div');
-      let button;
-      if (nid === 'agent_scheduler') button = '<div class="mask-icon icon-calendar"></div>';
-      if (nid === 'framepack') button = '<div class="mask-icon icon-video"></div>';
-      if (!button) button = `<div class="icon-letters">${nid.slice(0, 2)}</div>`;
-      temp.innerHTML = `
-        <button tabItemId="#split-app, #${cid}_tabitem"
-          tabGroup="main_group" 
-          data-click="#tabs" 
-          class="xtabs-tab">${button}<span>${snakeToCamel(nid)}</span>
-        </button>
-      `;
-      other_extensions.append(temp.firstElementChild);
-      temp.innerHTML = `
-        <div id="${cid}_tabitem" class="xtabs-item other">
-          <div data-parent-selector="gradio-app" data-selector="#${cid} > div" class="portal"></div>
-        </div>
-      `;
-      other_views.append(temp.firstElementChild);
-    }
-  });
-}
 async function replaceRootTemplate() {
   appUiUx = document.querySelector(appId);
   gradioApp().insertAdjacentElement('afterbegin', appUiUx);
@@ -922,7 +461,6 @@ async function mainUiUx() {
   logStartup();
   await removeStyleAssets();
   await loadAllTemplates();
-  checkBackend();
   createButtonsForExtensions();
   setupAnimationEventListeners();
   initSplitComponents();
