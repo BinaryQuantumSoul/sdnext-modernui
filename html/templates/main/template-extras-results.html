@@ -6,6 +6,25 @@
           <div class="flexbox col shrink">
             <h2>Input</h2>
           </div>
+
+          <div id="extras_generate_group" class="flexbox row flex-end group-row generate-icons">
+            <button title="Generate" class="sd-button generate">
+              <div data-selector="#extras_generate" data-parent-selector="#tab_process" droppable="true" class="portal no-bg shrink invisible btn-generate">
+                <div class="mask-icon icon-generate"></div>
+                <span>Generate</span>
+              </div>
+            </button>
+            <div title="Skip" data-selector="#extras_skip" data-parent-selector="#tab_process" droppable="true" class="portal no-bg shrink invisible">
+              <div class="mask-icon icon-skip"></div>
+            </div>
+            <div title="Pause" data-selector="#extras_pause" data-parent-selector="#tab_process" droppable="true" class="portal no-bg shrink invisible">
+              <div class="mask-icon icon-pause"></div>
+            </div>
+            <div title="Interrupt" data-selector="#extras_interrupt" data-parent-selector="#tab_process" droppable="true" class="portal no-bg shrink invisible">
+              <div class="mask-icon icon-stop"></div>
+            </div>
+          </div>
+
         </div>
         <div class="panel no-tr flexbox col">
           <div data-parent-selector="#tab_process" data-selector="#mode_extras" class="portal no-bg"></div>
@@ -39,24 +58,6 @@
         <div id="extras_results_header_panel" class="flexbox row shrink panel padding no-br margin-top only-desktop">
           <div class="flexbox col shrink">
             <h2>Output</h2>
-          </div>
-
-          <div id="extras_generate_group" class="flexbox row flex-end group-row generate-icons">
-            <button title="Generate" class="sd-button generate">
-              <div data-selector="#extras_generate" data-parent-selector="#tab_process" droppable="true" class="portal no-bg shrink invisible btn-generate">
-                <div class="mask-icon icon-generate"></div>
-                <span>Generate</span>
-              </div>
-            </button>
-            <div title="Skip" data-selector="#extras_skip" data-parent-selector="#tab_process" droppable="true" class="portal no-bg shrink invisible">
-              <div class="mask-icon icon-skip"></div>
-            </div>
-            <div title="Pause" data-selector="#extras_pause" data-parent-selector="#tab_process" droppable="true" class="portal no-bg shrink invisible">
-              <div class="mask-icon icon-pause"></div>
-            </div>
-            <div title="Interrupt" data-selector="#extras_interrupt" data-parent-selector="#tab_process" droppable="true" class="portal no-bg shrink invisible">
-              <div class="mask-icon icon-stop"></div>
-            </div>
           </div>
 
         </div>
