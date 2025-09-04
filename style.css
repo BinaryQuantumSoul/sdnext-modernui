@@ -2682,7 +2682,7 @@ div#main-nav {
 .extra-network-subdirs {
   height: calc(100vh - 168px);
   max-width: 20%;
-  min-width: max(5%, 140px);
+  min-width: max(5%, 160px);
   overflow-y: auto;
 }
 
