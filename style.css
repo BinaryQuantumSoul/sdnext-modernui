@@ -3082,6 +3082,10 @@ button:hover svg {
   min-height: 3em;
 }
 
+#control-template-column-output > .col {
+  min-height: 512px;
+}
+
 .scroll-hide {
   overflow-y: hidden !important;
   resize: vertical !important;
