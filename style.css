@@ -3338,10 +3338,6 @@ td.gridjs-td {
   overflow: hidden;
 }
 
-#control-tab-input>.tabitem {
-  background-color: transparent;
-}
-
 #img2img_image_tab,
 #img2img_image_tab>.gap {
   padding: 0;
@@ -3356,6 +3352,11 @@ td.gridjs-td {
   width: 100%;
 }
 
+#control-tab-input>.tabitem,
+#control-tab-init>.tabitem {
+  background-color: transparent;
+}
+
 #control-tab-input .tabitem,
 #control-tab-input .gap,
 #control-tab-init .tabitem,
@@ -3363,12 +3364,14 @@ td.gridjs-td {
   padding: 0;
 }
 
-#control-tab-input .gradio-row {
+#control-tab-input .gradio-row,
+#control-tab-init .gradio-row {
   height: var(--sd-button-height);
   padding: 0;
 }
 
-#control-tab-input .gradio-tabitem {
+#control-tab-input .gradio-tabitem,
+#control-tab-init .gradio-tabitem {
   height: 0;
 }
 
