@@ -303,7 +303,9 @@ function movePortal(portalElem, tries, index, length) {
   const targetElem = document.querySelector(`${parentSelector} ${dataSelector}`);
   // const allElements = document.querySelectorAll(`${parentSelector} ${dataSelector}`);
   // if (allElements.length > 1) error(`Multiple elements num=${allElements.length} selector=${parentSelector} ${dataSelector}`, allElements);
-  if (portalElem && targetElem) {
+  if (portalElem && !targetElem && dataSelector?.endsWith('_enqueue')) {
+    portalTotal += 1;
+  } else if (portalElem && targetElem) {
     if (window.opts.uiux_enable_console_log) log('registerPortal', index, parentSelector, dataSelector, tries);
     portalElem.append(targetElem);
     portalTotal += 1;
@@ -319,14 +321,13 @@ function movePortal(portalElem, tries, index, length) {
     const showButton = portalElem.getAttribute('show-button');
     if (showButton) document.querySelector(showButton)?.classList.remove('hidden');
   } else if (tries < MAX_TRIES) {
+    log('retryPortal', portalElem, tries);
     const timeout = portalElem.getAttribute('data-timeout');
     const delay = timeout ? parseInt(timeout) : 500;
     setTimeout(() => movePortal(portalElem, tries + 1, index, length), delay);
   } else {
-    if (!dataSelector.endsWith('_enqueue')) {
-      error('Element not found', { index, parent: parentSelector, id: dataSelector, el: portalElem, tgt: targetElem });
-      if (window.opts.uiux_enable_console_log) portalElem.style.backgroundColor = 'pink';
-    }
+    error('Element not found', { index, parent: parentSelector, id: dataSelector, el: portalElem, tgt: targetElem });
+    if (window.opts.uiux_enable_console_log) portalElem.style.backgroundColor = 'pink';
     portalTotal += 1;
   }
   if (portalTotal === length) uiFlagPortalInitialized = true;
@@ -355,14 +356,12 @@ async function replaceRootTemplate() {
   gradioApp().insertAdjacentElement('afterbegin', appUiUx);
 }
 
-function getNestedTemplates(container) {
+async function getNestedTemplates(container) {
   const nestedData = [];
-  container.querySelectorAll('.template:not([status])').forEach((el) => {
-    const template = el.getAttribute('template');
-    const key = el.getAttribute('key');
+  container.querySelectorAll('.template').forEach((el) => {
     nestedData.push({
-      template,
-      key,
+      template: el.getAttribute('template'),
+      key: el.getAttribute('key'),
       target: el,
     });
   });
@@ -372,10 +371,11 @@ function getNestedTemplates(container) {
 async function loadCurrentTemplate(data) {
   const curr_data = data.shift();
   if (curr_data) {
+    const t0 = performance.now();
     if (window.opts.uiux_enable_console_log) log('loadTemplate', curr_data.template);
     const uri = `${window.subpath}${htmlPath}/templates/${curr_data.template}.html?${Date.now()}`;
     const response = await fetch(uri, { cache: 'reload' });
-
+    // const response = await fetch(uri);
     if (!response.ok) {
       error('loadTemplate', curr_data.template, curr_data.target);
       if (curr_data.target) curr_data.target.setAttribute('status', 'error');
@@ -383,13 +383,15 @@ async function loadCurrentTemplate(data) {
       const text = await response.text();
       const tempDiv = document.createElement('div');
       tempDiv.innerHTML = curr_data.key ? text.replace(/\s*\{\{.*?\}\}\s*/g, curr_data.key) : text;
-      const nestedData = getNestedTemplates(tempDiv);
+      const nestedData = await getNestedTemplates(tempDiv);
       data.push(...nestedData);
       if (curr_data.target) {
         curr_data.target.setAttribute('status', 'true');
         curr_data.target.append(tempDiv.firstElementChild);
       }
     }
+    const t1 = performance.now();
+    // log('loadTemplate', curr_data.template, `time=${Math.round(t1 - t0)}`);
     return loadCurrentTemplate(data);
   }
   return Promise.resolve();
@@ -402,13 +404,17 @@ async function loadAllTemplates() {
       target: document.querySelector(tabId),
     },
   ];
+  const t0 = performance.now();
   await loadCurrentTemplate(data);
+  const t1 = performance.now();
   await replaceRootTemplate();
+  const t2 = performance.now();
+  log('loadAllTemplates', `load=${Math.round(t1 - t0)} replace=${Math.round(t2 - t1)}`);
 }
-loadAllTemplates = logFn(loadAllTemplates); // eslint-disable-line no-func-assign
 
 async function removeStyleAssets() {
   // Remove specific stylesheets
+  const t0 = performance.now();
   let removedStylesheets = 0;
   document.querySelectorAll(`
     [rel="stylesheet"][href*="/assets/"], 
@@ -420,7 +426,6 @@ async function removeStyleAssets() {
     removedStylesheets++;
     if (window.opts.uiux_enable_console_log) log('removeStylesheet', stylesheet.getAttribute('href'));
   });
-  log('removeStyleSheets', removedStylesheets);
 
   // Remove inline styles and svelte classes
   const stylers = document.querySelectorAll('.styler, [class*="svelte"]:not(input)');
@@ -436,7 +441,7 @@ async function removeStyleAssets() {
     [...element.classList].filter((className) => className.match(/^svelte.*/)).forEach((svelteClass) => element.classList.remove(svelteClass));
     count++;
   });
-  log('removeElements', `${removedCount}/${count}`);
+  log('removeElements', `elements=${removedCount}/${count} stylesheets=${removedStylesheets} time=${Math.round(performance.now() - t0)}`);
 }
 
 function logStartup() {
@@ -470,7 +475,10 @@ async function mainUiUx() {
   initButtonComponents();
   setupToolButtons();
   setupDropdowns();
+  const t0 = performance.now();
   await waitForUiPortal();
+  const t1 = performance.now();
+  log('waitForUiPortal', `time=${Math.round(t1 - t0)}`);
   setupGenerateObservers();
   setupControlDynamicObservers();
   uiuxOptionSettings();
