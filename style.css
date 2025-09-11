@@ -5544,3 +5544,10 @@ div#changelog_result p {
 #control_show_preview {
   display: none;
 }
+
+.jqstooltip {
+  width: 10em;
+  height: 6em;
+  background-color: var(--sd-main-accent-color);
+  border: none;
+}
