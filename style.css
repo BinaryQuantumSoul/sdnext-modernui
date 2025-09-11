@@ -5539,3 +5539,8 @@ div#changelog_result p {
 #gallery-video video {
   width: 100%;
 }
+
+#control_show_input,
+#control_show_preview {
+  display: none;
+}
