@@ -5551,3 +5551,12 @@ div#changelog_result p {
   background-color: var(--sd-main-accent-color);
   border: none;
 }
+
+#history_table {
+  font-size: 0.9em;
+  text-align: left;
+  cursor: pointer;
+  max-height: 50vh;
+  overflow: auto;
+  background-color: var(--sd-main-background-color);
+}
