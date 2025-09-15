@@ -6,7 +6,9 @@ def on_ui_settings():
     from modules.shared import OptionInfo, options_section , options_templates
     options_templates.update(options_section(('ui', "User Interface"), {
         'uiux_separator_appearance': OptionInfo("<h2>Appearance</h2>", "", gr.HTML),
-        "uiux_hide_legacy": OptionInfo(True, "Hide txt2img and img2img tabs"),
+        "uiux_grid_image_size": OptionInfo(150, "Grid image size", gr.Slider, {"minimum": 64, "maximum": 1024, "step": 1}),
+        "uiux_panel_min_width": OptionInfo(35, "Panel minimum width", gr.Number),
+        "uiux_hide_legacy": OptionInfo(False, "Hide legacy tabs"),
         "uiux_persist_layout": OptionInfo(True, "Persist UI layout"),
         "uiux_no_slider_layout": OptionInfo(False, "Hide input range sliders"),
         "uiux_show_labels_aside": OptionInfo(False, "Show labels for aside tabs"),

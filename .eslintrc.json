@@ -1,20 +1,26 @@
 {
-  "parserOptions": {
-    "ecmaVersion": 2020
-  },
   "root": true,
-  "plugins": ["json", "markdown"],
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "plugins": [
+    "html",
+    "json"
+  ],
   "extends": [
-    "plugin:json/recommended",
     "eslint:recommended",
-    "airbnb-base"
+    "airbnb-base",
+    "plugin:css/recommended",
+    "plugin:json/recommended",
+    "plugin:node/recommended"
   ],
   "env": {
     "browser": true,
     "commonjs": false,
     "node": false,
     "jquery": false,
-    "es2020": true
+    "es2021": true
   },
   "rules": {
     "max-len": [1, 275, 3],
@@ -22,12 +28,14 @@
     "default-case":"off",
     "no-await-in-loop":"off",
     "no-bitwise":"off",
+    "no-continue":"off",
     "no-confusing-arrow":"off",
     "no-console":"off",
     "no-empty":"off",
     "no-loop-func":"off",
     "no-mixed-operators":"off",
     "no-param-reassign":"off",
+    "no-process-exit":"off",
     "no-plusplus":"off",
     "no-restricted-globals":"off",
     "no-restricted-syntax":"off",
@@ -37,89 +45,42 @@
     "object-curly-newline":"off",
     "prefer-rest-params":"off",
     "prefer-destructuring":"off",
-    "radix":"off"
+    "radix":"off",
+    "node/shebang": "off"
   },
   "globals": {
-    // asssets
-    "panzoom": "readonly",
-    // script.js
-    "log": "readonly",
-    "debug": "readonly",
-    "error": "readonly",
     "gradioApp": "readonly",
-    "executeCallbacks": "readonly",
-    "onAfterUiUpdate": "readonly",
-    "onOptionsChanged": "readonly",
-    "optionsChangedCallbacks": "readonly",
-    "onUiLoaded": "readonly",
-    "onUiUpdate": "readonly",
-    "onUiTabChange": "readonly",
-    "onUiReady": "readonly",
-    "uiCurrentTab": "writable",
-    "uiElementIsVisible": "readonly",
-    "uiElementInSight": "readonly",
-    "getUICurrentTabContent": "readonly",
-    "waitForFlag": "readonly",
+    "log": "readonly",
+    "error": "readonly",
     "logFn": "readonly",
-    // contextmenus.js
     "generateForever": "readonly",
-    // contributors.js
-    "showContributors": "readonly",
-    // color-hue.js
+    "onUiReady": "readonly",
+    "appUiUx": "readonly",
+    "getStored": "readonly",
+    "setStored": "readonly",
+    "htmlPath": "readonly",
+    "initSplitComponents": "readonly",
+    "initAccordionComponents": "readonly",
+    "initTabComponents": "readonly",
+    "initButtonComponents": "readonly",
+    "setupToolButtons": "readonly",
+    "setupDropdowns": "readonly",
+    "setupGenerateObservers": "readonly",
+    "setupDynamicObservers": "readonly",
+    "setupControlDynamicObservers": "readonly",
     "setUserColors": "readonly",
-    // ui.js
-    "opts": "writable",
-    "sortUIElements": "readonly",
-    "all_gallery_buttons": "readonly",
-    "selected_gallery_button": "readonly",
-    "selected_gallery_index": "readonly",
-    "switch_to_txt2img": "readonly",
-    "switch_to_img2img_tab": "readonly",
-    "switch_to_img2img": "readonly",
-    "switch_to_sketch": "readonly",
-    "switch_to_inpaint": "readonly",
-    "switch_to_video": "readonly",
-    "witch_to_inpaint_sketch": "readonly",
-    "switch_to_extras": "readonly",
-    "get_tab_index": "readonly",
-    "create_submit_args": "readonly",
-    "restartReload": "readonly",
-    "updateInput": "readonly",
-    "toggleCompact": "readonly",
-    "setFontSize": "readonly",
-    "setTheme": "readonly",
-    // settings.js
-    "registerDragDrop": "readonly",
-    // extraNetworks.js
-    "requestGet": "readonly",
-    "getENActiveTab": "readonly",
-    "quickApplyStyle": "readonly",
-    "quickSaveStyle": "readonly",
-    // from python
-    "localization": "readonly",
-    // progressbar.js
-    "randomId": "readonly",
-    "requestProgress": "readonly",
-    // imageviewer.js
-    "modalPrevImage": "readonly",
-    "modalNextImage": "readonly",
-    "galleryClickEventHandler": "readonly",
-    "getExif": "readonly",
-    // logMonitor.js
-    "jobStatusEl": "readonly",
-    // loader.js
-    "removeSplash": "readonly",
-    // nvml.js
-    "initNVML": "readonly",
-    "disableNVML": "readonly",
-    // indexdb.js
-    "idbGet": "readonly",
-    "idbPut": "readonly",
-    "idbDel": "readonly",
-    "idbAdd": "readonly"
+    "showContributors": "readonly",
+    "createButtonsForExtensions": "readonly"
   },
-"ignorePatterns": [
+  "ignorePatterns": [
     "node_modules",
-    "split.js"
+    "extensions",
+    "extensions-builtin",
+    "repositories",
+    "venv",
+    "panzoom.js",
+    "split.js",
+    "exifr.js",
+    "iframeResizer.min.js"
   ]
 }

@@ -1,14 +1,13 @@
-<div class="flexbox col full-height border-padding">
-  <div id="txt2img_results_header_panel" class="flexbox row shrink panel padding no-br only-desktop">
+<div class="flexbox col full-height border-padding" id="template-gallery-results">
+  <div id="gallery_results_header_panel" class="flexbox row shrink panel padding no-br only-desktop">
     <div class="flexbox col shrink">
       <h2>Preview</h2>
     </div>
   </div>
-  <div data-selector="#gallery_gallery" data-parent-selector="#tab_gallery" class="portal full-height no-tr no-br no-padding" droppable="true">
-    <div class="flexbox col progress-flex">
-      <div data-selector="#gallery_gallery_container" data-parent-selector="gradio-app" class="portal"></div>
-    </div>
-  </div>
+
+  <div id="gallery-video" data-selector="#tab-gallery-video" data-parent-selector="#tab_gallery" class="portal"></div>
+  <div id="gallery-image" data-selector="#gallery_gallery" data-parent-selector="#tab_gallery" class="portal"></div>
+
   <div iconTrigger="#info_icon_btn_gallery" class="accordion no-tr margin-top">
     <div class="accordion-bar no-tr">
       <div class="flexbox row center">

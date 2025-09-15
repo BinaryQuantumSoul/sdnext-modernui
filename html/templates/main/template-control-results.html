@@ -1,10 +1,10 @@
-<div class="layout">
+<div class="layout fixed-height">
   <div class="flexbox col">
     <div class="flexbox row panel padding shrink" id="control_results_header_panel">
       <div id="control_dynamic_group" class="flexbox row padding">
         <label>
           <input id="control_dynamic_input" type="checkbox" />
-          <span>Input</span>
+          <span>Input image</span>
         </label>
         <label>
           <input id="control_dynamic_init" type="checkbox" />
@@ -27,7 +27,7 @@
           <div class="mask-icon icon-reprocess"></div>
         </div>
         <button title="Generate forever" id="control_loop" toggle="true" class="sd-button">
-          <div id="mask-icon-loop" class="mask-icon icon-loop"></div>
+          <div id="mask-icon-loop" class="mask-icon icon-loop">Generate forever</div>
         </button>
         <div title="Skip" data-selector="#control_skip" data-parent-selector="#tab_control" droppable="true" class="portal no-bg shrink invisible">
           <div class="mask-icon icon-skip"></div>
@@ -49,7 +49,7 @@
           </div>
         </div>
         <div class="panel no-tr flexbox row center margin-bottom">
-          <div data-parent-selector="#control-inputs" data-selector="#control-tab-input" class="portal no-bg no-padding"></div>
+          <div data-selector="#control-tab-input" data-parent-selector="#control-inputs" class="portal no-bg no-padding"></div>
         </div>
       </div>
 
@@ -70,17 +70,14 @@
             <h2>Output</h2>
           </div>
           <div id="control_output_group" class="flexbox row flex-end group-row">
-            <button title="Gallery" tabItemId="#control_out_gallery_tabitem" tabGroup="controlOutput" id="control_out_gallery" active="true" class="xtabs-tab shrink">
+            <button title="Output gallery" tabItemId="#control_out_gallery_tabitem" tabGroup="controlOutput" id="control_out_gallery" active="true" class="xtabs-tab shrink center">
               <div class="mask-icon icon-gallery"></div>
-              <span>Gallery</span>
             </button>
-            <button title="Image" tabItemId="#control_out_image_tabitem" tabGroup="controlOutput" id="control_out_image" class="xtabs-tab shrink">
+            <button title="Output image" tabItemId="#control_out_image_tabitem" tabGroup="controlOutput" id="control_out_image" class="xtabs-tab shrink center">
               <div class="mask-icon icon-results"></div>
-              <span>Image</span>
             </button>
-            <button title="Video" tabItemId="#control_out_video_tabitem" tabGroup="controlOutput" id="control_out_video" class="xtabs-tab shrink">
+            <button title="Output video" tabItemId="#control_out_video_tabitem" tabGroup="controlOutput" id="control_out_video" class="xtabs-tab shrink center">
               <div class="mask-icon icon-video"></div>
-              <span>Video</span>
             </button>
           </div>
         </div>
@@ -96,6 +93,7 @@
                         <div data-selector="#control_gallery_container" data-parent-selector="gradio-app" class="portal"></div>
                       </div>
                       <div data-selector="#control_interrogate_output" data-parent-selector="#control_gallery_container" class="portal"></div>
+                      <div data-selector="#control_image_fit" data-parent-selector="#control_gallery_container" class="portal"></div>
                     </div>
                     <div iconTrigger="#info_icon_btn_control" class="accordion shrink no-tr">
                       <div class="accordion-bar no-tr">

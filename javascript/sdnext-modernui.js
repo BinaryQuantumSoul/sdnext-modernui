@@ -1,15 +1,13 @@
 // Original credits: <https://github.com/anapnoe/stable-diffusion-webui-ux/blob/8307896c59032a9cdac1ab24c975102ff9a674d3/extensions-builtin/anapnoe-sd-uiux/javascript/anapnoe_sd_uiux_core.js>
 
-const template_path = '/file=extensions-builtin/sdnext-modernui/html/templates/';
-const template_root = 'template-app-root';
-const uiux_app_id = '#sdnext_app';
-const uiux_tab_id = '#tab_sdnext_uiux_core';
+const htmlPath = '/file=extensions-builtin/sdnext-modernui/html';
+const rootTemplate = 'template-app-root';
+const appId = '#sdnext_app';
+const tabId = '#tab_sdnext_uiux_core';
 
-const split_instances = [];
 let portalTotal = 0;
 let appUiUx;
 let isBackendDiffusers;
-let isMediaMobile;
 
 window.getUICurrentTabContent = () => gradioApp().querySelector('.xtabs-item:not(.hidden) > .split');
 window.getSettingsTabs = () => gradioApp().querySelectorAll('#layout-settings .tabitem');
@@ -28,6 +26,7 @@ let uiFlagPortalInitialized = false;
 
 window.waitForUiReady = functionWaitForFlag(() => uiFlagInitialized);
 const waitForUiPortal = functionWaitForFlag(() => uiFlagPortalInitialized);
+const isMobile = () => window.innerWidth < window.innerHeight;
 
 function logPrettyPrint() {
   let output = '';
@@ -69,10 +68,7 @@ const setStored = (key, val) => {
   if (!window.opts.uiux_persist_layout) return;
   try {
     localStorage.setItem(`ui-${key}`, JSON.stringify(val));
-    // log(`setStored: ${key}=${val}`);
-  } catch {
-    /* unsupported on mobile */
-  }
+  } catch { /* unsupported on mobile */ }
 };
 
 const getStored = (key) => {
@@ -80,24 +76,18 @@ const getStored = (key) => {
   let val;
   try {
     val = JSON.parse(localStorage.getItem(`ui-${key}`));
-    // log(`getStored: ${key}=${val}`);
-  } catch {
-    /* unsupported on mobile */
-  }
+  } catch { /* unsupported on mobile */ }
   return val;
 };
 
-function applyDefaultLayout(isMobile) {
-  isMediaMobile = isMobile;
-
+function applyDefaultLayout(mobile) {
   appUiUx.querySelectorAll('[mobile]').forEach((tabItem) => {
-    if (isMobile) {
+    if (mobile) {
       if (tabItem.childElementCount === 0) {
         const mobile_target = appUiUx.querySelector(tabItem.getAttribute('mobile'));
         if (mobile_target) {
           const target_parent_id = mobile_target.parentElement.id;
           if (target_parent_id) tabItem.setAttribute('mobile-restore', `#${target_parent_id}`);
-          else log('UI missing id for parent', mobile_target.id);
           tabItem.append(mobile_target);
         }
       }
@@ -109,36 +99,28 @@ function applyDefaultLayout(isMobile) {
       }
     }
   });
-
-  if (isMobile) {
+  if (mobile) {
     // additional mobile actions
     appUiUx.querySelector('.accordion-vertical.expand #mask-icon-acc-arrow')?.click();
-    if (!appUiUx.querySelector('.accordion-vertical.expand #mask-icon-acc-arrow-control')) {
-      appUiUx.querySelector('.accordion-vertical #mask-icon-acc-arrow-control').click();
-    }
+    if (!appUiUx.querySelector('.accordion-vertical.expand #mask-icon-acc-arrow-control')) appUiUx.querySelector('.accordion-vertical #mask-icon-acc-arrow-control')?.click();
+    if (appUiUx.querySelector('#accordion-aside')?.classList.contains('expand')) appUiUx.querySelector('#acc-arrow-button')?.click(); // collapse networks in mobile view
     appUiUx.querySelector('#control_dynamic_input:not(:checked)')?.click();
     appUiUx.querySelector('#control_dynamic_control:not(:checked)')?.click();
-
     appUiUx.classList.add('media-mobile');
     appUiUx.classList.remove('media-desktop');
   } else {
     if (!getStored('control-dynamic-input')) appUiUx.querySelector('#control_dynamic_input:checked')?.click();
     if (!getStored('control-dynamic-control')) appUiUx.querySelector('#control_dynamic_control:checked')?.click();
-
     appUiUx.classList.add('media-desktop');
     appUiUx.classList.remove('media-mobile');
   }
 }
 
 function switchMobile() {
-  function detectMobile() {
-    return window.innerWidth < window.innerHeight;
-  }
-
   const optslayout = window.opts.uiux_default_layout;
   if (optslayout === 'Auto') {
-    window.addEventListener('resize', () => applyDefaultLayout(detectMobile()));
-    applyDefaultLayout(detectMobile());
+    window.addEventListener('resize', () => applyDefaultLayout(isMobile()));
+    applyDefaultLayout(isMobile());
   } else if (optslayout === 'Mobile') {
     applyDefaultLayout(true);
   } else if (optslayout === 'Desktop') {
@@ -146,7 +128,24 @@ function switchMobile() {
   }
 }
 
-//= ====================== UIUX READY =======================
+async function applyAutoHide() {
+  const hideSiblings = (elem) => {
+    if (!elem || elem.nodeName !== 'DIV') return;
+    elem.classList.toggle('hidden-animate');
+    const nextEl = elem.nextElementSibling;
+    hideSiblings(nextEl);
+  };
+
+  appUiUx.querySelectorAll('h2').forEach((elem) => elem.classList.add('auto-hide'));
+  appUiUx.querySelectorAll('.auto-hide').forEach((elem) => {
+    elem.onclick = (evt) => {
+      log('applyAutoHide', evt.target);
+      for (const child of evt.target.children) child.classList.toggle('hidden-animate');
+      hideSiblings(evt.target?.nextElementSibling);
+    };
+  });
+}
+
 async function extraTweaks() {
   // System tab click second tab
   document.querySelectorAll('#system .tab-nav button')[1].click();
@@ -172,9 +171,7 @@ async function extraTweaks() {
   ['txt2img', 'img2img', 'control', 'video'].forEach((key) => {
     const buttonNav = document.getElementById(`${key}_nav`);
     const buttonEN = document.getElementById(`btn-en-layout-${key}`);
-    buttonNav.addEventListener('click', () => {
-      buttonEN.click();
-    });
+    buttonNav?.addEventListener('click', () => buttonEN?.click());
   });
 
   const logoNav = document.getElementById('logo_nav');
@@ -225,7 +222,7 @@ async function uiuxOptionSettings() {
   sdMaxOutputResolution(window.opts.uiux_max_resolution_output);
 
   // settings input ranges
-  function uiux_show_input_range_ticks(value, interactive) {
+  function showInputRangeTicks(value, interactive) {
     if (value) {
       gradioApp().querySelectorAll("input[type='range']").forEach((elem) => {
         const spacing = (elem.step / (elem.max - elem.min)) * 100.0;
@@ -240,8 +237,8 @@ async function uiuxOptionSettings() {
   }
 
   el = gradioApp().querySelector('#setting_uiux_show_input_range_ticks input');
-  if (el) el.addEventListener('click', (e) => uiux_show_input_range_ticks(e.target.checked, true));
-  uiux_show_input_range_ticks(window.opts.uiux_show_input_range_ticks);
+  if (el) el.addEventListener('click', (e) => showInputRangeTicks(e.target.checked, true));
+  showInputRangeTicks(window.opts.uiux_show_input_range_ticks);
 
   // settings looks
   function setupUiUxSetting(settingId, className) {
@@ -273,133 +270,29 @@ async function uiuxOptionSettings() {
   // gradioApp().getElementById('tab_control').style.display = window.opts.uiux_hide_legacy ? 'block' : 'none';
 
   // settings mobile scale
-  function uiux_mobile_scale(value) {
+  function mobileScale(value) {
     const viewport = document.head.querySelector('meta[name="viewport"]');
     if (viewport) viewport.setAttribute('content', `width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=${value}`);
   }
   el = gradioApp().querySelector('#setting_uiux_mobile_scale input[type=number]');
-  if (el) el.addEventListener('change', (e) => uiux_mobile_scale(e.target.value));
-  uiux_mobile_scale(window.opts.uiux_mobile_scale);
+  if (el) el.addEventListener('change', (e) => mobileScale(e.target.value));
+  mobileScale(window.opts.uiux_mobile_scale);
+
+  // set panel min width
+  const panelMinWidth = (value) => document.documentElement.style.setProperty('--sd-panel-min-width', `${value}em`);
+  el = gradioApp().querySelector('#setting_uiux_panel_min_width input[type=number]');
+  if (el) el.addEventListener('change', (e) => panelMinWidth(e.target.value));
+  panelMinWidth(window.opts.uiux_panel_min_width);
+
+  // set grid image size
+  const gridImageSize = (value) => document.documentElement.style.setProperty('--sd-grid-image-size', `${value}px`);
+  el = gradioApp().querySelector('#setting_uiux_grid_image_size input[type=number]');
+  if (el) el.addEventListener('change', (e) => gridImageSize(e.target.value));
+  gridImageSize(window.opts.uiux_grid_image_size);
 }
 
-async function setupControlDynamicObservers() {
-  const dynamicInput = document.getElementById('control_dynamic_input');
-  const dynamicInit = document.getElementById('control_dynamic_init');
-  const dynamicControl = document.getElementById('control_dynamic_control');
-
-  const qInputCtrl = '#control-template-column-input, #control_params_mask, #control_dynamic_resize';
-  const qInputBtn = '[tabitemid="#control_resize_mask_tabitem"], [tabitemid="#control_before_scale_by_tabitem"], [tabitemid="#control_before_scale_to_tabitem"]';
-  const inputElems = document.querySelectorAll(`${qInputCtrl}, ${qInputBtn}`);
-  const initElems = document.querySelectorAll('#control-template-column-init');
-  const controlElems = document.querySelectorAll('#control-template-column-preview');
-
-  function setupDynamicListener(dynamic, elems, storedKey) {
-    function toggleDynamicElements(dynamicEl) {
-      elems.forEach((elem) => {
-        if (dynamicEl.checked) {
-          elem.classList.remove('hidden');
-        } else {
-          elem.classList.add('hidden');
-        }
-      });
-    }
-
-    dynamic.addEventListener('click', () => {
-      if (!isMediaMobile) setStored(storedKey, dynamic.checked);
-      toggleDynamicElements(dynamic, elems);
-    });
-    dynamic.checked = getStored(storedKey) || false;
-    toggleDynamicElements(dynamic, elems);
-  }
-
-  setupDynamicListener(dynamicInput, inputElems, 'control-dynamic-input');
-  setupDynamicListener(dynamicInit, initElems, 'control-dynamic-init');
-  setupDynamicListener(dynamicControl, controlElems, 'control-dynamic-control');
-}
-
-async function setupGenerateObservers() {
-  function addButtonIcon(button, iconClass) {
-    const icon = document.createElement('div');
-    icon.classList.add('mask-icon', iconClass);
-    button.appendChild(icon);
-  }
-
-  function addButtonSpan(button, spanText) {
-    const span = document.createElement('span');
-    span.textContent = spanText;
-    if (!spanText) span.style.display = 'none';
-    button.appendChild(span);
-  }
-
-  function enableButtonAnimation(parentButton, enable) {
-    if (!parentButton) return;
-    if (enable) parentButton.classList.add('active');
-    else parentButton.classList.remove('active');
-  }
-
-  const keys = ['#txt2img', '#img2img', '#extras', '#control', '#video'];
-  keys.forEach((key) => {
-    const loop = document.querySelector(`${key}_loop`);
-    if (loop) loop.addEventListener('click', () => generateForever(`${key}_generate`));
-
-    const tgb = document.querySelector(`${key}_generate`);
-    if (tgb) {
-      const tg = tgb.closest('.sd-button');
-
-      new MutationObserver(() => {
-        if (tgb.textContent && !tgb.querySelector('span')) {
-          if (tgb.textContent === 'Generate') {
-            enableButtonAnimation(tg, false);
-            addButtonIcon(tgb, 'icon-generate');
-          } else {
-            enableButtonAnimation(tg, true);
-          }
-          addButtonSpan(tgb, tgb.textContent);
-        }
-      }).observe(tgb, { childList: true, subtree: true });
-    }
-
-    const teb = document.querySelector(`${key}_enqueue`);
-    if (teb) {
-      const te = teb.closest('.sd-button');
-
-      new MutationObserver(() => {
-        if (teb.textContent && !teb.querySelector('span')) {
-          if (teb.textContent === 'Enqueue') {
-            enableButtonAnimation(te, false);
-            addButtonIcon(teb, 'icon-enqueue');
-          } else {
-            enableButtonAnimation(te, true);
-          }
-          addButtonSpan(teb, '');
-        }
-      }).observe(teb, { childList: true, subtree: true });
-    }
-
-    const tpb = document.querySelector(`${key}_pause`);
-    if (tpb) {
-      new MutationObserver(() => {
-        if (tpb.textContent && !tpb.querySelector('span')) {
-          if (tpb.textContent === 'Pause') {
-            addButtonIcon(tpb, 'icon-pause');
-          } else {
-            addButtonIcon(tpb, 'icon-play');
-          }
-          addButtonSpan(tpb, '');
-        }
-      }).observe(tpb, { childList: true, subtree: true });
-    }
-  });
-}
-
-//= ====================== SETUP =======================
 async function loadAllPortals() {
-  appUiUx.querySelectorAll('.portal').forEach((elem, index, array) => {
-    const onlyDiffusers = elem.classList.contains('only-diffusers');
-    const onlyOriginal = elem.classList.contains('only-original');
-    if ((onlyDiffusers && !isBackendDiffusers) || (onlyOriginal && isBackendDiffusers)) portalTotal += 1;
-    else movePortal(elem, 1, index, array.length); // eslint-disable-line no-use-before-define
-  });
+  appUiUx.querySelectorAll('.portal').forEach((elem, index, array) => movePortal(elem, 1, index, array.length)); // eslint-disable-line no-use-before-define
 }
 loadAllPortals = logFn(loadAllPortals); // eslint-disable-line no-func-assign
 
@@ -410,8 +303,10 @@ function movePortal(portalElem, tries, index, length) {
   const targetElem = document.querySelector(`${parentSelector} ${dataSelector}`);
   // const allElements = document.querySelectorAll(`${parentSelector} ${dataSelector}`);
   // if (allElements.length > 1) error(`Multiple elements num=${allElements.length} selector=${parentSelector} ${dataSelector}`, allElements);
-  if (portalElem && targetElem) {
-    if (window.opts.uiux_enable_console_log) log('UI register', index, parentSelector, dataSelector, tries);
+  if (portalElem && !targetElem && dataSelector?.endsWith('_enqueue')) {
+    portalTotal += 1;
+  } else if (portalElem && targetElem) {
+    if (window.opts.uiux_enable_console_log) log('registerPortal', index, parentSelector, dataSelector, tries);
     portalElem.append(targetElem);
     portalTotal += 1;
     const droppable = portalElem.getAttribute('droppable');
@@ -426,6 +321,7 @@ function movePortal(portalElem, tries, index, length) {
     const showButton = portalElem.getAttribute('show-button');
     if (showButton) document.querySelector(showButton)?.classList.remove('hidden');
   } else if (tries < MAX_TRIES) {
+    log('retryPortal', portalElem, tries);
     const timeout = portalElem.getAttribute('data-timeout');
     const delay = timeout ? parseInt(timeout) : 500;
     setTimeout(() => movePortal(portalElem, tries + 1, index, length), delay);
@@ -435,230 +331,6 @@ function movePortal(portalElem, tries, index, length) {
     portalTotal += 1;
   }
   if (portalTotal === length) uiFlagPortalInitialized = true;
-}
-
-function initSplitComponents() {
-  appUiUx.querySelectorAll('div.split').forEach((elem) => {
-    const id = elem.id;
-    const nid = appUiUx.querySelector(`#${id}`);
-    const direction = nid?.getAttribute('direction') === 'vertical' ? 'vertical' : 'horizontal';
-    const gutterSize = nid?.getAttribute('gutterSize') || '8';
-    const ids = [];
-    const initSizes = [];
-    const minSizes = [];
-    const containers = appUiUx.querySelectorAll(`#${id} > div.split-container`);
-    containers.forEach(((c) => {
-      const ji = c.getAttribute('data-initSize');
-      const jm = c.getAttribute('data-minSize');
-      ids.push(`#${c.id}`);
-      try {
-        const storedSize = getStored(`${id}-sizes`);
-        if (storedSize && Array.isArray(storedSize) && storedSize.every((n) => typeof n === 'number')) {
-          initSizes.push(storedSize[c.id.includes('left') || c.id.includes('up') ? 0 : 1]);
-        } else {
-          initSizes.push(ji ? parseInt(ji) : 100 / containers.length);
-        }
-      } catch {
-        initSizes.push(ji ? parseInt(ji) : 100 / containers.length);
-      }
-      minSizes.push(jm ? parseInt(jm) : Infinity);
-    }));
-    if (window.opts.uiux_enable_console_log) log('UI split component', ids, initSizes, minSizes, direction, gutterSize);
-    const onDragEnd = (evt) => setStored(`${id}-sizes`, evt);
-    split_instances[id] = Split(ids, { // eslint-disable-line no-undef
-      sizes: initSizes,
-      minSize: minSizes,
-      direction,
-      gutterSize: parseInt(gutterSize),
-      snapOffset: 0,
-      dragInterval: 1,
-      onDragEnd,
-      elementStyle(dimension, size, gs) {
-        return { 'flex-basis': `calc(${size}% - ${gs}px)` };
-      },
-      gutterStyle(dimension, gs) {
-        return {
-          'flex-basis': `${gs}px`,
-          'min-width': `${gs}px`,
-          'min-height': `${gs}px`,
-        };
-      },
-    });
-  });
-}
-
-function initAccordionComponents() {
-  appUiUx.querySelectorAll('.accordion-bar').forEach((elem) => {
-    const acc = elem.parentElement;
-    const accSplit = acc.closest('.split-container');
-    const accTrigger = appUiUx.querySelector(acc.getAttribute('iconTrigger'));
-    if (accTrigger) elem.classList.add('pointer-events-none');
-    if (acc.className.indexOf('accordion-vertical') !== -1 && accSplit.className.indexOf('split') !== -1) {
-      acc.classList.add('expand');
-      const splitInstance = split_instances[accSplit.parentElement.id];
-      accSplit.setAttribute('data-sizes', JSON.stringify(splitInstance.getSizes()));
-      accTrigger?.addEventListener('click', () => {
-        acc.classList.toggle('expand');
-        setStored(`ui-${acc.id}-class`, acc.className);
-        if (accSplit.className.indexOf('v-expand') !== -1) {
-          accSplit.classList.remove('v-expand');
-          accSplit.style.removeProperty('min-width');
-          splitInstance.setSizes(JSON.parse(accSplit.getAttribute('data-sizes')));
-        } else {
-          accSplit.classList.add('v-expand');
-          const sizes = splitInstance.getSizes();
-          accSplit.setAttribute('data-sizes', JSON.stringify(sizes));
-          if (acc.className.indexOf('left') !== -1) {
-            sizes[sizes.length - 1] = 100;
-            sizes[sizes.length - 2] = 0;
-          } else {
-            sizes[sizes.length - 1] = 0;
-            sizes[sizes.length - 2] = 100;
-          }
-          const padding = parseFloat(window.getComputedStyle(elem, null).getPropertyValue('padding-left')) * 2;
-          accSplit.style.minWidth = `${elem.offsetWidth + padding}px`;
-          splitInstance.setSizes(sizes);
-        }
-      });
-    } else {
-      accTrigger?.addEventListener('click', () => {
-        acc.classList.toggle('expand');
-        setStored(`ui-${acc.id}-class`, acc.className);
-      });
-    }
-
-    const fullTrigger = acc.getAttribute('iconFullTrigger');
-    if (fullTrigger) {
-      appUiUx.querySelector(fullTrigger)?.addEventListener('click', () => {
-        acc.classList.toggle('full-expand');
-        setStored(`ui-${acc.id}-class`, acc.className);
-      });
-    }
-  });
-}
-
-function initTabComponents() {
-  function hideActive(tab) {
-    tab.classList.remove('active');
-    const tabItemId = tab.getAttribute('tabItemId');
-    appUiUx.querySelectorAll(tabItemId).forEach((tabItem) => {
-      tabItem.classList.remove('fade-in');
-      tabItem.classList.add('fade-out');
-    });
-  }
-
-  function showActive(tab) {
-    tab.classList.add('active');
-    const tabItemId = tab.getAttribute('tabItemId');
-    appUiUx.querySelectorAll(tabItemId).forEach((tabItem) => {
-      tabItem.classList.add('fade-in');
-      tabItem.classList.remove('fade-out');
-    });
-  }
-
-  function triggerAccordion(elem, wasActive, checkStored) {
-    const accBar = elem.closest('.accordion-bar');
-    if (!accBar) return;
-    const acc = accBar.parentElement;
-    const accTrigger = appUiUx.querySelector(acc.getAttribute('iconTrigger'));
-    const accFullTrigger = appUiUx.querySelector(acc.getAttribute('iconFullTrigger'));
-    const accStoredClasses = getStored(`ui-${acc.id}-class`) || '';
-    const storedAsCollapsed = accStoredClasses && (accStoredClasses.indexOf('expand') === -1);
-    const storedAsFullExpanded = accStoredClasses && accStoredClasses.indexOf('full-expand') !== -1;
-
-    const shouldExpand = !acc.classList.contains('expand');
-    const shouldCollapse = acc.classList.contains('expand') && !acc.classList.contains('full-expand') && (wasActive || (checkStored && storedAsCollapsed));
-    const shouldFullExpand = acc.classList.contains('expand') && !acc.classList.contains('full-expand') && (checkStored && storedAsFullExpanded);
-
-    if (shouldExpand || shouldCollapse) {
-      if (accTrigger) accTrigger.click();
-      else accBar.click();
-    }
-    if (shouldFullExpand) {
-      if (accFullTrigger) accFullTrigger.click();
-    }
-  }
-
-  appUiUx.querySelectorAll('.xtabs-tab').forEach((elem) => {
-    const tabGroup = elem.getAttribute('tabGroup');
-    const tabParent = elem.parentElement;
-    const uid = tabGroup || tabParent?.id;
-    const siblingTabs = [...(tabGroup ? appUiUx.querySelectorAll(`[tabGroup="${tabGroup}"]`) : tabParent ? tabParent.children : [])].filter((tab) => tab !== elem); // eslint-disable-line no-nested-ternary
-
-    elem.addEventListener('click', () => {
-      if (uid) setStored(`tab-${uid}-current`, elem.id);
-      siblingTabs.filter((tab) => tab.classList.contains('active')).forEach(hideActive);
-      const wasActive = elem.classList.contains('active');
-      showActive(elem);
-      triggerAccordion(elem, wasActive, false);
-    });
-
-    const storedTab = uid ? getStored(`tab-${uid}-current`) || '' : '';
-    const active = storedTab ? storedTab === elem.id : elem.getAttribute('active');
-
-    if (active) {
-      showActive(elem);
-      triggerAccordion(elem, false, true);
-    } else {
-      hideActive(elem);
-    }
-  });
-
-  function showHideAnchors(anchor, index) {
-    Array.from(anchor.children).forEach((elem) => {
-      if (elem.matches(`[anchor*="${index}"]`)) elem.style.display = 'flex';
-      else elem.style.display = 'none';
-    });
-  }
-
-  appUiUx.querySelectorAll('.xtabs-anchor').forEach((anchor) => {
-    const tabNav = document.querySelector(anchor.getAttribute('anchorNav'));
-    if (tabNav) {
-      const observer = new MutationObserver(() => {
-        const index = Array.from(tabNav.children).findIndex((btn) => btn.classList.contains('selected')) + 1;
-        showHideAnchors(anchor, index);
-      });
-      observer.observe(tabNav, { attributes: true, attributeFilter: ['class'], childList: true });
-    }
-    showHideAnchors(anchor, 1);
-  });
-}
-
-function initButtonComponents() {
-  appUiUx.querySelectorAll('.sd-button').forEach((elem) => {
-    const toggle = elem.getAttribute('toggle');
-    const active = elem.getAttribute('active');
-    const input = elem.querySelector('input');
-
-    if (input) {
-      if (input.checked === true && !active) input.click();
-      else if (input.checked === false && active) input.click();
-    }
-    if (active) elem.classList.add('active');
-    else elem.classList.remove('active');
-    if (toggle) {
-      elem.addEventListener('click', (e) => {
-        const inputEl = elem.querySelector('input');
-        if (inputEl) {
-          inputEl.click();
-          if (inputEl.checked === true) {
-            elem.classList.add('active');
-          } else if (inputEl.checked === false) {
-            elem.classList.remove('active');
-          }
-        } else {
-          elem.classList.toggle('active');
-        }
-      });
-    }
-
-    const extraClicks = elem.getAttribute('data-click');
-    if (extraClicks) {
-      elem.addEventListener('click', () => {
-        document.querySelectorAll(extraClicks).forEach((el) => el.click());
-      });
-    }
-  });
 }
 
 async function setupAnimationEventListeners() {
@@ -679,62 +351,17 @@ async function setupAnimationEventListeners() {
   });
 }
 
-async function checkBackend() {
-  if (window.opts.sd_backend === 'original') {
-    appUiUx.classList.add('backend-original');
-    isBackendDiffusers = false;
-    window.opts.uiux_hide_legacy = false;
-  } else if (window.opts.sd_backend === 'diffusers') {
-    appUiUx.classList.add('backend-diffusers');
-    isBackendDiffusers = true;
-  }
-}
-
-async function createButtonsForExtensions() {
-  const other_extensions = document.querySelector('#other_extensions');
-  const other_views = document.querySelector('#split-left');
-  const no_button_tabs = ['tab_txt2img', 'tab_img2img', 'tab_control', 'tab_video', 'tab_process', 'tab_caption', 'tab_gallery', 'tab_models', 'tab_extensions', 'tab_system', 'tab_info', 'tab_sdnext_uiux_core'];
-  const snakeToCamel = (str) => str.replace(/(_\w)/g, (match) => match[1].toUpperCase());
-  document.querySelectorAll('#tabs > .tabitem').forEach((c) => {
-    const cid = c.id;
-    const nid = cid.replace('tab_', '').replace('_tab', '');
-    if (!no_button_tabs.includes(cid)) {
-      const temp = document.createElement('div');
-      let button;
-      if (nid === 'agent_scheduler') button = '<div class="mask-icon icon-calendar"></div>';
-      if (nid === 'framepack') button = '<div class="mask-icon icon-video"></div>';
-      if (!button) button = `<div class="icon-letters">${nid.slice(0, 2)}</div>`;
-      temp.innerHTML = `
-        <button tabItemId="#split-app, #${cid}_tabitem"
-          tabGroup="main_group" 
-          data-click="#tabs" 
-          class="xtabs-tab">${button}<span>${snakeToCamel(nid)}</span>
-        </button>
-      `;
-      other_extensions.append(temp.firstElementChild);
-      temp.innerHTML = `
-        <div id="${cid}_tabitem" class="xtabs-item other">
-          <div data-parent-selector="gradio-app" data-selector="#${cid} > div" class="portal"></div>
-        </div>
-      `;
-      other_views.append(temp.firstElementChild);
-    }
-  });
-}
 async function replaceRootTemplate() {
-  appUiUx = document.querySelector(uiux_app_id);
+  appUiUx = document.querySelector(appId);
   gradioApp().insertAdjacentElement('afterbegin', appUiUx);
 }
 
-function getNestedTemplates(container) {
+async function getNestedTemplates(container) {
   const nestedData = [];
-  container.querySelectorAll('.template:not([status])').forEach((el) => {
-    const template = el.getAttribute('template');
-    const key = el.getAttribute('key');
-
+  container.querySelectorAll('.template').forEach((el) => {
     nestedData.push({
-      template,
-      key,
+      template: el.getAttribute('template'),
+      key: el.getAttribute('key'),
       target: el,
     });
   });
@@ -744,24 +371,27 @@ function getNestedTemplates(container) {
 async function loadCurrentTemplate(data) {
   const curr_data = data.shift();
   if (curr_data) {
-    if (window.opts.uiux_enable_console_log) log('UI loading template', curr_data.template);
-    const uri = `${window.subpath}${template_path}${curr_data.template}.html?${Date.now()}`;
+    const t0 = performance.now();
+    if (window.opts.uiux_enable_console_log) log('loadTemplate', curr_data.template);
+    const uri = `${window.subpath}${htmlPath}/templates/${curr_data.template}.html?${Date.now()}`;
     const response = await fetch(uri, { cache: 'reload' });
-
+    // const response = await fetch(uri);
     if (!response.ok) {
-      log('UI failed to load template', curr_data.template, curr_data.target);
+      error('loadTemplate', curr_data.template, curr_data.target);
       if (curr_data.target) curr_data.target.setAttribute('status', 'error');
     } else {
       const text = await response.text();
       const tempDiv = document.createElement('div');
       tempDiv.innerHTML = curr_data.key ? text.replace(/\s*\{\{.*?\}\}\s*/g, curr_data.key) : text;
-      const nestedData = getNestedTemplates(tempDiv);
+      const nestedData = await getNestedTemplates(tempDiv);
       data.push(...nestedData);
       if (curr_data.target) {
         curr_data.target.setAttribute('status', 'true');
         curr_data.target.append(tempDiv.firstElementChild);
       }
     }
+    const t1 = performance.now();
+    // log('loadTemplate', curr_data.template, `time=${Math.round(t1 - t0)}`);
     return loadCurrentTemplate(data);
   }
   return Promise.resolve();
@@ -770,17 +400,21 @@ async function loadCurrentTemplate(data) {
 async function loadAllTemplates() {
   const data = [
     {
-      template: template_root,
-      target: document.querySelector(uiux_tab_id),
+      template: rootTemplate,
+      target: document.querySelector(tabId),
     },
   ];
+  const t0 = performance.now();
   await loadCurrentTemplate(data);
+  const t1 = performance.now();
   await replaceRootTemplate();
+  const t2 = performance.now();
+  log('loadAllTemplates', `load=${Math.round(t1 - t0)} replace=${Math.round(t2 - t1)}`);
 }
-loadAllTemplates = logFn(loadAllTemplates); // eslint-disable-line no-func-assign
 
 async function removeStyleAssets() {
   // Remove specific stylesheets
+  const t0 = performance.now();
   let removedStylesheets = 0;
   document.querySelectorAll(`
     [rel="stylesheet"][href*="/assets/"], 
@@ -790,9 +424,8 @@ async function removeStyleAssets() {
   `).forEach((stylesheet) => {
     stylesheet.remove();
     removedStylesheets++;
-    if (window.opts.uiux_enable_console_log) log('UI removed stylesheet', stylesheet.getAttribute('href'));
+    if (window.opts.uiux_enable_console_log) log('removeStylesheet', stylesheet.getAttribute('href'));
   });
-  log('UI removeStyleSheets', removedStylesheets);
 
   // Remove inline styles and svelte classes
   const stylers = document.querySelectorAll('.styler, [class*="svelte"]:not(input)');
@@ -805,12 +438,10 @@ async function removeStyleAssets() {
       removedCount++;
     }
 
-    [...element.classList].filter((className) => className.match(/^svelte.*/)).forEach((svelteClass) => {
-      element.classList.remove(svelteClass);
-    });
+    [...element.classList].filter((className) => className.match(/^svelte.*/)).forEach((svelteClass) => element.classList.remove(svelteClass));
     count++;
   });
-  log('UI removeElements', `${removedCount}/${count}`);
+  log('removeElements', `elements=${removedCount}/${count} stylesheets=${removedStylesheets} time=${Math.round(performance.now() - t0)}`);
 }
 
 function logStartup() {
@@ -818,7 +449,7 @@ function logStartup() {
   const filteredOpts = Object.entries(window.opts).filter(([key, value]) => key.startsWith('uiux') && typeof value !== 'string');
   const uiOpts = {};
   for (const [key, value] of filteredOpts) uiOpts[key] = value;
-  log('UI settings', uiOpts);
+  log('settings', uiOpts);
   if (navigator.userAgent.toLowerCase().includes('firefox')) {
     log('UI: Go to the Firefox about:config page, then search and toggle layout. css.has-selector. enabled');
   }
@@ -835,7 +466,6 @@ async function mainUiUx() {
   logStartup();
   await removeStyleAssets();
   await loadAllTemplates();
-  checkBackend();
   createButtonsForExtensions();
   setupAnimationEventListeners();
   initSplitComponents();
@@ -843,7 +473,12 @@ async function mainUiUx() {
   await loadAllPortals();
   initTabComponents();
   initButtonComponents();
+  setupToolButtons();
+  setupDropdowns();
+  const t0 = performance.now();
   await waitForUiPortal();
+  const t1 = performance.now();
+  log('waitForUiPortal', `time=${Math.round(t1 - t0)}`);
   setupGenerateObservers();
   setupControlDynamicObservers();
   uiuxOptionSettings();
@@ -851,6 +486,7 @@ async function mainUiUx() {
   showContributors();
   switchMobile();
   extraTweaks();
+  applyAutoHide();
   uiFlagInitialized = true;
 }
 

@@ -30,9 +30,9 @@
           <div class="mask-icon icon-folders"></div>
           <span>Scripts</span>
         </button>
-        <button title="Results" tabItemId="#txt2img_results_mobile_tabitem" tabGroup="txt2img" id="txt2img_results_mobile" class="xtabs-tab only-mobile">
+        <button title="Output" tabItemId="#txt2img_results_mobile_tabitem" tabGroup="txt2img" id="txt2img_results_mobile" class="xtabs-tab only-mobile">
           <div class="mask-icon icon-results"></div>
-          <span>Results</span>
+          <span>Output</span>
         </button>
       </div>
     </div>
@@ -88,6 +88,7 @@
                         </div>
                       </div>
                     </div>
+                    <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_prompt_image" droppable="true" class="portal shrink invisible"></div>
                   </div>
 
                   <div class="flexbox col outline-params">
@@ -100,7 +101,7 @@
                         <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_height" class="portal"></div>
                       </div>
                       <div class="flexbox col center panel unset-min-width shrink">
-                        <div data-selector="#txt2img_res_switch_btn" data-parent-selector="#tab_txt2img" droppable="true" class="portal invisible tool">
+                        <div data-selector="#txt2img_res_btn_swap" data-parent-selector="#tab_txt2img" droppable="true" class="portal invisible tool">
                           <div class="mask-icon icon-res-switch"></div>
                         </div>
                         <div data-selector="#txt2img_ar" data-parent-selector="#tab_txt2img" class="portal no-bg"></div>
@@ -191,6 +192,7 @@
         <div id="txt2img_results_mobile_tabitem_group" class="flexbox col only-mobile">
           <div id="txt2img_results_mobile_tabitem" mobile="#template-txt2img-results" class="xtabs-item"></div>
         </div>
+
       </div>
     </div>
 
