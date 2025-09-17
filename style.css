@@ -1892,9 +1892,10 @@ h1 {
   color: var(--sd-input-hover-text-color);
   position: absolute;
   top: 0;
-  right: 0.5em;
+  right: 0.3em;
   filter: drop-shadow(2px 2px 1px black);
-  font-size: 1.3em;
+  font-size: 1.2em;
+  line-height: 1em;
   font-variant: all-small-caps;
 }
 
