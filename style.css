@@ -2523,6 +2523,14 @@ button.active .icon-sort {
   mask-image: url(./html/svg/folder-grid.svg);
 }
 
+.icon-folder-medical {
+  mask-image: url(./html/svg/folder-medical.svg);
+}
+
+.icon-folder-arrow-up {
+  mask-image: url(./html/svg/folder-arrow-up.svg);
+}
+
 .icon-folder-check {
   mask-image: url(./html/svg/folder-check.svg);
 }

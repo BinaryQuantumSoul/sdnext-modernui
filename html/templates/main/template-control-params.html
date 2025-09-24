@@ -14,9 +14,17 @@
           <div class="mask-icon icon-folder-grid"></div>
           <span>Sampler</span>
         </button>
-        <button title="Refine & Detail" tabItemId="#control_params_refine_tabitem" tabGroup="control" id="control_params_refine" class="xtabs-tab shrink">
-          <div class="mask-icon icon-folder-check"></div>
+        <button title="Guidance" tabItemId="#control_params_guidance_tabitem" tabGroup="control" id="control_params_guidance" class="xtabs-tab shrink">
+          <div class="mask-icon icon-folder-arrow-up"></div>
+          <span>Guidance</span>
+        </button>
+        <button title="Refine" tabItemId="#control_params_refine_tabitem" tabGroup="control" id="control_params_refine" class="xtabs-tab shrink">
+          <div class="mask-icon icon-folder-medical"></div>
           <span>Refine</span>
+        </button>
+        <button title="Detail" tabItemId="#control_params_detail_tabitem" tabGroup="control" id="control_params_detail" class="xtabs-tab shrink">
+          <div class="mask-icon icon-folder-magnifying-glass"></div>
+          <span>Detail</span>
         </button>
         <button title="Advanced" tabItemId="#control_params_advanced_tabitem" tabGroup="control" id="control_params_advanced" class="xtabs-tab shrink">
           <div class="mask-icon icon-folder-gear"></div>
@@ -304,12 +312,31 @@
             </div>
           </div>
 
+          <div id="control_params_guidance_tabitem_group" class="outline-params">
+            <div id="control_params_guidance_tabitem" class="xtabs-item">
+              <div class="flexbox col">
+
+                <h2>Guidance</h2>
+                <div data-parent-selector="#tab_control" data-selector="#control_guidance .gap" class="portal no-outline"></div>
+
+              </div>
+            </div>
+          </div>
+
           <div id="control_params_refine_tabitem_group" class="outline-params">
             <div id="control_params_refine_tabitem" class="xtabs-item">
               <div class="flexbox col">
 
                 <h2>Refine</h2>
                 <div data-parent-selector="#tab_control" data-selector="#control_refine_accordion .gap" class="portal no-outline"></div>
+
+              </div>
+            </div>
+          </div>
+
+          <div id="control_params_detail_tabitem_group" class="outline-params">
+            <div id="control_params_detail_tabitem" class="xtabs-item">
+              <div class="flexbox col">
 
                 <h2>Detailer</h2>
                 <div data-parent-selector="#tab_control" data-selector="#control_detailer_accordion .gap" class="portal no-outline"></div>
