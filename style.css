@@ -306,10 +306,8 @@ hr {
   background-color: var(--sd-input-hover-text-color);
 }
 
-.logo-nav {
-  align-self: center;
-  height: 64px;
-  width: 64px;
+#logo_nav {
+  background-color: unset;
 }
 
 *.gradio-button {
