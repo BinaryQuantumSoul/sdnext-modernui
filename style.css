@@ -28,7 +28,7 @@
   --sd-primary-h: 180deg;
   --color-blue: paleturquoise;
   --color-debug: #7F7F7F;
-  --color-error: #9E2020;
+  --color-error: #9E2030;
   --color-green: palegreen;
   --color-info: #D4D4D4;
   --color-red: palevioletred;
@@ -2923,6 +2923,11 @@ button:hover svg {
   color: var(--sd-button-selected-text-color);
 }
 
+.server-status {
+  font-weight: bold;
+  animation: hue 2s infinite alternate;
+}
+
 .generate.active>.portal::before {
   animation-duration: 3s;
   animation-iteration-count: infinite;
@@ -3467,6 +3472,11 @@ position: relative
 @keyframes fade-in {
   0% { opacity: 0; }
   100% { opacity: 1; }
+}
+
+@keyframes status-animate {
+  from { background-color: var(--sd-main-accent-color); }
+  to { background-color: var(--color-error); }
 }
 
 .icon-letters {
