@@ -5567,3 +5567,7 @@ div#changelog_result p {
   overflow: auto;
   background-color: var(--sd-main-background-color);
 }
+
+.cropper-container.cropper-bg {
+  display: none;
+}
