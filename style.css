@@ -5581,3 +5581,7 @@ div#changelog_result p {
 .cropper-container.cropper-bg {
   display: none;
 }
+
+#interrogate_image {
+  min-height: 256px;
+}
