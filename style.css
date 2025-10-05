@@ -4808,7 +4808,7 @@ button.interrogate-blip,
 button.image-fit {
   opacity: 0.5;
   position: absolute;
-  top: 0.3em;
+  top: 0;
   background: var(--sd-panel-background-color);
   z-index: 1;
 }
@@ -5021,6 +5021,7 @@ gallery-folder:hover {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  position: sticky;
 }
 
 .grow .gradio-tabs>.gradio-tabitem {
@@ -5533,11 +5534,6 @@ div#changelog_result p {
 #civitai_token textarea:hover, #hf_token textarea:hover, #setting_huggingface_token textarea:hover,
 #civitai_token textarea:focus, #hf_token textarea:focus, #setting_huggingface_token textarea:focus {
   filter: blur(0);
-}
-
-#control_interrogate_input,
-#img2img_interrogate_input {
-  display: none;
 }
 
 #gallery-image {
