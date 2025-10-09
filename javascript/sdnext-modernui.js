@@ -203,6 +203,9 @@ async function extraTweaks() {
   document.getElementById('btn_console_log_client_wrap').onclick = () => {
     document.getElementById('logMonitorJS')?.classList.toggle('wrap-div');
   };
+
+  // disable spellchecks
+  document.querySelectorAll('input[type="text"], textarea').forEach((elem) => { elem.setAttribute('spellcheck', 'false'); });
 }
 extraTweaks = logFn(extraTweaks); // eslint-disable-line no-func-assign
 
