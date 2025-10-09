@@ -308,6 +308,7 @@ function movePortal(portalElem, tries, index, length) {
   // if (allElements.length > 1) error(`Multiple elements num=${allElements.length} selector=${parentSelector} ${dataSelector}`, allElements);
   if (portalElem && !targetElem && dataSelector?.endsWith('_enqueue')) {
     portalTotal += 1;
+    portalElem.style.display = 'none';
   } else if (portalElem && targetElem) {
     if (window.opts.uiux_enable_console_log) log('registerPortal', index, parentSelector, dataSelector, tries);
     portalElem.append(targetElem);

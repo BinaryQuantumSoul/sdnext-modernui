@@ -1133,7 +1133,7 @@ li.item span {
 }
 
 *.gradio-gallery {
-  height: 20vh;
+  min-height: 30vh;
   justify-content: center;
   position: relative;
   width: 100%;
@@ -5580,4 +5580,8 @@ div#changelog_result p {
 
 #interrogate_image {
   min-height: 256px;
+}
+
+#extras_single_tab, #extras_single_tab .gap, #extras_single_tab .gradio-row {
+  padding: 0 !important;
 }
