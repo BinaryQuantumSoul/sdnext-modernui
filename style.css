@@ -1824,9 +1824,6 @@ h1 {
   display: flex;
   width: -moz-available;
   width: -webkit-fill-available;
-}
-
-.extra-networks .second-line {
   gap: var(--sd-group-gap);
   margin: var(--sd-group-border-size);
 }
@@ -2011,6 +2008,11 @@ h1 {
   position: absolute;
   right: 0;
   font-size: 1.4em;
+  background-color: var(--sd-button-normal-color);
+}
+
+.extra-networks button {
+  padding: 6px;
 }
 
 *.extra-network-cards {
