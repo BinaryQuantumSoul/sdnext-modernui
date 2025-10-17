@@ -28,7 +28,7 @@
   --sd-primary-h: 180deg;
   --color-blue: paleturquoise;
   --color-debug: #7F7F7F;
-  --color-error: #9E2020;
+  --color-error: #9E2030;
   --color-green: palegreen;
   --color-info: #D4D4D4;
   --color-red: palevioletred;
@@ -306,10 +306,8 @@ hr {
   background-color: var(--sd-input-hover-text-color);
 }
 
-.logo-nav {
-  align-self: center;
-  height: 64px;
-  width: 64px;
+#logo_nav {
+  background-color: unset;
 }
 
 *.gradio-button {
@@ -1135,7 +1133,7 @@ li.item span {
 }
 
 *.gradio-gallery {
-  height: 20vh;
+  min-height: 30vh;
   justify-content: center;
   position: relative;
   width: 100%;
@@ -1826,9 +1824,6 @@ h1 {
   display: flex;
   width: -moz-available;
   width: -webkit-fill-available;
-}
-
-.extra-networks .second-line {
   gap: var(--sd-group-gap);
   margin: var(--sd-group-border-size);
 }
@@ -1892,9 +1887,10 @@ h1 {
   color: var(--sd-input-hover-text-color);
   position: absolute;
   top: 0;
-  right: 0.5em;
+  right: 0.3em;
   filter: drop-shadow(2px 2px 1px black);
-  font-size: 1.3em;
+  font-size: 1.2em;
+  line-height: 1em;
   font-variant: all-small-caps;
 }
 
@@ -2012,6 +2008,11 @@ h1 {
   position: absolute;
   right: 0;
   font-size: 1.4em;
+  background-color: var(--sd-button-normal-color);
+}
+
+.extra-networks button {
+  padding: 6px;
 }
 
 *.extra-network-cards {
@@ -2522,6 +2523,14 @@ button.active .icon-sort {
   mask-image: url(./html/svg/folder-grid.svg);
 }
 
+.icon-folder-medical {
+  mask-image: url(./html/svg/folder-medical.svg);
+}
+
+.icon-folder-arrow-up {
+  mask-image: url(./html/svg/folder-arrow-up.svg);
+}
+
 .icon-folder-check {
   mask-image: url(./html/svg/folder-check.svg);
 }
@@ -2914,6 +2923,11 @@ button:hover svg {
 .generate.active>button {
   background: var(--sd-button-selected-color);
   color: var(--sd-button-selected-text-color);
+}
+
+.server-status {
+  font-weight: bold;
+  animation: hue 2s infinite alternate;
 }
 
 .generate.active>.portal::before {
@@ -3460,6 +3474,11 @@ position: relative
 @keyframes fade-in {
   0% { opacity: 0; }
   100% { opacity: 1; }
+}
+
+@keyframes status-animate {
+  from { background-color: var(--sd-main-accent-color); }
+  to { background-color: var(--color-error); }
 }
 
 .icon-letters {
@@ -4791,7 +4810,7 @@ button.interrogate-blip,
 button.image-fit {
   opacity: 0.5;
   position: absolute;
-  top: 0.3em;
+  top: 0;
   background: var(--sd-panel-background-color);
   z-index: 1;
 }
@@ -5004,6 +5023,7 @@ gallery-folder:hover {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  position: sticky;
 }
 
 .grow .gradio-tabs>.gradio-tabitem {
@@ -5518,11 +5538,6 @@ div#changelog_result p {
   filter: blur(0);
 }
 
-#control_interrogate_input,
-#img2img_interrogate_input {
-  display: none;
-}
-
 #gallery-image {
   padding: 0;
 }
@@ -5559,4 +5574,20 @@ div#changelog_result p {
   max-height: 50vh;
   overflow: auto;
   background-color: var(--sd-main-background-color);
+}
+
+.cropper-container.cropper-bg {
+  display: none;
+}
+
+#interrogate_image {
+  min-height: 256px;
+}
+
+#extras_single_tab, #extras_single_tab .gap, #extras_single_tab .gradio-row {
+  padding: 0 !important;
+}
+
+.settings_section {
+  padding: var(--sd-panel-padding) !important;
 }

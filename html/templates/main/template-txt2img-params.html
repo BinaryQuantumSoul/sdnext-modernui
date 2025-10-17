@@ -14,9 +14,17 @@
           <div class="mask-icon icon-folder-grid"></div>
           <span>Sampler</span>
         </button>
+        <button title="Guidance" tabItemId="#txt2img_guidance_tabitem" tabGroup="txt2img" id="txt2img_guidance" class="xtabs-tab shrink">
+          <div class="mask-icon icon-folder-arrow-up"></div>
+          <span>Guidance</span>
+        </button>
         <button title="Refine" tabItemId="#txt2img_refine_tabitem" tabGroup="txt2img" id="txt2img_refine" class="xtabs-tab shrink">
-          <div class="mask-icon icon-folder-check"></div>
+          <div class="mask-icon icon-folder-medical"></div>
           <span>Refine</span>
+        </button>
+        <button title="Detail" tabItemId="#txt2img_detail_tabitem" tabGroup="txt2img" id="txt2img_detail" class="xtabs-tab shrink">
+          <div class="mask-icon icon-folder-magnifying-glass"></div>
+          <span>Detail</span>
         </button>
         <button title="Advanced" tabItemId="#txt2img_advanced_tabitem" tabGroup="txt2img" id="txt2img_advanced" class="xtabs-tab shrink">
           <div class="mask-icon icon-folder-gear"></div>
@@ -132,12 +140,31 @@
           </div>
         </div>
 
+        <div id="txt2img_guidance_tabitem_group" class="flexbox col outline-params">
+          <div id="txt2img_guidance_tabitem" class="xtabs-item">
+            <div class="flexbox col auto-scroll">
+
+              <h2>Guidance</h2>
+              <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_guidance .gap" class="portal no-outline"></div>
+
+            </div>
+          </div>
+        </div>
+
         <div id="txt2img_refine_tabitem_group" class="flexbox col outline-params">
           <div id="txt2img_refine_tabitem" class="xtabs-item">
             <div class="flexbox col auto-scroll">
 
               <h2>Refine</h2>
               <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_refine_accordion .gap" class="portal no-outline"></div>
+
+            </div>
+          </div>
+        </div>
+
+        <div id="txt2img_detail_tabitem_group" class="flexbox col outline-params">
+          <div id="txt2img_detail_tabitem" class="xtabs-item">
+            <div class="flexbox col auto-scroll">
 
               <h2>Detailer</h2>
               <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_detailer_accordion .gap" class="portal no-outline"></div>
@@ -151,7 +178,6 @@
             <div class="flexbox col auto-scroll">
 
               <h2>Advanced</h2>
-              <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_cfg_row" class="portal no-outline"></div>
               <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_advanced .gap" class="portal no-outline"></div>
 
               <h2>Corrections</h2>
