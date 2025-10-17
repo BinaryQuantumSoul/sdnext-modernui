@@ -5587,3 +5587,7 @@ div#changelog_result p {
 #extras_single_tab, #extras_single_tab .gap, #extras_single_tab .gradio-row {
   padding: 0 !important;
 }
+
+.settings_section {
+  padding: var(--sd-panel-padding) !important;
+}
