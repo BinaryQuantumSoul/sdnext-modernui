@@ -29,7 +29,7 @@ function initSplitComponents() {
       minSizes.push(minSize ? parseInt(minSize) : 0);
       maxSizes.push(maxSize ? parseInt(maxSize) : Infinity);
     }));
-    if (window.opts.uiux_enable_console_log) log('splitComponent', ids, initSizes, minSizes, direction, gutterSize);
+    // log('splitComponent', ids, initSizes, minSizes, direction, gutterSize);
     const onDragEnd = (evt) => setStored(`${id}-sizes`, evt);
     // log('splitSizes', id, initSizes, minSizes, maxSizes);
     splitInstances[id] = Split(ids, { // eslint-disable-line no-undef
