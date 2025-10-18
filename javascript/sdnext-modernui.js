@@ -210,38 +210,18 @@ async function extraTweaks() {
 extraTweaks = logFn(extraTweaks); // eslint-disable-line no-func-assign
 
 async function uiuxOptionSettings() {
-  // settings max output resolution
-  function sdMaxOutputResolution(value) {
-    gradioApp().querySelectorAll('[id$="2img_width"] input,[id$="2img_height"] input').forEach((elem) => { elem.max = value; });
-  }
-  let el = gradioApp().querySelector('#setting_uiux_max_resolution_output');
-  if (el) {
-    el.addEventListener('input', (e) => {
-      let intvalue = parseInt(e.target.value);
-      intvalue = Math.min(Math.max(intvalue, 512), 16384);
-      sdMaxOutputResolution(intvalue);
+  let el;
+  // settings input ranges
+  function showInputRangeTicks() {
+    gradioApp().querySelectorAll("input[type='range']").forEach((elem) => {
+      const spacing = (elem.step / (elem.max - elem.min)) * 100.0;
+      const tsp = `max(3px, calc(${spacing}% - 1px))`;
+      const fsp = `max(4px, calc(${spacing}% + 0px))`;
+      const overlay = `repeating-linear-gradient(90deg, transparent, transparent ${tsp}, var(--sd-input-border-color) ${tsp}, var(--sd-input-border-color) ${fsp})`;
+      elem.style.setProperty('--sd-slider-bg-overlay', overlay);
     });
   }
-  sdMaxOutputResolution(window.opts.uiux_max_resolution_output);
-
-  // settings input ranges
-  function showInputRangeTicks(value, interactive) {
-    if (value) {
-      gradioApp().querySelectorAll("input[type='range']").forEach((elem) => {
-        const spacing = (elem.step / (elem.max - elem.min)) * 100.0;
-        const tsp = `max(3px, calc(${spacing}% - 1px))`;
-        const fsp = `max(4px, calc(${spacing}% + 0px))`;
-        const overlay = `repeating-linear-gradient(90deg, transparent, transparent ${tsp}, var(--sd-input-border-color) ${tsp}, var(--sd-input-border-color) ${fsp})`;
-        elem.style.setProperty('--sd-slider-bg-overlay', overlay);
-      });
-    } else if (interactive) {
-      gradioApp().querySelectorAll("input[type='range']").forEach((elem) => { elem.style.setProperty('--sd-slider-bg-overlay', 'transparent'); });
-    }
-  }
-
-  el = gradioApp().querySelector('#setting_uiux_show_input_range_ticks input');
-  if (el) el.addEventListener('click', (e) => showInputRangeTicks(e.target.checked, true));
-  showInputRangeTicks(window.opts.uiux_show_input_range_ticks);
+  showInputRangeTicks();
 
   // settings looks
   function setupUiUxSetting(settingId, className) {
@@ -310,7 +290,7 @@ function movePortal(portalElem, tries, index, length) {
     portalTotal += 1;
     portalElem.style.display = 'none';
   } else if (portalElem && targetElem) {
-    if (window.opts.uiux_enable_console_log) log('registerPortal', index, parentSelector, dataSelector, tries);
+    // log('registerPortal', index, parentSelector, dataSelector, tries);
     portalElem.append(targetElem);
     portalTotal += 1;
     const droppable = portalElem.getAttribute('droppable');
@@ -331,21 +311,16 @@ function movePortal(portalElem, tries, index, length) {
     setTimeout(() => movePortal(portalElem, tries + 1, index, length), delay);
   } else {
     error('Element not found', { index, parent: parentSelector, id: dataSelector, el: portalElem, tgt: targetElem });
-    if (window.opts.uiux_enable_console_log) portalElem.style.backgroundColor = 'pink';
+    portalElem.style.backgroundColor = 'pink';
     portalTotal += 1;
   }
   if (portalTotal === length) uiFlagPortalInitialized = true;
 }
 
 async function setupAnimationEventListeners() {
-  const notransition = window.opts.uiux_disable_transitions;
   document.addEventListener('animationstart', (e) => {
     if (e.animationName === 'fade-in') {
       e.target.classList.remove('hidden');
-    }
-    if (notransition && e.animationName === 'fade-out') {
-      e.target.classList.add('notransition');
-      e.target.classList.add('hidden');
     }
   });
   document.addEventListener('animationend', (e) => {
@@ -376,7 +351,7 @@ async function loadCurrentTemplate(data) {
   const curr_data = data.shift();
   if (curr_data) {
     const t0 = performance.now();
-    if (window.opts.uiux_enable_console_log) log('loadTemplate', curr_data.template);
+    log('loadTemplate', curr_data.template);
     const uri = `${window.subpath}${htmlPath}/templates/${curr_data.template}.html?${Date.now()}`;
     const response = await fetch(uri, { cache: 'reload' });
     // const response = await fetch(uri);

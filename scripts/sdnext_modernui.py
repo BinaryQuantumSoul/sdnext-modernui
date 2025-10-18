@@ -21,11 +21,6 @@ def on_ui_settings():
         'uiux_separator_mobile': OptionInfo("<h2>Mobile</h2>", "", gr.HTML),
         "uiux_default_layout": OptionInfo("Auto", "Layout", gr.Radio, {"choices": ["Auto","Desktop", "Mobile"]}),
         "uiux_mobile_scale": OptionInfo(0.7, "Mobile scale", gr.Slider, {"minimum": 0.5, "maximum": 1, "step": 0.05}),
-
-        'uiux_separator_other': OptionInfo("<h2>Other Settings</h2>", "", gr.HTML),
-        "uiux_enable_console_log": OptionInfo(False, "Enable debug log"),
-        "uiux_max_resolution_output": OptionInfo(4096, "Max resolution output", gr.Slider, {"minimum": 512, "maximum": 8192, "step": 8, "visible": False}),
-        "uiux_disable_transitions": OptionInfo(False, "Disable transitions")
     }))
 
 
