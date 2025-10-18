@@ -10,9 +10,13 @@
           <div class="mask-icon icon-folder-bookmark"></div>
           <span>Prompts</span>
         </button>
-        <button title="Core" tabItemId=".video_generic_tabitem" tabGroup="video" id="video_params_generic" class="xtabs-tab shrink">
+        <button title="Size" tabItemId=".video_size_tabitem" tabGroup="video" id="video_params_size" class="xtabs-tab shrink">
           <div class="mask-icon icon-folder-grid"></div>
-          <span>Core</span>
+          <span>Size & Inputs</span>
+        </button>
+        <button title="Models" tabItemId=".video_generic_tabitem" tabGroup="video" id="video_params_generic" class="xtabs-tab shrink">
+          <div class="mask-icon icon-folder-grid"></div>
+          <span>Models</span>
         </button>
         <button title="FramePack" tabItemId=".video_framepack_tabitem" tabGroup="video" id="video_params_framepack" class="xtabs-tab shrink">
           <div class="mask-icon icon-folder-grid"></div>
@@ -20,7 +24,11 @@
         </button>
         <button title="LTX" tabItemId=".video_ltx_tabitem" tabGroup="video" id="video_params_ltx" class="xtabs-tab shrink">
           <div class="mask-icon icon-folder-grid"></div>
-          <span>LTX</span>
+          <span>LTXVideo</span>
+        </button>
+        <button title="Video Output" tabItemId=".video_outputs_tabitem" tabGroup="video" id="video_params_outputs" class="xtabs-tab shrink">
+          <div class="mask-icon icon-folder-grid"></div>
+          <span>Video Output</span>
         </button>
       </div>
     </div>
@@ -85,6 +93,19 @@
         </div>
 
         <div class="layout-content">
+          <div id="video_params_size_tabitem_group" class="outline-params">
+            <div id="video_params_size_tabitem" class="xtabs-item video_size_tabitem">
+              <div class="flexbox col">
+                <h2>Size</h2>
+                <div data-parent-selector="#tab_video" data-selector="#video_size" class="portal no-bg"></div>
+                <h2>Inputs</h2>
+                <div data-parent-selector="#tab_video" data-selector="#video_inputs" class="portal no-bg"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="layout-content">
           <div id="video_params_generic_tabitem_group" class="outline-params">
             <div id="video_params_generic_tabitem" class="xtabs-item video_generic_tabitem">
               <div class="flexbox col">
@@ -112,6 +133,17 @@
               <div class="flexbox col">
                 <h2>LTXVideo</h2>
                 <div data-parent-selector="#tab_video" data-selector="#ltx_settings" class="portal no-bg"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="layout-content">
+          <div id="video_params_outputs_tabitem_group" class="outline-params">
+            <div id="video_params_outputs_tabitem" class="xtabs-item video_outputs_tabitem">
+              <div class="flexbox col">
+                <h2>Video Output</h2>
+                <div data-parent-selector="#tab_video" data-selector="#video_outputs" class="portal no-bg"></div>
               </div>
             </div>
           </div>
