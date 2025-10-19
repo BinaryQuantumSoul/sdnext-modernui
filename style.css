@@ -24,6 +24,11 @@
   transition-timing-function: ease-out;
 }
 
+/* Show help cursor on all elements with tooltips */
+*[data-hint] {
+  cursor: help;
+}
+
 :root {
   --sd-primary-h: 180deg;
   --color-blue: paleturquoise;
@@ -1044,6 +1049,12 @@ button:hover .mask-icon {
 
 *.gradio-dropdown label>* {
   margin-bottom: 0;
+}
+
+/* Enable tooltips on dropdown labels */
+*.gradio-dropdown label > span[data-hint],
+*.gradio-dropdown label span[data-hint] {
+  pointer-events: auto;
 }
 
 * svg.dropdown-arrow {
