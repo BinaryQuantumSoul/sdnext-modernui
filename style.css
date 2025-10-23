@@ -1453,7 +1453,7 @@ li.item span {
   flex-direction: column;
   gap: var(--sd-gap-size);
   margin-top: var(--sd-border-size);
-  min-height: 16px;
+  min-height: 1.1em;
   padding: var(--sd-panel-padding);
 }
 
