@@ -5595,6 +5595,27 @@ div#changelog_result p {
   min-height: 256px;
 }
 
+/* Caption three-column layout */
+#split-caption-left {
+  min-width: 200px;
+}
+
+#split-caption-middle {
+  min-width: 300px;
+}
+
+#split-caption-right {
+  min-width: 300px;
+}
+
+#interrogate_output_image_display {
+  max-height: 60vh;
+}
+
+#interrogate_output_image_display img {
+  object-fit: contain;
+}
+
 #extras_single_tab, #extras_single_tab .gap, #extras_single_tab .gradio-row {
   padding: 0 !important;
 }

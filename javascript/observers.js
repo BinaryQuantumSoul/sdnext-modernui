@@ -100,4 +100,22 @@ async function setupGenerateObservers() {
       }).observe(tpb, { childList: true, subtree: true });
     }
   });
+
+  // Caption button observer (separate handling due to different ID pattern)
+  const captionBtn = document.querySelector('#btn_vlm_caption');
+  if (captionBtn) {
+    const captionButton = captionBtn.closest('.sd-button');
+
+    new MutationObserver(() => {
+      if (captionBtn.textContent && !captionBtn.querySelector('span')) {
+        if (captionBtn.textContent === 'Caption') {
+          enableButtonAnimation(captionButton, false);
+          addButtonIcon(captionBtn, 'icon-caption');
+        } else {
+          enableButtonAnimation(captionButton, true);
+        }
+        addButtonSpan(captionBtn, captionBtn.textContent);
+      }
+    }).observe(captionBtn, { childList: true, subtree: true });
+  }
 }
