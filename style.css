@@ -3960,7 +3960,7 @@ div#quicksettings div+button {
   background-color: rgba(20, 20, 20, 0.75);
   display: none;
   flex-direction: row;
-  font-family: inherit;
+  font-family: var(--sd-button-font);
   height: 100%;
   left: 0;
   overflow: auto;
