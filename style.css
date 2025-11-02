@@ -5174,9 +5174,10 @@ gallery-folder:hover {
 }
 
 #interrogate_output_prompt textarea {
-  height: auto;
-  max-height: 40vh;
+  height: 100% !important;
+  flex: 1 !important;
   overflow-y: auto !important;
+  min-height: 0 !important;
 }
 
 .locale-indicator {
@@ -5617,15 +5618,71 @@ div#changelog_result p {
   min-width: 300px;
 }
 
+#interrogate_output {
+  max-height: 100vh;
+  overflow: hidden;
+}
+
+#split-caption-output {
+  height: 100%;
+  overflow: hidden;
+}
+
+#split-caption-output-answer,
+#split-caption-output-image {
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+#interrogate_output_prompt {
+  min-height: 0;
+  overflow: hidden;
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100% !important;
+}
+
+#interrogate_output_prompt .form,
+#interrogate_output_prompt .gradio-textbox {
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 !important;
+  height: 100% !important;
+  min-height: 0 !important;
+}
+
+#interrogate_output_prompt .gradio-textbox label {
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 !important;
+  height: 100% !important;
+}
+
+#interrogate_output_image {
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
 #interrogate_output_image_display {
-  max-height: 50vh;
+  height: 100%;
   width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
 }
 
 #interrogate_output_image_display img {
   object-fit: contain;
-  width: 100%;
-  max-height: 50vh;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
 }
 
 #extras_single_tab, #extras_single_tab .gap, #extras_single_tab .gradio-row {
