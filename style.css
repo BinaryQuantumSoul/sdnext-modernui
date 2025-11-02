@@ -5721,6 +5721,39 @@ div#changelog_result p {
   height: 100% !important;
 }
 
+/* Make CLIP labels textbox scrollable */
+#interrogate_clip_labels_text {
+  flex: 1 !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+#interrogate_clip_labels_text .form,
+#interrogate_clip_labels_text .gradio-textbox {
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 !important;
+  height: 100% !important;
+  min-height: 0 !important;
+}
+
+#interrogate_clip_labels_text label {
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 !important;
+  min-height: 0 !important;
+  height: 100% !important;
+}
+
+#interrogate_clip_labels_text textarea {
+  flex: 1 !important;
+  overflow-y: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+}
+
 #interrogate_output_image {
   min-height: 0;
   overflow: hidden;
