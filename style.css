@@ -5594,15 +5594,71 @@ div#changelog_result p {
   display: none;
 }
 
-#interrogate_image {
-  min-height: 256px;
-  max-height: 70vh;
+/* Modern UI layout for caption image */
+#layout-caption-image {
+  position: relative !important;
+  inset: auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100% !important;
 }
 
+#layout-caption-image .layout-content {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  min-height: 0 !important;
+  overflow: visible !important;
+}
+
+#layout-caption-image .layout-content .portal {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+  min-height: 0 !important;
+}
+
+/* Override Python height=512 and make image fill container */
+#interrogate_image {
+  height: 100% !important;
+  width: 100% !important;
+  min-height: 256px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+}
+
+/* Make image container fill available space */
+#interrogate_image .image-container {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 0 !important;
+  overflow: auto !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Configure boundedheight container for interrogate image */
+#interrogate_image .image-container .center.boundedheight.flex {
+  width: 100% !important;
+  flex: 1 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow: hidden !important;
+}
+
+/* Ensure image element itself is properly constrained */
 #interrogate_image img {
-  object-fit: contain;
-  width: 100%;
-  height: 100%;
+  object-fit: contain !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  width: auto !important;
+  height: auto !important;
 }
 
 /* Caption three-column layout */

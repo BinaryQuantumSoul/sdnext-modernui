@@ -11,15 +11,15 @@ function initSplitComponents() {
     const minSizes = [];
     const maxSizes = [];
     const containers = appUiUx.querySelectorAll(`#${id} > div.split-container`);
-    containers.forEach(((c) => {
+    containers.forEach(((c, index) => {
       const initSize = c.getAttribute('data-initSize');
       const minSize = c.getAttribute('data-minSize');
       const maxSize = c.getAttribute('data-maxSize');
       ids.push(`#${c.id}`);
       try {
         const storedSize = getStored(`${id}-sizes`);
-        if (storedSize && Array.isArray(storedSize) && storedSize.every((n) => typeof n === 'number')) {
-          initSizes.push(storedSize[c.id.includes('left') || c.id.includes('up') ? 0 : 1]);
+        if (storedSize && Array.isArray(storedSize) && storedSize.every((n) => typeof n === 'number') && storedSize.length === containers.length) {
+          initSizes.push(storedSize[index]);
         } else {
           initSizes.push(initSize ? parseInt(initSize) : 100 / containers.length);
         }
