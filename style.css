@@ -5661,6 +5661,16 @@ div#changelog_result p {
   height: auto !important;
 }
 
+/* Hide interrogate output classes when in VLM Caption mode */
+#interrogate_output_classes:has(> #interrogate_label_medium.hidden) {
+  display: none !important;
+}
+
+/* Also hide the parent flexbox container to remove gap spacing */
+.flexbox.row.shrink.no-br:has(#interrogate_output_classes > #interrogate_label_medium.hidden) {
+  display: none !important;
+}
+
 /* Caption three-column layout */
 #split-caption-left {
   min-width: 300px;
