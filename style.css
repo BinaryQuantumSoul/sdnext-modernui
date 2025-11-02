@@ -5661,13 +5661,8 @@ div#changelog_result p {
   height: auto !important;
 }
 
-/* Hide interrogate output classes when in VLM Caption mode */
-#interrogate_output_classes:has(> #interrogate_label_medium.hidden) {
-  display: none !important;
-}
-
-/* Also hide the parent flexbox container to remove gap spacing */
-.flexbox.row.shrink.no-br:has(#interrogate_output_classes > #interrogate_label_medium.hidden) {
+/* Hide visual label components (not used - CLIP labels shown as text instead) */
+#interrogate_output_classes {
   display: none !important;
 }
 
