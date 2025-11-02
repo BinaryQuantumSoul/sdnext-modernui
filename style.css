@@ -4140,7 +4140,8 @@ div#quicksettings div+button {
 #txt2img_results_generate_tabitem .generate:first-of-type,
 #img2img_results_generate_tabitem .generate:first-of-type,
 #control_results_generate_tabitem .generate:first-of-type,
-#extras_results_generate_tabitem .generate:first-of-type {
+#extras_results_generate_tabitem .generate:first-of-type,
+#video_output_generate_tabitem .generate:first-of-type {
   flex-grow: 1;
 }
 
