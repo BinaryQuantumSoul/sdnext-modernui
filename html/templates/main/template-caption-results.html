@@ -1,10 +1,40 @@
 <div class="layout">
   <div class="flexbox col" style="height: 100%;">
 
-    <div id="split-caption-output" class="split" direction="vertical" gutterSize="8">
-      <div id="split-caption-output-answer" data-parent-selector="#tab_caption" data-selector="#interrogate_output_prompt" class="portal split-container" data-initSize="25" data-minSize="50"></div>
+    <div class="layout-header">
+      <div class="flexbox row shrink panel padding no-br">
+        <div class="flexbox col shrink align-end">
+          <h2>Output</h2>
+        </div>
+      </div>
+    </div>
 
-      <div id="split-caption-output-image" data-parent-selector="#tab_caption" data-selector="#interrogate_output_image" class="portal split-container" data-initSize="75" data-minSize="100"></div>
+    <div id="split-caption-output" class="split" direction="vertical" gutterSize="8">
+      <div id="split-caption-output-answer" class="split-container" data-initSize="25" data-minSize="50">
+        <div class="layout">
+          <div class="layout-header">
+            <div class="flexbox row shrink panel padding no-br">
+              <h3>Answer</h3>
+            </div>
+          </div>
+          <div class="layout-content">
+            <div data-parent-selector="#tab_caption" data-selector="#interrogate_output_prompt" class="portal no-outline"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="split-caption-output-image" class="split-container" data-initSize="75" data-minSize="100">
+        <div class="layout">
+          <div class="layout-header">
+            <div class="flexbox row shrink panel padding no-br">
+              <h3>Output Image</h3>
+            </div>
+          </div>
+          <div class="layout-content">
+            <div data-parent-selector="#tab_caption" data-selector="#interrogate_output_image" class="portal no-outline"></div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="panel no-tr flexbox shrink col">

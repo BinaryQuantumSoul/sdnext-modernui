@@ -3856,6 +3856,19 @@ h2:hover {
   filter: brightness(1.2);
 }
 
+h3 {
+  color: var(--sd-main-accent-color);
+  font-size: 16px;
+  font-weight: 400;
+  margin: 2px 5px;
+  filter: drop-shadow(2px 2px 4px black);
+  cursor: cell;
+}
+
+h3:hover {
+  filter: brightness(1.2);
+}
+
 #about_tabitem ul {
   padding-inline-start: calc(var(--sd-panel-padding) * 4);
 }
@@ -5762,6 +5775,18 @@ div#changelog_result p {
   height: 100%;
 }
 
+/* Hide Gradio label text for Answer (use custom header instead) */
+#interrogate_output_prompt label > span {
+  display: none !important;
+}
+
+/* Hide Gradio label text for Output Image (use custom header instead) */
+#interrogate_output_image_display label > span,
+#interrogate_output_image_display [data-testid="block-label"] {
+  display: none !important;
+}
+
+/* Ensure Output Image fills space and centers properly */
 #interrogate_output_image_display {
   height: 100%;
   width: 100%;
@@ -5777,6 +5802,11 @@ div#changelog_result p {
   max-height: 100%;
   width: auto;
   height: auto;
+}
+
+/* Position download button at top-right */
+#interrogate_output_image_display .icon-buttons {
+  top: 0 !important;
 }
 
 #extras_single_tab, #extras_single_tab .gap, #extras_single_tab .gradio-row {
