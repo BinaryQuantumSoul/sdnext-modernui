@@ -5734,6 +5734,24 @@ div#changelog_result p {
   height: 100% !important;
 }
 
+/* Configure layout-content for CLIP Analysis section to enable proper flex sizing */
+#split-caption-output-clip .layout-content {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  min-height: 0 !important;
+  overflow: visible !important;
+}
+
+/* Configure portal for CLIP Analysis section to fill available space */
+#split-caption-output-clip .layout-content .portal {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+  min-height: 0 !important;
+}
+
 /* Make CLIP labels textbox scrollable */
 #interrogate_clip_labels_text {
   flex: 1 !important;
@@ -5767,12 +5785,55 @@ div#changelog_result p {
   max-height: none !important;
 }
 
+/* Configure layout-content for Output Image section to enable proper flex sizing */
+#split-caption-output-image .layout-content {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  min-height: 0 !important;
+  overflow: visible !important;
+}
+
+/* Configure portal for Output Image section to fill available space */
+#split-caption-output-image .layout-content .portal {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+  min-height: 0 !important;
+}
+
+/* Main Output Image container */
 #interrogate_output_image {
   min-height: 0;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   height: 100%;
+  width: 100%;
+}
+
+/* Configure Gradio image-container for proper sizing */
+#interrogate_output_image .image-container {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Configure nested Gradio containers */
+#interrogate_output_image .image-container .center.boundedheight.flex {
+  width: 100% !important;
+  flex: 1 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow: hidden !important;
 }
 
 /* Hide Gradio label text for Answer (use custom header instead) */
@@ -5797,11 +5858,11 @@ div#changelog_result p {
 }
 
 #interrogate_output_image_display img {
-  object-fit: contain;
-  max-width: 100%;
-  max-height: 100%;
-  width: auto;
-  height: auto;
+  object-fit: contain !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  width: auto !important;
+  height: auto !important;
 }
 
 /* Position download button at top-right */
