@@ -5187,10 +5187,10 @@ gallery-folder:hover {
 }
 
 #interrogate_output_prompt textarea {
-  height: 100% !important;
   flex: 1 !important;
   overflow-y: auto !important;
   min-height: 0 !important;
+  max-height: none !important;
 }
 
 .locale-indicator {
@@ -5709,6 +5709,7 @@ div#changelog_result p {
 }
 
 #interrogate_output_prompt {
+  flex: 1 !important;
   min-height: 0;
   overflow: hidden;
   display: flex !important;
@@ -5729,7 +5730,26 @@ div#changelog_result p {
   display: flex !important;
   flex-direction: column !important;
   flex: 1 !important;
+  min-height: 0 !important;
   height: 100% !important;
+}
+
+/* Configure layout-content for Answer section to enable proper flex sizing */
+#split-caption-output-answer .layout-content {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  min-height: 0 !important;
+  overflow: visible !important;
+}
+
+/* Configure portal for Answer section to fill available space */
+#split-caption-output-answer .layout-content .portal {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+  min-height: 0 !important;
 }
 
 /* Configure layout-content for CLIP Analysis section to enable proper flex sizing */
