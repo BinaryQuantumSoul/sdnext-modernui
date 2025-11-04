@@ -5603,3 +5603,20 @@ div#changelog_result p {
 .settings_section {
   padding: var(--sd-panel-padding) !important;
 }
+
+.gradio-uploadbutton {
+  display: block;
+  text-align: center;
+  min-width: var(--sd-input-height) !important;
+  max-width: var(--sd-input-height) !important;
+}
+
+.gradio-uploadbutton:hover {
+  background-color: var(--sd-button-selected-color) !important;
+}
+
+.controlnet-controls .styler {
+  display: flex;
+  flex-direction: row;
+  justify-self: flex-start;
+}

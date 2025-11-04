@@ -323,7 +323,7 @@ function movePortal(portalElem, tries, index, length) {
     setTimeout(() => movePortal(portalElem, tries + 1, index, length), delay);
   } else {
     error('Element not found', { index, parent: parentSelector, id: dataSelector, el: portalElem, tgt: targetElem });
-    portalElem.style.backgroundColor = 'pink';
+    portalElem.style.backgroundColor = 'var(--color-error)';
     portalTotal += 1;
   }
   if (portalTotal === length) uiFlagPortalInitialized = true;
