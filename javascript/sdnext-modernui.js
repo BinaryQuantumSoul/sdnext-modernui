@@ -208,7 +208,8 @@ async function extraTweaks() {
   };
 
   // disable logs
-  if (window.opts.ui_disabled?.includes('logs')) {
+  const ui_disabled = Array.isArray(window.opts.ui_disabled) ? window.opts.ui_disabled : [];
+  if (ui_disabled?.includes('logs')) {
     if (serverLog) serverLog.style.display = 'none';
     if (clientLog) clientLog.style.display = 'none';
   }
@@ -363,7 +364,8 @@ async function loadCurrentTemplate(data) {
   const curr_data = data.shift();
   if (curr_data) {
     const t0 = performance.now();
-    for (const disabled of window.opts.ui_disabled) {
+    const ui_disabled = Array.isArray(window.opts.ui_disabled) ? window.opts.ui_disabled : [];
+    for (const disabled of ui_disabled) {
       if (curr_data.template.includes(disabled)) {
         log('loadTemplate', curr_data.template, 'disabled');
         return loadCurrentTemplate(data);
@@ -453,7 +455,8 @@ function logStartup() {
 }
 
 async function setupLogger() {
-  if (window.opts.ui_disabled?.includes('logs')) return;
+  const ui_disabled = Array.isArray(window.opts.ui_disabled) ? window.opts.ui_disabled : [];
+  if (ui_disabled?.includes('logs')) return;
   const logMonitorJS = document.createElement('div');
   logMonitorJS.id = 'logMonitorJS';
   document.body.append(logMonitorJS);
