@@ -5620,3 +5620,7 @@ div#changelog_result p {
   flex-direction: row;
   justify-self: flex-start;
 }
+
+#control_prompts_tabitem button {
+  flex-grow: 1;
+}
