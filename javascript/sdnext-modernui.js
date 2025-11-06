@@ -187,7 +187,8 @@ async function extraTweaks() {
   const handleTabChange = (evt) => { // required to keep js detection code happy
     const tabname = evt.target.id.split('_')[0];
     for (const tab of ['txt2img', 'img2img', 'control', 'video']) {
-      document.getElementById(`tab_${tab}`).style.display = tabname === tab ? 'block' : 'none';
+      const el = document.getElementById(`tab_${tab}`);
+      if (el) el.style.display = tabname === tab ? 'block' : 'none';
     }
   };
 
@@ -197,12 +198,21 @@ async function extraTweaks() {
   videoNav.addEventListener('click', handleTabChange);
 
   // Log wrapping
+  const serverLog = document.getElementById('logMonitorData');
   document.getElementById('btn_console_log_server_wrap').onclick = () => {
-    document.getElementById('logMonitorData').style.whiteSpace = document.getElementById('logMonitorData').style.whiteSpace === 'nowrap' ? 'break-spaces' : 'nowrap';
+    if (serverLog) serverLog.style.whiteSpace = serverLog.style.whiteSpace === 'nowrap' ? 'break-spaces' : 'nowrap';
   };
+  const clientLog = document.getElementById('logMonitorJS');
   document.getElementById('btn_console_log_client_wrap').onclick = () => {
-    document.getElementById('logMonitorJS')?.classList.toggle('wrap-div');
+    if (clientLog) clientLog.classList.toggle('wrap-div');
   };
+
+  // disable logs
+  const ui_disabled = Array.isArray(window.opts.ui_disabled) ? window.opts.ui_disabled : [];
+  if (ui_disabled?.includes('logs')) {
+    if (serverLog) serverLog.style.display = 'none';
+    if (clientLog) clientLog.style.display = 'none';
+  }
 
   // disable spellchecks
   document.querySelectorAll('input[type="text"], textarea').forEach((elem) => { elem.setAttribute('spellcheck', 'false'); });
@@ -283,6 +293,7 @@ function movePortal(portalElem, tries, index, length) {
   const MAX_TRIES = 3;
   const parentSelector = portalElem.getAttribute('data-parent-selector');
   const dataSelector = portalElem.getAttribute('data-selector');
+  const dataOptional = portalElem.getAttribute('data-optional');
   const targetElem = document.querySelector(`${parentSelector} ${dataSelector}`);
   // const allElements = document.querySelectorAll(`${parentSelector} ${dataSelector}`);
   // if (allElements.length > 1) error(`Multiple elements num=${allElements.length} selector=${parentSelector} ${dataSelector}`, allElements);
@@ -304,6 +315,8 @@ function movePortal(portalElem, tries, index, length) {
     }
     const showButton = portalElem.getAttribute('show-button');
     if (showButton) document.querySelector(showButton)?.classList.remove('hidden');
+  } else if (dataOptional === 'true') {
+    portalTotal += 1;
   } else if (tries < MAX_TRIES) {
     log('retryPortal', portalElem, tries);
     const timeout = portalElem.getAttribute('data-timeout');
@@ -311,7 +324,7 @@ function movePortal(portalElem, tries, index, length) {
     setTimeout(() => movePortal(portalElem, tries + 1, index, length), delay);
   } else {
     error('Element not found', { index, parent: parentSelector, id: dataSelector, el: portalElem, tgt: targetElem });
-    portalElem.style.backgroundColor = 'pink';
+    portalElem.style.backgroundColor = 'var(--color-error)';
     portalTotal += 1;
   }
   if (portalTotal === length) uiFlagPortalInitialized = true;
@@ -351,6 +364,13 @@ async function loadCurrentTemplate(data) {
   const curr_data = data.shift();
   if (curr_data) {
     const t0 = performance.now();
+    const ui_disabled = Array.isArray(window.opts.ui_disabled) ? window.opts.ui_disabled : [];
+    for (const disabled of ui_disabled) {
+      if (curr_data.template.includes(disabled)) {
+        log('loadTemplate', curr_data.template, 'disabled');
+        return loadCurrentTemplate(data);
+      }
+    }
     log('loadTemplate', curr_data.template);
     const uri = `${window.subpath}${htmlPath}/templates/${curr_data.template}.html?${Date.now()}`;
     const response = await fetch(uri, { cache: 'reload' });
@@ -435,6 +455,8 @@ function logStartup() {
 }
 
 async function setupLogger() {
+  const ui_disabled = Array.isArray(window.opts.ui_disabled) ? window.opts.ui_disabled : [];
+  if (ui_disabled?.includes('logs')) return;
   const logMonitorJS = document.createElement('div');
   logMonitorJS.id = 'logMonitorJS';
   document.body.append(logMonitorJS);
