@@ -4706,6 +4706,7 @@ button>span {
   flex-grow: 1;
   justify-content: flex-start;
   min-width: var(--sd-panel-min-width);
+  width: 100%;
 }
 
 #control-columns .panel.no-tr,
@@ -4729,11 +4730,6 @@ button>span {
 #control-columns.flex-force-column,
 #video-columns.flex-force-column {
   flex-direction: column;
-}
-
-#control-columns.flex-force-column .panel.no-tr,
-#video-columns.flex-force-column .panel.no-tr {
-  aspect-ratio: 1.0;
 }
 
 div#control_params_control_tabitem .control-settings .gradio-accordion .form,
@@ -5623,4 +5619,9 @@ div#changelog_result p {
 
 #control_prompts_tabitem button {
   flex-grow: 1;
+}
+
+#control-tab-input-parent {
+  width: 100%;
+  height:100%;
 }
