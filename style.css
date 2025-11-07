@@ -5625,3 +5625,8 @@ div#changelog_result p {
   width: 100%;
   height:100%;
 }
+
+.minimize {
+  max-height: 3em;
+  opacity: 0.75;
+}
