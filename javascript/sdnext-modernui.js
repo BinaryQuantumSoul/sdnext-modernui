@@ -144,6 +144,22 @@ async function applyAutoHide() {
       hideSiblings(evt.target?.nextElementSibling);
     };
   });
+
+  // autohide control panels
+  const minimizeToggle = (el, evt) => {
+    const sibling = evt.target.nextElementSibling;
+    if ((evt.target.nodeName !== 'DIV') || (evt.target.dataset.testid === 'image') || (sibling?.nodeName === 'INPUT')) return;
+    console.log('applyAutoHide', { element: el, event: evt.target });
+    el.classList.toggle('minimize');
+  };
+  const headerControlInput = document.querySelector('#control-template-column-input');
+  const headerControlInit = document.querySelector('#control-template-column-init');
+  const headerControlOutput = document.querySelector('#control-template-column-output');
+  const headerControlPreview = document.querySelector('#control-template-column-preview');
+  if (headerControlInput) headerControlInput.addEventListener('click', (evt) => minimizeToggle(headerControlInput, evt));
+  if (headerControlInit) headerControlInit.addEventListener('click', (evt) => minimizeToggle(headerControlInit, evt));
+  if (headerControlOutput) headerControlOutput.addEventListener('click', (evt) => minimizeToggle(headerControlOutput, evt));
+  if (headerControlPreview) headerControlPreview.addEventListener('click', (evt) => minimizeToggle(headerControlPreview, evt));
 }
 
 async function extraTweaks() {
@@ -216,20 +232,6 @@ async function extraTweaks() {
 
   // disable spellchecks
   document.querySelectorAll('input[type="text"], textarea').forEach((elem) => { elem.setAttribute('spellcheck', 'false'); });
-
-  // autohide control panels
-  const minimizeToggle = (el, evt) => {
-    if (evt.target.nodeName !== 'DIV') return;
-    el.classList.toggle('minimize');
-  };
-  const headerControlInput = document.querySelector('#control-template-column-input');
-  const headerControlInit = document.querySelector('#control-template-column-init');
-  const headerControlOutput = document.querySelector('#control-template-column-output');
-  const headerControlPreview = document.querySelector('#control-template-column-preview');
-  if (headerControlInput) headerControlInput.addEventListener('click', (evt) => minimizeToggle(headerControlInput, evt));
-  if (headerControlInit) headerControlInit.addEventListener('click', (evt) => minimizeToggle(headerControlInit, evt));
-  if (headerControlOutput) headerControlOutput.addEventListener('click', (evt) => minimizeToggle(headerControlOutput, evt));
-  if (headerControlPreview) headerControlPreview.addEventListener('click', (evt) => minimizeToggle(headerControlPreview, evt));
 }
 extraTweaks = logFn(extraTweaks); // eslint-disable-line no-func-assign
 
