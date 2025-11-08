@@ -148,7 +148,7 @@ async function applyAutoHide() {
   // autohide control panels
   const minimizeToggle = (el, evt) => {
     const sibling = evt.target.nextElementSibling;
-    if ((evt.target.nodeName !== 'DIV') || (evt.target.dataset.testid === 'image') || (evt.target.classList.contains('portal')) || (sibling?.nodeName === 'INPUT')) return;
+    if ((evt.target.nodeName !== 'DIV') || (evt.target.dataset.testid === 'image') || (sibling?.nodeName === 'INPUT') || (evt.target.classList.contains('portal')) || (evt.target.classList.contains('kanvas-toolbar'))) return;
     console.log('applyAutoHide', { element: el, event: evt.target });
     el.classList.toggle('minimize');
   };
