@@ -148,7 +148,7 @@ async function applyAutoHide() {
   // autohide control panels
   const minimizeToggle = (el, evt) => {
     const sibling = evt.target.nextElementSibling;
-    if ((evt.target.nodeName !== 'DIV') || (evt.target.dataset.testid === 'image') || (sibling?.nodeName === 'INPUT')) return;
+    if ((evt.target.nodeName !== 'DIV') || (evt.target.dataset.testid === 'image') || (evt.target.classList.contains('portal')) || (sibling?.nodeName === 'INPUT')) return;
     console.log('applyAutoHide', { element: el, event: evt.target });
     el.classList.toggle('minimize');
   };
@@ -156,10 +156,14 @@ async function applyAutoHide() {
   const headerControlInit = document.querySelector('#control-template-column-init');
   const headerControlOutput = document.querySelector('#control-template-column-output');
   const headerControlPreview = document.querySelector('#control-template-column-preview');
+  const headerImg2imgInput = document.querySelector('#img2img-template-column-input');
+  const headerImg2imgOutput = document.querySelector('#img2img-template-column-output');
   if (headerControlInput) headerControlInput.addEventListener('click', (evt) => minimizeToggle(headerControlInput, evt));
   if (headerControlInit) headerControlInit.addEventListener('click', (evt) => minimizeToggle(headerControlInit, evt));
   if (headerControlOutput) headerControlOutput.addEventListener('click', (evt) => minimizeToggle(headerControlOutput, evt));
   if (headerControlPreview) headerControlPreview.addEventListener('click', (evt) => minimizeToggle(headerControlPreview, evt));
+  if (headerImg2imgInput) headerImg2imgInput.addEventListener('click', (evt) => minimizeToggle(headerImg2imgInput, evt));
+  if (headerImg2imgOutput) headerImg2imgOutput.addEventListener('click', (evt) => minimizeToggle(headerImg2imgOutput, evt));
 }
 
 async function extraTweaks() {
