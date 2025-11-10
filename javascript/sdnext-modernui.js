@@ -152,12 +152,12 @@ async function applyAutoHide() {
     console.log('applyAutoHide', { element: el, event: evt.target });
     el.classList.toggle('minimize');
   };
-  const headerControlInput = document.querySelector('#control-template-column-input');
-  const headerControlInit = document.querySelector('#control-template-column-init');
-  const headerControlOutput = document.querySelector('#control-template-column-output');
-  const headerControlPreview = document.querySelector('#control-template-column-preview');
-  const headerImg2imgInput = document.querySelector('#img2img-template-column-input');
-  const headerImg2imgOutput = document.querySelector('#img2img-template-column-output');
+  const headerControlInput = document.querySelector('#control-template-column-input>div');
+  const headerControlInit = document.querySelector('#control-template-column-init>div');
+  const headerControlOutput = document.querySelector('#control-template-column-output>div');
+  const headerControlPreview = document.querySelector('#control-template-column-preview>div');
+  const headerImg2imgInput = document.querySelector('#img2img-template-column-input>div');
+  const headerImg2imgOutput = document.querySelector('#img2img-template-column-output>div');
   if (headerControlInput) headerControlInput.addEventListener('click', (evt) => minimizeToggle(headerControlInput, evt));
   if (headerControlInit) headerControlInit.addEventListener('click', (evt) => minimizeToggle(headerControlInit, evt));
   if (headerControlOutput) headerControlOutput.addEventListener('click', (evt) => minimizeToggle(headerControlOutput, evt));
