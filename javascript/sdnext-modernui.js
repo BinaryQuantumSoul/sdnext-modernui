@@ -391,7 +391,7 @@ async function loadCurrentTemplate(data) {
         return loadCurrentTemplate(data);
       }
     }
-    log('loadTemplate', curr_data.template);
+    // log('loadTemplate', curr_data.template);
     const uri = `${window.subpath}${htmlPath}/templates/${curr_data.template}.html?${Date.now()}`;
     const response = await fetch(uri, { cache: 'reload' });
     // const response = await fetch(uri);
