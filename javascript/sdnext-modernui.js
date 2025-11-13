@@ -149,8 +149,7 @@ async function applyAutoHide() {
     const sibling = evt.target.nextElementSibling;
     if ((evt.target.nodeName !== 'DIV') || (evt.target.dataset.testid === 'image') || (sibling?.nodeName === 'INPUT') || (evt.target.classList.contains('portal')) || (evt.target.classList.contains('kanvas')) || (evt.target.classList.contains('kanvas-toolbar'))) return;
     // console.log('applyAutoHide', { element: el, event: evt.target });
-    // const nextEl = el.nextElementSibling;
-    // if (nextEl) nextEl.classList.toggle('minimize');
+    // if (sibling) sibling.classList.toggle('minimize');
     el.classList.toggle('minimize');
   };
   const headerControlInput = document.querySelector('#control-template-column-input');
