@@ -139,7 +139,6 @@ async function applyAutoHide() {
   appUiUx.querySelectorAll('h2').forEach((elem) => elem.classList.add('auto-hide'));
   appUiUx.querySelectorAll('.auto-hide').forEach((elem) => {
     elem.onclick = (evt) => {
-      // log('applyAutoHide', evt.target);
       for (const child of evt.target.children) child.classList.toggle('hidden-animate');
       hideSiblings(evt.target?.nextElementSibling);
     };
@@ -148,16 +147,18 @@ async function applyAutoHide() {
   // autohide control panels
   const minimizeToggle = (el, evt) => {
     const sibling = evt.target.nextElementSibling;
-    if ((evt.target.nodeName !== 'DIV') || (evt.target.dataset.testid === 'image') || (sibling?.nodeName === 'INPUT') || (evt.target.classList.contains('portal')) || (evt.target.classList.contains('kanvas-toolbar'))) return;
-    console.log('applyAutoHide', { element: el, event: evt.target });
+    if ((evt.target.nodeName !== 'DIV') || (evt.target.dataset.testid === 'image') || (sibling?.nodeName === 'INPUT') || (evt.target.classList.contains('portal')) || (evt.target.classList.contains('kanvas')) || (evt.target.classList.contains('kanvas-toolbar'))) return;
+    // console.log('applyAutoHide', { element: el, event: evt.target });
+    // const nextEl = el.nextElementSibling;
+    // if (nextEl) nextEl.classList.toggle('minimize');
     el.classList.toggle('minimize');
   };
-  const headerControlInput = document.querySelector('#control-template-column-input>div');
-  const headerControlInit = document.querySelector('#control-template-column-init>div');
-  const headerControlOutput = document.querySelector('#control-template-column-output>div');
-  const headerControlPreview = document.querySelector('#control-template-column-preview>div');
-  const headerImg2imgInput = document.querySelector('#img2img-template-column-input>div');
-  const headerImg2imgOutput = document.querySelector('#img2img-template-column-output>div');
+  const headerControlInput = document.querySelector('#control-template-column-input');
+  const headerControlInit = document.querySelector('#control-template-column-init');
+  const headerControlOutput = document.querySelector('#control-template-column-output');
+  const headerControlPreview = document.querySelector('#control-template-column-preview');
+  const headerImg2imgInput = document.querySelector('#img2img-template-column-input');
+  const headerImg2imgOutput = document.querySelector('#img2img-template-column-output');
   if (headerControlInput) headerControlInput.addEventListener('click', (evt) => minimizeToggle(headerControlInput, evt));
   if (headerControlInit) headerControlInit.addEventListener('click', (evt) => minimizeToggle(headerControlInit, evt));
   if (headerControlOutput) headerControlOutput.addEventListener('click', (evt) => minimizeToggle(headerControlOutput, evt));
