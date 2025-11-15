@@ -144,7 +144,6 @@ hr {
   align-items: stretch;
   display: flex;
   flex: 1 1 0%;
-  flex-grow: 1;
   flex-wrap: wrap;
   gap: 5px;
   justify-content: flex-start;
@@ -5628,4 +5627,5 @@ div#changelog_result p {
 
 .minimize {
   max-height: 3em;
+  overflow: hidden;
 }
