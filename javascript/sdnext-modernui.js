@@ -469,9 +469,6 @@ function logStartup() {
   const uiOpts = {};
   for (const [key, value] of filteredOpts) uiOpts[key] = value;
   log('settings', uiOpts);
-  if (navigator.userAgent.toLowerCase().includes('firefox')) {
-    log('UI: Go to the Firefox about:config page, then search and toggle layout. css.has-selector. enabled');
-  }
 }
 
 async function setupLogger() {
