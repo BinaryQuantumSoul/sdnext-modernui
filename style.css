@@ -2068,6 +2068,7 @@ h1 {
 
 *.extra-network-cards .card:hover {
   cursor: pointer;
+  z-index: 50;
 }
 
 *.extra-network-cards .card .button-row {
