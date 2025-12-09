@@ -5908,6 +5908,53 @@ div#changelog_result p {
   top: 0 !important;
 }
 
+/* Caption mobile navigation - visible at top on mobile */
+#caption-mobile-nav {
+  display: flex;
+  gap: 0;
+  padding: var(--sd-panel-padding);
+  flex-shrink: 0 !important;
+  align-items: stretch;
+  background-color: var(--sd-panel-background-color);
+}
+
+/* Hide on desktop */
+.media-desktop #caption-mobile-nav {
+  display: none !important;
+}
+
+#caption-mobile-nav .xtabs-tab {
+  flex: 1;
+  justify-content: flex-start;
+  padding: var(--sd-gap-size);
+}
+
+#caption-mobile-nav .xtabs-tab span {
+  display: inline !important;
+}
+
+/* Tab content container */
+#caption-tab-content {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* Caption tab content groups */
+#caption_controls_tabitem_group,
+#caption_input_tabitem_group,
+#caption_output_tabitem_group {
+  flex: 1;
+  min-height: 0;
+}
+
+/* Fix layout-caption to fill available space */
+#layout-caption {
+  flex: 1;
+  min-height: 0;
+}
+
 #extras_single_tab, #extras_single_tab .gap, #extras_single_tab .gradio-row {
   padding: 0 !important;
 }
