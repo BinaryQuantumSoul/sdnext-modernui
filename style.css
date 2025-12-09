@@ -5923,6 +5923,13 @@ div#changelog_result p {
   display: none !important;
 }
 
+/* Hide pane headers on mobile - tab buttons already indicate which pane */
+.media-mobile #layout-caption > .layout-header,
+.media-mobile #layout-caption-image > .layout-header,
+.media-mobile #split-caption-right > .layout > .flexbox.col > .layout-header:first-child {
+  display: none !important;
+}
+
 #caption-mobile-nav .xtabs-tab {
   flex: 1;
   justify-content: flex-start;
