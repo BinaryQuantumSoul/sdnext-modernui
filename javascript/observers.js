@@ -17,6 +17,7 @@ async function setupControlDynamicObservers() {
       });
     }
 
+    if (!dynamic) return;
     dynamic.addEventListener('click', () => {
       setStored(storedKey, dynamic.checked);
       toggleDynamicElements(dynamic, elems);

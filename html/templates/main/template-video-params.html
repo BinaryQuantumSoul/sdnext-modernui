@@ -28,7 +28,12 @@
         </button>
         <button title="Video Output" tabItemId=".video_outputs_tabitem" tabGroup="video" id="video_params_outputs" class="xtabs-tab shrink">
           <div class="mask-icon icon-folder-grid"></div>
-          <span>Video Output</span>
+          <span>Video Params</span>
+        </button>
+        <div class="only-mobile break"></div>
+        <button title="Output" tabItemId=".video_output_tabitem" tabGroup="video" id="video_params_output" class="xtabs-tab only-mobile">
+          <div class="mask-icon icon-results"></div>
+          <span>Output</span>
         </button>
       </div>
     </div>
@@ -149,7 +154,24 @@
           </div>
         </div>
 
+        <div class="layout-content">
+          <div id="video_output_mobile_tabitem_group" class="outline-params">
+            <div id="video_output_mobile_tabitem" class="flexbox col video_output_tabitem only-mobile">
+              <div class="flexbox col">
+                <h2>Output</h2>
+                <div id="video_output_mobile_tabitem" mobile="#video-output-column" class="xtabs-item"></div>
+                <div id="video_output_mobile_tabitem" mobile="#framepack-output-column" class="xtabs-item"></div>
+                <div id="video_output_mobile_tabitem" mobile="#ltx-output-column" class="xtabs-item"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
+    </div>
+
+    <div id="video_output_generate_tabitem_group" class="flexbox col panel no-grow only-mobile">
+      <div id="video_output_generate_tabitem" mobile="#video_generate_group" class="xtabs-item"></div>
     </div>
 
   </div>

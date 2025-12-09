@@ -139,11 +139,31 @@ async function applyAutoHide() {
   appUiUx.querySelectorAll('h2').forEach((elem) => elem.classList.add('auto-hide'));
   appUiUx.querySelectorAll('.auto-hide').forEach((elem) => {
     elem.onclick = (evt) => {
-      log('applyAutoHide', evt.target);
       for (const child of evt.target.children) child.classList.toggle('hidden-animate');
       hideSiblings(evt.target?.nextElementSibling);
     };
   });
+
+  // autohide control panels
+  const minimizeToggle = (el, evt) => {
+    const sibling = evt.target.nextElementSibling;
+    if ((evt.target.nodeName !== 'DIV') || (evt.target.dataset.testid === 'image') || (sibling?.nodeName === 'INPUT') || (evt.target.classList.contains('portal')) || (evt.target.classList.contains('kanvas')) || (evt.target.classList.contains('kanvas-toolbar'))) return;
+    // console.log('applyAutoHide', { element: el, event: evt.target });
+    // if (sibling) sibling.classList.toggle('minimize');
+    el.classList.toggle('minimize');
+  };
+  const headerControlInput = document.querySelector('#control-template-column-input');
+  const headerControlInit = document.querySelector('#control-template-column-init');
+  const headerControlOutput = document.querySelector('#control-template-column-output');
+  const headerControlPreview = document.querySelector('#control-template-column-preview');
+  const headerImg2imgInput = document.querySelector('#img2img-template-column-input');
+  const headerImg2imgOutput = document.querySelector('#img2img-template-column-output');
+  if (headerControlInput) headerControlInput.addEventListener('click', (evt) => minimizeToggle(headerControlInput, evt));
+  if (headerControlInit) headerControlInit.addEventListener('click', (evt) => minimizeToggle(headerControlInit, evt));
+  if (headerControlOutput) headerControlOutput.addEventListener('click', (evt) => minimizeToggle(headerControlOutput, evt));
+  if (headerControlPreview) headerControlPreview.addEventListener('click', (evt) => minimizeToggle(headerControlPreview, evt));
+  if (headerImg2imgInput) headerImg2imgInput.addEventListener('click', (evt) => minimizeToggle(headerImg2imgInput, evt));
+  if (headerImg2imgOutput) headerImg2imgOutput.addEventListener('click', (evt) => minimizeToggle(headerImg2imgOutput, evt));
 }
 
 async function extraTweaks() {
@@ -187,7 +207,8 @@ async function extraTweaks() {
   const handleTabChange = (evt) => { // required to keep js detection code happy
     const tabname = evt.target.id.split('_')[0];
     for (const tab of ['txt2img', 'img2img', 'control', 'video']) {
-      document.getElementById(`tab_${tab}`).style.display = tabname === tab ? 'block' : 'none';
+      const el = document.getElementById(`tab_${tab}`);
+      if (el) el.style.display = tabname === tab ? 'block' : 'none';
     }
   };
 
@@ -197,12 +218,21 @@ async function extraTweaks() {
   videoNav.addEventListener('click', handleTabChange);
 
   // Log wrapping
+  const serverLog = document.getElementById('logMonitorData');
   document.getElementById('btn_console_log_server_wrap').onclick = () => {
-    document.getElementById('logMonitorData').style.whiteSpace = document.getElementById('logMonitorData').style.whiteSpace === 'nowrap' ? 'break-spaces' : 'nowrap';
+    if (serverLog) serverLog.style.whiteSpace = serverLog.style.whiteSpace === 'nowrap' ? 'break-spaces' : 'nowrap';
   };
+  const clientLog = document.getElementById('logMonitorJS');
   document.getElementById('btn_console_log_client_wrap').onclick = () => {
-    document.getElementById('logMonitorJS')?.classList.toggle('wrap-div');
+    if (clientLog) clientLog.classList.toggle('wrap-div');
   };
+
+  // disable logs
+  const ui_disabled = Array.isArray(window.opts.ui_disabled) ? window.opts.ui_disabled : [];
+  if (ui_disabled?.includes('logs')) {
+    if (serverLog) serverLog.style.display = 'none';
+    if (clientLog) clientLog.style.display = 'none';
+  }
 
   // disable spellchecks
   document.querySelectorAll('input[type="text"], textarea').forEach((elem) => { elem.setAttribute('spellcheck', 'false'); });
@@ -283,6 +313,7 @@ function movePortal(portalElem, tries, index, length) {
   const MAX_TRIES = 3;
   const parentSelector = portalElem.getAttribute('data-parent-selector');
   const dataSelector = portalElem.getAttribute('data-selector');
+  const dataOptional = portalElem.getAttribute('data-optional');
   const targetElem = document.querySelector(`${parentSelector} ${dataSelector}`);
   // const allElements = document.querySelectorAll(`${parentSelector} ${dataSelector}`);
   // if (allElements.length > 1) error(`Multiple elements num=${allElements.length} selector=${parentSelector} ${dataSelector}`, allElements);
@@ -304,6 +335,8 @@ function movePortal(portalElem, tries, index, length) {
     }
     const showButton = portalElem.getAttribute('show-button');
     if (showButton) document.querySelector(showButton)?.classList.remove('hidden');
+  } else if (dataOptional === 'true') {
+    portalTotal += 1;
   } else if (tries < MAX_TRIES) {
     log('retryPortal', portalElem, tries);
     const timeout = portalElem.getAttribute('data-timeout');
@@ -311,7 +344,7 @@ function movePortal(portalElem, tries, index, length) {
     setTimeout(() => movePortal(portalElem, tries + 1, index, length), delay);
   } else {
     error('Element not found', { index, parent: parentSelector, id: dataSelector, el: portalElem, tgt: targetElem });
-    portalElem.style.backgroundColor = 'pink';
+    portalElem.style.backgroundColor = 'var(--color-error)';
     portalTotal += 1;
   }
   if (portalTotal === length) uiFlagPortalInitialized = true;
@@ -351,7 +384,14 @@ async function loadCurrentTemplate(data) {
   const curr_data = data.shift();
   if (curr_data) {
     const t0 = performance.now();
-    log('loadTemplate', curr_data.template);
+    const ui_disabled = Array.isArray(window.opts.ui_disabled) ? window.opts.ui_disabled : [];
+    for (const disabled of ui_disabled) {
+      if (curr_data.template.includes(disabled)) {
+        log('loadTemplate', curr_data.template, 'disabled');
+        return loadCurrentTemplate(data);
+      }
+    }
+    // log('loadTemplate', curr_data.template);
     const uri = `${window.subpath}${htmlPath}/templates/${curr_data.template}.html?${Date.now()}`;
     const response = await fetch(uri, { cache: 'reload' });
     // const response = await fetch(uri);
@@ -429,12 +469,11 @@ function logStartup() {
   const uiOpts = {};
   for (const [key, value] of filteredOpts) uiOpts[key] = value;
   log('settings', uiOpts);
-  if (navigator.userAgent.toLowerCase().includes('firefox')) {
-    log('UI: Go to the Firefox about:config page, then search and toggle layout. css.has-selector. enabled');
-  }
 }
 
 async function setupLogger() {
+  const ui_disabled = Array.isArray(window.opts.ui_disabled) ? window.opts.ui_disabled : [];
+  if (ui_disabled?.includes('logs')) return;
   const logMonitorJS = document.createElement('div');
   logMonitorJS.id = 'logMonitorJS';
   document.body.append(logMonitorJS);
@@ -448,12 +487,12 @@ async function mainUiUx() {
   createButtonsForExtensions();
   setupAnimationEventListeners();
   initSplitComponents();
-  initAccordionComponents();
   await loadAllPortals();
   initTabComponents();
   initButtonComponents();
   setupToolButtons();
   setupDropdowns();
+  initAccordionComponents();
   const t0 = performance.now();
   await waitForUiPortal();
   const t1 = performance.now();

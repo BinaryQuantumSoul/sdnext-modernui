@@ -144,7 +144,6 @@ hr {
   align-items: stretch;
   display: flex;
   flex: 1 1 0%;
-  flex-grow: 1;
   flex-wrap: wrap;
   gap: 5px;
   justify-content: flex-start;
@@ -1083,7 +1082,7 @@ ul.options {
   margin-top: calc(var(--sd-border-size) * -1) !important;
   max-width: 50vh;
   min-width: fit-content;
-  max-height: 500px !important;
+  max-height: 30vh !important;
   outline: var(--sd-border-size) solid var(--sd-input-border-color);
   overflow: auto;
   overflow-x: hidden;
@@ -2070,6 +2069,7 @@ h1 {
 
 *.extra-network-cards .card:hover {
   cursor: pointer;
+  z-index: 50;
 }
 
 *.extra-network-cards .card .button-row {
@@ -3974,7 +3974,7 @@ div#quicksettings div+button {
   background-color: rgba(20, 20, 20, 0.75);
   display: none;
   flex-direction: row;
-  font-family: inherit;
+  font-family: var(--sd-button-font);
   height: 100%;
   left: 0;
   overflow: auto;
@@ -4154,7 +4154,8 @@ div#quicksettings div+button {
 #txt2img_results_generate_tabitem .generate:first-of-type,
 #img2img_results_generate_tabitem .generate:first-of-type,
 #control_results_generate_tabitem .generate:first-of-type,
-#extras_results_generate_tabitem .generate:first-of-type {
+#extras_results_generate_tabitem .generate:first-of-type,
+#video_output_generate_tabitem .generate:first-of-type {
   flex-grow: 1;
 }
 
@@ -4719,6 +4720,7 @@ button>span {
   flex-grow: 1;
   justify-content: flex-start;
   min-width: var(--sd-panel-min-width);
+  width: 100%;
 }
 
 #control-columns .panel.no-tr,
@@ -4742,11 +4744,6 @@ button>span {
 #control-columns.flex-force-column,
 #video-columns.flex-force-column {
   flex-direction: column;
-}
-
-#control-columns.flex-force-column .panel.no-tr,
-#video-columns.flex-force-column .panel.no-tr {
-  aspect-ratio: 1.0;
 }
 
 div#control_params_control_tabitem .control-settings .gradio-accordion .form,
@@ -5892,4 +5889,35 @@ div#changelog_result p {
 
 .settings_section {
   padding: var(--sd-panel-padding) !important;
+}
+
+.gradio-uploadbutton {
+  display: block;
+  text-align: center;
+  min-width: var(--sd-input-height) !important;
+  max-width: var(--sd-input-height) !important;
+}
+
+.gradio-uploadbutton:hover {
+  background-color: var(--sd-button-selected-color) !important;
+}
+
+.controlnet-controls .styler {
+  display: flex;
+  flex-direction: row;
+  justify-self: flex-start;
+}
+
+#control_prompts_tabitem button {
+  flex-grow: 1;
+}
+
+#control-tab-input-parent {
+  width: 100%;
+  height:100%;
+}
+
+.minimize {
+  max-height: 3em;
+  overflow: hidden;
 }
