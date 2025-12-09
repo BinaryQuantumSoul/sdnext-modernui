@@ -5697,12 +5697,37 @@ div#changelog_result p {
   overflow: hidden;
 }
 
+/* Caption output conditional panel container */
+#split-caption-output-conditional {
+  display: flex;
+  flex-direction: column;
+}
+
+#split-caption-output-conditional > .xtabs-anchor {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Anchor panels - hidden by default, shown by JS when tab selected */
+#split-caption-output-clip,
+#split-caption-output-image {
+  display: none;
+  height: 100%;
+  flex-direction: column;
+}
+
+#split-caption-output-clip > .layout,
+#split-caption-output-image > .layout {
+  height: 100%;
+}
+
+/* Common styles for all output panels */
 #split-caption-output-answer,
+#split-caption-output-clip,
 #split-caption-output-image {
   min-height: 0;
   overflow: hidden;
-  display: flex;
-  flex-direction: column;
 }
 
 #interrogate_output_prompt {
