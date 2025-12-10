@@ -1,12 +1,56 @@
-<div id="layout-caption" class="layout">
-  <div class="layout-header">
-    <div class="flexbox row shrink panel padding no-br">
-      <div class="flexbox col shrink align-end">
-        <h2>Caption</h2>
+<div class="full-height flexbox col">
+  <!-- Mobile navigation panel - at TOP, visible on mobile only -->
+  <div id="caption-mobile-nav" class="flexbox row shrink no-grow">
+    <button title="Controls" tabItemId="#caption_controls_tabitem" tabGroup="caption_mobile" id="caption_tab_controls" active="true" class="xtabs-tab">
+      <div class="mask-icon icon-folder-gear"></div>
+      <span>Controls</span>
+    </button>
+    <button title="Input" tabItemId="#caption_input_tabitem" tabGroup="caption_mobile" id="caption_tab_image" class="xtabs-tab">
+      <div class="mask-icon icon-lora"></div>
+      <span>Input</span>
+    </button>
+    <button title="Output" tabItemId="#caption_output_tabitem" tabGroup="caption_mobile" id="caption_tab_output" class="xtabs-tab">
+      <div class="mask-icon icon-results"></div>
+      <span>Output</span>
+    </button>
+  </div>
+
+  <!-- Tab content container -->
+  <div id="caption-tab-content" class="flexbox col flex-1">
+    <!-- Controls tab content -->
+    <div id="caption_controls_tabitem_group" class="flexbox col">
+      <div id="caption_controls_tabitem" class="xtabs-item">
+        <div id="layout-caption" class="layout">
+          <div class="layout-header">
+            <div class="flexbox row shrink panel padding no-br">
+              <div class="flexbox col shrink align-end">
+                <h2>Caption Controls</h2>
+              </div>
+              <div class="flexbox row flex-end group-row generate-icons">
+                <button title="Caption" class="sd-button generate">
+                  <div data-selector="#btn_vlm_caption" data-parent-selector="#tab_caption" droppable="true" class="portal no-bg shrink invisible btn-generate">
+                    <div class="mask-icon icon-caption"></div>
+                    <span>Caption</span>
+                  </div>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="layout-content">
+            <div data-parent-selector="#tab_caption" data-selector="#mode_caption" class="portal"></div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="layout-content">
-    <div data-parent-selector="#tab_caption" data-selector="#interrogate_input" class="portal"></div>
+
+    <!-- Mobile Input placeholder -->
+    <div id="caption_input_tabitem_group" class="flexbox col only-mobile">
+      <div id="caption_input_tabitem" mobile="#layout-caption-image" class="xtabs-item"></div>
+    </div>
+
+    <!-- Mobile Output placeholder -->
+    <div id="caption_output_tabitem_group" class="flexbox col only-mobile">
+      <div id="caption_output_tabitem" mobile="#split-caption-right" class="xtabs-item"></div>
+    </div>
   </div>
 </div>
