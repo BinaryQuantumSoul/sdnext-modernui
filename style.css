@@ -5233,10 +5233,14 @@ gallery-folder:hover {
   min-height: 17rem;
 }
 
-#vlm_system>textarea,
-#vlm_prompt>textarea,
-#interrogate_output_prompt>textarea {
+#vlm_system textarea,
+#vlm_prompt textarea,
+#interrogate_output_prompt textarea {
   resize: vertical !important;
+}
+
+#vlm_system textarea {
+  height: 5rem;
 }
 
 #txt2img_generate,
