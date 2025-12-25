@@ -146,11 +146,9 @@ async function applyAutoHide() {
 
   // autohide control panels
   const minimizeToggle = (el, evt) => {
-    const sibling = evt.target.nextElementSibling;
-    if ((evt.target.nodeName !== 'DIV') || (evt.target.dataset.testid === 'image') || (sibling?.nodeName === 'INPUT') || (evt.target.classList.contains('portal')) || (evt.target.classList.contains('kanvas')) || (evt.target.classList.contains('kanvas-toolbar'))) return;
-    // console.log('applyAutoHide', { element: el, event: evt.target });
-    // if (sibling) sibling.classList.toggle('minimize');
-    el.classList.toggle('minimize');
+    if (evt.target === el || evt.target === el.firstElementChild) { // Only want to trigger from the inner "header" element
+      el.classList.toggle('minimize');
+    }
   };
   const headerControlInput = document.querySelector('#control-template-column-input');
   const headerControlInit = document.querySelector('#control-template-column-init');
