@@ -146,7 +146,7 @@ async function applyAutoHide() {
 
   // autohide control panels
   const minimizeToggle = (el, evt) => {
-    if (evt.target === el || evt.target === el.firstElementChild) { // Only want to trigger from the inner "header" element
+    if (evt.target === el.firstElementChild) { // Only want to trigger from the inner "header" element
       el.classList.toggle('minimize');
     }
   };
