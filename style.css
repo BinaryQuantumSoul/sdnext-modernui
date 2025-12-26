@@ -144,7 +144,6 @@ hr {
   align-items: stretch;
   display: flex;
   flex: 1 1 0%;
-  flex-grow: 1;
   flex-wrap: wrap;
   gap: 5px;
   justify-content: flex-start;
@@ -1024,6 +1023,7 @@ button:hover .mask-icon {
   color: var(--sd-input-secondary-text-color);
   flex-grow: 1;
   line-height: calc(var(--sd-input-icon-height) - 10px);
+  font-family: 'NotoSans', var(--font);
   min-height: unset;
   min-height: calc(var(--sd-input-height) - (var(--sd-input-border-size) * 2));
 }
@@ -1082,7 +1082,7 @@ ul.options {
   margin-top: calc(var(--sd-border-size) * -1) !important;
   max-width: 50vh;
   min-width: fit-content;
-  max-height: 500px !important;
+  max-height: 30vh !important;
   outline: var(--sd-border-size) solid var(--sd-input-border-color);
   overflow: auto;
   overflow-x: hidden;
@@ -2069,6 +2069,7 @@ h1 {
 
 *.extra-network-cards .card:hover {
   cursor: pointer;
+  z-index: 50;
 }
 
 *.extra-network-cards .card .button-row {
@@ -3855,6 +3856,19 @@ h2:hover {
   filter: brightness(1.2);
 }
 
+h3 {
+  color: var(--sd-main-accent-color);
+  font-size: 16px;
+  font-weight: 400;
+  margin: 2px 5px;
+  filter: drop-shadow(2px 2px 4px black);
+  cursor: cell;
+}
+
+h3:hover {
+  filter: brightness(1.2);
+}
+
 #about_tabitem ul {
   padding-inline-start: calc(var(--sd-panel-padding) * 4);
 }
@@ -4706,6 +4720,7 @@ button>span {
   flex-grow: 1;
   justify-content: flex-start;
   min-width: var(--sd-panel-min-width);
+  width: 100%;
 }
 
 #control-columns .panel.no-tr,
@@ -4729,11 +4744,6 @@ button>span {
 #control-columns.flex-force-column,
 #video-columns.flex-force-column {
   flex-direction: column;
-}
-
-#control-columns.flex-force-column .panel.no-tr,
-#video-columns.flex-force-column .panel.no-tr {
-  aspect-ratio: 1.0;
 }
 
 div#control_params_control_tabitem .control-settings .gradio-accordion .form,
@@ -5174,8 +5184,10 @@ gallery-folder:hover {
 }
 
 #interrogate_output_prompt textarea {
-  height: 90vh;
+  flex: 1 !important;
   overflow-y: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
 }
 
 .locale-indicator {
@@ -5221,10 +5233,14 @@ gallery-folder:hover {
   min-height: 17rem;
 }
 
-#vlm_system>textarea,
-#vlm_prompt>textarea,
-#interrogate_output_prompt>textarea {
+#vlm_system textarea,
+#vlm_prompt textarea,
+#interrogate_output_prompt textarea {
   resize: vertical !important;
+}
+
+#vlm_system textarea {
+  height: 5rem;
 }
 
 #txt2img_generate,
@@ -5592,8 +5608,362 @@ div#changelog_result p {
   display: none;
 }
 
+/* Modern UI layout for caption image */
+#layout-caption-image {
+  position: relative !important;
+  inset: auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100% !important;
+}
+
+#layout-caption-image .layout-content {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  min-height: 0 !important;
+  overflow: visible !important;
+}
+
+#layout-caption-image .layout-content .portal {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+  min-height: 0 !important;
+}
+
+/* Override Python height=512 and make image fill container */
 #interrogate_image {
-  min-height: 256px;
+  height: 100% !important;
+  width: 100% !important;
+  min-height: 256px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+}
+
+/* Make image container fill available space */
+#interrogate_image .image-container {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 0 !important;
+  overflow: auto !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Configure boundedheight container for interrogate image */
+#interrogate_image .image-container .center.boundedheight.flex {
+  width: 100% !important;
+  flex: 1 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow: hidden !important;
+}
+
+/* Make image fill container while maintaining aspect ratio */
+#interrogate_image img {
+  object-fit: contain !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Hide visual label components (not used - CLIP labels shown as text instead) */
+#interrogate_output_classes {
+  display: none !important;
+}
+
+/* Caption three-column layout */
+#split-caption-left {
+  min-width: 300px;
+}
+
+#split-caption-middle {
+  min-width: 200px;
+}
+
+#split-caption-right {
+  min-width: 300px;
+}
+
+#interrogate_output {
+  max-height: 100vh;
+  overflow: hidden;
+}
+
+#split-caption-output {
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Caption output conditional panel container */
+#split-caption-output-conditional {
+  display: flex;
+  flex-direction: column;
+}
+
+#split-caption-output-conditional > .xtabs-anchor {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Anchor panels - hidden by default, shown by JS when tab selected */
+#split-caption-output-clip,
+#split-caption-output-image {
+  display: none;
+  height: 100%;
+  flex-direction: column;
+}
+
+#split-caption-output-clip > .layout,
+#split-caption-output-image > .layout {
+  height: 100%;
+}
+
+/* Common styles for all output panels */
+#split-caption-output-answer,
+#split-caption-output-clip,
+#split-caption-output-image {
+  min-height: 0;
+  overflow: hidden;
+}
+
+#interrogate_output_prompt {
+  flex: 1 !important;
+  min-height: 0;
+  overflow: hidden;
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100% !important;
+}
+
+#interrogate_output_prompt .form,
+#interrogate_output_prompt .gradio-textbox {
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 !important;
+  height: 100% !important;
+  min-height: 0 !important;
+}
+
+#interrogate_output_prompt .gradio-textbox label {
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 !important;
+  min-height: 0 !important;
+  height: 100% !important;
+}
+
+/* Configure layout-content for Answer section to enable proper flex sizing */
+#split-caption-output-answer .layout-content {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  min-height: 0 !important;
+  overflow: visible !important;
+}
+
+/* Configure portal for Answer section to fill available space */
+#split-caption-output-answer .layout-content .portal {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+  min-height: 0 !important;
+}
+
+/* Configure layout-content for CLIP Analysis section to enable proper flex sizing */
+#split-caption-output-clip .layout-content {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  min-height: 0 !important;
+  overflow: visible !important;
+}
+
+/* Configure portal for CLIP Analysis section to fill available space */
+#split-caption-output-clip .layout-content .portal {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+  min-height: 0 !important;
+}
+
+/* Make CLIP labels textbox scrollable */
+#interrogate_clip_labels_text {
+  flex: 1 !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+#interrogate_clip_labels_text .form,
+#interrogate_clip_labels_text .gradio-textbox {
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 !important;
+  height: 100% !important;
+  min-height: 0 !important;
+}
+
+#interrogate_clip_labels_text label {
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 !important;
+  min-height: 0 !important;
+  height: 100% !important;
+}
+
+#interrogate_clip_labels_text textarea {
+  flex: 1 !important;
+  overflow-y: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+}
+
+/* Configure layout-content for Output Image section to enable proper flex sizing */
+#split-caption-output-image .layout-content {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  min-height: 0 !important;
+  overflow: visible !important;
+}
+
+/* Configure portal for Output Image section to fill available space */
+#split-caption-output-image .layout-content .portal {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+  min-height: 0 !important;
+}
+
+/* Main Output Image container */
+#interrogate_output_image {
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+
+/* Configure Gradio image-container for proper sizing */
+#interrogate_output_image .image-container {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Configure nested Gradio containers */
+#interrogate_output_image .image-container .center.boundedheight.flex {
+  width: 100% !important;
+  flex: 1 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow: hidden !important;
+}
+
+/* Hide Gradio label text for Answer (use custom header instead) */
+#interrogate_output_prompt label > span {
+  display: none !important;
+}
+
+/* Hide Gradio label text for Output Image (use custom header instead) */
+#interrogate_output_image_display label > span,
+#interrogate_output_image_display [data-testid="block-label"] {
+  display: none !important;
+}
+
+/* Ensure Output Image fills space and centers properly */
+#interrogate_output_image_display {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+#interrogate_output_image_display img {
+  object-fit: contain !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Position download button at top-right */
+#interrogate_output_image_display .icon-buttons {
+  top: 0 !important;
+}
+
+/* Caption mobile navigation - visible at top on mobile */
+#caption-mobile-nav {
+  display: flex;
+  gap: 0;
+  padding: var(--sd-panel-padding);
+  flex-shrink: 0 !important;
+  align-items: stretch;
+  background-color: var(--sd-panel-background-color);
+}
+
+/* Hide on desktop */
+.media-desktop #caption-mobile-nav {
+  display: none !important;
+}
+
+/* Hide pane headers on mobile - tab buttons already indicate which pane */
+.media-mobile #layout-caption > .layout-header,
+.media-mobile #layout-caption-image > .layout-header,
+.media-mobile #split-caption-right > .layout > .flexbox.col > .layout-header:first-child {
+  display: none !important;
+}
+
+#caption-mobile-nav .xtabs-tab {
+  flex: 1;
+  justify-content: flex-start;
+  padding: var(--sd-gap-size);
+}
+
+#caption-mobile-nav .xtabs-tab span {
+  display: inline !important;
+}
+
+/* Tab content container */
+#caption-tab-content {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* Caption tab content groups */
+#caption_controls_tabitem_group,
+#caption_input_tabitem_group,
+#caption_output_tabitem_group {
+  flex: 1;
+  min-height: 0;
+}
+
+/* Fix layout-caption to fill available space */
+#layout-caption {
+  flex: 1;
+  min-height: 0;
 }
 
 #extras_single_tab, #extras_single_tab .gap, #extras_single_tab .gradio-row {
@@ -5623,4 +5993,14 @@ div#changelog_result p {
 
 #control_prompts_tabitem button {
   flex-grow: 1;
+}
+
+#control-tab-input-parent {
+  width: 100%;
+  height:100%;
+}
+
+.minimize {
+  max-height: 3em;
+  overflow: hidden;
 }

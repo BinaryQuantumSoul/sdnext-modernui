@@ -27,33 +27,7 @@
 
         </div>
         <div class="panel no-tr flexbox col">
-
           <div data-parent-selector="#tab_process" data-selector="#mode_extras" class="portal no-bg no-padding"></div> <!-- actual image -->
-
-          <div class="xtabs-anchor flexbox shrink" anchorNav="#mode_extras > .tab-nav">
-            <div anchor="1" class="flexbox row center panel padding no-tr">
-              <button class="sd-button only-legacy" data-click="#txt2img_nav, #txt2img_params">
-                <div data-selector="#txt2img_tab" data-parent-selector="#copy_buttons_process" droppable="true" class="portal invisible">
-                  <div class="mask-icon icon-2txt2img"></div>
-                </div>
-              </button>
-              <button class="sd-button only-legacy" data-click="#img2img_nav, #img2img_params">
-                <div data-selector="#img2img_tab" data-parent-selector="#copy_buttons_process" droppable="true" class="portal invisible">
-                  <div class="mask-icon icon-2img2img"></div>
-                </div>
-              </button>
-              <button class="sd-button" data-click="#control_nav">
-                <div data-selector="#control_tab" data-parent-selector="#copy_buttons_process" droppable="true" class="portal invisible">
-                  <div class="mask-icon icon-2control"></div>
-                </div>
-              </button>
-              <button class="sd-button" data-click="#caption_nav">
-                <div data-selector="#caption_tab" data-parent-selector="#copy_buttons_process" droppable="true" class="portal invisible">
-                  <div class="mask-icon icon-2caption"></div>
-                </div>
-              </button>
-            </div>
-          </div>
         </div>
       </div>
 
@@ -93,31 +67,27 @@
                   </div>
                 </button>
 
-                <button class="sd-button only-legacy" data-click="#txt2img_nav">
-                  <div data-selector="#txt2img_tab" data-parent-selector="#image_buttons_extras" droppable="true" class="portal invisible">
+                <button class="sd-button only-legacy" data-click="#txt2img_nav, #txt2img_params">
+                  <div data-selector="#txt2img_tab" data-parent-selector="#copy_buttons_process" droppable="true" class="portal invisible">
                     <div class="mask-icon icon-2txt2img"></div>
                   </div>
                 </button>
                 <button class="sd-button only-legacy" data-click="#img2img_nav, #img2img_params">
-                  <div data-selector="#img2img_tab" data-parent-selector="#image_buttons_extras" droppable="true" class="portal invisible">
+                  <div data-selector="#img2img_tab" data-parent-selector="#copy_buttons_process" droppable="true" class="portal invisible">
                     <div class="mask-icon icon-2img2img"></div>
                   </div>
                 </button>
                 <button class="sd-button" data-click="#control_nav">
-                  <div data-selector="#control_tab" data-parent-selector="#image_buttons_extras" droppable="true" class="portal invisible">
+                  <div data-selector="#control_tab" data-parent-selector="#copy_buttons_process" droppable="true" class="portal invisible">
                     <div class="mask-icon icon-2control"></div>
                   </div>
                 </button>
-                <button class="sd-button" data-click="#extras_nav">
-                  <div data-selector="#extras_tab" data-parent-selector="#image_buttons_extras" droppable="true" class="portal invisible">
-                    <div class="mask-icon icon-2extras"></div>
-                  </div>
-                </button>
                 <button class="sd-button" data-click="#caption_nav">
-                  <div data-selector="#caption_tab" data-parent-selector="#image_buttons_extras" droppable="true" class="portal invisible">
+                  <div data-selector="#caption_tab" data-parent-selector="#copy_buttons_process" droppable="true" class="portal invisible">
                     <div class="mask-icon icon-2caption"></div>
                   </div>
                 </button>
+
               </div>
             </div>
             <div class="accordion-container info-results-container">

@@ -1,10 +1,57 @@
 <div class="layout">
   <div class="flexbox col">
 
-    <div data-parent-selector="#tab_caption" data-selector="#interrogate_output_prompt" class="portal flexbox grow"></div>
+    <div class="layout-header">
+      <div class="flexbox row shrink panel padding no-br">
+        <div class="flexbox col shrink align-end">
+          <h2>Output</h2>
+        </div>
+      </div>
+    </div>
 
-    <div class="flexbox row shrink no-br">
-      <div data-parent-selector="#tab_caption" data-selector="#interrogate_output_classes" class="portal"></div>
+    <div id="split-caption-output" class="split" direction="vertical" gutterSize="8">
+      <div id="split-caption-output-answer" class="split-container" data-initSize="50" data-minSize="50">
+        <div class="layout">
+          <div class="layout-header">
+            <div class="flexbox row shrink panel padding no-br">
+              <h3>Answer</h3>
+            </div>
+          </div>
+          <div class="layout-content">
+            <div data-parent-selector="#tab_caption" data-selector="#interrogate_output_prompt" class="portal no-outline"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="split-caption-output-conditional" class="split-container" data-initSize="50" data-minSize="100">
+        <div class="xtabs-anchor" anchorNav="#mode_caption > .tab-nav">
+          <div anchor="2" id="split-caption-output-clip">
+            <div class="layout">
+              <div class="layout-header">
+                <div class="flexbox row shrink panel padding no-br">
+                  <h3>CLIP Analysis</h3>
+                </div>
+              </div>
+              <div class="layout-content">
+                <div data-parent-selector="#tab_caption" data-selector="#interrogate_clip_labels_text" class="portal no-outline"></div>
+              </div>
+            </div>
+          </div>
+
+          <div anchor="1" id="split-caption-output-image">
+            <div class="layout">
+              <div class="layout-header">
+                <div class="flexbox row shrink panel padding no-br">
+                  <h3>Image</h3>
+                </div>
+              </div>
+              <div class="layout-content">
+                <div data-parent-selector="#tab_caption" data-selector="#interrogate_output_image" class="portal no-outline"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="panel no-tr flexbox shrink col">

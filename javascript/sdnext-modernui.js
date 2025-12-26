@@ -139,11 +139,35 @@ async function applyAutoHide() {
   appUiUx.querySelectorAll('h2').forEach((elem) => elem.classList.add('auto-hide'));
   appUiUx.querySelectorAll('.auto-hide').forEach((elem) => {
     elem.onclick = (evt) => {
-      // log('applyAutoHide', evt.target);
       for (const child of evt.target.children) child.classList.toggle('hidden-animate');
       hideSiblings(evt.target?.nextElementSibling);
     };
   });
+
+  // autohide control panels
+  const minimizeToggle = (el, evt) => {
+    if (evt.target === el
+      || evt.target === el.firstElementChild
+      || evt.target.parentElement === el.firstElementChild
+      || (el.firstElementChild?.contains(evt.target) && evt.target.nodeName === 'H2')
+    ) {
+      el.classList.toggle('minimize');
+      evt.stopPropagation();
+      evt.stopImmediatePropagation();
+    }
+  };
+  const headerControlInput = document.querySelector('#control-template-column-input');
+  const headerControlInit = document.querySelector('#control-template-column-init');
+  const headerControlOutput = document.querySelector('#control-template-column-output');
+  const headerControlPreview = document.querySelector('#control-template-column-preview');
+  const headerImg2imgInput = document.querySelector('#img2img-template-column-input');
+  const headerImg2imgOutput = document.querySelector('#img2img-template-column-output');
+  if (headerControlInput) headerControlInput.addEventListener('click', (evt) => minimizeToggle(headerControlInput, evt));
+  if (headerControlInit) headerControlInit.addEventListener('click', (evt) => minimizeToggle(headerControlInit, evt));
+  if (headerControlOutput) headerControlOutput.addEventListener('click', (evt) => minimizeToggle(headerControlOutput, evt));
+  if (headerControlPreview) headerControlPreview.addEventListener('click', (evt) => minimizeToggle(headerControlPreview, evt));
+  if (headerImg2imgInput) headerImg2imgInput.addEventListener('click', (evt) => minimizeToggle(headerImg2imgInput, evt));
+  if (headerImg2imgOutput) headerImg2imgOutput.addEventListener('click', (evt) => minimizeToggle(headerImg2imgOutput, evt));
 }
 
 async function extraTweaks() {
@@ -371,7 +395,7 @@ async function loadCurrentTemplate(data) {
         return loadCurrentTemplate(data);
       }
     }
-    log('loadTemplate', curr_data.template);
+    // log('loadTemplate', curr_data.template);
     const uri = `${window.subpath}${htmlPath}/templates/${curr_data.template}.html?${Date.now()}`;
     const response = await fetch(uri, { cache: 'reload' });
     // const response = await fetch(uri);
@@ -449,9 +473,6 @@ function logStartup() {
   const uiOpts = {};
   for (const [key, value] of filteredOpts) uiOpts[key] = value;
   log('settings', uiOpts);
-  if (navigator.userAgent.toLowerCase().includes('firefox')) {
-    log('UI: Go to the Firefox about:config page, then search and toggle layout. css.has-selector. enabled');
-  }
 }
 
 async function setupLogger() {
@@ -470,12 +491,12 @@ async function mainUiUx() {
   createButtonsForExtensions();
   setupAnimationEventListeners();
   initSplitComponents();
-  initAccordionComponents();
   await loadAllPortals();
   initTabComponents();
   initButtonComponents();
   setupToolButtons();
   setupDropdowns();
+  initAccordionComponents();
   const t0 = performance.now();
   await waitForUiPortal();
   const t1 = performance.now();
