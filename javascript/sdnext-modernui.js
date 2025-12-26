@@ -146,10 +146,10 @@ async function applyAutoHide() {
 
   // autohide control panels
   const minimizeToggle = (el, evt) => {
-    if (evt.target === el ||
-      evt.target === el.firstElementChild ||
-      evt.target.parentElement === el.firstElementChild ||
-      (el.firstElementChild?.contains(evt.target) && evt.target.nodeName === "H2")
+    if (evt.target === el
+      || evt.target === el.firstElementChild
+      || evt.target.parentElement === el.firstElementChild
+      || (el.firstElementChild?.contains(evt.target) && evt.target.nodeName === 'H2')
     ) {
       el.classList.toggle('minimize');
       evt.stopPropagation();
