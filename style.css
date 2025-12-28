@@ -5521,6 +5521,10 @@ div#changelog_result p {
   overflow: auto;
 }
 
+#extensions-div .version p {
+  overflow-wrap: break-word;
+}
+
 .video-model-link {
   color: var(--sd-main-accent-color);
   font-weight: normal;
