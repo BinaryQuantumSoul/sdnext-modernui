@@ -4921,6 +4921,10 @@ button.interrogate-blip:hover::after {
   justify-content: space-evenly;
 }
 
+#tab-gallery-sort-buttons {
+  padding-bottom: 0 !important;
+}
+
 #tab-gallery-sort-buttons>.form {
   display: flex;
   gap: 0;
