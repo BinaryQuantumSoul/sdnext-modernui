@@ -6005,6 +6005,11 @@ div#changelog_result p {
 }
 
 .minimize {
+  color: var(--color-trace);
   max-height: 3em;
   overflow: hidden;
+}
+
+.minimize h1, .minimize h2, .minimize h3 {
+  color: var(--color-trace);
 }

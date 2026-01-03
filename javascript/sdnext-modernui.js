@@ -139,6 +139,7 @@ async function applyAutoHide() {
   appUiUx.querySelectorAll('h2').forEach((elem) => elem.classList.add('auto-hide'));
   appUiUx.querySelectorAll('.auto-hide').forEach((elem) => {
     elem.onclick = (evt) => {
+      elem.classList.toggle('minimize');
       for (const child of evt.target.children) child.classList.toggle('hidden-animate');
       hideSiblings(evt.target?.nextElementSibling);
     };
