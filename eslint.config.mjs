@@ -254,7 +254,6 @@ export default defineConfig([
   globalIgnores([
     '**/node_modules',
     '**/extensions',
-    '**/extensions-builtin',
     '**/repositories',
     '**/venv',
     '**/panZoom.js',

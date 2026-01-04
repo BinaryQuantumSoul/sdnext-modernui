@@ -4680,7 +4680,6 @@ button>span {
 }
 
 .context-menu-items a:hover {
-
   background: var(--sd-main-accent-color)
 }
 
@@ -4998,7 +4997,7 @@ gallery-folder:hover {
 }
 
 .loader {
-  animation: spin 4s linear infinite;
+  animation: spin 4s linear infinite, hue 5s infinite alternate;
   border: var(--spacing-md) solid transparent;
   border-radius: 50%;
   border-top: var(--spacing-md) solid var(--sd-main-accent-color);
@@ -5019,13 +5018,13 @@ gallery-folder:hover {
 }
 
 .loader::before {
-  animation: 3s spin linear infinite;
+  animation: 3s spin linear infinite, hue 5s infinite alternate;
   border-top-color: var(--sd-main-accent-color);
   filter: brightness(50%);
 }
 
 .loader::after {
-  animation: spin 1.5s linear infinite;
+  animation: spin 1.5s linear infinite, hue 5s infinite alternate;
   border-top-color: var(--sd-main-accent-color);
   filter: brightness(150%);
 }
