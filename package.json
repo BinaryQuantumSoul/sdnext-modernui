@@ -16,7 +16,8 @@
     "url": "git+https://github.com/BinaryQuantumSoul/sdnext-modernui.git"
   },
   "scripts": {
-    "lint": "eslint javascript",
+    "lint": "eslint . javascript/",
+    "lint-win": "eslint . javascript/ --rule \"@stylistic/linebreak-style: off\"",
     "fix": "eslint javascript --fix",
     "scan": "npx auditjs@latest ossi --dev --quiet"
   },

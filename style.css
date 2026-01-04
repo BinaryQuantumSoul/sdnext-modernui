@@ -213,7 +213,7 @@ hr {
 
 .fixed-height {
   height: 100%;
-  overflow-y: none !important;
+  overflow-y: hidden !important;
 }
 
 .grow-all div:not(.shrink) {
@@ -292,7 +292,7 @@ hr {
 }
 
 *.gradio-button.tool div {
-  scale: 0.9em;
+  scale: 0.9;
   padding: 0;
 }
 
@@ -491,7 +491,7 @@ hr {
   transform: scaleY(0);
   max-height: 0;
   transition-property: transform, max-height;
-  transition-duration: 400ms, 0;
+  transition-duration: 400ms;
   transition-delay: 0ms, 400ms;
   transition-timing-function: linear;
 }
@@ -4657,7 +4657,7 @@ button>span {
   border-radius: var(--sd-border-radius);
   color: var(--sd-input-text-color);
   display: block;
-  padding: none;
+  padding: 0;
   position: absolute;
   z-index: 9999;
 }
@@ -5395,12 +5395,12 @@ div#changelog_result p {
 
 .docs-card-h1 {
   font-weight: bold;
-  font-size: 1.0;
+  font-size: 1.0em;
   color: var(--sd-input-text-color);
 }
 
 .docs-card-h2 {
-  font-size: 1.0;
+  font-size: 1.0em;
   color: var(--sd-input-text-color);
   max-height: 4em;
   overflow: hidden;
@@ -5412,10 +5412,6 @@ div#changelog_result p {
   color: var(--sd-panel-border-color);
   font-size: 0.9em;
   margin-top: 0.2em;
-}
-
-#models_input_container .gap > div {
-  display: content;
 }
 
 #models_input_container tr {
