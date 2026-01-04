@@ -15,7 +15,7 @@ window.getSettingsTabs = () => gradioApp().querySelectorAll('#layout-settings .t
 function functionWaitForFlag(checkFlag) {
   return async function () { // eslint-disable-line func-names
     return new Promise((resolve) => {
-      const check = () => checkFlag() ? resolve() : setTimeout(check);
+      const check = () => (checkFlag() ? resolve() : setTimeout(check));
       check();
     });
   };
