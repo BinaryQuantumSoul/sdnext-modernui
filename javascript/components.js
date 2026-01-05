@@ -90,6 +90,8 @@ function initAccordionComponents() {
           splitInstance.setSizes(sizes);
         }
       });
+      const savedClasses = getStored(`ui-${acc.id}-class`);
+      if (savedClasses && !savedClasses.includes('expand')) accTrigger?.click();
     } else {
       accTrigger?.addEventListener('click', () => {
         acc.classList.toggle('expand');
