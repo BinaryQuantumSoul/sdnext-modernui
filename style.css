@@ -3099,6 +3099,10 @@ button:hover svg {
   display: none;
 }
 
+#control-template-column-input {
+  min-height: 35vh;
+}
+
 #control-template-column-input>.shrink,
 #control-template-column-output>.shrink,
 #control-template-column-preview>.shrink,
@@ -6006,6 +6010,7 @@ div#changelog_result p {
 .minimize {
   color: var(--color-trace);
   max-height: 3em;
+  min-height: 0 !important;
   overflow: hidden;
 }
 
