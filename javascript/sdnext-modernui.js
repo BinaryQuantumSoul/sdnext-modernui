@@ -103,7 +103,9 @@ function applyDefaultLayout(mobile) {
     // additional mobile actions
     appUiUx.querySelector('.accordion-vertical.expand #mask-icon-acc-arrow')?.click();
     if (!appUiUx.querySelector('.accordion-vertical.expand #mask-icon-acc-arrow-control')) appUiUx.querySelector('.accordion-vertical #mask-icon-acc-arrow-control')?.click();
-    if (appUiUx.querySelector('#accordion-aside')?.classList.contains('expand')) appUiUx.querySelector('#acc-arrow-button')?.click(); // collapse networks in mobile view
+    if (!document.activeElement.closest('#accordion-aside')) {
+      if (appUiUx.querySelector('#accordion-aside')?.classList.contains('expand')) appUiUx.querySelector('#acc-arrow-button')?.click(); // collapse networks in mobile view
+    }
     appUiUx.querySelector('#control_dynamic_input:not(:checked)')?.click();
     appUiUx.querySelector('#control_dynamic_control:not(:checked)')?.click();
     appUiUx.classList.add('media-mobile');
