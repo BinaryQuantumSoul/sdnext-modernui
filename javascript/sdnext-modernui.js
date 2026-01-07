@@ -8,6 +8,7 @@ const tabId = '#tab_sdnext_uiux_core';
 let portalTotal = 0;
 let appUiUx;
 let isBackendDiffusers;
+let asideFocusTracker = 0;
 
 window.getUICurrentTabContent = () => gradioApp().querySelector('.xtabs-item:not(.hidden) > .split');
 window.getSettingsTabs = () => gradioApp().querySelectorAll('#layout-settings .tabitem');
@@ -80,6 +81,15 @@ const getStored = (key) => {
   return val;
 };
 
+function trackAsideFocus() {
+  const aside = appUiUx.querySelector('#aside-panel');
+  aside.addEventListener('focusin', () => { ++asideFocusTracker; });
+  aside.addEventListener('focusout', () => {
+    // Delay to prevent auto-close on mobile triggered by virtual keyboard closing
+    setTimeout(() => { --asideFocusTracker; }, 200);
+  });
+}
+
 function applyDefaultLayout(mobile) {
   appUiUx.querySelectorAll('[mobile]').forEach((tabItem) => {
     if (mobile) {
@@ -103,7 +113,7 @@ function applyDefaultLayout(mobile) {
     // additional mobile actions
     appUiUx.querySelector('.accordion-vertical.expand #mask-icon-acc-arrow')?.click();
     if (!appUiUx.querySelector('.accordion-vertical.expand #mask-icon-acc-arrow-control')) appUiUx.querySelector('.accordion-vertical #mask-icon-acc-arrow-control')?.click();
-    if (!document.activeElement.closest('#accordion-aside')) {
+    if (asideFocusTracker === 0) {
       if (appUiUx.querySelector('#accordion-aside')?.classList.contains('expand')) appUiUx.querySelector('#acc-arrow-button')?.click(); // collapse networks in mobile view
     }
     appUiUx.querySelector('#control_dynamic_input:not(:checked)')?.click();
@@ -510,6 +520,7 @@ async function mainUiUx() {
   setUserColors();
   showContributors();
   switchMobile();
+  trackAsideFocus();
   extraTweaks();
   applyAutoHide();
   uiFlagInitialized = true;
