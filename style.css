@@ -5225,6 +5225,10 @@ gallery-folder:hover {
   max-height: none !important;
 }
 
+#prompt_enhance_result textarea {
+  overflow-y: auto !important;
+}
+
 .locale-indicator {
   background-color: var(--sd-button-normal-color);
   color: var(--sd-button-normal-text-color);
