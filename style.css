@@ -6022,3 +6022,9 @@ div#changelog_result p {
 .minimize h1, .minimize h2, .minimize h3 {
   color: var(--color-trace);
 }
+
+.border-none {
+  padding-left: 0;
+  padding-right: 0;
+  width: 0;
+}
