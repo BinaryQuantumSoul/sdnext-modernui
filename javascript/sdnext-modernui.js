@@ -8,6 +8,7 @@ const tabId = '#tab_sdnext_uiux_core';
 let portalTotal = 0;
 let appUiUx;
 let isBackendDiffusers;
+let asideFocusTracker = 0;
 
 window.getUICurrentTabContent = () => gradioApp().querySelector('.xtabs-item:not(.hidden) > .split');
 window.getSettingsTabs = () => gradioApp().querySelectorAll('#layout-settings .tabitem');
@@ -15,7 +16,7 @@ window.getSettingsTabs = () => gradioApp().querySelectorAll('#layout-settings .t
 function functionWaitForFlag(checkFlag) {
   return async function () { // eslint-disable-line func-names
     return new Promise((resolve) => {
-      const check = () => checkFlag() ? resolve() : setTimeout(check);
+      const check = () => (checkFlag() ? resolve() : setTimeout(check));
       check();
     });
   };
@@ -80,6 +81,15 @@ const getStored = (key) => {
   return val;
 };
 
+function trackAsideFocus() {
+  const aside = appUiUx.querySelector('#aside-panel');
+  aside.addEventListener('focusin', () => { ++asideFocusTracker; });
+  aside.addEventListener('focusout', () => {
+    // Delay to prevent auto-close on mobile triggered by virtual keyboard closing
+    setTimeout(() => { --asideFocusTracker; }, 200);
+  });
+}
+
 function applyDefaultLayout(mobile) {
   appUiUx.querySelectorAll('[mobile]').forEach((tabItem) => {
     if (mobile) {
@@ -103,7 +113,9 @@ function applyDefaultLayout(mobile) {
     // additional mobile actions
     appUiUx.querySelector('.accordion-vertical.expand #mask-icon-acc-arrow')?.click();
     if (!appUiUx.querySelector('.accordion-vertical.expand #mask-icon-acc-arrow-control')) appUiUx.querySelector('.accordion-vertical #mask-icon-acc-arrow-control')?.click();
-    if (appUiUx.querySelector('#accordion-aside')?.classList.contains('expand')) appUiUx.querySelector('#acc-arrow-button')?.click(); // collapse networks in mobile view
+    if (asideFocusTracker === 0) {
+      if (appUiUx.querySelector('#accordion-aside')?.classList.contains('expand')) appUiUx.querySelector('#acc-arrow-button')?.click(); // collapse networks in mobile view
+    }
     appUiUx.querySelector('#control_dynamic_input:not(:checked)')?.click();
     appUiUx.querySelector('#control_dynamic_control:not(:checked)')?.click();
     appUiUx.classList.add('media-mobile');
@@ -139,6 +151,7 @@ async function applyAutoHide() {
   appUiUx.querySelectorAll('h2').forEach((elem) => elem.classList.add('auto-hide'));
   appUiUx.querySelectorAll('.auto-hide').forEach((elem) => {
     elem.onclick = (evt) => {
+      elem.classList.toggle('minimize');
       for (const child of evt.target.children) child.classList.toggle('hidden-animate');
       hideSiblings(evt.target?.nextElementSibling);
     };
@@ -507,6 +520,7 @@ async function mainUiUx() {
   setUserColors();
   showContributors();
   switchMobile();
+  trackAsideFocus();
   extraTweaks();
   applyAutoHide();
   uiFlagInitialized = true;
