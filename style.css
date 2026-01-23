@@ -6023,8 +6023,7 @@ div#changelog_result p {
   color: var(--color-trace);
 }
 
-.border-none {
-  padding-left: 0;
+input.border-none.subdued {
   padding-right: 0;
   width: 0;
 }
