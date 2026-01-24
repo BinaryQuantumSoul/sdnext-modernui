@@ -3762,8 +3762,11 @@ ul {
   color: #74ff80;
 }
 
-#logMonitorData td {
+#logMonitorData td, #logMonitorJS>div {
   vertical-align: text-top;
+  font-family: monospace;
+  font-size: 0.8rem;
+  padding: 0;
 }
 
 #logMonitorData td:nth-child(3),
