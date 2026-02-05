@@ -1,37 +1,37 @@
-/* CTD-NT64-Light Theme - A Windows Light Segoe-UI System Theme Style - Conducted by CeeTeeDee - Coded by Claude. */
+/* CTD-NT64-Dark Theme - A Windows Dark Segoe-UI System Theme Style - Conducted by CeeTeeDee - Coded by Claude. */
 
 :root {
     /* Font stack - Segoe UI for Windows, with NotoSans Nerd Font fallbacks */
     --sd-body-font: 'Segoe UI', 'Ubuntu', 'Liberation Sans', 'DejaVu Sans', 'NotoSans', 'Noto Sans', sans-serif;
     --sd-text-font: 'Segoe UI', 'Ubuntu', 'Liberation Sans', 'DejaVu Sans', 'NotoSans', 'Noto Sans', sans-serif;
     --sd-button-font: 'Segoe UI', 'Ubuntu', 'Liberation Sans', 'DejaVu Sans', 'NotoSans', 'Noto Sans', sans-serif;
-    /* Windows 11 accent blue for primary interactions */
-    --sd-main-accent-color: hsl(207deg 90% 45%);
-    /* Dark text for readability */
-    --sd-secondary-color: hsl(0deg 0% 96%);
-    /* Windows 11 light background */
-    --sd-main-background-color: hsl(0deg 0% 98%);
+    /* Windows 11 accent orange for primary interactions */
+    --sd-main-accent-color: hsl(30deg 90% 50%);
+    /* Light text for dark theme */
+    --sd-secondary-color: hsl(0deg 0% 18%);
+    /* Windows 11 dark background */
+    --sd-main-background-color: hsl(0deg 0% 12%);
     /* Consistent input/button height */
     --sd-input-height: 28px;
     --sd-input-slider-height: 0.4;
     --sd-input-icon-height: 24px;
     --sd-input-padding: 4px 8px;
     --sd-input-line-height: 20px;
-    /* Windows 11 text colors */
-    --sd-label-color: hsl(0deg 0% 20%);
-    --sd-muted-color: hsl(0deg 0% 50%);
+    /* Windows 11 dark theme text colors */
+    --sd-label-color: hsl(0deg 0% 90%);
+    --sd-muted-color: hsl(0deg 0% 60%);
     --sd-input-border-size: 1px;
-    --sd-input-text-color: hsl(0deg 0% 10%);
-    --sd-input-placeholder-text-color: hsl(0deg 0% 55%);
-    /* Pure white input backgrounds like Edge */
-    --sd-input-background-color: hsl(0deg 0% 100%);
-    --sd-input-highlight-color: hsl(207deg 90% 95%);
-    /* Subtle gray border like Windows 11 controls */
-    --sd-input-border-color: hsl(0deg 0% 80%);
+    --sd-input-text-color: hsl(0deg 0% 95%);
+    --sd-input-placeholder-text-color: hsl(0deg 0% 50%);
+    /* Dark input backgrounds */
+    --sd-input-background-color: hsl(0deg 0% 20%);
+    --sd-input-highlight-color: hsl(30deg 50% 25%);
+    /* Subtle dark border */
+    --sd-input-border-color: hsl(0deg 0% 35%);
     --sd-input-hover-text-color: hsl(0deg 0% 100%);
-    /* Light gray panel background - matches Windows 11 surfaces */
-    --sd-panel-background-color: hsl(0deg 0% 94%);
-    --sd-panel-border-color: hsl(0deg 0% 85%);
+    /* Dark panel background */
+    --sd-panel-background-color: hsl(0deg 0% 18%);
+    --sd-panel-border-color: hsl(0deg 0% 30%);
     --sd-panel-padding: 4px;
     /* Windows 11 uses subtle rounded corners */
     --sd-border-radius: 4px;
@@ -39,28 +39,28 @@
     --sd-gap-size-val: 2px;
     --sd-gap-size: 2px;
     /* Mica-like subtle background for groups */
-    --sd-group-background-color: hsl(0deg 0% 97%);
+    --sd-group-background-color: hsl(0deg 0% 15%);
     --sd-group-padding: 2px;
     --sd-group-border-radius: 4px;
     --sd-group-border-size: 0;
-    --sd-group-border-color: hsl(0deg 0% 90%);
+    --sd-group-border-color: hsl(0deg 0% 28%);
     --sd-group-gap: 2px;
     --sd-outside-gap-size: 4px;
     --sd-extra-gap: 4px;
     /* Scrollbar */
-    --sd-scrollbar-color: hsl(0deg 0% 80%);
-    /* Button colors - Windows 11 style */
-    --sd-button-normal-color: hsl(0deg 0% 96%);
-    --sd-button-hover-color: hsl(207deg 90% 50%);
-    --sd-button-selected-color: hsl(207deg 90% 45%);
-    --sd-button-normal-text-color: hsl(0deg 0% 15%);
+    --sd-scrollbar-color: hsl(0deg 0% 35%);
+    /* Button colors - Windows 11 dark style */
+    --sd-button-normal-color: hsl(0deg 0% 25%);
+    --sd-button-hover-color: hsl(30deg 90% 55%);
+    --sd-button-selected-color: hsl(30deg 90% 50%);
+    --sd-button-normal-text-color: hsl(0deg 0% 90%);
     --sd-button-hover-text-color: hsl(0deg 0% 100%);
     --sd-button-selected-text-color: hsl(0deg 0% 100%);
     /* Outline for focus */
-    --sd-outline-color: hsl(207deg 90% 50%);
+    --sd-outline-color: hsl(30deg 90% 55%);
     --sd-outline-size: 2px;
-    /* Light color scheme */
-    color-scheme: light;
+    /* Dark color scheme */
+    color-scheme: dark;
 }
 
 /* Apply fonts globally */
@@ -139,7 +139,7 @@ h6,
 .tab-header span,
 .section-header,
 .panel-header {
-    color: hsl(0deg 0% 10%) !important;
+    color: hsl(0deg 0% 92%) !important;
     text-shadow: none !important;
     box-shadow: none !important;
     font-weight: 500 !important;
@@ -170,7 +170,7 @@ h2.auto-hide:hover {
 
 /* Clean button styling */
 button {
-    border: 1px solid hsl(0deg 0% 80%) !important;
+    border: 1px solid hsl(0deg 0% 35%) !important;
 }
 
 button:hover {
@@ -185,7 +185,7 @@ button:hover {
 .sd-button {
     align-items: center;
     background-color: var(--sd-button-normal-color);
-    border: 1px solid hsl(0deg 0% 80%);
+    border: 1px solid hsl(0deg 0% 35%);
     border-radius: var(--sd-border-radius);
     cursor: pointer;
     display: inline-flex;
@@ -200,7 +200,7 @@ button:hover {
 }
 
 .sd-button .mask-icon {
-    background-color: hsl(0deg 0% 20%) !important;
+    background-color: hsl(0deg 0% 85%) !important;
 }
 
 .sd-button.active {
@@ -217,9 +217,9 @@ button:has(.icon-generate) {
     width: auto !important;
     height: 36px !important;
     padding: 0 !important;
-    background-color: hsl(120deg 40% 92%) !important;
-    color: hsl(0deg 0% 10%) !important;
-    border: 1px solid hsl(120deg 30% 80%) !important;
+    background-color: hsl(120deg 35% 25%) !important;
+    color: hsl(0deg 0% 95%) !important;
+    border: 1px solid hsl(120deg 30% 35%) !important;
     outline: none !important;
     box-shadow: none !important;
 }
@@ -235,26 +235,26 @@ button:has(.icon-generate) {
 .generate button:hover,
 .sd-button:has(.icon-generate):hover,
 button:has(.icon-generate):hover {
-    background-color: hsl(120deg 50% 85%) !important;
-    border-color: hsl(120deg 40% 70%) !important;
-    color: hsl(0deg 0% 10%) !important;
+    background-color: hsl(120deg 40% 30%) !important;
+    border-color: hsl(120deg 35% 40%) !important;
+    color: hsl(0deg 0% 95%) !important;
 }
 
 /* Generate button when active/animating */
 .generate.active,
 .generate.active button,
 .generate button:active {
-    background-color: hsla(120, 50%, 85%, 0.5) !important;
+    background-color: hsla(120, 40%, 30%, 0.5) !important;
     /* Semi-transparent to show animation */
-    color: hsl(0deg 0% 10%) !important;
-    border: 1px solid hsl(120deg 40% 70%) !important;
+    color: hsl(0deg 0% 95%) !important;
+    border: 1px solid hsl(120deg 35% 40%) !important;
     outline: none !important;
     box-shadow: none !important;
 }
 
 .generate.active button span,
 .generate.active span {
-    color: hsl(0deg 0% 10%) !important;
+    color: hsl(0deg 0% 95%) !important;
 }
 
 /* Remove inner border from generate portal */
@@ -278,7 +278,7 @@ div.generate-icons button.gradio-button {
 
 /* Ensure mask icons are visible */
 .generate-icons .mask-icon {
-    background-color: hsl(0deg 0% 20%) !important;
+    background-color: hsl(0deg 0% 85%) !important;
 }
 
 /* Icon buttons - square, centered, consistent size (exclude generate button) */
@@ -302,20 +302,20 @@ button[aria-label]:not(.generate button),
 /* Loop/Forever button - light purple */
 .sd-button:has(.icon-loop),
 button:has(.icon-loop) {
-    background-color: hsl(280deg 40% 92%) !important;
-    border: 1px solid hsl(280deg 30% 80%) !important;
+    background-color: hsl(280deg 35% 28%) !important;
+    border: 1px solid hsl(280deg 30% 38%) !important;
 }
 
 .sd-button:has(.icon-loop):hover,
 button:has(.icon-loop):hover {
-    background-color: hsl(280deg 50% 88%) !important;
+    background-color: hsl(280deg 40% 35%) !important;
 }
 
 /* Skip/Next/Back buttons - light blue */
 #control_skip,
 #control_reprocess {
-    background-color: hsl(200deg 50% 92%) !important;
-    border: 1px solid hsl(200deg 40% 80%) !important;
+    background-color: hsl(200deg 40% 28%) !important;
+    border: 1px solid hsl(200deg 35% 38%) !important;
     --sd-input-background-color: transparent !important;
 }
 
@@ -332,36 +332,36 @@ button:has(.icon-skip):hover,
 button:has(.icon-next):hover,
 button:has(.icon-prev):hover,
 button:has(.icon-reprocess):hover {
-    background-color: hsl(200deg 60% 88%) !important;
+    background-color: hsl(200deg 45% 35%) !important;
 }
 
 /* Pause button - light yellow */
 #control_pause {
-    background-color: hsl(50deg 60% 90%) !important;
-    border: 1px solid hsl(50deg 50% 75%) !important;
+    background-color: hsl(45deg 50% 28%) !important;
+    border: 1px solid hsl(45deg 45% 38%) !important;
     --sd-input-background-color: transparent !important;
 }
 
 .sd-button:has(.icon-pause):hover,
 button:has(.icon-pause):hover {
-    background-color: hsl(50deg 70% 85%) !important;
+    background-color: hsl(45deg 55% 35%) !important;
 }
 
 /* Stop button - light red */
 #control_interrupt {
-    background-color: hsl(0deg 50% 92%) !important;
-    border: 1px solid hsl(0deg 40% 80%) !important;
+    background-color: hsl(0deg 45% 28%) !important;
+    border: 1px solid hsl(0deg 40% 38%) !important;
     --sd-input-background-color: transparent !important;
 }
 
 .sd-button:has(.icon-stop):hover,
 button:has(.icon-stop):hover {
-    background-color: hsl(0deg 60% 88%) !important;
+    background-color: hsl(0deg 50% 35%) !important;
 }
 
 /* Ensure all mask icons stay visible with proper sizing */
 .mask-icon {
-    background-color: hsl(0deg 0% 20%) !important;
+    background-color: hsl(0deg 0% 85%) !important;
     filter: none !important;
     -webkit-filter: none !important;
     min-height: 16px !important;
@@ -422,9 +422,7 @@ button > .portal.invisible,
     height: 36px !important;
     min-height: 36px !important;
     min-width: 36px !important;
-}
-
-/* Bottom bar control buttons - target by data-selector patterns */
+}/* Bottom bar control buttons - target by data-selector patterns */
 div.portal.invisible[data-selector*="_control"],
 div.portal.invisible[data-selector*="_tab"],
 div.portal.invisible[data-selector*="delete"],
@@ -444,7 +442,6 @@ div.portal[data-selector*="delete"] {
 }
 
 /* Bottom bar control button sizing - 36px like top toolbar */
-#info_icon_btn_control,
 #save_control,
 #open_folder_control,
 #delete_control,
@@ -559,9 +556,9 @@ button.sd-button:has(.portal) {
 }
 
 .settings-tabs .tab-nav button:hover {
-    border-bottom-color: hsl(0deg 0% 70%) !important;
-    background-color: hsl(0deg 0% 95%) !important;
-    color: hsl(0deg 0% 10%) !important;
+    border-bottom-color: hsl(0deg 0% 45%) !important;
+    background-color: hsl(0deg 0% 22%) !important;
+    color: hsl(0deg 0% 92%) !important;
 }
 
 .settings-tabs .tab-nav button.selected,
@@ -578,7 +575,7 @@ button.sd-button:has(.portal) {
 
 /* Gallery preview */
 *.gradio-gallery .preview img {
-    background-color: hsl(0deg 0% 98%);
+    background-color: hsl(0deg 0% 15%);
 }
 
 /* Flexbox rows */
@@ -601,7 +598,7 @@ button.sd-button:has(.portal) {
 }
 
 .extra-network-subdirs button:hover {
-    border-bottom-color: hsl(0deg 0% 70%) !important;
+    border-bottom-color: hsl(0deg 0% 45%) !important;
 }
 
 .extra-network-subdirs button.selected,
@@ -626,7 +623,7 @@ button[class*="icon"] {
 /* Small number inputs - borderless */
 input[type="number"] {
     border: none !important;
-    background-color: white !important;
+    background-color: hsl(0deg 0% 20%) !important;
 }
 
 /* All text inputs - white background */
@@ -636,20 +633,20 @@ input[type="password"],
 input[type="email"],
 input[type="search"],
 textarea {
-    background-color: white !important;
+    background-color: hsl(0deg 0% 20%) !important;
 }
 
 /* Large text fields (textareas) - keep borders */
 textarea {
-    border: 1px solid hsl(0deg 0% 80%) !important;
+    border: 1px solid hsl(0deg 0% 35%) !important;
 }
 
 /* Dropdown/select boxes - keep borders */
 select,
 .dropdown,
 [class*="dropdown"] select {
-    border: 1px solid hsl(0deg 0% 80%) !important;
-    background-color: white !important;
+    border: 1px solid hsl(0deg 0% 35%) !important;
+    background-color: hsl(0deg 0% 20%) !important;
 }
 
 /* Checkboxes and radios - no borders */
@@ -673,8 +670,8 @@ input[type="radio"] {
 }
 
 .tab-nav button:hover {
-    border-bottom-color: hsl(0deg 0% 70%) !important;
-    color: hsl(0deg 0% 10%) !important;
+    border-bottom-color: hsl(0deg 0% 45%) !important;
+    color: hsl(0deg 0% 92%) !important;
 }
 
 .tab-nav button.selected,
@@ -705,7 +702,7 @@ input[type="radio"] {
 .gradio-image .wrap,
 .gradio-video .wrap,
 .gradio-file .wrap {
-    background-color: hsl(0deg 0% 94%) !important;
+    background-color: hsl(0deg 0% 18%) !important;
 }
 
 /* Image container inner wrapper */
@@ -743,21 +740,21 @@ input[type="radio"] {
 #kanvas-container-toolbar,
 .kanvas-toolbar,
 #kanvas-container-toolbar.kanvas-toolbar {
-    background-color: hsl(0deg 0% 94%) !important;
-    border: 1px solid hsl(0deg 0% 80%) !important;
+    background-color: hsl(0deg 0% 18%) !important;
+    border: 1px solid hsl(0deg 0% 35%) !important;
 }
 
 /* Kanvas toolbar buttons */
 .kanvas-toolbar button,
 #kanvas-container-toolbar button {
     background-color: var(--sd-button-normal-color) !important;
-    border: 1px solid hsl(0deg 0% 80%) !important;
-    color: hsl(0deg 0% 20%) !important;
+    border: 1px solid hsl(0deg 0% 35%) !important;
+    color: hsl(0deg 0% 90%) !important;
 }
 
 .kanvas-toolbar button:hover,
 #kanvas-container-toolbar button:hover {
-    background-color: hsl(0deg 0% 90%) !important;
+    background-color: hsl(0deg 0% 28%) !important;
     border-color: var(--sd-main-accent-color) !important;
 }
 
@@ -773,7 +770,7 @@ input[type="radio"] {
 /* Kanvas toolbar icons - dark for light background */
 .kanvas-toolbar .mask-icon,
 #kanvas-container-toolbar .mask-icon {
-    background-color: hsl(0deg 0% 0%) !important;
+    background-color: hsl(0deg 0% 90%) !important;
 }
 
 /* ============================================
@@ -807,8 +804,8 @@ input[type="radio"] {
 button.gallery-sort,
 .tool.gallery-sort {
     background-color: var(--sd-button-normal-color) !important;
-    border: 1px solid hsl(0deg 0% 80%) !important;
-    color: hsl(0deg 0% 15%) !important;
+    border: 1px solid hsl(0deg 0% 35%) !important;
+    color: hsl(0deg 0% 90%) !important;
     font-family: 'NotoSans', 'Noto Sans Nerd Font', sans-serif !important;
     font-size: 18px !important;
     min-width: 36px !important;
@@ -824,9 +821,9 @@ button.gallery-sort,
 
 .gallery-sort:hover,
 button.gallery-sort:hover {
-    background-color: hsl(0deg 0% 90%) !important;
+    background-color: hsl(0deg 0% 28%) !important;
     border-color: var(--sd-main-accent-color) !important;
-    color: hsl(0deg 0% 10%) !important;
+    color: hsl(0deg 0% 95%) !important;
 }
 
 .gallery-sort.selected,
@@ -864,7 +861,7 @@ button.lg:not(.generate button):not(.modification-indicator):not(.generate-icons
 button.interrogate:hover,
 button.secondary:hover,
 button.tool:hover {
-    background-color: hsl(0deg 0% 90%) !important;
+    background-color: hsl(0deg 0% 28%) !important;
     color: var(--sd-main-accent-color) !important;
 }
 
@@ -904,8 +901,10 @@ button.tool:hover {
     background-size: contain !important;
     background-position: center center !important;
     flex-shrink: 0 !important;
-    margin-top: -25vh !important; /* Shift logo higher */
-    overflow: visible !important; /* Allow loader to show below */
+    margin-top: -25vh !important;
+    /* Shift logo higher */
+    overflow: visible !important;
+    /* Allow loader to show below */
 }
 
 /* Loading container - positioned STRICTLY BELOW the logo */
@@ -918,7 +917,7 @@ button.tool:hover {
     flex-direction: column !important;
     align-items: center !important;
     justify-content: center !important;
-    color: hsl(0deg 0% 30%) !important;
+    color: hsl(0deg 0% 80%) !important;
     pointer-events: none !important;
     margin-top: 10px !important; /* Less spacing between logo and loader */
     width: auto !important;
@@ -945,7 +944,7 @@ button.tool:hover {
 
 /* MOTD text - below the splash, dark for light background */
 .motd {
-    color: hsl(0deg 0% 30%) !important;
+    color: hsl(0deg 0% 80%) !important;
     margin-top: 1em !important;
 }
 
@@ -964,7 +963,7 @@ button.tool:hover {
 .md ul,
 .md li,
 .md p {
-    color: hsl(0deg 0% 10%) !important;
+    color: hsl(0deg 0% 92%) !important;
 }
 
 /* Links in changelog - blue and underlined */
@@ -978,7 +977,7 @@ button.tool:hover {
 
 #tab_info a:hover,
 .md a:hover {
-    color: hsl(207deg 90% 35%) !important;
+    color: hsl(30deg 90% 65%) !important;
 }
 
 /* ============================================
@@ -1036,7 +1035,7 @@ div[id$="_tab"] button.gradio-button:not(.primary):not(.icon-btn):not(:has(.mask
 
 #models_list_tab button:hover,
 div[id$="_tab"] button.gradio-button:not(.primary):not(.icon-btn):not(:has(.mask-icon)):hover {
-    background-color: hsl(0deg 0% 90%) !important;
+    background-color: hsl(0deg 0% 28%) !important;
     border-color: var(--sd-main-accent-color) !important;
 }
 
@@ -1135,7 +1134,7 @@ div[id$="_tab"] button.gradio-button.primary:hover {
 
 #system_header button:hover,
 #layout-system button:hover {
-    background-color: hsl(0deg 0% 90%) !important;
+    background-color: hsl(0deg 0% 28%) !important;
     border-color: var(--sd-main-accent-color) !important;
     color: var(--sd-main-accent-color) !important;
 }
