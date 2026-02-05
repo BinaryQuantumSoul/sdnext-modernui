@@ -6030,3 +6030,7 @@ input.border-none.subdued {
   padding-right: 0;
   width: 0;
 }
+
+#extras_image {
+  height: 39vh;
+}
