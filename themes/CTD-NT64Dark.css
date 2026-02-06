@@ -1,0 +1,1140 @@
+/* CTD-NT64-Dark Theme - A Windows Dark Segoe-UI System Theme Style - Conducted by CeeTeeDee - Coded by Claude. */
+
+:root {
+    /* Font stack - Segoe UI for Windows, with NotoSans Nerd Font fallbacks */
+    --sd-body-font: 'Segoe UI', 'Ubuntu', 'Liberation Sans', 'DejaVu Sans', 'NotoSans', 'Noto Sans', sans-serif;
+    --sd-text-font: 'Segoe UI', 'Ubuntu', 'Liberation Sans', 'DejaVu Sans', 'NotoSans', 'Noto Sans', sans-serif;
+    --sd-button-font: 'Segoe UI', 'Ubuntu', 'Liberation Sans', 'DejaVu Sans', 'NotoSans', 'Noto Sans', sans-serif;
+    /* Windows 11 accent orange for primary interactions */
+    --sd-main-accent-color: hsl(30deg 90% 50%);
+    /* Light text for dark theme */
+    --sd-secondary-color: hsl(0deg 0% 18%);
+    /* Windows 11 dark background */
+    --sd-main-background-color: hsl(0deg 0% 12%);
+    /* Consistent input/button height */
+    --sd-input-height: 28px;
+    --sd-input-slider-height: 0.4;
+    --sd-input-icon-height: 24px;
+    --sd-input-padding: 4px 8px;
+    --sd-input-line-height: 20px;
+    /* Windows 11 dark theme text colors */
+    --sd-label-color: hsl(0deg 0% 90%);
+    --sd-muted-color: hsl(0deg 0% 60%);
+    --sd-input-border-size: 1px;
+    --sd-input-text-color: hsl(0deg 0% 95%);
+    --sd-input-placeholder-text-color: hsl(0deg 0% 50%);
+    /* Dark input backgrounds */
+    --sd-input-background-color: hsl(0deg 0% 20%);
+    --sd-input-highlight-color: hsl(30deg 50% 25%);
+    /* Subtle dark border */
+    --sd-input-border-color: hsl(0deg 0% 35%);
+    --sd-input-hover-text-color: hsl(0deg 0% 100%);
+    /* Dark panel background */
+    --sd-panel-background-color: hsl(0deg 0% 18%);
+    --sd-panel-border-color: hsl(0deg 0% 30%);
+    --sd-panel-padding: 4px;
+    /* Windows 11 uses subtle rounded corners */
+    --sd-border-radius: 4px;
+    --sd-border-size: 0;
+    --sd-gap-size-val: 2px;
+    --sd-gap-size: 2px;
+    /* Mica-like subtle background for groups */
+    --sd-group-background-color: hsl(0deg 0% 15%);
+    --sd-group-padding: 2px;
+    --sd-group-border-radius: 4px;
+    --sd-group-border-size: 0;
+    --sd-group-border-color: hsl(0deg 0% 28%);
+    --sd-group-gap: 2px;
+    --sd-outside-gap-size: 4px;
+    --sd-extra-gap: 4px;
+    /* Scrollbar */
+    --sd-scrollbar-color: hsl(0deg 0% 35%);
+    /* Button colors - Windows 11 dark style */
+    --sd-button-normal-color: hsl(0deg 0% 25%);
+    --sd-button-hover-color: hsl(30deg 90% 55%);
+    --sd-button-selected-color: hsl(30deg 90% 50%);
+    --sd-button-normal-text-color: hsl(0deg 0% 90%);
+    --sd-button-hover-text-color: hsl(0deg 0% 100%);
+    --sd-button-selected-text-color: hsl(0deg 0% 100%);
+    /* Outline for focus */
+    --sd-outline-color: hsl(30deg 90% 55%);
+    --sd-outline-size: 2px;
+    /* Dark color scheme */
+    color-scheme: dark;
+}
+
+/* Apply fonts globally */
+html,
+body,
+button,
+input,
+select,
+textarea {
+    font-family: var(--sd-body-font) !important;
+}
+
+/* Global - remove ALL shadow effects */
+* {
+    text-shadow: none !important;
+    filter: none !important;
+    -webkit-filter: none !important;
+}
+
+/* Ensure no shadows on any text elements */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span,
+label,
+a,
+div,
+button,
+input,
+select,
+textarea,
+.label-wrap,
+.accordion-bar,
+.section-header {
+    text-shadow: none !important;
+    filter: none !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-size: 0.98em;
+}
+
+/* 80% zoom - emulates browser ctrl+minus zoom */
+html {
+    zoom: 0.8;
+}
+
+/* Alternative for browsers that don't support zoom */
+@supports not (zoom: 0.8) {
+    html {
+        transform: scale(0.8);
+        transform-origin: top left;
+        width: 125%;
+        height: 125%;
+    }
+}
+
+/* Headings - smaller, black, no shadow effects */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.label-wrap span,
+.accordion-bar span,
+.tab-header span,
+.section-header,
+.panel-header {
+    color: hsl(0deg 0% 92%) !important;
+    text-shadow: none !important;
+    box-shadow: none !important;
+    font-weight: 500 !important;
+}
+
+h1 {
+    font-size: 1.3em !important;
+}
+
+h2 {
+    font-size: 1.15em !important;
+}
+
+h3 {
+    font-size: 1.05em !important;
+}
+
+h4,
+h5,
+h6 {
+    font-size: 0.95em !important;
+}
+
+h2.auto-hide:hover {
+    text-decoration: underline !important;
+    cursor: pointer !important;
+}
+
+/* Clean button styling */
+button {
+    border: 1px solid hsl(0deg 0% 35%) !important;
+}
+
+button:hover {
+    border-color: var(--sd-button-hover-color) !important;
+}
+
+/* ============================================
+   TOOLBAR BUTTONS (Generate, icons, etc.)
+   ============================================ */
+
+/* Main SD button container */
+.sd-button {
+    align-items: center;
+    background-color: var(--sd-button-normal-color);
+    border: 1px solid hsl(0deg 0% 35%);
+    border-radius: var(--sd-border-radius);
+    cursor: pointer;
+    display: inline-flex;
+    gap: var(--sd-gap-size);
+    justify-content: center;
+    padding: 0;
+    min-height: 36px;
+}
+
+.sd-button:hover {
+    border-color: var(--sd-button-hover-color);
+}
+
+.sd-button .mask-icon {
+    background-color: hsl(0deg 0% 85%) !important;
+}
+
+.sd-button.active {
+    background-color: var(--sd-button-selected-color);
+    color: white;
+}
+
+/* Generate button - proper width for icon + text, light green */
+.generate,
+.generate button,
+.sd-button:has(.icon-generate),
+button:has(.icon-generate) {
+    min-width: auto !important;
+    width: auto !important;
+    height: 36px !important;
+    padding: 0 !important;
+    background-color: hsl(120deg 35% 25%) !important;
+    color: hsl(0deg 0% 95%) !important;
+    border: 1px solid hsl(120deg 30% 35%) !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+/* Ensure inner button in generate portal has proper padding */
+.generate button {
+    padding: 4px 12px !important;
+    background-color: transparent !important;
+    border: none !important;
+}
+
+.generate:hover,
+.generate button:hover,
+.sd-button:has(.icon-generate):hover,
+button:has(.icon-generate):hover {
+    background-color: hsl(120deg 40% 30%) !important;
+    border-color: hsl(120deg 35% 40%) !important;
+    color: hsl(0deg 0% 95%) !important;
+}
+
+/* Generate button when active/animating */
+.generate.active,
+.generate.active button,
+.generate button:active {
+    background-color: hsla(120, 40%, 30%, 0.5) !important;
+    /* Semi-transparent to show animation */
+    color: hsl(0deg 0% 95%) !important;
+    border: 1px solid hsl(120deg 35% 40%) !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.generate.active button span,
+.generate.active span {
+    color: hsl(0deg 0% 95%) !important;
+}
+
+/* Remove inner border from generate portal */
+.generate .portal,
+.generate .portal button {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+/* Force portal transparency in toolbar - High specificity to override generic button styles */
+/* Force portal transparency - remove specific IDs as we color buttons directly now */
+.generate-icons .portal,
+.generate-icons .portal button,
+.generate-icons .portal div:not(.mask-icon),
+div.generate-icons button.gradio-button {
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+/* Ensure mask icons are visible */
+.generate-icons .mask-icon {
+    background-color: hsl(0deg 0% 85%) !important;
+}
+
+/* Icon buttons - square, centered, consistent size (exclude generate button) */
+.generate-icons button:not(.generate button),
+.icons-bar button,
+button[aria-label]:not(.generate button),
+.generate-icons .portal[title],
+.generate-icons .sd-button {
+    --sd-input-background-color: transparent !important;
+    height: 36px !important;
+    min-height: 36px !important;
+    min-width: 36px !important;
+
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
+    border-radius: var(--sd-border-radius) !important;
+}
+
+/* Loop/Forever button - light purple */
+.sd-button:has(.icon-loop),
+button:has(.icon-loop) {
+    background-color: hsl(280deg 35% 28%) !important;
+    border: 1px solid hsl(280deg 30% 38%) !important;
+}
+
+.sd-button:has(.icon-loop):hover,
+button:has(.icon-loop):hover {
+    background-color: hsl(280deg 40% 35%) !important;
+}
+
+/* Skip/Next/Back buttons - light blue */
+#control_skip,
+#control_reprocess {
+    background-color: hsl(200deg 40% 28%) !important;
+    border: 1px solid hsl(200deg 35% 38%) !important;
+    --sd-input-background-color: transparent !important;
+}
+
+/* Force portal transparency in toolbar */
+.generate-icons .portal {
+    background-color: transparent !important;
+}
+
+.sd-button:has(.icon-skip):hover,
+.sd-button:has(.icon-next):hover,
+.sd-button:has(.icon-prev):hover,
+.sd-button:has(.icon-reprocess):hover,
+button:has(.icon-skip):hover,
+button:has(.icon-next):hover,
+button:has(.icon-prev):hover,
+button:has(.icon-reprocess):hover {
+    background-color: hsl(200deg 45% 35%) !important;
+}
+
+/* Pause button - light yellow */
+#control_pause {
+    background-color: hsl(45deg 50% 28%) !important;
+    border: 1px solid hsl(45deg 45% 38%) !important;
+    --sd-input-background-color: transparent !important;
+}
+
+.sd-button:has(.icon-pause):hover,
+button:has(.icon-pause):hover {
+    background-color: hsl(45deg 55% 35%) !important;
+}
+
+/* Stop button - light red */
+#control_interrupt {
+    background-color: hsl(0deg 45% 28%) !important;
+    border: 1px solid hsl(0deg 40% 38%) !important;
+    --sd-input-background-color: transparent !important;
+}
+
+.sd-button:has(.icon-stop):hover,
+button:has(.icon-stop):hover {
+    background-color: hsl(0deg 50% 35%) !important;
+}
+
+/* Ensure all mask icons stay visible with proper sizing */
+.mask-icon {
+    background-color: hsl(0deg 0% 85%) !important;
+    filter: none !important;
+    -webkit-filter: none !important;
+    min-height: 16px !important;
+    min-width: 16px !important;
+    height: 20px !important;
+    width: 20px !important;
+}
+
+/* Icons bar - force portal and nested div transparency like generate-icons */
+.icons-bar .portal,
+.icons-bar .portal button,
+.icons-bar .portal div:not(.mask-icon),
+.icons-bar button.gradio-button,
+.stabs-item .portal,
+.stabs-item .portal button,
+.stabs-item .portal div:not(.mask-icon),
+.stabs-item button.gradio-button {
+    background: transparent !important;
+    background-color: transparent !important;
+    border: 0 !important;
+    outline: 0 !important;
+    box-shadow: none !important;
+}
+
+/* All invisible portal wrappers - must be transparent globally */
+div.portal.invisible,
+.portal.invisible,
+button .portal.invisible,
+button.sd-button .portal.invisible,
+.sd-button .portal.invisible,
+button > .portal.invisible,
+.sd-button > .portal.invisible {
+    background: transparent !important;
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    min-height: unset !important;
+    padding: 0 !important;
+    outline: none !important;
+}
+
+/* Portal buttons */
+.portal>button {
+    align-items: center;
+    justify-content: center;
+    background-color: transparent !important;
+}
+
+/* Bottom bar flexbox row container - use no-tr class to avoid affecting sidebar */
+.accordion-bar.no-tr .flexbox.row,
+.accordion-bar.no-tr .flexbox.row.center {
+    min-height: 36px !important;
+    height: auto !important;
+}
+
+/* Bottom bar sd-button wrappers inside accordion-bar.no-tr */
+.accordion-bar.no-tr button.sd-button {
+    height: 36px !important;
+    min-height: 36px !important;
+    min-width: 36px !important;
+}/* Bottom bar control buttons - target by data-selector patterns */
+div.portal.invisible[data-selector*="_control"],
+div.portal.invisible[data-selector*="_tab"],
+div.portal.invisible[data-selector*="delete"],
+div.portal.invisible[data-selector*="send_to"],
+div.portal.invisible[data-selector*="extras"],
+div.portal.invisible[data-selector*="upscale"],
+div.portal[data-selector*="_control"],
+div.portal[data-selector*="_tab"],
+div.portal[data-selector*="delete"] {
+    background: transparent !important;
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    min-height: unset !important;
+    padding: 0 !important;
+    outline: none !important;
+}
+
+/* Bottom bar control button sizing - 36px like top toolbar */
+#save_control,
+#open_folder_control,
+#delete_control,
+#control_tab,
+#txt2img_tab,
+#img2img_tab,
+#extras_tab,
+#caption_tab,
+div.portal.invisible[data-selector*="_control"] > button,
+div.portal.invisible[data-selector*="_tab"] > button,
+div.portal.invisible[data-selector*="delete"] > button,
+div.portal[data-selector*="_control"] > button,
+div.portal[data-selector*="_tab"] > button {
+    --sd-input-background-color: transparent !important;
+    height: 36px !important;
+    min-height: 36px !important;
+    min-width: 36px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
+    border-radius: var(--sd-border-radius) !important;
+    background-color: transparent !important;
+    border: none !important;
+}
+
+/* Outer sd-button wrapper containing portal - must also be 36px */
+button.sd-button:has(.portal.invisible),
+button.sd-button:has(.portal) {
+    height: 36px !important;
+    min-height: 36px !important;
+    min-width: 36px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
+}
+
+/* Icons bar sd-buttons - must be transparent to show hover, match generate icons sizing */
+.icons-bar button.sd-button,
+.icons-bar .sd-button {
+    background-color: transparent !important;
+    background: transparent !important;
+    border: none !important;
+    height: 36px !important;
+    min-height: 36px !important;
+    min-width: 36px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
+}
+
+/* Nested portal.invisible inside icons-bar buttons - must be transparent */
+.icons-bar button.sd-button div.portal.invisible,
+.icons-bar .sd-button div.portal.invisible,
+.icons-bar button.sd-button .portal.invisible,
+.icons-bar .sd-button .portal.invisible,
+.icons-bar button div.portal.invisible,
+.icons-bar .portal.invisible {
+    background: transparent !important;
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    min-height: unset !important;
+    padding: 0 !important;
+    pointer-events: auto !important;
+}
+
+/* Tool buttons */
+.sd-button.tool {
+    height: 36px;
+    min-height: 36px;
+    min-width: 36px;
+    width: 36px;
+}
+
+/* Tab navigation */
+.tab-nav {
+    background-color: transparent;
+    gap: 2px;
+}
+
+/* Form spacing */
+.form {
+    gap: 4px;
+}
+
+/* Group styling */
+.group-col {
+    gap: 2px !important;
+}
+
+/* Clean accordion */
+.gradio-accordion {
+    background-color: transparent !important;
+}
+
+/* Settings tabs - menu items borderless, bottom border only, blue when selected */
+.settings-tabs .tab-nav {
+    gap: 0;
+    background-color: transparent;
+}
+
+.settings-tabs .tab-nav button {
+    border: none !important;
+    border-bottom: 2px solid transparent !important;
+    border-radius: 0 !important;
+    background-color: transparent !important;
+    margin: 0 !important;
+    padding: 6px 12px !important;
+}
+
+.settings-tabs .tab-nav button:hover {
+    border-bottom-color: hsl(0deg 0% 45%) !important;
+    background-color: hsl(0deg 0% 22%) !important;
+    color: hsl(0deg 0% 92%) !important;
+}
+
+.settings-tabs .tab-nav button.selected,
+.settings-tabs .tab-nav button[aria-selected="true"] {
+    border-bottom-color: var(--sd-main-accent-color) !important;
+    background-color: var(--sd-main-accent-color) !important;
+    color: white !important;
+}
+
+/* Panels */
+.panel {
+    background-color: var(--sd-group-background-color);
+}
+
+/* Gallery preview */
+*.gradio-gallery .preview img {
+    background-color: hsl(0deg 0% 15%);
+}
+
+/* Flexbox rows */
+.flexbox.row {
+    margin-bottom: unset;
+}
+
+/* Extra networks */
+.extra-network-subdirs {
+    gap: 2px;
+}
+
+/* Extra network subdirs - same borderless style */
+.extra-network-subdirs button {
+    border: none !important;
+    border-bottom: 2px solid transparent !important;
+    border-radius: 0 !important;
+    background-color: transparent !important;
+    padding: 4px 8px !important;
+}
+
+.extra-network-subdirs button:hover {
+    border-bottom-color: hsl(0deg 0% 45%) !important;
+}
+
+.extra-network-subdirs button.selected,
+.extra-network-subdirs button[aria-selected="true"] {
+    border-bottom-color: var(--sd-main-accent-color) !important;
+    color: var(--sd-main-accent-color) !important;
+}
+
+/* Small buttons - borderless, consistent sizing */
+button.sm,
+button.small,
+.icon-btn,
+button[class*="icon"] {
+    min-height: 24px !important;
+    max-height: 28px !important;
+    padding: 2px 6px !important;
+    border-radius: 4px !important;
+    border: none !important;
+    background-color: transparent !important;
+}
+
+/* Small number inputs - borderless */
+input[type="number"] {
+    border: none !important;
+    background-color: hsl(0deg 0% 20%) !important;
+}
+
+/* All text inputs - white background */
+input[type="text"],
+input[type="number"],
+input[type="password"],
+input[type="email"],
+input[type="search"],
+textarea {
+    background-color: hsl(0deg 0% 20%) !important;
+}
+
+/* Large text fields (textareas) - keep borders */
+textarea {
+    border: 1px solid hsl(0deg 0% 35%) !important;
+}
+
+/* Dropdown/select boxes - keep borders */
+select,
+.dropdown,
+[class*="dropdown"] select {
+    border: 1px solid hsl(0deg 0% 35%) !important;
+    background-color: hsl(0deg 0% 20%) !important;
+}
+
+/* Checkboxes and radios - no borders */
+input[type="checkbox"],
+input[type="radio"] {
+    cursor: pointer;
+    min-height: 18px;
+    max-height: 18px;
+    accent-color: var(--sd-main-accent-color);
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+/* Tab buttons in main navigation - borderless bottom style */
+.tab-nav button {
+    border: none !important;
+    border-bottom: 2px solid transparent !important;
+    border-radius: 0 !important;
+    background-color: transparent !important;
+}
+
+.tab-nav button:hover {
+    border-bottom-color: hsl(0deg 0% 45%) !important;
+    color: hsl(0deg 0% 92%) !important;
+}
+
+.tab-nav button.selected,
+.tab-nav button[aria-selected="true"] {
+    border-bottom-color: var(--sd-main-accent-color) !important;
+    background-color: var(--sd-main-accent-color) !important;
+    color: white !important;
+}
+
+/* ============================================
+   IMAGE INPUT AREA - Match light theme
+   ============================================ */
+
+/* Image/Video upload area background - light grey instead of black */
+.gradio-image,
+.gradio-video,
+.gradio-image .image-container,
+.gradio-video .video-container,
+#control-tab-input .gradio-image,
+#control-tab-input .gradio-video,
+#control-tab-init .gradio-image,
+#control-tab-init .gradio-video {
+    background-color: var(--sd-panel-background-color) !important;
+}
+
+/* Empty image upload area - light background */
+.gradio-image .empty,
+.gradio-image .wrap,
+.gradio-video .wrap,
+.gradio-file .wrap {
+    background-color: hsl(0deg 0% 18%) !important;
+}
+
+/* Image container inner wrapper */
+.gradio-image>div,
+.gradio-video>div {
+    background-color: var(--sd-panel-background-color) !important;
+}
+
+/* ============================================
+   SERVER LOG / CLIENT LOG - Dark grey backgrounds
+   ============================================ */
+
+#logMonitorData,
+#logMonitorJS {
+    background-color: hsl(0deg 0% 20%) !important;
+    color: hsl(0deg 0% 90%) !important;
+}
+
+/* Console split panel backgrounds */
+#split-console>div:not(.gutter) {
+    background-color: hsl(0deg 0% 20%) !important;
+}
+
+/* Log text colors for dark background */
+#logMonitorData td,
+#logMonitorJS>div {
+    color: hsl(0deg 0% 90%) !important;
+}
+
+/* ============================================
+   KANVAS TOOLBAR - Match light theme
+   ============================================ */
+
+/* Kanvas toolbar background - light grey instead of dark blue */
+#kanvas-container-toolbar,
+.kanvas-toolbar,
+#kanvas-container-toolbar.kanvas-toolbar {
+    background-color: hsl(0deg 0% 18%) !important;
+    border: 1px solid hsl(0deg 0% 35%) !important;
+}
+
+/* Kanvas toolbar buttons */
+.kanvas-toolbar button,
+#kanvas-container-toolbar button {
+    background-color: var(--sd-button-normal-color) !important;
+    border: 1px solid hsl(0deg 0% 35%) !important;
+    color: hsl(0deg 0% 90%) !important;
+}
+
+.kanvas-toolbar button:hover,
+#kanvas-container-toolbar button:hover {
+    background-color: hsl(0deg 0% 28%) !important;
+    border-color: var(--sd-main-accent-color) !important;
+}
+
+/* Kanvas toolbar active/selected buttons */
+.kanvas-toolbar button.active,
+.kanvas-toolbar button.selected,
+#kanvas-container-toolbar button.active,
+#kanvas-container-toolbar button.selected {
+    background-color: var(--sd-main-accent-color) !important;
+    color: white !important;
+}
+
+/* Kanvas toolbar icons - dark for light background */
+.kanvas-toolbar .mask-icon,
+#kanvas-container-toolbar .mask-icon {
+    background-color: hsl(0deg 0% 90%) !important;
+}
+
+/* ============================================
+   GALLERY SORT BUTTONS - NotoSans Nerd Font icons
+   ============================================ */
+
+/* Gallery sort container - grid layout with search top, buttons row below */
+#tab-gallery-sort-buttons {
+    display: grid !important;
+    grid-template-columns: repeat(8, auto) 1fr !important;
+    grid-template-rows: auto auto !important;
+    gap: 4px !important;
+    padding: 4px 0 !important;
+}
+
+/* Search field - spans full width on first row */
+#tab-gallery-search {
+    grid-column: 1 / -1 !important;
+    grid-row: 1 !important;
+    width: 100% !important;
+}
+
+/* Button wrappers - inline, not block */
+#tab-gallery-sort-buttons>.form,
+#tab-gallery-sort-buttons>div:has(.gallery-sort) {
+    display: contents !important;
+}
+
+/* Gallery sort buttons - NotoSans Nerd Font icons, in a row below search */
+.gallery-sort,
+button.gallery-sort,
+.tool.gallery-sort {
+    background-color: var(--sd-button-normal-color) !important;
+    border: 1px solid hsl(0deg 0% 35%) !important;
+    color: hsl(0deg 0% 90%) !important;
+    font-family: 'NotoSans', 'Noto Sans Nerd Font', sans-serif !important;
+    font-size: 18px !important;
+    min-width: 36px !important;
+    min-height: 36px !important;
+    width: 36px !important;
+    height: 36px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+    order: 1 !important;
+}
+
+.gallery-sort:hover,
+button.gallery-sort:hover {
+    background-color: hsl(0deg 0% 28%) !important;
+    border-color: var(--sd-main-accent-color) !important;
+    color: hsl(0deg 0% 95%) !important;
+}
+
+.gallery-sort.selected,
+button.gallery-sort.selected,
+.gallery-sort[aria-pressed="true"] {
+    background-color: var(--sd-main-accent-color) !important;
+    color: white !important;
+}
+
+/* ============================================
+   SYMBOL & SMALL ICON BUTTONS - Fix borders and fonts
+   ============================================ */
+
+/* Target all icon buttons (interrogate, secondary, tool, etc.) - exclude indicators */
+button.interrogate,
+button.vision,
+button.reasoning,
+button.secondary:not(.modification-indicator):not(.generate-icons button):not(.generate-icons .portal[title]), /** Exclude toolbar buttons */
+button.tool,
+.tool.sd-button,
+.icon-btn,
+button.lg:not(.generate button):not(.modification-indicator):not(.generate-icons button):not(.generate-icons .portal[title]) { /** Exclude toolbar buttons */
+    font-family: 'NotoSans', 'Font Awesome 6 Free', 'Font Awesome 5 Free', 'FontAwesome', sans-serif !important;
+    border: none !important;
+    /* Hide badly formed borders */
+    background-color: var(--sd-button-normal-color) !important;
+    box-shadow: none !important;
+    outline: none !important;
+    min-width: 28px !important;
+    min-height: 28px !important;
+    padding: 2px !important;
+    display: inline-flex !important;
+}
+
+button.interrogate:hover,
+button.secondary:hover,
+button.tool:hover {
+    background-color: hsl(0deg 0% 28%) !important;
+    color: var(--sd-main-accent-color) !important;
+}
+
+/* ============================================
+   SPLASH SCREEN - Centered for light theme
+   ============================================ */
+
+/* Main splash container - covers upper area, leaves console clear */
+.splash {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: calc(100vh - 120px) !important;
+    /* Leave room for console */
+    background-color: transparent !important;
+    z-index: 1000 !important;
+}
+
+/* Splash image - centered, serves as anchor for loader */
+/* Splash image - fixed size, no resizing, centered, shifted up */
+.splash-img {
+    position: relative !important;
+    margin: 0 auto !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 512px !important;
+    height: 512px !important;
+    min-width: 512px !important;
+    min-height: 512px !important;
+    background-repeat: no-repeat !important;
+    background-size: contain !important;
+    background-position: center center !important;
+    flex-shrink: 0 !important;
+    margin-top: -25vh !important;
+    /* Shift logo higher */
+    overflow: visible !important;
+    /* Allow loader to show below */
+}
+
+/* Loading container - positioned STRICTLY BELOW the logo */
+.loading {
+    position: absolute !important;
+    top: 70% !important; /* Move higher up, closer to logo center */
+    left: 50% !important;
+    transform: translateX(-50%) !important; /* Center horizontally */
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: hsl(0deg 0% 80%) !important;
+    pointer-events: none !important;
+    margin-top: 10px !important; /* Less spacing between logo and loader */
+    width: auto !important;
+    height: auto !important;
+}
+
+/* Loader ring - smaller (48px) */
+.loader {
+    border-top-color: var(--sd-main-accent-color) !important;
+    width: 48px !important;
+    height: 48px !important;
+    margin: 0 auto !important;
+}
+
+.loader::before {
+    border-top-color: var(--sd-main-accent-color) !important;
+    filter: brightness(70%) !important;
+}
+
+.loader::after {
+    border-top-color: var(--sd-main-accent-color) !important;
+    filter: brightness(130%) !important;
+}
+
+/* MOTD text - below the splash, dark for light background */
+.motd {
+    color: hsl(0deg 0% 80%) !important;
+    margin-top: 1em !important;
+}
+
+/* ============================================
+   INFO PANEL / CHANGELOG - Dark text for light theme
+   ============================================ */
+
+/* Changelog and info panel text - black for readability */
+#tab_info,
+#tab_info ul,
+#tab_info li,
+#tab_info p,
+#tab_info span,
+#tab_info div,
+.md,
+.md ul,
+.md li,
+.md p {
+    color: hsl(0deg 0% 92%) !important;
+}
+
+/* Links in changelog - blue and underlined */
+#tab_info a,
+.md a,
+#tab_info ul a,
+#tab_info li a {
+    color: var(--sd-main-accent-color) !important;
+    text-decoration: underline !important;
+}
+
+#tab_info a:hover,
+.md a:hover {
+    color: hsl(30deg 90% 65%) !important;
+}
+
+/* ============================================
+   SIDEBAR & TABLE FIXES
+   ============================================ */
+
+/* Fix faint text in simple tables (Models, Extensions, etc) */
+#model_list_table,
+.simple-table,
+table {
+    color: var(--sd-input-text-color) !important;
+    border-collapse: collapse !important;
+}
+
+#model_list_table td,
+#model_list_table th,
+.simple-table td,
+.simple-table th,
+table td,
+table th {
+    border: 1px solid var(--sd-input-border-color) !important;
+    padding: 4px 8px !important;
+    color: var(--sd-input-text-color) !important;
+}
+
+#model_list_table th,
+.simple-table th,
+table th {
+    background-color: var(--sd-panel-background-color) !important;
+    font-weight: 600 !important;
+}
+
+#model_list_table tr:hover td,
+.simple-table tr:hover td,
+table tr:hover td {
+    background-color: var(--sd-group-background-color) !important;
+}
+
+/* Fix unstyled sidebar buttons (e.g. List models, Calculate hashes) */
+#models_list_tab button,
+#extensions_installed_top button,
+div[id$="_tab"] button.gradio-button:not(.primary):not(.icon-btn):not(:has(.mask-icon)) {
+    border: 1px solid var(--sd-input-border-color) !important;
+    background-color: var(--sd-button-normal-color) !important;
+    padding: 4px 12px !important;
+    border-radius: var(--sd-border-radius) !important;
+    min-height: 28px !important;
+    cursor: pointer !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 2px !important;
+    color: var(--sd-input-text-color) !important;
+}
+
+#models_list_tab button:hover,
+div[id$="_tab"] button.gradio-button:not(.primary):not(.icon-btn):not(:has(.mask-icon)):hover {
+    background-color: hsl(0deg 0% 28%) !important;
+    border-color: var(--sd-main-accent-color) !important;
+}
+
+/* Fix Model Replace Tab text visibility */
+#models_replace_tab {
+    color: var(--sd-input-text-color) !important;
+}
+
+/* Remove top borders from table rows */
+table tr,
+.simple-table tr {
+    border-top: none !important;
+}
+
+/* Resize Extension Install buttons to reasonable size */
+#install_extension_button {
+    width: auto !important;
+    min-width: 60px !important;
+    height: 28px !important;
+    padding: 0 12px !important;
+}
+
+/* Processing/Progress text legibility */
+div.progress-text {
+    color: var(--sd-input-text-color) !important;
+    font-size: 1em !important;
+    display: inline-flex !important;
+    align-items: center !important;
+}
+
+/* Fix Primary buttons in Sidebar (e.g. Scan missing) */
+div[id$="_tab"] button.gradio-button.primary {
+    border: 1px solid var(--sd-input-border-color) !important;
+    padding: 0 12px !important;
+    border-radius: var(--sd-border-radius) !important;
+    min-height: 28px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    /* Optional: Ensure they stand out slightly as primary if desired, or keep generic */
+    background-color: var(--sd-button-normal-color) !important; 
+    color: var(--sd-main-accent-color) !important;
+    font-weight: 600 !important;
+}
+
+div[id$="_tab"] button.gradio-button.primary:hover {
+    background-color: var(--sd-main-accent-color) !important;
+    color: white !important;
+}
+
+/* ============================================
+   EXTENSIONS TAB FIXES
+   ============================================ */
+
+/* Uniform size for "Run" buttons in Manage Extensions */
+#tab_extensions_installed button {
+    min-width: 50px !important;
+    width: auto !important;
+    height: 32px !important;
+    padding: 0 10px !important;
+    font-size: 13px !important;
+    margin: 2px !important;
+}
+
+/* Remove black top borders from extension tables */
+#tab_extensions_installed table,
+#tab_extensions_installed table tr,
+#tab_extensions_installed table td,
+#tab_extensions_installed table th,
+#tab_extensions table tr,
+#tab_extensions table td,
+#tab_extensions table th {
+    border-top: none !important;
+    border-color: var(--sd-input-border-color) !important;
+}
+
+/* ============================================
+   SYSTEM TAB FIXES
+   ============================================ */
+   
+/* Fix buttons in System header (Unload, Reload, etc) */
+#system_header button,
+#layout-system button {
+    border: 1px solid var(--sd-input-border-color) !important;
+    background-color: var(--sd-button-normal-color) !important;
+    padding: 0 12px !important;
+    border-radius: var(--sd-border-radius) !important;
+    min-height: 28px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    color: var(--sd-input-text-color) !important;
+}
+
+#system_header button:hover,
+#layout-system button:hover {
+    background-color: hsl(0deg 0% 28%) !important;
+    border-color: var(--sd-main-accent-color) !important;
+    color: var(--sd-main-accent-color) !important;
+}
