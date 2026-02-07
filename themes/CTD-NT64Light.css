@@ -80,6 +80,11 @@ textarea {
     -webkit-filter: none !important;
 }
 
+/* Hide primary color picker in locale flexbox */
+#sd-primary-color {
+    display: none !important;
+}
+
 /* Ensure no shadows on any text elements */
 h1,
 h2,
@@ -175,6 +180,12 @@ button {
 
 button:hover {
     border-color: var(--sd-button-hover-color) !important;
+}
+
+/* Dropdown options menu (when open) - 1px border and narrow box shadow */
+.gradio-dropdown ul.options {
+    border: 1px solid var(--sd-input-border-color) !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) !important;
 }
 
 /* ============================================
@@ -525,7 +536,12 @@ button.sd-button:has(.portal) {
 /* Tab navigation */
 .tab-nav {
     background-color: transparent;
-    gap: 2px;
+    gap: 6px;
+}
+
+/* Tab navigation buttons - add horizontal spacing */
+.tab-nav button {
+    margin: 2px !important;
 }
 
 /* Form spacing */
@@ -608,6 +624,78 @@ button.sd-button:has(.portal) {
 .extra-network-subdirs button[aria-selected="true"] {
     border-bottom-color: var(--sd-main-accent-color) !important;
     color: var(--sd-main-accent-color) !important;
+}
+
+/* Extra networks tab navigation - flex wrap to position toolbar correctly */
+.extra_networks_root .tab-nav,
+#control_extra_networks .tab-nav {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    gap: 2px !important;
+    background-color: transparent !important;
+}
+
+/* Toolbar buttons container - appears FIRST */
+.extra_networks_root .tab-nav .buttons,
+#control_extra_networks .tab-nav .buttons,
+.tab-nav span.buttons {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 2px !important;
+    flex-basis: 100% !important; /* Force line break */
+    width: 100% !important;
+    order: 1 !important; /* First row */
+    margin: 0 !important;
+    padding: 2px 0 !important;
+    background-color: transparent !important;
+    /* Override base.css and sdnext.css absolute positioning */
+    position: relative !important;
+    right: auto !important;
+}
+
+/* Second line container (search and description) - appears SECOND */
+.extra_networks_root .tab-nav .second-line,
+#control_extra_networks .tab-nav .second-line,
+.tab-nav .second-line {
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 4px !important;
+    flex-basis: 100% !important; /* Force line break */
+    width: 100% !important;
+    order: 2 !important; /* Second row */
+    margin: 2px 0 !important;
+}
+
+/* Menu tab buttons - appear THIRD (below search) */
+.extra_networks_root .tab-nav > button,
+#control_extra_networks .tab-nav > button {
+    order: 3 !important; /* Third row */
+    flex-shrink: 0 !important;
+    margin: 0 2px 0 0 !important;
+}
+
+/* Individual toolbar buttons - transparent backgrounds */
+.extra_networks_root .tab-nav .buttons > button,
+#control_extra_networks .tab-nav .buttons > button,
+.tab-nav .buttons > button,
+#control_extra_refresh,
+#control_extra_model,
+#control_extra_scan,
+#control_extra_save,
+#control_extra_sort,
+#control_extra_view,
+#control_extra_close,
+#control_extra_quicksave {
+    background-color: transparent !important;
+}
+
+/* Quicksave button - include in toolbar flow instead of floating */
+#control_extra_quicksave {
+    position: relative !important;
+    right: auto !important;
+    margin: 0 !important;
 }
 
 /* Small buttons - borderless, consistent sizing */
@@ -1057,6 +1145,26 @@ table tr,
     min-width: 60px !important;
     height: 28px !important;
     padding: 0 12px !important;
+}
+
+/* Ensure hidden extension buttons stay hidden */
+#install_extension_button.hidden,
+#uninstall_extension_button.hidden,
+#update_extension_button.hidden,
+button.hidden {
+    display: none !important;
+}
+
+/* Reduce spacing above search/sort in Extensions tab */
+#extensions_installed_top {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+}
+
+#extensions_installed_top .gradio-row,
+#extensions_installed_top .gradio-column {
+    margin-top: 0 !important;
+    padding-top: 4px !important;
 }
 
 /* Processing/Progress text legibility */
