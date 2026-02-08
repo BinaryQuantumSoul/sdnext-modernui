@@ -296,7 +296,7 @@ div.generate-icons button.gradio-button {
 .generate-icons button:not(.generate button),
 .icons-bar button,
 button[aria-label]:not(.generate button),
-.generate-icons .portal[title],
+.generate-icons .portal[title]:not([title=""]),
 .generate-icons .sd-button {
     --sd-input-background-color: transparent !important;
     height: 36px !important;
@@ -932,11 +932,11 @@ button.gallery-sort.selected,
 button.interrogate,
 button.vision,
 button.reasoning,
-button.secondary:not(.modification-indicator):not(.generate-icons button):not(.generate-icons .portal[title]), /** Exclude toolbar buttons */
+button.secondary:not(.modification-indicator):not(.generate-icons button):not(.generate-icons .portal[title]:not([title=""])), /** Exclude toolbar buttons */
 button.tool,
 .tool.sd-button,
 .icon-btn,
-button.lg:not(.generate button):not(.modification-indicator):not(.generate-icons button):not(.generate-icons .portal[title]) { /** Exclude toolbar buttons */
+button.lg:not(.generate button):not(.modification-indicator):not(.generate-icons button):not(.generate-icons .portal[title]:not([title=""])) { /** Exclude toolbar buttons */
     font-family: 'NotoSans', 'Font Awesome 6 Free', 'Font Awesome 5 Free', 'FontAwesome', sans-serif !important;
     border: none !important;
     /* Hide badly formed borders */
