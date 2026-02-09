@@ -213,7 +213,7 @@ hr {
 
 .fixed-height {
   height: 100%;
-  overflow-y: none !important;
+  overflow-y: hidden !important;
 }
 
 .grow-all div:not(.shrink) {
@@ -292,7 +292,7 @@ hr {
 }
 
 *.gradio-button.tool div {
-  scale: 0.9em;
+  scale: 0.9;
   padding: 0;
 }
 
@@ -491,7 +491,7 @@ hr {
   transform: scaleY(0);
   max-height: 0;
   transition-property: transform, max-height;
-  transition-duration: 400ms, 0;
+  transition-duration: 400ms;
   transition-delay: 0ms, 400ms;
   transition-timing-function: linear;
 }
@@ -1022,6 +1022,7 @@ button:hover .mask-icon {
   border: none !important;
   color: var(--sd-input-secondary-text-color);
   flex-grow: 1;
+  font-family: var(--sd-body-font), 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;
   line-height: calc(var(--sd-input-icon-height) - 10px);
   font-family: 'NotoSans', var(--font);
   min-height: unset;
@@ -3099,6 +3100,10 @@ button:hover svg {
   display: none;
 }
 
+#control-template-column-input {
+  min-height: 35vh;
+}
+
 #control-template-column-input>.shrink,
 #control-template-column-output>.shrink,
 #control-template-column-preview>.shrink,
@@ -3757,8 +3762,11 @@ ul {
   color: #74ff80;
 }
 
-#logMonitorData td {
+#logMonitorData td, #logMonitorJS>div {
   vertical-align: text-top;
+  font-family: monospace;
+  font-size: 0.8rem;
+  padding: 0;
 }
 
 #logMonitorData td:nth-child(3),
@@ -4657,7 +4665,7 @@ button>span {
   border-radius: var(--sd-border-radius);
   color: var(--sd-input-text-color);
   display: block;
-  padding: none;
+  padding: 0;
   position: absolute;
   z-index: 9999;
 }
@@ -4680,7 +4688,6 @@ button>span {
 }
 
 .context-menu-items a:hover {
-
   background: var(--sd-main-accent-color)
 }
 
@@ -4921,6 +4928,10 @@ button.interrogate-blip:hover::after {
   justify-content: space-evenly;
 }
 
+#tab-gallery-sort-buttons {
+  padding-bottom: 0 !important;
+}
+
 #tab-gallery-sort-buttons>.form {
   display: flex;
   gap: 0;
@@ -4994,7 +5005,7 @@ gallery-folder:hover {
 }
 
 .loader {
-  animation: spin 4s linear infinite;
+  animation: spin 4s linear infinite, hue 5s infinite alternate;
   border: var(--spacing-md) solid transparent;
   border-radius: 50%;
   border-top: var(--spacing-md) solid var(--sd-main-accent-color);
@@ -5015,13 +5026,13 @@ gallery-folder:hover {
 }
 
 .loader::before {
-  animation: 3s spin linear infinite;
+  animation: 3s spin linear infinite, hue 5s infinite alternate;
   border-top-color: var(--sd-main-accent-color);
   filter: brightness(50%);
 }
 
 .loader::after {
-  animation: spin 1.5s linear infinite;
+  animation: spin 1.5s linear infinite, hue 5s infinite alternate;
   border-top-color: var(--sd-main-accent-color);
   filter: brightness(150%);
 }
@@ -5188,6 +5199,10 @@ gallery-folder:hover {
   overflow-y: auto !important;
   min-height: 0 !important;
   max-height: none !important;
+}
+
+#prompt_enhance_result textarea {
+  overflow-y: auto !important;
 }
 
 .locale-indicator {
@@ -5391,12 +5406,12 @@ div#changelog_result p {
 
 .docs-card-h1 {
   font-weight: bold;
-  font-size: 1.0;
+  font-size: 1.0em;
   color: var(--sd-input-text-color);
 }
 
 .docs-card-h2 {
-  font-size: 1.0;
+  font-size: 1.0em;
   color: var(--sd-input-text-color);
   max-height: 4em;
   overflow: hidden;
@@ -5408,10 +5423,6 @@ div#changelog_result p {
   color: var(--sd-panel-border-color);
   font-size: 0.9em;
   margin-top: 0.2em;
-}
-
-#models_input_container .gap > div {
-  display: content;
 }
 
 #models_input_container tr {
@@ -5519,6 +5530,10 @@ div#changelog_result p {
 
 #extensions-div {
   overflow: auto;
+}
+
+#extensions-div .version p {
+  overflow-wrap: break-word;
 }
 
 .video-model-link {
@@ -6001,6 +6016,21 @@ div#changelog_result p {
 }
 
 .minimize {
+  color: var(--color-trace);
   max-height: 3em;
+  min-height: 0 !important;
   overflow: hidden;
+}
+
+.minimize h1, .minimize h2, .minimize h3 {
+  color: var(--color-trace);
+}
+
+input.border-none.subdued {
+  padding-right: 0;
+  width: 0;
+}
+
+#extras_image {
+  height: 39vh;
 }

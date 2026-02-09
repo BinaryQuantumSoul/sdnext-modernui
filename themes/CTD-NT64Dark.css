@@ -76,9 +76,11 @@ textarea {
     font-family: var(--sd-body-font) !important;
 }
 
-/* Global - remove text shadow effects */
+/* Global - remove ALL shadow effects */
 * {
     text-shadow: none !important;
+    filter: none !important;
+    -webkit-filter: none !important;
 }
 
 /* Hide primary color picker in locale flexbox */
@@ -86,13 +88,25 @@ textarea {
     display: none !important;
 }
 
-/* Ensure no shadows on heading elements */
+/* Ensure no shadows on any text elements */
 h1,
 h2,
 h3,
 h4,
 h5,
-h6 {
+h6,
+p,
+span,
+label,
+a,
+div,
+button,
+input,
+select,
+textarea,
+.label-wrap,
+.accordion-bar,
+.section-header {
     text-shadow: none !important;
     filter: none !important;
 }
@@ -257,11 +271,6 @@ button:has(.icon-generate):hover {
     color: hsl(0deg 0% 95%) !important;
 }
 
-/* Remove accent-colored text glow on active generate button */
-.generate.active > .portal > button {
-    filter: none !important;
-}
-
 /* Remove inner border from generate portal */
 .generate .portal,
 .generate .portal button {
@@ -290,7 +299,7 @@ div.generate-icons button.gradio-button {
 .generate-icons button:not(.generate button),
 .icons-bar button,
 button[aria-label]:not(.generate button),
-.generate-icons .portal[title]:not([title=""]),
+.generate-icons .portal[title],
 .generate-icons .sd-button {
     --sd-input-background-color: transparent !important;
     height: 36px !important;
@@ -648,7 +657,7 @@ button.sd-button:has(.portal) {
     margin: 0 2px 0 0 !important;
 }
 
-/* Individual toolbar buttons - proper padding and borders */
+/* Individual toolbar buttons - transparent backgrounds */
 .extra_networks_root .tab-nav .buttons > button,
 #control_extra_networks .tab-nav .buttons > button,
 .tab-nav .buttons > button,
@@ -660,11 +669,6 @@ button.sd-button:has(.portal) {
 #control_extra_view,
 #control_extra_close,
 #control_extra_quicksave {
-    min-width: 36px !important;
-    min-height: 36px !important;
-    padding: 6px 8px !important;
-    border: 1px solid var(--sd-input-border-color) !important;
-    border-radius: var(--sd-border-radius) !important;
     background-color: transparent !important;
 }
 
@@ -675,20 +679,13 @@ button.sd-button:has(.portal) {
     margin: 0 !important;
 }
 
-/* Extra network subdirs - fixed 36x36 button sizing with proper padding and borders */
+/* Extra network subdirs - same borderless style */
 .extra-network-subdirs button {
-    min-width: 36px !important;
-    min-height: 36px !important;
-    width: auto !important;
-    height: 36px !important;
-    border: 1px solid var(--sd-input-border-color) !important;
-    border-radius: var(--sd-border-radius) !important;
+    border: none !important;
+    border-bottom: 2px solid transparent !important;
+    border-radius: 0 !important;
     background-color: transparent !important;
-    padding: 6px 10px !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: flex-start !important;
-    margin: 2px !important;
+    padding: 4px 8px !important;
 }
 
 .extra-network-subdirs button:hover {
@@ -935,11 +932,11 @@ button.gallery-sort.selected,
 button.interrogate,
 button.vision,
 button.reasoning,
-button.secondary:not(.modification-indicator):not(.generate-icons button):not(.generate-icons .portal[title]:not([title=""])), /** Exclude toolbar buttons */
+button.secondary:not(.modification-indicator):not(.generate-icons button):not(.generate-icons .portal[title]), /** Exclude toolbar buttons */
 button.tool,
 .tool.sd-button,
 .icon-btn,
-button.lg:not(.generate button):not(.modification-indicator):not(.generate-icons button):not(.generate-icons .portal[title]:not([title=""])) { /** Exclude toolbar buttons */
+button.lg:not(.generate button):not(.modification-indicator):not(.generate-icons button):not(.generate-icons .portal[title]) { /** Exclude toolbar buttons */
     font-family: 'NotoSans', 'Font Awesome 6 Free', 'Font Awesome 5 Free', 'FontAwesome', sans-serif !important;
     border: none !important;
     /* Hide badly formed borders */
@@ -1072,13 +1069,6 @@ button.tool:hover {
 #tab_info a:hover,
 .md a:hover {
     color: hsl(30deg 90% 65%) !important;
-}
-
-/* Settings buttons - consistent border styling */
-#settings_submit,
-#defaults_submit {
-    border: 1px solid var(--sd-input-border-color) !important;
-    border-radius: var(--sd-border-radius) !important;
 }
 
 /* ============================================
@@ -1258,21 +1248,4 @@ div[id$="_tab"] button.gradio-button.primary:hover {
     background-color: hsl(0deg 0% 28%) !important;
     border-color: var(--sd-main-accent-color) !important;
     color: var(--sd-main-accent-color) !important;
-}
-
-/* Size Panel Padding Adjustment - resolve horizontal overflow by tightening footprint */
-.flexbox.col.shrink.panel {
-    padding-left: 2px !important;
-    padding-right: 2px !important;
-}
-
-.flexbox.col.shrink.panel .portal {
-    padding-left: 2px !important;
-    padding-right: 2px !important;
-}
-
-/* Standardize Input Borders across all types */
-input,
-.gradio-slider input[type="number"] {
-    border: var(--sd-input-border-size) solid var(--sd-input-border-color) !important;
 }
