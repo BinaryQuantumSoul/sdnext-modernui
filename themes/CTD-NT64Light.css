@@ -83,25 +83,13 @@ textarea {
     display: none !important;
 }
 
-/* Ensure no shadows on any text elements */
+/* Ensure no shadows on heading elements */
 h1,
 h2,
 h3,
 h4,
 h5,
-h6,
-p,
-span,
-label,
-a,
-div,
-button,
-input,
-select,
-textarea,
-.label-wrap,
-.accordion-bar,
-.section-header {
+h6 {
     text-shadow: none !important;
     filter: none !important;
 }
@@ -264,6 +252,11 @@ button:has(.icon-generate):hover {
 .generate.active button span,
 .generate.active span {
     color: hsl(0deg 0% 10%) !important;
+}
+
+/* Remove accent-colored text glow on active generate button */
+.generate.active > .portal > button {
+    filter: none !important;
 }
 
 /* Remove inner border from generate portal */
@@ -605,13 +598,20 @@ button.sd-button:has(.portal) {
     gap: 2px;
 }
 
-/* Extra network subdirs - same borderless style */
+/* Extra network subdirs - fixed 36x36 button sizing with proper padding and borders */
 .extra-network-subdirs button {
-    border: none !important;
-    border-bottom: 2px solid transparent !important;
-    border-radius: 0 !important;
+    min-width: 36px !important;
+    min-height: 36px !important;
+    width: auto !important;
+    height: 36px !important;
+    border: 1px solid var(--sd-input-border-color) !important;
+    border-radius: var(--sd-border-radius) !important;
     background-color: transparent !important;
-    padding: 4px 8px !important;
+    padding: 6px 10px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    margin: 2px !important;
 }
 
 .extra-network-subdirs button:hover {
@@ -674,7 +674,7 @@ button.sd-button:has(.portal) {
     margin: 0 2px 0 0 !important;
 }
 
-/* Individual toolbar buttons - transparent backgrounds */
+/* Individual toolbar buttons - proper padding and borders */
 .extra_networks_root .tab-nav .buttons > button,
 #control_extra_networks .tab-nav .buttons > button,
 .tab-nav .buttons > button,
@@ -686,6 +686,11 @@ button.sd-button:has(.portal) {
 #control_extra_view,
 #control_extra_close,
 #control_extra_quicksave {
+    min-width: 36px !important;
+    min-height: 36px !important;
+    padding: 6px 8px !important;
+    border: 1px solid var(--sd-input-border-color) !important;
+    border-radius: var(--sd-border-radius) !important;
     background-color: transparent !important;
 }
 
@@ -1067,6 +1072,18 @@ button.tool:hover {
     color: hsl(207deg 90% 35%) !important;
 }
 
+/* Settings result notification - dark text for light theme */
+#settings_result {
+    color: hsl(0deg 0% 10%) !important;
+}
+
+/* Settings buttons - consistent border styling */
+#settings_submit,
+#defaults_submit {
+    border: 1px solid var(--sd-input-border-color) !important;
+    border-radius: var(--sd-border-radius) !important;
+}
+
 /* ============================================
    SIDEBAR & TABLE FIXES
    ============================================ */
@@ -1218,6 +1235,22 @@ div[id$="_tab"] button.gradio-button.primary:hover {
 #tab_extensions table th {
     border-top: none !important;
     border-color: var(--sd-input-border-color) !important;
+}
+
+/* Ensure all text in extensions tab is dark and readable */
+#tab_extensions,
+#tab_extensions_installed,
+#tab_extensions p,
+#tab_extensions_installed p,
+#tab_extensions span,
+#tab_extensions_installed span,
+#tab_extensions .prose,
+#tab_extensions_installed .prose,
+#tab_extensions li,
+#tab_extensions_installed li,
+#tab_extensions #text,
+#tab_extensions_installed #text {
+    color: hsl(0deg 0% 10%) !important;
 }
 
 /* ============================================
