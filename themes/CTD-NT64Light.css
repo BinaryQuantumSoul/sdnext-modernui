@@ -1278,3 +1278,20 @@ div[id$="_tab"] button.gradio-button.primary:hover {
     border-color: var(--sd-main-accent-color) !important;
     color: var(--sd-main-accent-color) !important;
 }
+
+/* Size Panel Padding Adjustment - resolve horizontal overflow by tightening footprint */
+.flexbox.col.shrink.panel {
+    padding-left: 2px !important;
+    padding-right: 2px !important;
+}
+
+.flexbox.col.shrink.panel .portal {
+    padding-left: 2px !important;
+    padding-right: 2px !important;
+}
+
+/* Standardize Input Borders across all types */
+input,
+.gradio-slider input[type="number"] {
+    border: var(--sd-input-border-size) solid var(--sd-input-border-color) !important;
+}
