@@ -1,6 +1,9 @@
 /* CTD-NT64-Light Theme - A Windows Light Segoe-UI System Theme Style - Conducted by CeeTeeDee - Coded by Claude. */
 
 :root {
+    /* Declare light color scheme for browser */
+    color-scheme: light;
+
     /* Font stack - Segoe UI for Windows, with NotoSans Nerd Font fallbacks */
     --sd-body-font: 'Segoe UI', 'Ubuntu', 'Liberation Sans', 'DejaVu Sans', 'NotoSans', 'Noto Sans', sans-serif;
     --sd-text-font: 'Segoe UI', 'Ubuntu', 'Liberation Sans', 'DejaVu Sans', 'NotoSans', 'Noto Sans', sans-serif;
@@ -73,11 +76,9 @@ textarea {
     font-family: var(--sd-body-font) !important;
 }
 
-/* Global - remove ALL shadow effects */
+/* Global - remove text shadow effects */
 * {
     text-shadow: none !important;
-    filter: none !important;
-    -webkit-filter: none !important;
 }
 
 /* Hide primary color picker in locale flexbox */
@@ -85,25 +86,13 @@ textarea {
     display: none !important;
 }
 
-/* Ensure no shadows on any text elements */
+/* Ensure no shadows on heading elements */
 h1,
 h2,
 h3,
 h4,
 h5,
-h6,
-p,
-span,
-label,
-a,
-div,
-button,
-input,
-select,
-textarea,
-.label-wrap,
-.accordion-bar,
-.section-header {
+h6 {
     text-shadow: none !important;
     filter: none !important;
 }
@@ -268,6 +257,11 @@ button:has(.icon-generate):hover {
     color: hsl(0deg 0% 10%) !important;
 }
 
+/* Remove accent-colored text glow on active generate button */
+.generate.active > .portal > button {
+    filter: none !important;
+}
+
 /* Remove inner border from generate portal */
 .generate .portal,
 .generate .portal button {
@@ -296,7 +290,7 @@ div.generate-icons button.gradio-button {
 .generate-icons button:not(.generate button),
 .icons-bar button,
 button[aria-label]:not(.generate button),
-.generate-icons .portal[title],
+.generate-icons .portal[title]:not([title=""]),
 .generate-icons .sd-button {
     --sd-input-background-color: transparent !important;
     height: 36px !important;
@@ -430,12 +424,10 @@ button > .portal.invisible,
 
 /* Bottom bar sd-button wrappers inside accordion-bar.no-tr */
 .accordion-bar.no-tr button.sd-button {
-    height: 36px !important;
+    height: auto !important;
     min-height: 36px !important;
     min-width: 36px !important;
-}
-
-/* Bottom bar control buttons - target by data-selector patterns */
+}/* Bottom bar control buttons - target by data-selector patterns */
 div.portal.invisible[data-selector*="_control"],
 div.portal.invisible[data-selector*="_tab"],
 div.portal.invisible[data-selector*="delete"],
@@ -455,7 +447,6 @@ div.portal[data-selector*="delete"] {
 }
 
 /* Bottom bar control button sizing - 36px like top toolbar */
-#info_icon_btn_control,
 #save_control,
 #open_folder_control,
 #delete_control,
@@ -470,13 +461,13 @@ div.portal.invisible[data-selector*="delete"] > button,
 div.portal[data-selector*="_control"] > button,
 div.portal[data-selector*="_tab"] > button {
     --sd-input-background-color: transparent !important;
-    height: 36px !important;
+    height: auto !important;
     min-height: 36px !important;
     min-width: 36px !important;
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    padding: 0 !important;
+    padding: 4px 10px !important;
     border-radius: var(--sd-border-radius) !important;
     background-color: transparent !important;
     border: none !important;
@@ -607,25 +598,6 @@ button.sd-button:has(.portal) {
     gap: 2px;
 }
 
-/* Extra network subdirs - same borderless style */
-.extra-network-subdirs button {
-    border: none !important;
-    border-bottom: 2px solid transparent !important;
-    border-radius: 0 !important;
-    background-color: transparent !important;
-    padding: 4px 8px !important;
-}
-
-.extra-network-subdirs button:hover {
-    border-bottom-color: hsl(0deg 0% 70%) !important;
-}
-
-.extra-network-subdirs button.selected,
-.extra-network-subdirs button[aria-selected="true"] {
-    border-bottom-color: var(--sd-main-accent-color) !important;
-    color: var(--sd-main-accent-color) !important;
-}
-
 /* Extra networks tab navigation - flex wrap to position toolbar correctly */
 .extra_networks_root .tab-nav,
 #control_extra_networks .tab-nav {
@@ -676,574 +648,103 @@ button.sd-button:has(.portal) {
     margin: 0 2px 0 0 !important;
 }
 
-/* Individual toolbar buttons - transparent backgrounds */
+/* Individual toolbar buttons - proper padding and borders */
 .extra_networks_root .tab-nav .buttons > button,
 #control_extra_networks .tab-nav .buttons > button,
+#txt2img_extra_networks .tab-nav .buttons > button,
+#img2img_extra_networks .tab-nav .buttons > button,
+#video_extra_networks .tab-nav .buttons > button,
 .tab-nav .buttons > button,
-#control_extra_refresh,
-#control_extra_model,
-#control_extra_scan,
-#control_extra_save,
-#control_extra_sort,
-#control_extra_view,
-#control_extra_close,
-#control_extra_quicksave {
-    background-color: transparent !important;
-}
-
-/* Quicksave button - include in toolbar flow instead of floating */
-#control_extra_quicksave {
-    position: relative !important;
-    right: auto !important;
-    margin: 0 !important;
-}
-
-/* Small buttons - borderless, consistent sizing */
-button.sm,
-button.small,
-.icon-btn,
-button[class*="icon"] {
-    min-height: 24px !important;
-    max-height: 28px !important;
-    padding: 2px 6px !important;
-    border-radius: 4px !important;
-    border: none !important;
-    background-color: transparent !important;
-}
-
-/* Small number inputs - borderless */
-input[type="number"] {
-    border: none !important;
-    background-color: white !important;
-}
-
-/* All text inputs - white background */
-input[type="text"],
-input[type="number"],
-input[type="password"],
-input[type="email"],
-input[type="search"],
-textarea {
-    background-color: white !important;
-}
-
-/* Large text fields (textareas) - keep borders */
-textarea {
-    border: 1px solid hsl(0deg 0% 80%) !important;
-}
-
-/* Dropdown/select boxes - keep borders */
-select,
-.dropdown,
-[class*="dropdown"] select {
-    border: 1px solid hsl(0deg 0% 80%) !important;
-    background-color: white !important;
-}
-
-/* Checkboxes and radios - no borders */
-input[type="checkbox"],
-input[type="radio"] {
-    cursor: pointer;
-    min-height: 18px;
-    max-height: 18px;
-    accent-color: var(--sd-main-accent-color);
-    border: none !important;
-    outline: none !important;
-    box-shadow: none !important;
-}
-
-/* Tab buttons in main navigation - borderless bottom style */
-.tab-nav button {
-    border: none !important;
-    border-bottom: 2px solid transparent !important;
-    border-radius: 0 !important;
-    background-color: transparent !important;
-}
-
-.tab-nav button:hover {
-    border-bottom-color: hsl(0deg 0% 70%) !important;
-    color: hsl(0deg 0% 10%) !important;
-}
-
-.tab-nav button.selected,
-.tab-nav button[aria-selected="true"] {
-    border-bottom-color: var(--sd-main-accent-color) !important;
-    background-color: var(--sd-main-accent-color) !important;
-    color: white !important;
-}
-
-/* ============================================
-   IMAGE INPUT AREA - Match light theme
-   ============================================ */
-
-/* Image/Video upload area background - light grey instead of black */
-.gradio-image,
-.gradio-video,
-.gradio-image .image-container,
-.gradio-video .video-container,
-#control-tab-input .gradio-image,
-#control-tab-input .gradio-video,
-#control-tab-init .gradio-image,
-#control-tab-init .gradio-video {
-    background-color: var(--sd-panel-background-color) !important;
-}
-
-/* Empty image upload area - light background */
-.gradio-image .empty,
-.gradio-image .wrap,
-.gradio-video .wrap,
-.gradio-file .wrap {
-    background-color: hsl(0deg 0% 94%) !important;
-}
-
-/* Image container inner wrapper */
-.gradio-image>div,
-.gradio-video>div {
-    background-color: var(--sd-panel-background-color) !important;
-}
-
-/* ============================================
-   SERVER LOG / CLIENT LOG - Dark grey backgrounds
-   ============================================ */
-
-#logMonitorData,
-#logMonitorJS {
-    background-color: hsl(0deg 0% 20%) !important;
-    color: hsl(0deg 0% 90%) !important;
-}
-
-/* Console split panel backgrounds */
-#split-console>div:not(.gutter) {
-    background-color: hsl(0deg 0% 20%) !important;
-}
-
-/* Log text colors for dark background */
-#logMonitorData td,
-#logMonitorJS>div {
-    color: hsl(0deg 0% 90%) !important;
-}
-
-/* ============================================
-   KANVAS TOOLBAR - Match light theme
-   ============================================ */
-
-/* Kanvas toolbar background - light grey instead of dark blue */
-#kanvas-container-toolbar,
-.kanvas-toolbar,
-#kanvas-container-toolbar.kanvas-toolbar {
-    background-color: hsl(0deg 0% 94%) !important;
-    border: 1px solid hsl(0deg 0% 80%) !important;
-}
-
-/* Kanvas toolbar buttons */
-.kanvas-toolbar button,
-#kanvas-container-toolbar button {
-    background-color: var(--sd-button-normal-color) !important;
-    border: 1px solid hsl(0deg 0% 80%) !important;
-    color: hsl(0deg 0% 20%) !important;
-}
-
-.kanvas-toolbar button:hover,
-#kanvas-container-toolbar button:hover {
-    background-color: hsl(0deg 0% 90%) !important;
-    border-color: var(--sd-main-accent-color) !important;
-}
-
-/* Kanvas toolbar active/selected buttons */
-.kanvas-toolbar button.active,
-.kanvas-toolbar button.selected,
-#kanvas-container-toolbar button.active,
-#kanvas-container-toolbar button.selected {
-    background-color: var(--sd-main-accent-color) !important;
-    color: white !important;
-}
-
-/* Kanvas toolbar icons - dark for light background */
-.kanvas-toolbar .mask-icon,
-#kanvas-container-toolbar .mask-icon {
-    background-color: hsl(0deg 0% 0%) !important;
-}
-
-/* ============================================
-   GALLERY SORT BUTTONS - NotoSans Nerd Font icons
-   ============================================ */
-
-/* Gallery sort container - grid layout with search top, buttons row below */
-#tab-gallery-sort-buttons {
-    display: grid !important;
-    grid-template-columns: repeat(8, auto) 1fr !important;
-    grid-template-rows: auto auto !important;
-    gap: 4px !important;
-    padding: 4px 0 !important;
-}
-
-/* Search field - spans full width on first row */
-#tab-gallery-search {
-    grid-column: 1 / -1 !important;
-    grid-row: 1 !important;
-    width: 100% !important;
-}
-
-/* Button wrappers - inline, not block */
-#tab-gallery-sort-buttons>.form,
-#tab-gallery-sort-buttons>div:has(.gallery-sort) {
-    display: contents !important;
-}
-
-/* Gallery sort buttons - NotoSans Nerd Font icons, in a row below search */
-.gallery-sort,
-button.gallery-sort,
-.tool.gallery-sort {
-    background-color: var(--sd-button-normal-color) !important;
-    border: 1px solid hsl(0deg 0% 80%) !important;
-    color: hsl(0deg 0% 15%) !important;
-    font-family: 'NotoSans', 'Noto Sans Nerd Font', sans-serif !important;
-    font-size: 18px !important;
+#control_extra_refresh,   #txt2img_extra_refresh,   #img2img_extra_refresh,   #video_extra_refresh,
+#control_extra_model,     #txt2img_extra_model,     #img2img_extra_model,     #video_extra_model,
+#control_extra_scan,      #txt2img_extra_scan,      #img2img_extra_scan,      #video_extra_scan,
+#control_extra_save,      #txt2img_extra_save,      #img2img_extra_save,      #video_extra_save,
+#control_extra_sort,      #txt2img_extra_sort,      #img2img_extra_sort,      #video_extra_sort,
+#control_extra_view,      #txt2img_extra_view,      #img2img_extra_view,      #video_extra_view,
+#control_extra_close,     #txt2img_extra_close,     #img2img_extra_close,     #video_extra_close,
+#control_extra_quicksave, #txt2img_extra_quicksave, #img2img_extra_quicksave, #video_extra_quicksave {
     min-width: 36px !important;
     min-height: 36px !important;
-    width: 36px !important;
-    height: 36px !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    flex-shrink: 0 !important;
-    order: 1 !important;
-}
-
-.gallery-sort:hover,
-button.gallery-sort:hover {
-    background-color: hsl(0deg 0% 90%) !important;
-    border-color: var(--sd-main-accent-color) !important;
-    color: hsl(0deg 0% 10%) !important;
-}
-
-.gallery-sort.selected,
-button.gallery-sort.selected,
-.gallery-sort[aria-pressed="true"] {
-    background-color: var(--sd-main-accent-color) !important;
-    color: white !important;
-}
-
-/* ============================================
-   SYMBOL & SMALL ICON BUTTONS - Fix borders and fonts
-   ============================================ */
-
-/* Target all icon buttons (interrogate, secondary, tool, etc.) - exclude indicators */
-button.interrogate,
-button.vision,
-button.reasoning,
-button.secondary:not(.modification-indicator):not(.generate-icons button):not(.generate-icons .portal[title]), /** Exclude toolbar buttons */
-button.tool,
-.tool.sd-button,
-.icon-btn,
-button.lg:not(.generate button):not(.modification-indicator):not(.generate-icons button):not(.generate-icons .portal[title]) { /** Exclude toolbar buttons */
-    font-family: 'NotoSans', 'Font Awesome 6 Free', 'Font Awesome 5 Free', 'FontAwesome', sans-serif !important;
-    border: none !important;
-    /* Hide badly formed borders */
-    background-color: var(--sd-button-normal-color) !important;
-    box-shadow: none !important;
-    outline: none !important;
-    min-width: 28px !important;
-    min-height: 28px !important;
-    padding: 2px !important;
-    display: inline-flex !important;
-}
-
-button.interrogate:hover,
-button.secondary:hover,
-button.tool:hover {
-    background-color: hsl(0deg 0% 90%) !important;
-    color: var(--sd-main-accent-color) !important;
-}
-
-/* ============================================
-   SPLASH SCREEN - Centered for light theme
-   ============================================ */
-
-/* Main splash container - covers upper area, leaves console clear */
-.splash {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: center !important;
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    width: 100vw !important;
-    height: calc(100vh - 120px) !important;
-    /* Leave room for console */
+    padding: 6px 8px !important;
+    border: 1px solid var(--sd-input-border-color) !important;
+    border-radius: var(--sd-border-radius) !important;
     background-color: transparent !important;
-    z-index: 1000 !important;
+    color: inherit !important;
 }
 
-/* Splash image - centered, serves as anchor for loader */
-/* Splash image - fixed size, no resizing, centered, shifted up */
-.splash-img {
-    position: relative !important;
-    margin: 0 auto !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    width: 512px !important;
-    height: 512px !important;
-    min-width: 512px !important;
-    min-height: 512px !important;
-    background-repeat: no-repeat !important;
-    background-size: contain !important;
-    background-position: center center !important;
-    flex-shrink: 0 !important;
-    margin-top: -25vh !important; /* Shift logo higher */
-    overflow: visible !important; /* Allow loader to show below */
+/* Hover / focus */
+.extra_networks_root .tab-nav .buttons > button:hover,
+#control_extra_networks .tab-nav .buttons > button:hover,
+#txt2img_extra_networks .tab-nav .buttons > button:hover,
+#img2img_extra_networks .tab-nav .buttons > button:hover,
+#video_extra_networks .tab-nav .buttons > button:hover,
+.tab-nav .buttons > button:hover,
+#control_extra_refresh:hover,   #txt2img_extra_refresh:hover,   #img2img_extra_refresh:hover,   #video_extra_refresh:hover,
+#control_extra_model:hover,     #txt2img_extra_model:hover,     #img2img_extra_model:hover,     #video_extra_model:hover,
+#control_extra_scan:hover,      #txt2img_extra_scan:hover,      #img2img_extra_scan:hover,      #video_extra_scan:hover,
+#control_extra_save:hover,      #txt2img_extra_save:hover,      #img2img_extra_save:hover,      #video_extra_save:hover,
+#control_extra_sort:hover,      #txt2img_extra_sort:hover,      #img2img_extra_sort:hover,      #video_extra_sort:hover,
+#control_extra_view:hover,      #txt2img_extra_view:hover,      #img2img_extra_view:hover,      #video_extra_view:hover,
+#control_extra_close:hover,     #txt2img_extra_close:hover,     #img2img_extra_close:hover,     #video_extra_close:hover,
+#control_extra_quicksave:hover, #txt2img_extra_quicksave:hover, #img2img_extra_quicksave:hover, #video_extra_quicksave:hover,
+.extra_networks_root .tab-nav .buttons > button:focus,
+.tab-nav .buttons > button:focus,
+.tab-nav .buttons > button:focus-visible,
+#control_extra_refresh:focus, #txt2img_extra_refresh:focus, #img2img_extra_refresh:focus, #video_extra_refresh:focus {
+    border-color: var(--sd-button-hover-color) !important;
+    background-color: var(--sd-button-hover-color) !important;
+    color: var(--sd-button-hover-text-color) !important;
+    outline: none !important;
+    box-shadow: none !important;
 }
 
-/* Loading container - positioned STRICTLY BELOW the logo */
-.loading {
-    position: absolute !important;
-    top: 70% !important; /* Move higher up, closer to logo center */
-    left: 50% !important;
-    transform: translateX(-50%) !important; /* Center horizontally */
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: center !important;
-    color: hsl(0deg 0% 30%) !important;
-    pointer-events: none !important;
-    margin-top: 10px !important; /* Less spacing between logo and loader */
-    width: auto !important;
-    height: auto !important;
+/* Active / selected */
+.extra_networks_root .tab-nav .buttons > button:active,
+.tab-nav .buttons > button:active,
+#control_extra_refresh:active,   #txt2img_extra_refresh:active,   #img2img_extra_refresh:active,   #video_extra_refresh:active,
+#control_extra_model.active,     #txt2img_extra_model.active,     #img2img_extra_model.active,     #video_extra_model.active,
+#control_extra_model.selected,   #txt2img_extra_model.selected,   #img2img_extra_model.selected,   #video_extra_model.selected,
+#control_extra_save.active,      #txt2img_extra_save.active,      #img2img_extra_save.active,      #video_extra_save.active,
+#control_extra_quicksave.active, #txt2img_extra_quicksave.active, #img2img_extra_quicksave.active, #video_extra_quicksave.active,
+#control_extra_refresh[aria-pressed="true"], #txt2img_extra_refresh[aria-pressed="true"], #img2img_extra_refresh[aria-pressed="true"], #video_extra_refresh[aria-pressed="true"] {
+    background-color: var(--sd-button-selected-color) !important;
+    color: var(--sd-button-selected-text-color) !important;
+    border-color: var(--sd-button-selected-color) !important;
 }
 
-/* Loader ring - smaller (48px) */
-.loader {
-    border-top-color: var(--sd-main-accent-color) !important;
-    width: 48px !important;
-    height: 48px !important;
-    margin: 0 auto !important;
+/* Keyboard focus outline */
+.extra_networks_root .tab-nav .buttons > button:focus-visible,
+.tab-nav .buttons > button:focus-visible,
+#control_extra_refresh:focus-visible, #txt2img_extra_refresh:focus-visible, #img2img_extra_refresh:focus-visible, #video_extra_refresh:focus-visible {
+    outline: var(--sd-outline-size) solid var(--sd-outline-color) !important;
+    outline-offset: 2px !important;
 }
 
-.loader::before {
-    border-top-color: var(--sd-main-accent-color) !important;
-    filter: brightness(70%) !important;
+/* Synchronize Gallery Styles */
+#control_gallery .grid-container,
+#txt2img_gallery .grid-container,
+#img2img_gallery .grid-container,
+#video_gallery .grid-container {
+    height: 99%;
 }
 
-.loader::after {
-    border-top-color: var(--sd-main-accent-color) !important;
-    filter: brightness(130%) !important;
+/* Unify Template Columns */
+#txt2img-columns > div,
+#img2img-columns > div,
+#control-columns > div,
+#extras-columns > div {
+    flex-grow: 1;
+    justify-content: flex-start;
+    min-width: var(--sd-panel-min-width);
+    width: 100%;
 }
 
-/* MOTD text - below the splash, dark for light background */
-.motd {
-    color: hsl(0deg 0% 30%) !important;
-    margin-top: 1em !important;
+#txt2img-columns,
+#img2img-columns,
+#control-columns,
+#extras-columns {
+    display: flex;
+    flex-direction: row;
+    gap: var(--sd-gap-size);
 }
 
-/* ============================================
-   INFO PANEL / CHANGELOG - Dark text for light theme
-   ============================================ */
-
-/* Changelog and info panel text - black for readability */
-#tab_info,
-#tab_info ul,
-#tab_info li,
-#tab_info p,
-#tab_info span,
-#tab_info div,
-.md,
-.md ul,
-.md li,
-.md p {
-    color: hsl(0deg 0% 10%) !important;
-}
-
-/* Links in changelog - blue and underlined */
-#tab_info a,
-.md a,
-#tab_info ul a,
-#tab_info li a {
-    color: var(--sd-main-accent-color) !important;
-    text-decoration: underline !important;
-}
-
-#tab_info a:hover,
-.md a:hover {
-    color: hsl(207deg 90% 35%) !important;
-}
-
-/* ============================================
-   SIDEBAR & TABLE FIXES
-   ============================================ */
-
-/* Fix faint text in simple tables (Models, Extensions, etc) */
-#model_list_table,
-.simple-table,
-table {
-    color: var(--sd-input-text-color) !important;
-    border-collapse: collapse !important;
-}
-
-#model_list_table td,
-#model_list_table th,
-.simple-table td,
-.simple-table th,
-table td,
-table th {
-    border: 1px solid var(--sd-input-border-color) !important;
-    padding: 4px 8px !important;
-    color: var(--sd-input-text-color) !important;
-}
-
-#model_list_table th,
-.simple-table th,
-table th {
-    background-color: var(--sd-panel-background-color) !important;
-    font-weight: 600 !important;
-}
-
-#model_list_table tr:hover td,
-.simple-table tr:hover td,
-table tr:hover td {
-    background-color: var(--sd-group-background-color) !important;
-}
-
-/* Fix unstyled sidebar buttons (e.g. List models, Calculate hashes) */
-#models_list_tab button,
-#extensions_installed_top button,
-div[id$="_tab"] button.gradio-button:not(.primary):not(.icon-btn):not(:has(.mask-icon)) {
-    border: 1px solid var(--sd-input-border-color) !important;
-    background-color: var(--sd-button-normal-color) !important;
-    padding: 4px 12px !important;
-    border-radius: var(--sd-border-radius) !important;
-    min-height: 28px !important;
-    cursor: pointer !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    margin: 2px !important;
-    color: var(--sd-input-text-color) !important;
-}
-
-#models_list_tab button:hover,
-div[id$="_tab"] button.gradio-button:not(.primary):not(.icon-btn):not(:has(.mask-icon)):hover {
-    background-color: hsl(0deg 0% 90%) !important;
-    border-color: var(--sd-main-accent-color) !important;
-}
-
-/* Fix Model Replace Tab text visibility */
-#models_replace_tab {
-    color: var(--sd-input-text-color) !important;
-}
-
-/* Remove top borders from table rows */
-table tr,
-.simple-table tr {
-    border-top: none !important;
-}
-
-/* Resize Extension Install buttons to reasonable size */
-#install_extension_button {
-    width: auto !important;
-    min-width: 60px !important;
-    height: 28px !important;
-    padding: 0 12px !important;
-}
-
-/* Ensure hidden extension buttons stay hidden */
-#install_extension_button.hidden,
-#uninstall_extension_button.hidden,
-#update_extension_button.hidden,
-button.hidden {
-    display: none !important;
-}
-
-/* Reduce spacing above search/sort in Extensions tab */
-#extensions_installed_top {
-    margin-top: 0 !important;
-    padding-top: 0 !important;
-}
-
-#extensions_installed_top .gradio-row,
-#extensions_installed_top .gradio-column {
-    margin-top: 0 !important;
-    padding-top: 4px !important;
-}
-
-/* Processing/Progress text legibility */
-div.progress-text {
-    color: var(--sd-input-text-color) !important;
-    font-size: 1em !important;
-    display: inline-flex !important;
-    align-items: center !important;
-}
-
-/* Fix Primary buttons in Sidebar (e.g. Scan missing) */
-div[id$="_tab"] button.gradio-button.primary {
-    border: 1px solid var(--sd-input-border-color) !important;
-    padding: 0 12px !important;
-    border-radius: var(--sd-border-radius) !important;
-    min-height: 28px !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    cursor: pointer !important;
-    /* Optional: Ensure they stand out slightly as primary if desired, or keep generic */
-    background-color: var(--sd-button-normal-color) !important; 
-    color: var(--sd-main-accent-color) !important;
-    font-weight: 600 !important;
-}
-
-div[id$="_tab"] button.gradio-button.primary:hover {
-    background-color: var(--sd-main-accent-color) !important;
-    color: white !important;
-}
-
-/* ============================================
-   EXTENSIONS TAB FIXES
-   ============================================ */
-
-/* Uniform size for "Run" buttons in Manage Extensions */
-#tab_extensions_installed button {
-    min-width: 50px !important;
-    width: auto !important;
-    height: 32px !important;
-    padding: 0 10px !important;
-    font-size: 13px !important;
-    margin: 2px !important;
-}
-
-/* Remove black top borders from extension tables */
-#tab_extensions_installed table,
-#tab_extensions_installed table tr,
-#tab_extensions_installed table td,
-#tab_extensions_installed table th,
-#tab_extensions table tr,
-#tab_extensions table td,
-#tab_extensions table th {
-    border-top: none !important;
-    border-color: var(--sd-input-border-color) !important;
-}
-
-/* ============================================
-   SYSTEM TAB FIXES
-   ============================================ */
-   
-/* Fix buttons in System header (Unload, Reload, etc) */
-#system_header button,
-#layout-system button {
-    border: 1px solid var(--sd-input-border-color) !important;
-    background-color: var(--sd-button-normal-color) !important;
-    padding: 0 12px !important;
-    border-radius: var(--sd-border-radius) !important;
-    min-height: 28px !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    cursor: pointer !important;
-    color: var(--sd-input-text-color) !important;
-}
-
-#system_header button:hover,
-#layout-system button:hover {
-    background-color: hsl(0deg 0% 90%) !important;
-    border-color: var(--sd-main-accent-color) !important;
-    color: var(--sd-main-accent-color) !important;
-}
