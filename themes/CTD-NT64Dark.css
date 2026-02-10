@@ -1,0 +1,750 @@
+/* CTD-NT64-Dark Theme - A Windows Dark Segoe-UI System Theme Style - Conducted by CeeTeeDee - Coded by Claude. */
+
+:root {
+    /* Declare dark color scheme for browser */
+    color-scheme: dark;
+    
+    /* Font stack - Segoe UI for Windows, with NotoSans Nerd Font fallbacks */
+    --sd-body-font: 'Segoe UI', 'Ubuntu', 'Liberation Sans', 'DejaVu Sans', 'NotoSans', 'Noto Sans', sans-serif;
+    --sd-text-font: 'Segoe UI', 'Ubuntu', 'Liberation Sans', 'DejaVu Sans', 'NotoSans', 'Noto Sans', sans-serif;
+    --sd-button-font: 'Segoe UI', 'Ubuntu', 'Liberation Sans', 'DejaVu Sans', 'NotoSans', 'Noto Sans', sans-serif;
+    /* Windows 11 accent orange for primary interactions */
+    --sd-main-accent-color: hsl(30deg 90% 50%);
+    /* Light text for dark theme */
+    --sd-secondary-color: hsl(0deg 0% 18%);
+    /* Windows 11 dark background */
+    --sd-main-background-color: hsl(0deg 0% 12%);
+    /* Consistent input/button height */
+    --sd-input-height: 28px;
+    --sd-input-slider-height: 0.4;
+    --sd-input-icon-height: 24px;
+    --sd-input-padding: 4px 8px;
+    --sd-input-line-height: 20px;
+    /* Windows 11 dark theme text colors */
+    --sd-label-color: hsl(0deg 0% 90%);
+    --sd-muted-color: hsl(0deg 0% 60%);
+    --sd-input-border-size: 1px;
+    --sd-input-text-color: hsl(0deg 0% 95%);
+    --sd-input-placeholder-text-color: hsl(0deg 0% 50%);
+    /* Dark input backgrounds */
+    --sd-input-background-color: hsl(0deg 0% 20%);
+    --sd-input-highlight-color: hsl(30deg 50% 25%);
+    /* Subtle dark border */
+    --sd-input-border-color: hsl(0deg 0% 35%);
+    --sd-input-hover-text-color: hsl(0deg 0% 100%);
+    /* Dark panel background */
+    --sd-panel-background-color: hsl(0deg 0% 18%);
+    --sd-panel-border-color: hsl(0deg 0% 30%);
+    --sd-panel-padding: 4px;
+    /* Windows 11 uses subtle rounded corners */
+    --sd-border-radius: 4px;
+    --sd-border-size: 0;
+    --sd-gap-size-val: 2px;
+    --sd-gap-size: 2px;
+    /* Mica-like subtle background for groups */
+    --sd-group-background-color: hsl(0deg 0% 15%);
+    --sd-group-padding: 2px;
+    --sd-group-border-radius: 4px;
+    --sd-group-border-size: 0;
+    --sd-group-border-color: hsl(0deg 0% 28%);
+    --sd-group-gap: 2px;
+    --sd-outside-gap-size: 4px;
+    --sd-extra-gap: 4px;
+    /* Scrollbar */
+    --sd-scrollbar-color: hsl(0deg 0% 35%);
+    /* Button colors - Windows 11 dark style */
+    --sd-button-normal-color: hsl(0deg 0% 25%);
+    --sd-button-hover-color: hsl(30deg 90% 55%);
+    --sd-button-selected-color: hsl(30deg 90% 50%);
+    --sd-button-normal-text-color: hsl(0deg 0% 90%);
+    --sd-button-hover-text-color: hsl(0deg 0% 100%);
+    --sd-button-selected-text-color: hsl(0deg 0% 100%);
+    /* Outline for focus */
+    --sd-outline-color: hsl(30deg 90% 55%);
+    --sd-outline-size: 2px;
+    /* Dark color scheme */
+    color-scheme: dark;
+}
+
+/* Apply fonts globally */
+html,
+body,
+button,
+input,
+select,
+textarea {
+    font-family: var(--sd-body-font) !important;
+}
+
+/* Global - remove text shadow effects */
+* {
+    text-shadow: none !important;
+}
+
+/* Hide primary color picker in locale flexbox */
+#sd-primary-color {
+    display: none !important;
+}
+
+/* Ensure no shadows on heading elements */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    text-shadow: none !important;
+    filter: none !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-size: 0.98em;
+}
+
+/* 80% zoom - emulates browser ctrl+minus zoom */
+html {
+    zoom: 0.8;
+}
+
+/* Alternative for browsers that don't support zoom */
+@supports not (zoom: 0.8) {
+    html {
+        transform: scale(0.8);
+        transform-origin: top left;
+        width: 125%;
+        height: 125%;
+    }
+}
+
+/* Headings - smaller, black, no shadow effects */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.label-wrap span,
+.accordion-bar span,
+.tab-header span,
+.section-header,
+.panel-header {
+    color: hsl(0deg 0% 92%) !important;
+    text-shadow: none !important;
+    box-shadow: none !important;
+    font-weight: 500 !important;
+}
+
+h1 {
+    font-size: 1.3em !important;
+}
+
+h2 {
+    font-size: 1.15em !important;
+}
+
+h3 {
+    font-size: 1.05em !important;
+}
+
+h4,
+h5,
+h6 {
+    font-size: 0.95em !important;
+}
+
+h2.auto-hide:hover {
+    text-decoration: underline !important;
+    cursor: pointer !important;
+}
+
+/* Clean button styling */
+button {
+    border: 1px solid hsl(0deg 0% 35%) !important;
+}
+
+button:hover {
+    border-color: var(--sd-button-hover-color) !important;
+}
+
+/* Dropdown options menu (when open) - 1px border and narrow box shadow */
+.gradio-dropdown ul.options {
+    border: 1px solid var(--sd-input-border-color) !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* ============================================
+   TOOLBAR BUTTONS (Generate, icons, etc.)
+   ============================================ */
+
+/* Main SD button container */
+.sd-button {
+    align-items: center;
+    background-color: var(--sd-button-normal-color);
+    border: 1px solid hsl(0deg 0% 35%);
+    border-radius: var(--sd-border-radius);
+    cursor: pointer;
+    display: inline-flex;
+    gap: var(--sd-gap-size);
+    justify-content: center;
+    padding: 0;
+    min-height: 36px;
+}
+
+.sd-button:hover {
+    border-color: var(--sd-button-hover-color);
+}
+
+.sd-button .mask-icon {
+    background-color: hsl(0deg 0% 85%) !important;
+}
+
+.sd-button.active {
+    background-color: var(--sd-button-selected-color);
+    color: white;
+}
+
+/* Generate button - proper width for icon + text, light green */
+.generate,
+.generate button,
+.sd-button:has(.icon-generate),
+button:has(.icon-generate) {
+    min-width: auto !important;
+    width: auto !important;
+    height: 36px !important;
+    padding: 0 !important;
+    background-color: hsl(120deg 35% 25%) !important;
+    color: hsl(0deg 0% 95%) !important;
+    border: 1px solid hsl(120deg 30% 35%) !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+/* Ensure inner button in generate portal has proper padding */
+.generate button {
+    padding: 4px 12px !important;
+    background-color: transparent !important;
+    border: none !important;
+}
+
+.generate:hover,
+.generate button:hover,
+.sd-button:has(.icon-generate):hover,
+button:has(.icon-generate):hover {
+    background-color: hsl(120deg 40% 30%) !important;
+    border-color: hsl(120deg 35% 40%) !important;
+    color: hsl(0deg 0% 95%) !important;
+}
+
+/* Generate button when active/animating */
+.generate.active,
+.generate.active button,
+.generate button:active {
+    background-color: hsla(120, 40%, 30%, 0.5) !important;
+    /* Semi-transparent to show animation */
+    color: hsl(0deg 0% 95%) !important;
+    border: 1px solid hsl(120deg 35% 40%) !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.generate.active button span,
+.generate.active span {
+    color: hsl(0deg 0% 95%) !important;
+}
+
+/* Remove accent-colored text glow on active generate button */
+.generate.active > .portal > button {
+    filter: none !important;
+}
+
+/* Remove inner border from generate portal */
+.generate .portal,
+.generate .portal button {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+/* Force portal transparency in toolbar - High specificity to override generic button styles */
+/* Force portal transparency - remove specific IDs as we color buttons directly now */
+.generate-icons .portal,
+.generate-icons .portal button,
+.generate-icons .portal div:not(.mask-icon),
+div.generate-icons button.gradio-button {
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+/* Ensure mask icons are visible */
+.generate-icons .mask-icon {
+    background-color: hsl(0deg 0% 85%) !important;
+}
+
+/* Icon buttons - square, centered, consistent size (exclude generate button) */
+.generate-icons button:not(.generate button),
+.icons-bar button,
+button[aria-label]:not(.generate button),
+.generate-icons .portal[title]:not([title=""]),
+.generate-icons .sd-button {
+    --sd-input-background-color: transparent !important;
+    height: 36px !important;
+    min-height: 36px !important;
+    min-width: 36px !important;
+
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
+    border-radius: var(--sd-border-radius) !important;
+}
+
+/* Loop/Forever button - light purple */
+.sd-button:has(.icon-loop),
+button:has(.icon-loop) {
+    background-color: hsl(280deg 35% 28%) !important;
+    border: 1px solid hsl(280deg 30% 38%) !important;
+}
+
+.sd-button:has(.icon-loop):hover,
+button:has(.icon-loop):hover {
+    background-color: hsl(280deg 40% 35%) !important;
+}
+
+/* Skip/Next/Back buttons - light blue */
+#control_skip,
+#control_reprocess {
+    background-color: hsl(200deg 40% 28%) !important;
+    border: 1px solid hsl(200deg 35% 38%) !important;
+    --sd-input-background-color: transparent !important;
+}
+
+/* Force portal transparency in toolbar */
+.generate-icons .portal {
+    background-color: transparent !important;
+}
+
+.sd-button:has(.icon-skip):hover,
+.sd-button:has(.icon-next):hover,
+.sd-button:has(.icon-prev):hover,
+.sd-button:has(.icon-reprocess):hover,
+button:has(.icon-skip):hover,
+button:has(.icon-next):hover,
+button:has(.icon-prev):hover,
+button:has(.icon-reprocess):hover {
+    background-color: hsl(200deg 45% 35%) !important;
+}
+
+/* Pause button - light yellow */
+#control_pause {
+    background-color: hsl(45deg 50% 28%) !important;
+    border: 1px solid hsl(45deg 45% 38%) !important;
+    --sd-input-background-color: transparent !important;
+}
+
+.sd-button:has(.icon-pause):hover,
+button:has(.icon-pause):hover {
+    background-color: hsl(45deg 55% 35%) !important;
+}
+
+/* Stop button - light red */
+#control_interrupt {
+    background-color: hsl(0deg 45% 28%) !important;
+    border: 1px solid hsl(0deg 40% 38%) !important;
+    --sd-input-background-color: transparent !important;
+}
+
+.sd-button:has(.icon-stop):hover,
+button:has(.icon-stop):hover {
+    background-color: hsl(0deg 50% 35%) !important;
+}
+
+/* Ensure all mask icons stay visible with proper sizing */
+.mask-icon {
+    background-color: hsl(0deg 0% 85%) !important;
+    filter: none !important;
+    -webkit-filter: none !important;
+    min-height: 16px !important;
+    min-width: 16px !important;
+    height: 20px !important;
+    width: 20px !important;
+}
+
+/* Icons bar - force portal and nested div transparency like generate-icons */
+.icons-bar .portal,
+.icons-bar .portal button,
+.icons-bar .portal div:not(.mask-icon),
+.icons-bar button.gradio-button,
+.stabs-item .portal,
+.stabs-item .portal button,
+.stabs-item .portal div:not(.mask-icon),
+.stabs-item button.gradio-button {
+    background: transparent !important;
+    background-color: transparent !important;
+    border: 0 !important;
+    outline: 0 !important;
+    box-shadow: none !important;
+}
+
+/* All invisible portal wrappers - must be transparent globally */
+div.portal.invisible,
+.portal.invisible,
+button .portal.invisible,
+button.sd-button .portal.invisible,
+.sd-button .portal.invisible,
+button > .portal.invisible,
+.sd-button > .portal.invisible {
+    background: transparent !important;
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    min-height: unset !important;
+    padding: 0 !important;
+    outline: none !important;
+}
+
+/* Portal buttons */
+.portal>button {
+    align-items: center;
+    justify-content: center;
+    background-color: transparent !important;
+}
+
+/* Bottom bar flexbox row container - use no-tr class to avoid affecting sidebar */
+.accordion-bar.no-tr .flexbox.row,
+.accordion-bar.no-tr .flexbox.row.center {
+    min-height: 36px !important;
+    height: auto !important;
+}
+
+/* Bottom bar sd-button wrappers inside accordion-bar.no-tr */
+.accordion-bar.no-tr button.sd-button {
+    height: auto !important;
+    min-height: 36px !important;
+    min-width: 36px !important;
+}/* Bottom bar control buttons - target by data-selector patterns */
+div.portal.invisible[data-selector*="_control"],
+div.portal.invisible[data-selector*="_tab"],
+div.portal.invisible[data-selector*="delete"],
+div.portal.invisible[data-selector*="send_to"],
+div.portal.invisible[data-selector*="extras"],
+div.portal.invisible[data-selector*="upscale"],
+div.portal[data-selector*="_control"],
+div.portal[data-selector*="_tab"],
+div.portal[data-selector*="delete"] {
+    background: transparent !important;
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    min-height: unset !important;
+    padding: 0 !important;
+    outline: none !important;
+}
+
+/* Bottom bar control button sizing - 36px like top toolbar */
+#save_control,
+#open_folder_control,
+#delete_control,
+#control_tab,
+#txt2img_tab,
+#img2img_tab,
+#extras_tab,
+#caption_tab,
+div.portal.invisible[data-selector*="_control"] > button,
+div.portal.invisible[data-selector*="_tab"] > button,
+div.portal.invisible[data-selector*="delete"] > button,
+div.portal[data-selector*="_control"] > button,
+div.portal[data-selector*="_tab"] > button {
+    --sd-input-background-color: transparent !important;
+    height: auto !important;
+    min-height: 36px !important;
+    min-width: 36px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 4px 10px !important;
+    border-radius: var(--sd-border-radius) !important;
+    background-color: transparent !important;
+    border: none !important;
+}
+
+/* Outer sd-button wrapper containing portal - must also be 36px */
+button.sd-button:has(.portal.invisible),
+button.sd-button:has(.portal) {
+    height: 36px !important;
+    min-height: 36px !important;
+    min-width: 36px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
+}
+
+/* Icons bar sd-buttons - must be transparent to show hover, match generate icons sizing */
+.icons-bar button.sd-button,
+.icons-bar .sd-button {
+    background-color: transparent !important;
+    background: transparent !important;
+    border: none !important;
+    height: 36px !important;
+    min-height: 36px !important;
+    min-width: 36px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
+}
+
+/* Nested portal.invisible inside icons-bar buttons - must be transparent */
+.icons-bar button.sd-button div.portal.invisible,
+.icons-bar .sd-button div.portal.invisible,
+.icons-bar button.sd-button .portal.invisible,
+.icons-bar .sd-button .portal.invisible,
+.icons-bar button div.portal.invisible,
+.icons-bar .portal.invisible {
+    background: transparent !important;
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    min-height: unset !important;
+    padding: 0 !important;
+    pointer-events: auto !important;
+}
+
+/* Tool buttons */
+.sd-button.tool {
+    height: 36px;
+    min-height: 36px;
+    min-width: 36px;
+    width: 36px;
+}
+
+/* Tab navigation */
+.tab-nav {
+    background-color: transparent;
+    gap: 6px;
+}
+
+/* Tab navigation buttons - add horizontal spacing */
+.tab-nav button {
+    margin: 2px !important;
+}
+
+/* Form spacing */
+.form {
+    gap: 4px;
+}
+
+/* Group styling */
+.group-col {
+    gap: 2px !important;
+}
+
+/* Clean accordion */
+.gradio-accordion {
+    background-color: transparent !important;
+}
+
+/* Settings tabs - menu items borderless, bottom border only, blue when selected */
+.settings-tabs .tab-nav {
+    gap: 0;
+    background-color: transparent;
+}
+
+.settings-tabs .tab-nav button {
+    border: none !important;
+    border-bottom: 2px solid transparent !important;
+    border-radius: 0 !important;
+    background-color: transparent !important;
+    margin: 0 !important;
+    padding: 6px 12px !important;
+}
+
+.settings-tabs .tab-nav button:hover {
+    border-bottom-color: hsl(0deg 0% 45%) !important;
+    background-color: hsl(0deg 0% 22%) !important;
+    color: hsl(0deg 0% 92%) !important;
+}
+
+.settings-tabs .tab-nav button.selected,
+.settings-tabs .tab-nav button[aria-selected="true"] {
+    border-bottom-color: var(--sd-main-accent-color) !important;
+    background-color: var(--sd-main-accent-color) !important;
+    color: white !important;
+}
+
+/* Panels */
+.panel {
+    background-color: var(--sd-group-background-color);
+}
+
+/* Gallery preview */
+*.gradio-gallery .preview img {
+    background-color: hsl(0deg 0% 15%);
+}
+
+/* Flexbox rows */
+.flexbox.row {
+    margin-bottom: unset;
+}
+
+/* Extra networks */
+.extra-network-subdirs {
+    gap: 2px;
+}
+
+/* Extra networks tab navigation - flex wrap to position toolbar correctly */
+.extra_networks_root .tab-nav,
+#control_extra_networks .tab-nav {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    gap: 2px !important;
+    background-color: transparent !important;
+}
+
+/* Toolbar buttons container - appears FIRST */
+.extra_networks_root .tab-nav .buttons,
+#control_extra_networks .tab-nav .buttons,
+.tab-nav span.buttons {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 2px !important;
+    flex-basis: 100% !important; /* Force line break */
+    width: 100% !important;
+    order: 1 !important; /* First row */
+    margin: 0 !important;
+    padding: 2px 0 !important;
+    background-color: transparent !important;
+    /* Override base.css and sdnext.css absolute positioning */
+    position: relative !important;
+    right: auto !important;
+}
+
+/* Second line container (search and description) - appears SECOND */
+.extra_networks_root .tab-nav .second-line,
+#control_extra_networks .tab-nav .second-line,
+.tab-nav .second-line {
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 4px !important;
+    flex-basis: 100% !important; /* Force line break */
+    width: 100% !important;
+    order: 2 !important; /* Second row */
+    margin: 2px 0 !important;
+}
+
+/* Menu tab buttons - appear THIRD (below search) */
+.extra_networks_root .tab-nav > button,
+#control_extra_networks .tab-nav > button {
+    order: 3 !important; /* Third row */
+    flex-shrink: 0 !important;
+    margin: 0 2px 0 0 !important;
+}
+
+/* Individual toolbar buttons - proper padding and borders */
+.extra_networks_root .tab-nav .buttons > button,
+#control_extra_networks .tab-nav .buttons > button,
+#txt2img_extra_networks .tab-nav .buttons > button,
+#img2img_extra_networks .tab-nav .buttons > button,
+#video_extra_networks .tab-nav .buttons > button,
+.tab-nav .buttons > button,
+#control_extra_refresh,   #txt2img_extra_refresh,   #img2img_extra_refresh,   #video_extra_refresh,
+#control_extra_model,     #txt2img_extra_model,     #img2img_extra_model,     #video_extra_model,
+#control_extra_scan,      #txt2img_extra_scan,      #img2img_extra_scan,      #video_extra_scan,
+#control_extra_save,      #txt2img_extra_save,      #img2img_extra_save,      #video_extra_save,
+#control_extra_sort,      #txt2img_extra_sort,      #img2img_extra_sort,      #video_extra_sort,
+#control_extra_view,      #txt2img_extra_view,      #img2img_extra_view,      #video_extra_view,
+#control_extra_close,     #txt2img_extra_close,     #img2img_extra_close,     #video_extra_close,
+#control_extra_quicksave, #txt2img_extra_quicksave, #img2img_extra_quicksave, #video_extra_quicksave {
+    min-width: 36px !important;
+    min-height: 36px !important;
+    padding: 6px 8px !important;
+    border: 1px solid var(--sd-input-border-color) !important;
+    border-radius: var(--sd-border-radius) !important;
+    background-color: transparent !important;
+    color: inherit !important;
+}
+
+/* Hover / focus */
+.extra_networks_root .tab-nav .buttons > button:hover,
+#control_extra_networks .tab-nav .buttons > button:hover,
+#txt2img_extra_networks .tab-nav .buttons > button:hover,
+#img2img_extra_networks .tab-nav .buttons > button:hover,
+#video_extra_networks .tab-nav .buttons > button:hover,
+.tab-nav .buttons > button:hover,
+#control_extra_refresh:hover,   #txt2img_extra_refresh:hover,   #img2img_extra_refresh:hover,   #video_extra_refresh:hover,
+#control_extra_model:hover,     #txt2img_extra_model:hover,     #img2img_extra_model:hover,     #video_extra_model:hover,
+#control_extra_scan:hover,      #txt2img_extra_scan:hover,      #img2img_extra_scan:hover,      #video_extra_scan:hover,
+#control_extra_save:hover,      #txt2img_extra_save:hover,      #img2img_extra_save:hover,      #video_extra_save:hover,
+#control_extra_sort:hover,      #txt2img_extra_sort:hover,      #img2img_extra_sort:hover,      #video_extra_sort:hover,
+#control_extra_view:hover,      #txt2img_extra_view:hover,      #img2img_extra_view:hover,      #video_extra_view:hover,
+#control_extra_close:hover,     #txt2img_extra_close:hover,     #img2img_extra_close:hover,     #video_extra_close:hover,
+#control_extra_quicksave:hover, #txt2img_extra_quicksave:hover, #img2img_extra_quicksave:hover, #video_extra_quicksave:hover,
+.extra_networks_root .tab-nav .buttons > button:focus,
+.tab-nav .buttons > button:focus,
+.tab-nav .buttons > button:focus-visible,
+#control_extra_refresh:focus, #txt2img_extra_refresh:focus, #img2img_extra_refresh:focus, #video_extra_refresh:focus {
+    border-color: var(--sd-button-hover-color) !important;
+    background-color: var(--sd-button-hover-color) !important;
+    color: var(--sd-button-hover-text-color) !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+/* Active / selected */
+.extra_networks_root .tab-nav .buttons > button:active,
+.tab-nav .buttons > button:active,
+#control_extra_refresh:active,   #txt2img_extra_refresh:active,   #img2img_extra_refresh:active,   #video_extra_refresh:active,
+#control_extra_model.active,     #txt2img_extra_model.active,     #img2img_extra_model.active,     #video_extra_model.active,
+#control_extra_model.selected,   #txt2img_extra_model.selected,   #img2img_extra_model.selected,   #video_extra_model.selected,
+#control_extra_save.active,      #txt2img_extra_save.active,      #img2img_extra_save.active,      #video_extra_save.active,
+#control_extra_quicksave.active, #txt2img_extra_quicksave.active, #img2img_extra_quicksave.active, #video_extra_quicksave.active,
+#control_extra_refresh[aria-pressed="true"], #txt2img_extra_refresh[aria-pressed="true"], #img2img_extra_refresh[aria-pressed="true"], #video_extra_refresh[aria-pressed="true"] {
+    background-color: var(--sd-button-selected-color) !important;
+    color: var(--sd-button-selected-text-color) !important;
+    border-color: var(--sd-button-selected-color) !important;
+}
+
+/* Keyboard focus outline */
+.extra_networks_root .tab-nav .buttons > button:focus-visible,
+.tab-nav .buttons > button:focus-visible,
+#control_extra_refresh:focus-visible, #txt2img_extra_refresh:focus-visible, #img2img_extra_refresh:focus-visible, #video_extra_refresh:focus-visible {
+    outline: var(--sd-outline-size) solid var(--sd-outline-color) !important;
+    outline-offset: 2px !important;
+}
+
+/* Synchronize Gallery Styles */
+#control_gallery .grid-container,
+#txt2img_gallery .grid-container,
+#img2img_gallery .grid-container,
+#video_gallery .grid-container {
+    height: 99%;
+}
+
+/* Unify Template Columns */
+#txt2img-columns > div,
+#img2img-columns > div,
+#control-columns > div,
+#extras-columns > div {
+    flex-grow: 1;
+    justify-content: flex-start;
+    min-width: var(--sd-panel-min-width);
+    width: 100%;
+}
+
+#txt2img-columns,
+#img2img-columns,
+#control-columns,
+#extras-columns {
+    display: flex;
+    flex-direction: row;
+    gap: var(--sd-gap-size);
+}
+
