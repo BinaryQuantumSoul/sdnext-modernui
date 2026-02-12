@@ -1,9 +1,9 @@
-/* CTD-NT64-Dark Theme - A Windows Dark Segoe-UI System Theme Style - Conducted by CeeTeeDee - Coded by Claude. */
+/* CTD-NT64-Dark Theme - A Windows Dark Segoe-UI System Theme Style - Overwrite by Medium Structure - Colors Preserved. */
 
 :root {
     /* Declare dark color scheme for browser */
     color-scheme: dark;
-    
+
     /* Font stack - Segoe UI for Windows, with NotoSans Nerd Font fallbacks */
     --sd-body-font: 'Segoe UI', 'Ubuntu', 'Liberation Sans', 'DejaVu Sans', 'NotoSans', 'Noto Sans', sans-serif;
     --sd-text-font: 'Segoe UI', 'Ubuntu', 'Liberation Sans', 'DejaVu Sans', 'NotoSans', 'Noto Sans', sans-serif;
@@ -81,9 +81,11 @@ textarea {
     text-shadow: none !important;
 }
 
-/* Hide primary color picker in locale flexbox */
+/* Show primary color picker in locale flexbox */
 #sd-primary-color {
-    display: none !important;
+    display: block !important;
+    border-radius: 4px !important;
+    border: 1px solid hsl(0deg 0% 35%) !important;
 }
 
 /* Ensure no shadows on heading elements */
@@ -121,7 +123,7 @@ html {
     }
 }
 
-/* Headings - smaller, black, no shadow effects */
+/* Headings - smaller, light, no shadow effects */
 h1,
 h2,
 h3,
@@ -167,6 +169,18 @@ button {
     border: 1px solid hsl(0deg 0% 35%) !important;
 }
 
+/* Remove borders from radio buttons */
+.gradio-radio .wrap,
+.gradio-checkbox .wrap,
+fieldset,
+.gradio-radio label,
+.gradio-checkbox label,
+.gradio-radio .item,
+.gradio-checkbox .item {
+    border: none !important;
+    box-shadow: none !important;
+}
+
 button:hover {
     border-color: var(--sd-button-hover-color) !important;
 }
@@ -175,6 +189,7 @@ button:hover {
 .gradio-dropdown ul.options {
     border: 1px solid var(--sd-input-border-color) !important;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
+    background-color: var(--sd-input-background-color) !important;
 }
 
 /* ============================================
@@ -208,7 +223,7 @@ button:hover {
     color: white;
 }
 
-/* Generate button - proper width for icon + text, light green */
+/* Generate button - proper width for icon + text, dark green */
 .generate,
 .generate button,
 .sd-button:has(.icon-generate),
@@ -258,7 +273,7 @@ button:has(.icon-generate):hover {
 }
 
 /* Remove accent-colored text glow on active generate button */
-.generate.active > .portal > button {
+.generate.active>.portal>button {
     filter: none !important;
 }
 
@@ -296,7 +311,6 @@ button[aria-label]:not(.generate button),
     height: 36px !important;
     min-height: 36px !important;
     min-width: 36px !important;
-
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
@@ -304,7 +318,7 @@ button[aria-label]:not(.generate button),
     border-radius: var(--sd-border-radius) !important;
 }
 
-/* Loop/Forever button - light purple */
+/* Loop/Forever button - dark purple */
 .sd-button:has(.icon-loop),
 button:has(.icon-loop) {
     background-color: hsl(280deg 35% 28%) !important;
@@ -316,7 +330,7 @@ button:has(.icon-loop):hover {
     background-color: hsl(280deg 40% 35%) !important;
 }
 
-/* Skip/Next/Back buttons - light blue */
+/* Skip/Next/Back buttons - dark blue */
 #control_skip,
 #control_reprocess {
     background-color: hsl(200deg 40% 28%) !important;
@@ -340,7 +354,7 @@ button:has(.icon-reprocess):hover {
     background-color: hsl(200deg 45% 35%) !important;
 }
 
-/* Pause button - light yellow */
+/* Pause button - dark yellow */
 #control_pause {
     background-color: hsl(45deg 50% 28%) !important;
     border: 1px solid hsl(45deg 45% 38%) !important;
@@ -352,7 +366,7 @@ button:has(.icon-pause):hover {
     background-color: hsl(45deg 55% 35%) !important;
 }
 
-/* Stop button - light red */
+/* Stop button - dark red */
 #control_interrupt {
     background-color: hsl(0deg 45% 28%) !important;
     border: 1px solid hsl(0deg 40% 38%) !important;
@@ -397,8 +411,8 @@ div.portal.invisible,
 button .portal.invisible,
 button.sd-button .portal.invisible,
 .sd-button .portal.invisible,
-button > .portal.invisible,
-.sd-button > .portal.invisible {
+button>.portal.invisible,
+.sd-button>.portal.invisible {
     background: transparent !important;
     background-color: transparent !important;
     border: none !important;
@@ -427,7 +441,9 @@ button > .portal.invisible,
     height: auto !important;
     min-height: 36px !important;
     min-width: 36px !important;
-}/* Bottom bar control buttons - target by data-selector patterns */
+}
+
+/* Bottom bar control buttons - target by data-selector patterns */
 div.portal.invisible[data-selector*="_control"],
 div.portal.invisible[data-selector*="_tab"],
 div.portal.invisible[data-selector*="delete"],
@@ -455,11 +471,11 @@ div.portal[data-selector*="delete"] {
 #img2img_tab,
 #extras_tab,
 #caption_tab,
-div.portal.invisible[data-selector*="_control"] > button,
-div.portal.invisible[data-selector*="_tab"] > button,
-div.portal.invisible[data-selector*="delete"] > button,
-div.portal[data-selector*="_control"] > button,
-div.portal[data-selector*="_tab"] > button {
+div.portal.invisible[data-selector*="_control"]>button,
+div.portal.invisible[data-selector*="_tab"]>button,
+div.portal.invisible[data-selector*="delete"]>button,
+div.portal[data-selector*="_control"]>button,
+div.portal[data-selector*="_tab"]>button {
     --sd-input-background-color: transparent !important;
     height: auto !important;
     min-height: 36px !important;
@@ -616,9 +632,11 @@ button.sd-button:has(.portal) {
     flex-direction: row !important;
     align-items: center !important;
     gap: 2px !important;
-    flex-basis: 100% !important; /* Force line break */
+    flex-basis: 100% !important;
+    /* Force line break */
     width: 100% !important;
-    order: 1 !important; /* First row */
+    order: 1 !important;
+    /* First row */
     margin: 0 !important;
     padding: 2px 0 !important;
     background-color: transparent !important;
@@ -634,35 +652,62 @@ button.sd-button:has(.portal) {
     display: flex !important;
     flex-direction: row !important;
     gap: 4px !important;
-    flex-basis: 100% !important; /* Force line break */
+    flex-basis: 100% !important;
+    /* Force line break */
     width: 100% !important;
-    order: 2 !important; /* Second row */
+    order: 2 !important;
+    /* Second row */
     margin: 2px 0 !important;
 }
 
 /* Menu tab buttons - appear THIRD (below search) */
-.extra_networks_root .tab-nav > button,
-#control_extra_networks .tab-nav > button {
-    order: 3 !important; /* Third row */
+.extra_networks_root .tab-nav>button,
+#control_extra_networks .tab-nav>button {
+    order: 3 !important;
+    /* Third row */
     flex-shrink: 0 !important;
     margin: 0 2px 0 0 !important;
 }
 
 /* Individual toolbar buttons - proper padding and borders */
-.extra_networks_root .tab-nav .buttons > button,
-#control_extra_networks .tab-nav .buttons > button,
-#txt2img_extra_networks .tab-nav .buttons > button,
-#img2img_extra_networks .tab-nav .buttons > button,
-#video_extra_networks .tab-nav .buttons > button,
-.tab-nav .buttons > button,
-#control_extra_refresh,   #txt2img_extra_refresh,   #img2img_extra_refresh,   #video_extra_refresh,
-#control_extra_model,     #txt2img_extra_model,     #img2img_extra_model,     #video_extra_model,
-#control_extra_scan,      #txt2img_extra_scan,      #img2img_extra_scan,      #video_extra_scan,
-#control_extra_save,      #txt2img_extra_save,      #img2img_extra_save,      #video_extra_save,
-#control_extra_sort,      #txt2img_extra_sort,      #img2img_extra_sort,      #video_extra_sort,
-#control_extra_view,      #txt2img_extra_view,      #img2img_extra_view,      #video_extra_view,
-#control_extra_close,     #txt2img_extra_close,     #img2img_extra_close,     #video_extra_close,
-#control_extra_quicksave, #txt2img_extra_quicksave, #img2img_extra_quicksave, #video_extra_quicksave {
+.extra_networks_root .tab-nav .buttons>button,
+#control_extra_networks .tab-nav .buttons>button,
+#txt2img_extra_networks .tab-nav .buttons>button,
+#img2img_extra_networks .tab-nav .buttons>button,
+#video_extra_networks .tab-nav .buttons>button,
+.tab-nav .buttons>button,
+#control_extra_refresh,
+#txt2img_extra_refresh,
+#img2img_extra_refresh,
+#video_extra_refresh,
+#control_extra_model,
+#txt2img_extra_model,
+#img2img_extra_model,
+#video_extra_model,
+#control_extra_scan,
+#txt2img_extra_scan,
+#img2img_extra_scan,
+#video_extra_scan,
+#control_extra_save,
+#txt2img_extra_save,
+#img2img_extra_save,
+#video_extra_save,
+#control_extra_sort,
+#txt2img_extra_sort,
+#img2img_extra_sort,
+#video_extra_sort,
+#control_extra_view,
+#txt2img_extra_view,
+#img2img_extra_view,
+#video_extra_view,
+#control_extra_close,
+#txt2img_extra_close,
+#img2img_extra_close,
+#video_extra_close,
+#control_extra_quicksave,
+#txt2img_extra_quicksave,
+#img2img_extra_quicksave,
+#video_extra_quicksave {
     min-width: 36px !important;
     min-height: 36px !important;
     padding: 6px 8px !important;
@@ -673,24 +718,51 @@ button.sd-button:has(.portal) {
 }
 
 /* Hover / focus */
-.extra_networks_root .tab-nav .buttons > button:hover,
-#control_extra_networks .tab-nav .buttons > button:hover,
-#txt2img_extra_networks .tab-nav .buttons > button:hover,
-#img2img_extra_networks .tab-nav .buttons > button:hover,
-#video_extra_networks .tab-nav .buttons > button:hover,
-.tab-nav .buttons > button:hover,
-#control_extra_refresh:hover,   #txt2img_extra_refresh:hover,   #img2img_extra_refresh:hover,   #video_extra_refresh:hover,
-#control_extra_model:hover,     #txt2img_extra_model:hover,     #img2img_extra_model:hover,     #video_extra_model:hover,
-#control_extra_scan:hover,      #txt2img_extra_scan:hover,      #img2img_extra_scan:hover,      #video_extra_scan:hover,
-#control_extra_save:hover,      #txt2img_extra_save:hover,      #img2img_extra_save:hover,      #video_extra_save:hover,
-#control_extra_sort:hover,      #txt2img_extra_sort:hover,      #img2img_extra_sort:hover,      #video_extra_sort:hover,
-#control_extra_view:hover,      #txt2img_extra_view:hover,      #img2img_extra_view:hover,      #video_extra_view:hover,
-#control_extra_close:hover,     #txt2img_extra_close:hover,     #img2img_extra_close:hover,     #video_extra_close:hover,
-#control_extra_quicksave:hover, #txt2img_extra_quicksave:hover, #img2img_extra_quicksave:hover, #video_extra_quicksave:hover,
-.extra_networks_root .tab-nav .buttons > button:focus,
-.tab-nav .buttons > button:focus,
-.tab-nav .buttons > button:focus-visible,
-#control_extra_refresh:focus, #txt2img_extra_refresh:focus, #img2img_extra_refresh:focus, #video_extra_refresh:focus {
+.extra_networks_root .tab-nav .buttons>button:hover,
+#control_extra_networks .tab-nav .buttons>button:hover,
+#txt2img_extra_networks .tab-nav .buttons>button:hover,
+#img2img_extra_networks .tab-nav .buttons>button:hover,
+#video_extra_networks .tab-nav .buttons>button:hover,
+.tab-nav .buttons>button:hover,
+#control_extra_refresh:hover,
+#txt2img_extra_refresh:hover,
+#img2img_extra_refresh:hover,
+#video_extra_refresh:hover,
+#control_extra_model:hover,
+#txt2img_extra_model:hover,
+#img2img_extra_model:hover,
+#video_extra_model:hover,
+#control_extra_scan:hover,
+#txt2img_extra_scan:hover,
+#img2img_extra_scan:hover,
+#video_extra_scan:hover,
+#control_extra_save:hover,
+#txt2img_extra_save:hover,
+#img2img_extra_save:hover,
+#video_extra_save:hover,
+#control_extra_sort:hover,
+#txt2img_extra_sort:hover,
+#img2img_extra_sort:hover,
+#video_extra_sort:hover,
+#control_extra_view:hover,
+#txt2img_extra_view:hover,
+#img2img_extra_view:hover,
+#video_extra_view:hover,
+#control_extra_close:hover,
+#txt2img_extra_close:hover,
+#img2img_extra_close:hover,
+#video_extra_close:hover,
+#control_extra_quicksave:hover,
+#txt2img_extra_quicksave:hover,
+#img2img_extra_quicksave:hover,
+#video_extra_quicksave:hover,
+.extra_networks_root .tab-nav .buttons>button:focus,
+.tab-nav .buttons>button:focus,
+.tab-nav .buttons>button:focus-visible,
+#control_extra_refresh:focus,
+#txt2img_extra_refresh:focus,
+#img2img_extra_refresh:focus,
+#video_extra_refresh:focus {
     border-color: var(--sd-button-hover-color) !important;
     background-color: var(--sd-button-hover-color) !important;
     color: var(--sd-button-hover-text-color) !important;
@@ -699,23 +771,44 @@ button.sd-button:has(.portal) {
 }
 
 /* Active / selected */
-.extra_networks_root .tab-nav .buttons > button:active,
-.tab-nav .buttons > button:active,
-#control_extra_refresh:active,   #txt2img_extra_refresh:active,   #img2img_extra_refresh:active,   #video_extra_refresh:active,
-#control_extra_model.active,     #txt2img_extra_model.active,     #img2img_extra_model.active,     #video_extra_model.active,
-#control_extra_model.selected,   #txt2img_extra_model.selected,   #img2img_extra_model.selected,   #video_extra_model.selected,
-#control_extra_save.active,      #txt2img_extra_save.active,      #img2img_extra_save.active,      #video_extra_save.active,
-#control_extra_quicksave.active, #txt2img_extra_quicksave.active, #img2img_extra_quicksave.active, #video_extra_quicksave.active,
-#control_extra_refresh[aria-pressed="true"], #txt2img_extra_refresh[aria-pressed="true"], #img2img_extra_refresh[aria-pressed="true"], #video_extra_refresh[aria-pressed="true"] {
+.extra_networks_root .tab-nav .buttons>button:active,
+.tab-nav .buttons>button:active,
+#control_extra_refresh:active,
+#txt2img_extra_refresh:active,
+#img2img_extra_refresh:active,
+#video_extra_refresh:active,
+#control_extra_model.active,
+#txt2img_extra_model.active,
+#img2img_extra_model.active,
+#video_extra_model.active,
+#control_extra_model.selected,
+#txt2img_extra_model.selected,
+#img2img_extra_model.selected,
+#video_extra_model.selected,
+#control_extra_save.active,
+#txt2img_extra_save.active,
+#img2img_extra_save.active,
+#video_extra_save.active,
+#control_extra_quicksave.active,
+#txt2img_extra_quicksave.active,
+#img2img_extra_quicksave.active,
+#video_extra_quicksave.active,
+#control_extra_refresh[aria-pressed="true"],
+#txt2img_extra_refresh[aria-pressed="true"],
+#img2img_extra_refresh[aria-pressed="true"],
+#video_extra_refresh[aria-pressed="true"] {
     background-color: var(--sd-button-selected-color) !important;
     color: var(--sd-button-selected-text-color) !important;
     border-color: var(--sd-button-selected-color) !important;
 }
 
 /* Keyboard focus outline */
-.extra_networks_root .tab-nav .buttons > button:focus-visible,
-.tab-nav .buttons > button:focus-visible,
-#control_extra_refresh:focus-visible, #txt2img_extra_refresh:focus-visible, #img2img_extra_refresh:focus-visible, #video_extra_refresh:focus-visible {
+.extra_networks_root .tab-nav .buttons>button:focus-visible,
+.tab-nav .buttons>button:focus-visible,
+#control_extra_refresh:focus-visible,
+#txt2img_extra_refresh:focus-visible,
+#img2img_extra_refresh:focus-visible,
+#video_extra_refresh:focus-visible {
     outline: var(--sd-outline-size) solid var(--sd-outline-color) !important;
     outline-offset: 2px !important;
 }
@@ -729,10 +822,10 @@ button.sd-button:has(.portal) {
 }
 
 /* Unify Template Columns */
-#txt2img-columns > div,
-#img2img-columns > div,
-#control-columns > div,
-#extras-columns > div {
+#txt2img-columns>div,
+#img2img-columns>div,
+#control-columns>div,
+#extras-columns>div {
     flex-grow: 1;
     justify-content: flex-start;
     min-width: var(--sd-panel-min-width);
@@ -748,3 +841,494 @@ button.sd-button:has(.portal) {
     gap: var(--sd-gap-size);
 }
 
+/* Force Light text for markdown content (e.g. changelog) - Dark Theme Inversion */
+.md,
+.md h1,
+.md h2,
+.md h3,
+.md h4,
+.md h5,
+.md h6,
+.md p,
+.md ul,
+.md ol,
+.md li,
+.md span,
+.md strong,
+.md em,
+.md code {
+    color: var(--sd-input-text-color) !important;
+    text-shadow: none !important;
+}
+
+.md a {
+    color: var(--sd-main-accent-color) !important;
+}
+
+/* Remove borders from checkbox elements (User Request) */
+/* Remove borders and fix text from checkbox/radio elements (User Request) */
+.gradio-checkbox,
+.gradio-checkbox label,
+.gradio-checkbox span,
+.gradio-checkbox .wrap,
+.gradio-checkbox .item,
+.gradio-radio,
+.gradio-radio label,
+.gradio-radio span,
+.gradio-radio .wrap,
+.gradio-radio .item,
+.gradio-input-label,
+span.text-gray-500,
+span.text-gray-400 {
+    border: none !important;
+    box-shadow: none !important;
+    background-image: none !important;
+    color: var(--sd-input-text-color) !important;
+}
+
+
+
+/* Fix truncated borders on panels (User Request) */
+.panel {
+    overflow: visible !important;
+    padding-bottom: 4px !important;
+    /* Ensure space for border */
+}
+
+/* Force ALL gray text spans to be Light (Catch-all for white text) - Dark Theme Inversion */
+span[class*="text-gray-"] {
+    color: var(--sd-input-text-color) !important;
+}
+
+/* Fix text color in Control Dynamic Group (User Request) */
+#control_dynamic_group,
+#control_dynamic_group * {
+    color: var(--sd-input-text-color) !important;
+}
+
+/* Fix text color in Extension List table (User Request) */
+#extensions table,
+#extensions td,
+#extensions th,
+#extensions .extension-tag,
+#extensions .info,
+#extensions .date,
+#extensions .type,
+#extensions .version,
+#extensions a.name {
+    color: var(--sd-input-text-color) !important;
+    text-shadow: none !important;
+}
+
+#extensions .type,
+#extensions .version {
+    background-color: transparent !important;
+    /* Ensure no dark background clashes */
+}
+
+/* Fix Console/Log background color (User Request) */
+#split-console-up,
+#split-console-down,
+#history_table,
+#history_timeline,
+#logMonitorData {
+    background-color: #000 !important;
+}
+
+/* Fix "Apply settings" button hover/active states (User Request) */
+button.lg.primary.gradio-button:hover,
+button.lg.primary.gradio-button:active {
+    background-color: var(--sd-button-hover-color) !important;
+    color: var(--sd-button-hover-text-color) !important;
+    border-color: var(--sd-button-hover-color) !important;
+}
+
+button.lg.primary.gradio-button:active {
+    background-color: var(--sd-button-selected-color) !important;
+    color: var(--sd-button-selected-text-color) !important;
+}
+
+/* Add padding to Extra Networks cards (User Request) */
+.extra-network-cards {
+    padding-left: 40px !important;
+    padding-right: 40px !important;
+
+
+}
+
+/* Force text to be Light - Dark Theme Inversion */
+.extra-network-cards .card .actions .name,
+.extra-network-cards .card .name,
+.extra-network-cards .card:hover .actions .name {
+    color: white !important;
+    text-shadow: none !important;
+    background-color: hsl(0deg 0% 25%) !important;
+    border: 1px solid hsl(0deg 0% 35%);
+}
+
+/* Force 2-column layout and flexible resizing (User Request) */
+/*.extra-network-cards {
+    grid-template-columns: repeat(2, 1fr) !important;
+    justify-content: center !important;
+}*/
+
+/* Force responsive layout and flexible resizing (User Request) */
+.extra-network-cards {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)) !important;
+    justify-content: center !important;
+}
+
+/* Allow cards to resize freely */
+.extra-network-cards .card {
+    height: auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-height: unset !important;
+    aspect-ratio: auto !important;
+    /* Remove fixed aspect ratio constraints if any */
+}
+
+/* Ensure images fill width and scale proportionally */
+.extra-network-cards .card .preview {
+    width: 100% !important;
+    height: auto !important;
+    max-height: 512px !important;
+    /* Allow up to 512px height */
+    overflow: hidden !important;
+}
+
+.extra-network-cards .card img {
+    width: 100% !important;
+    height: auto !important;
+    object-fit: contain !important;
+    /* Ensure whole image is visible */
+    max-height: 512px !important;
+}
+
+/* User requested manual copy of style.css rules for this specific element */
+.wrap.default.full {
+    background: transparent !important;
+    border: none !important;
+    border-radius: var(--sd-border-radius) !important;
+    color: white !important;
+    font-size: var(--sd-input-font-size) !important;
+    line-height: var(--sd-input-line-height) !important;
+    margin: 0 !important;
+    min-height: var(--sd-input-height) !important;
+    padding: 20px !important;
+    vertical-align: middle !important;
+}
+
+.wrap.default.full.hide {
+    display: none !important;
+}
+
+/* User requested specific selector for progress text */
+.progress-text {
+    background-color: transparent !important;
+    color: white !important;
+    font-size: 12px !important;
+}
+
+/* User requested manual copy of style.css rules for tags under network cards */
+.extra-network-cards .card .tags {
+    background: var(--sd-panel-background-color) !important;
+    overflow-wrap: anywhere !important;
+    padding: 4px !important;
+    position: absolute !important;
+    top: auto !important;
+    bottom: 0 !important;
+    opacity: 0.9 !important;
+    display: none !important;
+    z-index: 50 !important;
+}
+
+.extra-network-cards .card .tag {
+    background: var(--sd-button-hover-color) !important;
+    font-size: 0.9em !important;
+    cursor: pointer !important;
+    display: inline-block !important;
+    text-align: center;
+    margin: var(--sd-gap-size) !important;
+    padding: var(--sd-gap-size) !important;
+    border-radius: var(--sd-border-radius) !important;
+    color: black !important;
+    /* User requested white text */
+}
+
+.extra-network-cards .card .tag:hover {
+    filter: drop-shadow(2px 4px 6px black) !important;
+}
+
+.extra-network-cards .card:hover .tags {
+    display: grid !important;
+}
+
+/* Kanvas Toolbar Styling */
+.kanvas-toolbar {
+    padding-top: 4px;
+    background-color: var(--sd-panel-background-color) !important;
+    border-bottom: 1px solid var(--sd-panel-border-color) !important;
+}
+
+/* Remove default Kanvas shadows */
+.kanvas-toolbar span {
+    filter: none !important;
+    text-shadow: none !important;
+}
+
+.kanvas-button {
+    color: var(--sd-input-text-color) !important;
+}
+
+.kanvas-button:hover,
+.kanvas-button.active {
+    background-color: var(--sd-button-hover-color) !important;
+    /* Light grey highlight */
+    color: var(--sd-input-text-color) !important;
+}
+
+.kanvas-slider {
+    background-color: var(--sd-input-background-color) !important;
+}
+
+.kanvas-select,
+.kanvas-textbox,
+.kanvas-sizebox,
+.kanvas-toolbar input[type="number"] {
+    background-color: var(--sd-input-background-color) !important;
+    color: var(--sd-input-text-color) !important;
+    border: var(--sd-input-border-size) solid var(--sd-input-border-color) !important;
+    border-radius: var(--sd-border-radius) !important;
+    font-family: inherit !important;
+}
+
+.kanvas-select option {
+    background-color: var(--sd-input-background-color) !important;
+    color: var(--sd-input-text-color) !important;
+}
+
+/* User requested .simple-table text color to be Light - Dark Theme Inversion */
+.simple-table {
+    color: var(--sd-input-text-color) !important;
+}
+
+/* User requested 32x32 size and proper styling for control buttons */
+#control_caption_output,
+#control_image_fit {
+    width: 36px !important;
+    height: 36px !important;
+    min-width: 36px !important;
+    min-height: 36px !important;
+    margin: 4px;
+    padding: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    /* Theme Standard Styling */
+    background: var(--sd-button-normal-color) !important;
+    border: 1px solid var(--sd-input-border-color) !important;
+    border-radius: var(--sd-border-radius) !important;
+    color: var(--sd-input-text-color) !important;
+    cursor: pointer !important;
+}
+
+#control_caption_output:hover,
+#control_image_fit:hover {
+    background: var(--sd-button-hover-color) !important;
+    color: var(--sd-button-hover-text-color) !important;
+    border-color: var(--sd-button-hover-color) !important;
+}
+
+.splash {
+    zoom: 1.25;
+}
+
+.motd {
+    display: none;
+}
+
+/* User requested modification indicator to only change color to red, no bold or outline */
+.modification-indicator.changed+button,
+.modification-indicator.changed+.form>*,
+.modification-indicator.changed+button:not(.selected):not(:hover) {
+    font-weight: normal !important;
+    font-size: var(--sd-input-font-size) !important;
+    color: red !important;
+    outline: none !important;
+    border-color: var(--sd-input-border-color) !important;
+}
+
+/* User requested fix for truncated bottom border and radii on output panel */
+.flexbox.row.shrink.panel.padding.no-br {
+    border-bottom-left-radius: var(--sd-border-radius) !important;
+    border-bottom-right-radius: var(--sd-border-radius) !important;
+    margin-bottom: var(--sd-gap-size) !important;
+    overflow: visible !important;
+    padding-bottom: var(--sd-panel-padding) !important;
+}
+
+/* User requested block labels to look like menu headings */
+[data-testid="block-label"] {
+    /* Mimic .gradio-accordion .label-wrap */
+    align-items: center !important;
+    background: var(--sd-input-background-color) !important;
+    border: var(--sd-input-border-size) solid var(--sd-input-border-color) !important;
+    border-radius: var(--sd-border-radius) !important;
+    color: var(--sd-input-secondary-text-color) !important;
+
+    /* Increase size and padding */
+    font-size: var(--sd-input-font-size) !important;
+    /* ~14px usually */
+    font-weight: bold !important;
+    padding: var(--sd-panel-padding) calc(var(--sd-panel-padding) + 4px) !important;
+    /* 4px 8px */
+    line-height: var(--sd-input-line-height) !important;
+
+    /* Adjust positioning/display if needed to look like a header */
+    /* Keeping position: absolute might be necessary for layout logic, but styling is key */
+    height: auto !important;
+    width: auto !important;
+    /* Or width: 100% if they want a full bar? Sticking to auto for now unless requested */
+    z-index: 100 !important;
+}
+
+[data-testid="block-label"] span {
+    /* Resize icon if present */
+    width: 1.2em !important;
+    height: 1.2em !important;
+    margin-right: 0.5em !important;
+}
+
+.update-status {
+    color: white !important;
+}
+
+/* Specific overrides for Seed Buttons (User Request) */
+#control_seed_random,
+#control_seed_reuse {
+    background-color: var(--sd-button-normal-color) !important;
+    border: 1px solid var(--sd-input-border-color) !important;
+    color: var(--sd-button-normal-text-color) !important;
+    background-image: none !important;
+    box-shadow: none !important;
+    min-width: 36px !important;
+    width: 36px !important;
+    height: 36px !important;
+    padding: 0 !important;
+    align-items: center !important;
+    justify-content: center !important;
+    display: inline-flex !important;
+}
+
+#control_seed_random:hover,
+#control_seed_reuse:hover {
+    background-color: var(--sd-button-hover-color) !important;
+    border-color: var(--sd-button-hover-color) !important;
+    color: var(--sd-button-hover-text-color) !important;
+}
+
+#control_seed_random .mask-icon,
+#control_seed_reuse .mask-icon {
+    background-color: hsl(0deg 0% 85%) !important;
+    margin: 0 !important;
+}
+
+/* Vertical Layout Adjustment (User Request) */
+/* Reduce Prompts Container Height to ~35% (35vh) to make room for Size tab ~65% */
+#split-control-prompts {
+    flex-grow: 0 !important;
+    height: 50vh !important;
+    min-height: 200px !important;
+}
+
+/* Ensure Size Tab expands to fill remaining space */
+#control_prompts_tabitem_group>.outline-params {
+    flex-grow: 1 !important;
+    height: auto !important;
+    overflow: hidden !important;
+    /* User Request: Disable H/V scrolling */
+}
+
+/* Fresh Start: Fix Alignment & Widths */
+
+/* 1. Main Container Alignment - Push everything to top */
+#control_prompts_tabitem_group>.outline-params>.flexbox.col.group {
+    justify-content: flex-start !important;
+}
+
+/* 2. Slider/Content Container Alignment - Push to top */
+#control_resize_before_tabitem,
+#control_resize_after_tabitem,
+#control_resize_mask_tabitem {
+    justify-content: flex-start !important;
+    height: 100% !important;
+    overflow: hidden !important;
+    /* User Request: Force Hide Scrollbars */
+    /* Ensure it fills space */
+}
+
+/* 3. Slider Width Fix */
+#control_resize_before_tabitem .subgroup .portal,
+#control_resize_after_tabitem .subgroup .portal,
+#control_resize_mask_tabitem .subgroup .portal {
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
+/* 4. Fix Sub-Group Alignment & Scrolling (User Request) */
+#control_prompts_tabitem_group .xtabs.sub-group {
+    justify-content: flex-start !important;
+    /* Push up */
+    overflow: hidden !important;
+    /* User Request: Force Hide Scrollbars */
+    overflow-x: hidden !important;
+    /* Double tap to be sure */
+    /* No scrollbars */
+    height: auto !important;
+    /* Fit content or expand safely */
+    flex-grow: 1 !important;
+}
+
+/* 5. Fix Layout Stacking & Header Spacing (User Request) */
+/* Force Column Layout for Size Tab Content (Stack Sliders & Dropdowns) */
+#control_resize_before_tabitem>.flexbox,
+#control_resize_after_tabitem>.flexbox,
+#control_resize_mask_tabitem>.flexbox {
+    flex-direction: column !important;
+    /* Forces stacking */
+    width: 100% !important;
+}
+
+/* Remove Top Spacing from Tab Buttons */
+#control_prompts_tabitem_group .xtabs-header {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+}
+
+/* 6. Fix Button Row Layout (User Request) */
+/* Target the specific container for AR, Swap, Measure buttons */
+#control_resize_before_tabitem .flexbox.col.center.panel.shrink,
+#control_resize_after_tabitem .flexbox.col.center.panel.shrink,
+#control_resize_mask_tabitem .flexbox.col.center.panel.shrink {
+    flex-direction: row !important;
+    /* Force side-by-side */
+    width: auto !important;
+    /* Allow shrinking */
+    justify-content: flex-start !important;
+    gap: 8px !important;
+    order: 10 !important;
+    /* User Request: Move Buttons below "Mode after" dropdowns */
+    margin-top: 8px !important;
+    /* Spacing */
+}
+
+/* Reset width for the buttons inside this row */
+#control_resize_before_tabitem .flexbox.col.center.panel.shrink .portal,
+#control_resize_after_tabitem .flexbox.col.center.panel.shrink .portal,
+#control_resize_mask_tabitem .flexbox.col.center.panel.shrink .portal {
+    width: auto !important;
+    flex-grow: 0 !important;
+    min-width: unset !important;
+}
