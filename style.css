@@ -1027,6 +1027,7 @@ button:hover .mask-icon {
   font-family: 'NotoSans', var(--font);
   min-height: unset;
   min-height: calc(var(--sd-input-height) - (var(--sd-input-border-size) * 2));
+  min-width: 3.4em;
 }
 
 *.gradio-dropdown .secondary-wrap {
