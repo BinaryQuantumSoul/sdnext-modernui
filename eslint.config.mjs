@@ -255,6 +255,7 @@ export default defineConfig([
     '**/split.js',
     '**/exifr.js',
     '**/iframeResizer.min.js',
+    '**/Vlad-Neomorph.css',
   ]),
   ...jsConfig,
   // ...typescriptConfig,
