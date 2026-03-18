@@ -6043,3 +6043,31 @@ input.border-none.subdued {
 #control_styles > label > span {
   display: none;
 }
+
+#quicksetting_clear_btn {
+  display: block;
+  color: var(--color-debug);
+}
+
+.server-info-table {
+  max-height: 12em;
+  overflow-y: auto;
+  overflow-x: hidden;
+  font-size: 0.9em;
+  margin-left: 1em;
+}
+
+.server-info-table tbody tr td {
+  text-wrap-mode: nowrap;
+}
+
+.server-info-table tbody tr td:first-child {
+  font-weight: bold;
+  font-variant: small-caps;
+  width: 7em;
+}
+
+#server-info-time {
+  text-align: right;
+  color: var(--sd-button-hover-color);
+}

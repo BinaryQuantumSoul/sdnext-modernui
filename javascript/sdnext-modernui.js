@@ -523,6 +523,7 @@ async function mainUiUx() {
   trackAsideFocus();
   extraTweaks();
   applyAutoHide();
+  initServerInfo();
   uiFlagInitialized = true;
 }
 

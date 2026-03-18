@@ -28,6 +28,7 @@ const jsConfig = defineConfig([
       globals: { // Set per project
         ...globals.builtin,
         ...globals.browser,
+        authFetch: 'readonly',
         gradioApp: 'readonly',
         log: 'readonly',
         error: 'readonly',
@@ -49,6 +50,7 @@ const jsConfig = defineConfig([
         setupControlDynamicObservers: 'readonly',
         setUserColors: 'readonly',
         showContributors: 'readonly',
+        initServerInfo: 'readonly',
         createButtonsForExtensions: 'readonly',
       },
     },
