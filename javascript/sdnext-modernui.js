@@ -485,7 +485,7 @@ function logStartup() {
   const filteredOpts = Object.entries(window.opts).filter(([key, value]) => key.startsWith('uiux') && typeof value !== 'string');
   const uiOpts = {};
   for (const [key, value] of filteredOpts) uiOpts[key] = value;
-  log('settings', uiOpts);
+  log('modernUI', uiOpts);
 }
 
 async function setupLogger() {

@@ -2533,6 +2533,10 @@ button.active .icon-sort {
   mask-image: url(./html/svg/folder-gear.svg);
 }
 
+.icon-folder-heart {
+  mask-image: url(./html/svg/folder-heart.svg);
+}
+
 .icon-folder-grid {
   mask-image: url(./html/svg/folder-grid.svg);
 }
@@ -6034,4 +6038,8 @@ input.border-none.subdued {
 
 #extras_image {
   height: 39vh;
+}
+
+#control_styles > label > span {
+  display: none;
 }

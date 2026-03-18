@@ -26,6 +26,10 @@
           <div class="mask-icon icon-folder-magnifying-glass"></div>
           <span>Detail</span>
         </button>
+        <button title="Corrections" tabItemId="#control_params_corrections_tabitem" tabGroup="control" id="control_params_corrections" class="xtabs-tab shrink">
+          <div class="mask-icon icon-folder-heart"></div>
+          <span>Corrections</span>
+        </button>
         <button title="Advanced" tabItemId="#control_params_advanced_tabitem" tabGroup="control" id="control_params_advanced" class="xtabs-tab shrink">
           <div class="mask-icon icon-folder-gear"></div>
           <span>Advanced</span>
@@ -350,22 +354,34 @@
             </div>
           </div>
 
+          <div id="control_params_corrections_tabitem_group" class="flexbox col outline-params">
+            <div id="control_params_corrections_tabitem" class="xtabs-item">
+              <div class="flexbox col">
+
+                <h2>Color Grading</h2>
+                <div data-parent-selector="#tab_control" data-selector="#control_color_grading .gap" class="portal no-outline"></div>
+
+                <h2>Latent Corrections</h2>
+                <div data-parent-selector="#tab_control" data-selector="#control_latent_corrections .gap" class="portal no-outline"></div>
+
+              </div>
+            </div>
+          </div>
+
           <div id="control_params_advanced_tabitem_group" class="flexbox col outline-params">
             <div id="control_params_advanced_tabitem" class="xtabs-item">
               <div class="flexbox col">
-
+          
                 <h2>Advanced</h2>
                 <div data-parent-selector="#tab_control" data-selector="#control_advanced .gap" class="portal no-outline"></div>
-
-                <h2>Corrections</h2>
-                <div data-parent-selector="#tab_control" data-selector="#control_corrections .gap" class="portal no-outline"></div>
-
+          
                 <h2>Override</h2>
                 <div class="flexbox group col">
                   <div class="flexbox row">
                     <div data-parent-selector="#tab_control" data-selector="#control_override_settings" class="portal"></div>
                   </div>
                 </div>
+
               </div>
             </div>
           </div>
