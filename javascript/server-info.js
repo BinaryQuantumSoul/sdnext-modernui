@@ -60,7 +60,7 @@ async function getServerInfo() {
     status: status_req.ok ? await status_req.json() : {},
     memory: memory_req.ok ? await memory_req.json() : {},
     platform: platform_req.ok ? await platform_req.json() : {},
-    browser: navigator.userAgent,
+    browser: { agent: navigator.userAgent },
   };
   log('getServerInfo', info);
   renderServerInfo();
@@ -74,7 +74,7 @@ async function initServerInfo() {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
         if (initial) getServerInfo();
-        if (!refreshTimer) refreshTimer = setInterval(getServerInfo, 2000);
+        if (!refreshTimer) refreshTimer = setInterval(getServerInfo, 10000);
         initial = false;
       } else {
         clearInterval(refreshTimer);
