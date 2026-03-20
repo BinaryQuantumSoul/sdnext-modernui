@@ -5586,6 +5586,11 @@ div#changelog_result p {
   filter: blur(0);
 }
 
+.disabled-look textarea {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
 #gallery-image {
   padding: 0;
 }
