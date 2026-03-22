@@ -2017,11 +2017,16 @@ h1 {
 }
 
 .extra-networks .buttons {
-  margin-right: calc(2*var(--sd-panel-padding));
   position: absolute;
+  top: -2.8em;
   right: 0;
-  font-size: 1.4em;
-  background-color: var(--sd-button-normal-color);
+  display: flex;
+  gap: var(--sd-gap-size);
+}
+
+.extra-networks .buttons >button {
+  border-radius: var(--sd-border-radius) !important;
+  margin: var(--sd-gap-size);
 }
 
 .extra-networks button {
