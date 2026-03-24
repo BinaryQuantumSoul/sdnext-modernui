@@ -174,7 +174,7 @@ h2.auto-hide:hover {
 
 
 button {
-    border: 1px solid hsl(0deg 0% 80%) !important;
+    border: var(--sd-input-border-size) solid var(--sd-input-border-color) !important;
 }
 
 
@@ -206,7 +206,7 @@ button:hover {
 .sd-button {
     align-items: center;
     background-color: var(--sd-button-normal-color);
-    border: 1px solid hsl(0deg 0% 80%);
+    border: var(--sd-input-border-size) solid var(--sd-input-border-color);
     border-radius: var(--sd-border-radius);
     cursor: pointer;
     display: inline-flex;
@@ -539,6 +539,13 @@ button.sd-button:has(.portal) {
     pointer-events: auto !important;
 }
 
+/* Strip borders from inner <button> elements inside icons-bar sd-button wrappers */
+.icons-bar .sd-button button,
+.icons-bar .sd-button .portal button {
+    border: none !important;
+    box-shadow: none !important;
+}
+
 
 .sd-button.tool {
     height: 36px;
@@ -626,59 +633,34 @@ button.sd-button:has(.portal) {
     gap: 2px;
 }
 
-
-.extra_networks_root .tab-nav,
-#control_extra_networks .tab-nav {
+/* Keep toolbar below tab buttons and in normal flow */
+#tabs_extensions .extra-networks .tab-nav,
+#layout-extra-networks .extra-networks .tab-nav {
     display: flex !important;
     flex-wrap: wrap !important;
-    align-items: center !important;
-    gap: 2px !important;
-    background-color: transparent !important;
+    align-items: flex-start !important;
 }
 
-
-.extra_networks_root .tab-nav .buttons,
-#control_extra_networks .tab-nav .buttons,
-.tab-nav span.buttons {
-    display: flex !important;
-    flex-direction: row !important;
-    align-items: center !important;
-    gap: 2px !important;
-    flex-basis: 100% !important;
-
-    width: 100% !important;
-    order: 1 !important;
-
-    margin: 0 !important;
-    padding: 2px 0 !important;
-    background-color: transparent !important;
-
-    position: relative !important;
+#tabs_extensions .extra-networks .buttons,
+#layout-extra-networks .extra-networks .buttons {
+    position: static !important;
+    top: 0px !important;
     right: auto !important;
-}
-
-
-.extra_networks_root .tab-nav .second-line,
-#control_extra_networks .tab-nav .second-line,
-.tab-nav .second-line {
+    left: 0 !important;
     display: flex !important;
-    flex-direction: row !important;
-    gap: 4px !important;
+    justify-content: flex-start !important;
     flex-basis: 100% !important;
-
     width: 100% !important;
     order: 2 !important;
-
-    margin: 2px 0 !important;
+    clear: both !important;
+    margin: 6px 0 6px 0 !important;
+    padding: 2px 0 !important;
+    gap: var(--sd-gap-size) !important;
 }
 
-
-.extra_networks_root .tab-nav>button,
-#control_extra_networks .tab-nav>button {
-    order: 3 !important;
-
-    flex-shrink: 0 !important;
-    margin: 0 2px 0 0 !important;
+#tabs_extensions .extra-networks .buttons>button,
+#layout-extra-networks .extra-networks .buttons>button {
+    margin: 0 !important;
 }
 
 
@@ -723,9 +705,9 @@ button.sd-button:has(.portal) {
     min-width: 36px !important;
     min-height: 36px !important;
     padding: 6px 8px !important;
-    border: 1px solid var(--sd-input-border-color) !important;
+    border: var(--sd-input-border-size) solid var(--sd-input-border-color) !important;
     border-radius: var(--sd-border-radius) !important;
-    background-color: transparent !important;
+    background-color: var(--sd-button-normal-color) !important;
     color: inherit !important;
 }
 
@@ -874,6 +856,17 @@ button.sd-button:has(.portal) {
 }
 
 .md a {
+    color: var(--sd-main-accent-color) !important;
+}
+
+/* Server info table - follow theme label color so text is visible in all themes */
+#serverinfo,
+.server-info-table,
+.server-info-table td {
+    color: var(--sd-label-color) !important;
+}
+
+#serverinfo h3 {
     color: var(--sd-main-accent-color) !important;
 }
 
