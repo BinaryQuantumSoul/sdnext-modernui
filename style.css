@@ -4429,6 +4429,7 @@ input[type="range"]::-ms-fill-upper {
 
 .infotext {
   overflow-wrap: break-word;
+  white-space: pre;
 }
 
 .tooltip {
