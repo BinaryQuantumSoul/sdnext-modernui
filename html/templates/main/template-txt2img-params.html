@@ -38,9 +38,9 @@
           <div class="mask-icon icon-folder-user"></div>
           <span>Adapters</span>
         </button>
-        <button title="Scripts / Extensions" tabItemId="#txt2img_scripts_tabitem" tabGroup="txt2img" id="txt2img_scripts" class="xtabs-tab">
+        <button title="Extras / Scripts / Extensions" tabItemId="#txt2img_scripts_tabitem" tabGroup="txt2img" id="txt2img_scripts" class="xtabs-tab">
           <div class="mask-icon icon-folders"></div>
-          <span>Scripts</span>
+          <span>Extras</span>
         </button>
         <button title="Output" tabItemId="#txt2img_results_mobile_tabitem" tabGroup="txt2img" id="txt2img_results_mobile" class="xtabs-tab only-mobile">
           <div class="mask-icon icon-results"></div>
@@ -221,11 +221,14 @@
         <div id="txt2img_scripts_tabitem_group" class="flexbox col">
           <div id="txt2img_scripts_tabitem" class="xtabs-item">
 
-            <h2 title="Select generate script">Script</h2>
+            <h2 title="Select generate extras">Extras</h2>
+            <div data-parent-selector="#txt2img_script_container" data-selector="#txt2img_extras_alwayson .gap" class="portal no-bg no-outline gradio-row"></div>
+
+            <h2 title="Select generate script">Scripts</h2>
             <div data-parent-selector="#tab_txt2img" data-selector="#txt2img_script_container" class="portal no-bg"></div>
 
             <h2 title="Select generate extension">Extensions</h2>
-            <div data-parent-selector="#txt2img_script_container" data-selector="#txt2img_script_alwayson .gap" class="portal no-bg no-outline"></div>
+            <div data-parent-selector="#txt2img_script_container" data-selector="#txt2img_script_alwayson .gap" class="portal no-bg no-outline gradio-row"></div>
 
           </div>
         </div>

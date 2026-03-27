@@ -5547,6 +5547,14 @@ div#changelog_result p {
   overflow-wrap: break-word;
 }
 
+#extensions td {
+  vertical-align: top;
+}
+
+#extensions .date, #extensions .extension-tag {
+  filter: brightness(0.8);
+}
+
 .video-model-link {
   color: var(--sd-main-accent-color);
   font-weight: normal;

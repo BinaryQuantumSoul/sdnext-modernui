@@ -46,9 +46,9 @@
           <div class="mask-icon icon-folder-tree"></div>
           <span>Control</span>
         </button>
-        <button title="Scripts / Extensions" tabItemId="#control_scripts_tabitem" tabGroup="control" id="control_scripts" class="xtabs-tab">
+        <button title="Extras / Scripts / Extensions" tabItemId="#control_scripts_tabitem" tabGroup="control" id="control_scripts" class="xtabs-tab">
           <div class="mask-icon icon-folders"></div>
-          <span>Scripts</span>
+          <span>Extras</span>
         </button>
         <div class="only-mobile break"></div>
         <button title="Input" tabItemId="#control_results_input_mobile_tabitem" tabGroup="control" id="control_results_input_mobile" class="xtabs-tab only-mobile">
@@ -419,10 +419,14 @@
 
           <div id="control_scripts_tabitem_group" class="flexbox col">
             <div id="control_scripts_tabitem" class="xtabs-item">
-              <h2 title="Select generate script">Script</h2>
+              <h2 title="Select generate extras">Extras</h2>
+              <div data-parent-selector="#control_script_container" data-selector="#control_extras_alwayson" class="portal no-bg no-outline gradio-row"></div>
+
+              <h2 title="Select generate script">Scripts</h2>
               <div data-parent-selector="#tab_control" data-selector="#control_script_container" class="portal no-bg"></div>
+
               <h2 title="Select generate extension">Extensions</h2>
-              <div data-parent-selector="#control_script_container" data-selector="#control_script_alwayson" class="portal no-bg no-outline"></div>
+              <div data-parent-selector="#control_script_container" data-selector="#control_script_alwayson" class="portal no-bg no-outline gradio-row"></div>
             </div>
           </div>
 

@@ -44,7 +44,7 @@ async function renderServerInfo() {
   `;
 }
 
-async function getServerInfo() {
+async function getServerInfo(initial = false) {
   const version_req = await authFetch(`${window.api}/version`);
   const torch_req = await authFetch(`${window.api}/torch`);
   const gpu_req = await authFetch(`${window.api}/gpu`);
@@ -62,7 +62,7 @@ async function getServerInfo() {
     platform: platform_req.ok ? await platform_req.json() : {},
     browser: { agent: navigator.userAgent },
   };
-  log('getServerInfo', info);
+  if (initial) log('getServerInfo', info);
   renderServerInfo();
 }
 
@@ -73,7 +73,7 @@ async function initServerInfo() {
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
-        if (initial) getServerInfo();
+        if (initial) getServerInfo(initial);
         if (!refreshTimer) refreshTimer = setInterval(getServerInfo, 10000);
         initial = false;
       } else {
