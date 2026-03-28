@@ -44,7 +44,7 @@ async function renderServerInfo() {
   `;
 }
 
-async function getServerInfo(initial = false) {
+async function getServerInfo() {
   const version_req = await authFetch(`${window.api}/version`);
   const torch_req = await authFetch(`${window.api}/torch`);
   const gpu_req = await authFetch(`${window.api}/gpu`);
@@ -73,7 +73,7 @@ async function initServerInfo() {
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
-        if (initial) getServerInfo(initial);
+        if (initial) getServerInfo();
         if (!refreshTimer) refreshTimer = setInterval(getServerInfo, 10000);
         initial = false;
       } else {
