@@ -2950,7 +2950,7 @@ button:hover svg {
 
 .server-status {
   font-weight: bold;
-  animation: hue 2s infinite alternate;
+  animation: color 2s infinite alternate;
 }
 
 .generate.active>.portal::before {
@@ -5002,7 +5002,7 @@ gallery-folder:hover {
   width: 512px;
   height: 512px;
   background-repeat: no-repeat;
-  animation: hue 5s infinite alternate;
+  animation: color 5s infinite alternate;
   max-width: 80vw;
   background-size: contain;
 }
@@ -5016,7 +5016,7 @@ gallery-folder:hover {
 }
 
 .loader {
-  animation: spin 4s linear infinite, hue 5s infinite alternate;
+  animation: spin 4s linear infinite, color 5s infinite alternate;
   border: var(--spacing-md) solid transparent;
   border-radius: 50%;
   border-top: var(--spacing-md) solid var(--sd-main-accent-color);
@@ -5037,13 +5037,13 @@ gallery-folder:hover {
 }
 
 .loader::before {
-  animation: 3s spin linear infinite, hue 5s infinite alternate;
+  animation: 3s spin linear infinite, color 5s infinite alternate;
   border-top-color: var(--sd-main-accent-color);
   filter: brightness(50%);
 }
 
 .loader::after {
-  animation: spin 1.5s linear infinite, hue 5s infinite alternate;
+  animation: spin 1.5s linear infinite, color 5s infinite alternate;
   border-top-color: var(--sd-main-accent-color);
   filter: brightness(150%);
 }
