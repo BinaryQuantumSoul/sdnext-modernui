@@ -8,6 +8,10 @@
     </button>
     <div class="flexbox col"></div>
     <div id="sidebar_tabs" class="flexbox col shrink">
+      <button title="Server Info" tabItemId="#layout-server" tabGroup="extra_networks" id="btn_server_info" class="xtabs-tab">
+        <div class="mask-icon icon-info"></div>
+        <span>Server Info</span>
+      </button>
       <button title="Quick Settings" tabItemId="#layout-quicksettings" tabGroup="extra_networks" id="btn_quick_settings" class="xtabs-tab">
         <div class="mask-icon icon-quicksettings"></div>
         <span>Quick Settings</span>
@@ -21,10 +25,6 @@
         <span>Models</span>
       </button>
       <div class="flexbox col spacer-v"></div>
-      <button title="Extensions" tabItemId="#layout-extensions" tabGroup="extra_networks" id="btn_extensions" class="xtabs-tab">
-        <div class="mask-icon icon-extensions"></div>
-        <span>Extensions</span>
-      </button>
       <button title="Settings" tabItemId="#layout-settings" tabGroup="extra_networks" id="btn_settings" class="xtabs-tab">
         <div class="mask-icon icon-settings"></div>
         <span>Settings</span>
@@ -32,6 +32,10 @@
       <button title="System" tabItemId="#layout-system" tabGroup="extra_networks" id="btn_system" class="xtabs-tab">
         <div class="mask-icon icon-cpu"></div>
         <span>System</span>
+      </button>
+      <button title="Extensions" tabItemId="#layout-extensions" tabGroup="extra_networks" id="btn_extensions" class="xtabs-tab">
+        <div class="mask-icon icon-extensions"></div>
+        <span>Extensions</span>
       </button>
       <button title="History" tabItemId="#layout-history" tabGroup="extra_networks" id="btn_history" class="xtabs-tab">
         <div class="mask-icon icon-history"></div>
@@ -48,7 +52,8 @@
     </div>
   </div>
   <div class="accordion-container">
-    <div template="aside/template-quicksettings" url="aside/" class="template"></div>
+    <div template="aside/template-server" class="template"></div>
+    <div template="aside/template-quicksettings" class="template"></div>
     <div template="aside/template-extensions" class="template"></div>
     <div template="aside/template-system" class="template"></div>
     <div template="aside/template-info" class="template"></div>

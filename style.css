@@ -1027,6 +1027,7 @@ button:hover .mask-icon {
   font-family: 'NotoSans', var(--font);
   min-height: unset;
   min-height: calc(var(--sd-input-height) - (var(--sd-input-border-size) * 2));
+  min-width: 3.4em;
 }
 
 *.gradio-dropdown .secondary-wrap {
@@ -2016,11 +2017,16 @@ h1 {
 }
 
 .extra-networks .buttons {
-  margin-right: calc(2*var(--sd-panel-padding));
   position: absolute;
+  top: -2.8em;
   right: 0;
-  font-size: 1.4em;
-  background-color: var(--sd-button-normal-color);
+  display: flex;
+  gap: var(--sd-gap-size);
+}
+
+.extra-networks .buttons >button {
+  border-radius: var(--sd-border-radius) !important;
+  margin: var(--sd-gap-size);
 }
 
 .extra-networks button {
@@ -2530,6 +2536,10 @@ button.active .icon-sort {
 
 .icon-folder-gear {
   mask-image: url(./html/svg/folder-gear.svg);
+}
+
+.icon-folder-heart {
+  mask-image: url(./html/svg/folder-heart.svg);
 }
 
 .icon-folder-grid {
@@ -4419,6 +4429,7 @@ input[type="range"]::-ms-fill-upper {
 
 .infotext {
   overflow-wrap: break-word;
+  white-space: pre;
 }
 
 .tooltip {
@@ -4817,7 +4828,7 @@ div#video_params_control_tabitem .video-settings .gradio-accordion .form {
   overflow: visible;
 }
 
-.gap:has(.interrogate-clip) {
+.gap:has(.caption-clip) {
   position: relative;
 }
 
@@ -4833,9 +4844,9 @@ div#video_params_control_tabitem .video-settings .gradio-accordion .form {
   outline: none !important;
 }
 
-button.interrogate,
-button.interrogate-clip,
-button.interrogate-blip,
+button.caption,
+button.caption-clip,
+button.caption-blip,
 button.image-fit {
   opacity: 0.5;
   position: absolute;
@@ -4844,7 +4855,7 @@ button.image-fit {
   z-index: 1;
 }
 
-button.interrogate {
+button.caption {
   right: 5.8em;
 }
 
@@ -4852,16 +4863,16 @@ button.image-fit {
   right: 8.6em;
 }
 
-button.interrogate-clip {
+button.caption-clip {
   left: 1em;
 }
 
-button.interrogate-blip {
+button.caption-blip {
   left: 3em;
 }
 
-button.interrogate-clip::after,
-button.interrogate-blip::after {
+button.caption-clip::after,
+button.caption-blip::after {
   -webkit-mask-position: center center;
   -webkit-mask-repeat: no-repeat;
   -webkit-mask-size: contain;
@@ -4881,8 +4892,8 @@ button.interrogate-blip::after {
   width: 80%;
 }
 
-button.interrogate-clip:hover::after,
-button.interrogate-blip:hover::after {
+button.caption-clip:hover::after,
+button.caption-blip:hover::after {
   background-color: var(--sd-input-hover-text-color);
   mask-image: url(./html/svg/question-answer-fill.svg);
 }
@@ -5194,7 +5205,7 @@ gallery-folder:hover {
   justify-content: center;
 }
 
-#interrogate_output_prompt textarea {
+#caption_output_prompt textarea {
   flex: 1 !important;
   overflow-y: auto !important;
   min-height: 0 !important;
@@ -5250,7 +5261,7 @@ gallery-folder:hover {
 
 #vlm_system textarea,
 #vlm_prompt textarea,
-#interrogate_output_prompt textarea {
+#caption_output_prompt textarea {
   resize: vertical !important;
 }
 
@@ -5536,6 +5547,14 @@ div#changelog_result p {
   overflow-wrap: break-word;
 }
 
+#extensions td {
+  vertical-align: top;
+}
+
+#extensions .date, #extensions .extension-tag {
+  filter: brightness(0.8);
+}
+
 .video-model-link {
   color: var(--sd-main-accent-color);
   font-weight: normal;
@@ -5579,6 +5598,11 @@ div#changelog_result p {
 #civitai_token textarea:hover, #hf_token textarea:hover, #setting_huggingface_token textarea:hover,
 #civitai_token textarea:focus, #hf_token textarea:focus, #setting_huggingface_token textarea:focus {
   filter: blur(0);
+}
+
+.disabled-look textarea {
+  opacity: 0.4;
+  pointer-events: none;
 }
 
 #gallery-image {
@@ -5649,7 +5673,7 @@ div#changelog_result p {
 }
 
 /* Override Python height=512 and make image fill container */
-#interrogate_image {
+#caption_image {
   height: 100% !important;
   width: 100% !important;
   min-height: 256px !important;
@@ -5659,7 +5683,7 @@ div#changelog_result p {
 }
 
 /* Make image container fill available space */
-#interrogate_image .image-container {
+#caption_image .image-container {
   flex: 1 !important;
   display: flex !important;
   flex-direction: column !important;
@@ -5672,7 +5696,7 @@ div#changelog_result p {
 }
 
 /* Configure boundedheight container for interrogate image */
-#interrogate_image .image-container .center.boundedheight.flex {
+#caption_image .image-container .center.boundedheight.flex {
   width: 100% !important;
   flex: 1 !important;
   display: flex !important;
@@ -5682,14 +5706,14 @@ div#changelog_result p {
 }
 
 /* Make image fill container while maintaining aspect ratio */
-#interrogate_image img {
+#caption_image img {
   object-fit: contain !important;
   width: 100% !important;
   height: 100% !important;
 }
 
 /* Hide visual label components (not used - CLIP labels shown as text instead) */
-#interrogate_output_classes {
+#caption_output_classes {
   display: none !important;
 }
 
@@ -5706,7 +5730,7 @@ div#changelog_result p {
   min-width: 300px;
 }
 
-#interrogate_output {
+#caption_output {
   max-height: 100vh;
   overflow: hidden;
 }
@@ -5749,7 +5773,7 @@ div#changelog_result p {
   overflow: hidden;
 }
 
-#interrogate_output_prompt {
+#caption_output_prompt {
   flex: 1 !important;
   min-height: 0;
   overflow: hidden;
@@ -5758,8 +5782,8 @@ div#changelog_result p {
   height: 100% !important;
 }
 
-#interrogate_output_prompt .form,
-#interrogate_output_prompt .gradio-textbox {
+#caption_output_prompt .form,
+#caption_output_prompt .gradio-textbox {
   display: flex !important;
   flex-direction: column !important;
   flex: 1 !important;
@@ -5767,7 +5791,7 @@ div#changelog_result p {
   min-height: 0 !important;
 }
 
-#interrogate_output_prompt .gradio-textbox label {
+#caption_output_prompt .gradio-textbox label {
   display: flex !important;
   flex-direction: column !important;
   flex: 1 !important;
@@ -5812,7 +5836,7 @@ div#changelog_result p {
 }
 
 /* Make CLIP labels textbox scrollable */
-#interrogate_clip_labels_text {
+#caption_clip_labels_text {
   flex: 1 !important;
   min-height: 0 !important;
   overflow: hidden !important;
@@ -5820,8 +5844,8 @@ div#changelog_result p {
   flex-direction: column !important;
 }
 
-#interrogate_clip_labels_text .form,
-#interrogate_clip_labels_text .gradio-textbox {
+#caption_clip_labels_text .form,
+#caption_clip_labels_text .gradio-textbox {
   display: flex !important;
   flex-direction: column !important;
   flex: 1 !important;
@@ -5829,7 +5853,7 @@ div#changelog_result p {
   min-height: 0 !important;
 }
 
-#interrogate_clip_labels_text label {
+#caption_clip_labels_text label {
   display: flex !important;
   flex-direction: column !important;
   flex: 1 !important;
@@ -5837,7 +5861,7 @@ div#changelog_result p {
   height: 100% !important;
 }
 
-#interrogate_clip_labels_text textarea {
+#caption_clip_labels_text textarea {
   flex: 1 !important;
   overflow-y: auto !important;
   min-height: 0 !important;
@@ -5863,7 +5887,7 @@ div#changelog_result p {
 }
 
 /* Main Output Image container */
-#interrogate_output_image {
+#caption_output_image {
   min-height: 0;
   overflow: hidden;
   display: flex;
@@ -5873,7 +5897,7 @@ div#changelog_result p {
 }
 
 /* Configure Gradio image-container for proper sizing */
-#interrogate_output_image .image-container {
+#caption_output_image .image-container {
   flex: 1 !important;
   display: flex !important;
   flex-direction: column !important;
@@ -5886,7 +5910,7 @@ div#changelog_result p {
 }
 
 /* Configure nested Gradio containers */
-#interrogate_output_image .image-container .center.boundedheight.flex {
+#caption_output_image .image-container .center.boundedheight.flex {
   width: 100% !important;
   flex: 1 !important;
   display: flex !important;
@@ -5896,18 +5920,18 @@ div#changelog_result p {
 }
 
 /* Hide Gradio label text for Answer (use custom header instead) */
-#interrogate_output_prompt label > span {
+#caption_output_prompt label > span {
   display: none !important;
 }
 
 /* Hide Gradio label text for Output Image (use custom header instead) */
-#interrogate_output_image_display label > span,
-#interrogate_output_image_display [data-testid="block-label"] {
+#caption_output_image_display label > span,
+#caption_output_image_display [data-testid="block-label"] {
   display: none !important;
 }
 
 /* Ensure Output Image fills space and centers properly */
-#interrogate_output_image_display {
+#caption_output_image_display {
   height: 100%;
   width: 100%;
   display: flex;
@@ -5916,14 +5940,14 @@ div#changelog_result p {
   overflow: hidden;
 }
 
-#interrogate_output_image_display img {
+#caption_output_image_display img {
   object-fit: contain !important;
   width: 100% !important;
   height: 100% !important;
 }
 
 /* Position download button at top-right */
-#interrogate_output_image_display .icon-buttons {
+#caption_output_image_display .icon-buttons {
   top: 0 !important;
 }
 
@@ -6033,4 +6057,36 @@ input.border-none.subdued {
 
 #extras_image {
   height: 39vh;
+}
+
+#control_styles > label > span {
+  display: none;
+}
+
+#quicksetting_clear_btn {
+  display: block;
+  color: var(--color-debug);
+}
+
+.server-info-table {
+  max-height: 12em;
+  overflow-y: auto;
+  overflow-x: hidden;
+  font-size: 0.9em;
+  margin-left: 1em;
+}
+
+.server-info-table tbody tr td {
+  text-wrap-mode: nowrap;
+}
+
+.server-info-table tbody tr td:first-child {
+  font-weight: bold;
+  font-variant: small-caps;
+  width: 7em;
+}
+
+#server-info-time {
+  text-align: right;
+  color: var(--sd-button-hover-color);
 }

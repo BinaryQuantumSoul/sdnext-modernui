@@ -1,0 +1,196 @@
+/* Author: Antigravity */
+
+:root {
+  /* Neumorphic base colors */
+  --sd-primary-h: 190deg;
+  --sd-primary-s: 80%;
+  --sd-primary-l: 50%;
+  --sd-main-accent-color: hsl(var(--sd-primary-h) var(--sd-primary-s) var(--sd-primary-l));
+  
+  /* Tesla App Dark Neumorphism Reference */
+  --neo-bg: #242424;
+  --neo-shadow-light: #323232;
+  --neo-shadow-dark: #1a1a1a;
+  
+  --sd-secondary-color: var(--neo-bg);
+  --sd-main-background-color: var(--neo-bg);
+  
+  --sd-button-normal-color: var(--neo-bg);
+  --sd-button-hover-color: var(--neo-bg);
+  --sd-button-selected-color: #24282c;
+  
+  --sd-input-background-color: var(--neo-bg);
+  --sd-panel-background-color: var(--neo-bg);
+  --sd-group-background-color: var(--neo-bg);
+  
+  --sd-input-border-size: 0px;
+  --sd-border-size: 0px;
+  --sd-group-border-size: 0px;
+  --sd-border-radius: 12px;
+  --sd-group-border-radius: 12px;
+  
+  --sd-input-text-color: #e0e5ec;
+  --sd-label-color: #a4b0be;
+  --sd-button-normal-text-color: #cacaca;
+  --sd-button-hover-text-color: var(--sd-main-accent-color);
+  --sd-button-selected-text-color: var(--sd-main-accent-color);
+  --sd-input-hover-text-color: var(--sd-main-accent-color);
+  
+  --sd-gap-size: 8px;
+  --sd-group-gap: 8px;
+  --sd-outside-gap-size: 12px;
+  
+  --sd-input-height: 36px;
+  --sd-input-line-height: 28px;
+  --sd-input-padding: 0 12px;
+  
+  --neo-drop-shadow: 6px 6px 12px var(--neo-shadow-dark), -6px -6px 12px var(--neo-shadow-light);
+  --neo-drop-shadow-hover: 8px 8px 16px var(--neo-shadow-dark), -8px -8px 16px var(--neo-shadow-light);
+  --neo-inset-shadow: inset 4px 4px 8px var(--neo-shadow-dark), inset -4px -4px 8px var(--neo-shadow-light);
+  
+  color-scheme: dark;
+}
+
+/* Base Body */
+body, .gradio-container, #component-0 {
+  background-color: var(--neo-bg) !important;
+  color: var(--sd-input-text-color);
+}
+
+/* Panels, Groups and Containers - Baseline (Flat) Shape */
+.panel, .gradio-panel, .gradio-group, .gradio-box, .gradio-accordion, .tab-nav, .grid-wrap {
+  background-color: var(--neo-bg) !important;
+  border: none !important;
+  box-shadow: none !important; /* Keep structural containers flat so no stacking z-levels */
+  border-radius: var(--sd-border-radius) !important;
+  padding: 8px !important;
+  margin-bottom: 8px !important;
+}
+
+.gradio-accordion {
+  padding: 12px !important;
+}
+
+/* Inputs / Textboxes - Inset Shape */
+input[type="text"], input[type="number"], textarea, .gradio-textbox input, .gradio-textbox textarea {
+  background-color: var(--neo-bg) !important;
+  border: none !important;
+  box-shadow: var(--neo-inset-shadow) !important;
+  border-radius: var(--sd-border-radius) !important;
+  color: var(--sd-input-text-color) !important;
+  padding: 8px 12px !important;
+}
+
+/* Buttons - Extruded Shape */
+button, .gradio-button, .btn {
+  background-color: var(--neo-bg) !important;
+  border: none !important;
+  box-shadow: var(--neo-drop-shadow) !important;
+  border-radius: var(--sd-border-radius) !important;
+  color: var(--sd-button-normal-text-color) !important;
+  transition: all 0.2s ease-in-out !important;
+  font-weight: 600 !important;
+  margin: 2px !important;
+  min-height: var(--sd-input-height) !important;
+}
+
+/* Button Hover State */
+button:hover, .gradio-button:hover, .btn:hover {
+  box-shadow: var(--neo-drop-shadow-hover) !important;
+  color: var(--sd-button-hover-text-color) !important;
+}
+
+/* Button Active / Pressed / Selected State - Inset Shape */
+button:active, .gradio-button:active, .btn:active, 
+button.selected, .gradio-button.selected, .tab-nav button.selected {
+  box-shadow: var(--neo-inset-shadow) !important;
+  color: var(--sd-button-selected-text-color) !important;
+}
+
+/* Sliders */
+input[type="range"] {
+  background: transparent !important;
+  box-shadow: var(--neo-inset-shadow) !important;
+  border-radius: 10px !important;
+  height: 12px !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  width: 18px !important;
+  height: 18px !important;
+  border-radius: 50% !important;
+  background: var(--sd-main-accent-color) !important;
+  box-shadow: var(--neo-drop-shadow) !important;
+  cursor: pointer !important;
+}
+
+/* Checkboxes & Radios */
+input[type="checkbox"], input[type="radio"] {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  width: 24px !important;
+  height: 24px !important;
+  background-color: var(--neo-bg) !important;
+  box-shadow: none !important;
+  border-radius: 6px !important;
+  display: inline-block !important;
+  position: relative !important;
+  cursor: pointer !important;
+  min-height: 24px !important;
+  max-height: 24px !important;
+}
+
+input[type="radio"] {
+  border-radius: 50% !important;
+}
+
+input[type="checkbox"]:checked::after {
+  content: '' !important;
+  position: absolute !important;
+  top: 4px !important;
+  left: 8px !important;
+  width: 6px !important;
+  height: 12px !important;
+  border: solid var(--sd-main-accent-color) !important;
+  border-width: 0 3px 3px 0 !important;
+  transform: rotate(45deg) !important;
+}
+
+input[type="radio"]:checked::after {
+  content: '' !important;
+  position: absolute !important;
+  top: 6px !important;
+  left: 6px !important;
+  width: 12px !important;
+  height: 12px !important;
+  border-radius: 50% !important;
+  background: var(--sd-main-accent-color) !important;
+  box-shadow: var(--neo-drop-shadow) !important;
+}
+
+/* Images & Galleries */
+.gradio-gallery .preview img, .grid-wrap img {
+  border-radius: var(--sd-border-radius) !important;
+  box-shadow: var(--neo-inset-shadow) !important;
+}
+
+.icon-generate, .icon-loop, .icon-save, .icon-skip, .icon-pause, .icon-magic, .icon-stop, .icon-delete, .icon-enqueue, .icon-reprocess, .icon-folder, .icon-info, .icon-paste, .refresh {
+  filter: blur(6px);
+}
+
+/* Prevent Generate button / nested complex buttons from getting double shadows */
+.generate.active>.portal>button {
+  filter: none !important;
+}
+
+button>.mask-icon, button>span {
+  margin: 0;
+}
+
+#main_nav_content, #split-right {
+  overflow: visible;
+}
