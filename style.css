@@ -5058,7 +5058,7 @@ gallery-folder:hover {
   to { transform: rotate(360deg); }
 }
 
-@keyframes color {
+@keyframes hue {
   from { filter: hue-rotate(0deg) }
   to { filter: hue-rotate(360deg) }
 }
