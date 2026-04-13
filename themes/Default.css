@@ -146,7 +146,7 @@ button>span {
   height: 1.5em;
   min-width: 1.3em;
   line-height: 1.3em;
-  margin: 0.2em;
+  margin: 0.1em;
   pointer-events: none;
   filter: drop-shadow(1px 1px 2px black);
 }
@@ -177,6 +177,17 @@ button>span {
 .icon-skip, .icon-folder, .icon-info, .icon-paste, .refresh {
   background-color: hsl(195, 30%, 75%) !important;
 }
+.icon-autocomplete {
+  height: 1.2em !important;
+}
+
+.autocomplete-inactive {
+  background-color: hsl(0, 60%, 75%) !important;
+}
+.autocomplete-active {
+  background-color: hsl(145, 30%, 75%) !important;
+}
+
 
 .generate.active>.portal>button {
   filter: drop-shadow(2px 4px 6px black)

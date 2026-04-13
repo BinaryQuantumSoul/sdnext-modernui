@@ -2424,6 +2424,10 @@ div#layout-3 {
   mask-image: url(./html/svg/books.svg);
 }
 
+.icon-autocomplete {
+  mask-image: url(./html/svg/books.svg);
+}
+
 .icon-model-merger {
   mask-image: url(./html/svg/books.svg);
   transform: rotate(90deg);
@@ -4668,6 +4672,7 @@ button>span {
   line-height: 1.2em;
   margin: 0.7em 0 0.7em 0;
   pointer-events: none;
+  vertical-align: middle;
 }
 
 #context-menu {
