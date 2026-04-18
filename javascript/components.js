@@ -32,7 +32,7 @@ function initSplitComponents() {
     // log('splitComponent', ids, initSizes, minSizes, direction, gutterSize);
     const onDragEnd = (evt) => setStored(`${id}-sizes`, evt);
     // log('splitSizes', id, initSizes, minSizes, maxSizes);
-    splitInstances[id] = Split(ids, { // eslint-disable-line no-undef
+    splitInstances[id] = Split(ids, {
       sizes: initSizes,
       minSize: minSizes,
       maxSize: maxSizes,

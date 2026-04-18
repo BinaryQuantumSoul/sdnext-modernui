@@ -52,6 +52,7 @@ const jsConfig = defineConfig([
         showContributors: 'readonly',
         initServerInfo: 'readonly',
         createButtonsForExtensions: 'readonly',
+        Split: 'readonly',
       },
     },
   },
