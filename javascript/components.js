@@ -155,7 +155,15 @@ function initTabComponents() {
     const tabGroup = elem.getAttribute('tabGroup');
     const tabParent = elem.parentElement;
     const uid = tabGroup || tabParent?.id;
-    const siblingTabs = [...(tabGroup ? appUiUx.querySelectorAll(`[tabGroup="${tabGroup}"]`) : tabParent ? tabParent.children : [])].filter((tab) => tab !== elem); // eslint-disable-line no-nested-ternary
+    let siblingTabs;
+    if (tabGroup) {
+      siblingTabs = [...appUiUx.querySelectorAll(`.xtabs-tab[tabGroup="${tabGroup}"]`)];
+    } else if (tabParent) {
+      siblingTabs = [...tabParent.children];
+    } else {
+      siblingTabs = [];
+    }
+    siblingTabs = siblingTabs.filter((tab) => tab !== elem);
 
     elem.addEventListener('click', () => {
       if (uid) setStored(`tab-${uid}-current`, elem.id);
