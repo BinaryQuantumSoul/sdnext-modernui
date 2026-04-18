@@ -258,7 +258,7 @@ export default defineConfig([
     '**/split.js',
     '**/exifr.js',
     '**/iframeResizer.min.js',
-    '**/Vlad-Neomorph.css',
+    '**/Vlad-Neomorph.css', // Waiting on plugin fix https://github.com/eslint/css/pull/411
   ]),
   ...jsConfig,
   // ...typescriptConfig,
