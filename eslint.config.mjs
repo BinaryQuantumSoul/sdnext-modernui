@@ -109,7 +109,7 @@ const jsConfig = defineConfig([
       '@stylistic/max-len': [
         'warn',
         {
-          code: 300,
+          code: 240,
           tabWidth: 2,
           ignoreComments: true,
         },
