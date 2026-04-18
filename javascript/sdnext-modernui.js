@@ -14,12 +14,10 @@ window.getUICurrentTabContent = () => gradioApp().querySelector('.xtabs-item:not
 window.getSettingsTabs = () => gradioApp().querySelectorAll('#layout-settings .tabitem');
 
 function functionWaitForFlag(checkFlag) {
-  return async function () { // eslint-disable-line func-names
-    return new Promise((resolve) => {
-      const check = () => (checkFlag() ? resolve() : setTimeout(check));
-      check();
-    });
-  };
+  return async () => new Promise((resolve) => {
+    const check = () => (checkFlag() ? resolve() : setTimeout(check, 50));
+    check();
+  });
 }
 
 let uiFlagInitialized = false;
