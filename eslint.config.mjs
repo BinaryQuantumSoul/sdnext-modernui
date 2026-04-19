@@ -31,6 +31,7 @@ const jsConfig = defineConfig([
         authFetch: 'readonly',
         gradioApp: 'readonly',
         log: 'readonly',
+        debug: 'readonly',
         error: 'readonly',
         logFn: 'readonly',
         generateForever: 'readonly',

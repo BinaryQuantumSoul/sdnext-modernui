@@ -497,14 +497,6 @@ async function removeStyleAssets() {
   log('removeElements', `elements=${removedCount}/${count} stylesheets=${removedStylesheets} time=${Math.round(performance.now() - t0)}`);
 }
 
-function logStartup() {
-  log('userAgent', navigator.userAgent);
-  const filteredOpts = Object.entries(window.opts).filter(([key, value]) => key.startsWith('uiux') && typeof value !== 'string');
-  const uiOpts = {};
-  for (const [key, value] of filteredOpts) uiOpts[key] = value;
-  log('modernUI', uiOpts);
-}
-
 async function setupLogger() {
   const ui_disabled = Array.isArray(window.opts.ui_disabled) ? window.opts.ui_disabled : [];
   if (ui_disabled?.includes('logs')) return;
@@ -516,7 +508,8 @@ async function setupLogger() {
 
 async function mainUiUx() {
   const t0 = performance.now();
-  logStartup();
+  log('initModernUi');
+  log('userAgent', navigator?.userAgent);
   await removeStyleAssets();
   await loadAllTemplates();
   createButtonsForExtensions();

@@ -3734,6 +3734,18 @@ ul {
   display: table;
 }
 
+.log-log {
+  color: white;
+}
+
+.log-debug {
+  color: gray;
+}
+
+.log-error {
+  color: red;
+}
+
 .log-row a {
   padding: 0 5px;
 }

@@ -1,5 +1,6 @@
 import gradio as gr
 from modules import script_callbacks
+"""
 
 
 def on_ui_settings():
@@ -21,12 +22,15 @@ def on_ui_settings():
         'uiux_separator_mobile': OptionInfo("<h2>Mobile</h2>", "", gr.HTML),
         "uiux_default_layout": OptionInfo("Auto", "Layout", gr.Radio, {"choices": ["Auto","Desktop", "Mobile"]}),
         "uiux_mobile_scale": OptionInfo(0.7, "Mobile scale", gr.Slider, {"minimum": 0.5, "maximum": 1, "step": 0.05}),
+
     }))
+
+script_callbacks.on_ui_settings(on_ui_settings)
+"""
 
 
 def on_ui_tabs():
     return [(gr.Blocks(analytics_enabled=False), 'ModernUI', 'sdnext_uiux_core')]
 
 
-script_callbacks.on_ui_settings(on_ui_settings)
 script_callbacks.on_ui_tabs(on_ui_tabs)
