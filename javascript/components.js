@@ -32,7 +32,7 @@ function initSplitComponents() {
     // log('splitComponent', ids, initSizes, minSizes, direction, gutterSize);
     const onDragEnd = (evt) => setStored(`${id}-sizes`, evt);
     // log('splitSizes', id, initSizes, minSizes, maxSizes);
-    splitInstances[id] = Split(ids, { // eslint-disable-line no-undef
+    splitInstances[id] = Split(ids, {
       sizes: initSizes,
       minSize: minSizes,
       maxSize: maxSizes,
@@ -155,7 +155,15 @@ function initTabComponents() {
     const tabGroup = elem.getAttribute('tabGroup');
     const tabParent = elem.parentElement;
     const uid = tabGroup || tabParent?.id;
-    const siblingTabs = [...(tabGroup ? appUiUx.querySelectorAll(`[tabGroup="${tabGroup}"]`) : tabParent ? tabParent.children : [])].filter((tab) => tab !== elem); // eslint-disable-line no-nested-ternary
+    let siblingTabs;
+    if (tabGroup) {
+      siblingTabs = [...appUiUx.querySelectorAll(`.xtabs-tab[tabGroup="${tabGroup}"]`)];
+    } else if (tabParent) {
+      siblingTabs = [...tabParent.children];
+    } else {
+      siblingTabs = [];
+    }
+    siblingTabs = siblingTabs.filter((tab) => tab !== elem);
 
     elem.addEventListener('click', () => {
       if (uid) setStored(`tab-${uid}-current`, elem.id);
@@ -303,7 +311,20 @@ async function setupDropdowns() {
 async function createButtonsForExtensions() {
   const other_extensions = document.querySelector('#other_extensions');
   const other_views = document.querySelector('#split-left');
-  const no_button_tabs = ['tab_txt2img', 'tab_img2img', 'tab_control', 'tab_video', 'tab_process', 'tab_caption', 'tab_gallery', 'tab_models', 'tab_extensions', 'tab_system', 'tab_info', 'tab_sdnext_uiux_core'];
+  const no_button_tabs = [
+    'tab_txt2img',
+    'tab_img2img',
+    'tab_control',
+    'tab_video',
+    'tab_process',
+    'tab_caption',
+    'tab_gallery',
+    'tab_models',
+    'tab_extensions',
+    'tab_system',
+    'tab_info',
+    'tab_sdnext_uiux_core',
+  ];
   const snakeToCamel = (str) => str.replace(/(_\w)/g, (match) => match[1].toUpperCase());
   document.querySelectorAll('#tabs > .tabitem').forEach((c) => {
     const cid = c.id;

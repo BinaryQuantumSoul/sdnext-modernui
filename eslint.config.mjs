@@ -52,6 +52,7 @@ const jsConfig = defineConfig([
         showContributors: 'readonly',
         initServerInfo: 'readonly',
         createButtonsForExtensions: 'readonly',
+        Split: 'readonly',
       },
     },
   },
@@ -109,8 +110,10 @@ const jsConfig = defineConfig([
       '@stylistic/max-len': [
         'warn',
         {
-          code: 300,
+          code: 240,
           tabWidth: 2,
+          ignoreComments: true,
+          ignoreUrls: true,
         },
       ],
       '@stylistic/max-statements-per-line': 'off',
@@ -257,7 +260,7 @@ export default defineConfig([
     '**/split.js',
     '**/exifr.js',
     '**/iframeResizer.min.js',
-    '**/Vlad-Neomorph.css',
+    '**/Vlad-Neomorph.css', // Waiting on plugin fix https://github.com/eslint/css/pull/411
   ]),
   ...jsConfig,
   // ...typescriptConfig,

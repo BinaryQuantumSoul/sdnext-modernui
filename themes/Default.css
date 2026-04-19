@@ -207,7 +207,7 @@ input[type="checkbox"], input[type="radio"] {
 }
 
 input[type="checkbox"]:hover, input[type="radio"]:hover {
-  /* Known bug with @eslint/css and @eslint/css-tree. Related to https://github.com/eslint/css/issues/246 */
+  /* Known bug causing values to be interpreted as strings. Waiting on https://github.com/eslint/css/pull/411 */
   /* eslint-disable-next-line css/no-invalid-properties */
   background-color: var(--sd-button-selected-color);
 }

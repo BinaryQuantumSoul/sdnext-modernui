@@ -14,12 +14,10 @@ window.getUICurrentTabContent = () => gradioApp().querySelector('.xtabs-item:not
 window.getSettingsTabs = () => gradioApp().querySelectorAll('#layout-settings .tabitem');
 
 function functionWaitForFlag(checkFlag) {
-  return async function () { // eslint-disable-line func-names
-    return new Promise((resolve) => {
-      const check = () => (checkFlag() ? resolve() : setTimeout(check));
-      check();
-    });
-  };
+  return async () => new Promise((resolve) => {
+    const check = () => (checkFlag() ? resolve() : setTimeout(check, 50));
+    check();
+  });
 }
 
 let uiFlagInitialized = false;
@@ -34,7 +32,8 @@ function logPrettyPrint() {
   let arg;
   let i;
   const dt = new Date();
-  const ts = `${dt.getHours().toString().padStart(2, '0')}:${dt.getMinutes().toString().padStart(2, '0')}:${dt.getSeconds().toString().padStart(2, '0')}.${dt.getMilliseconds().toString().padStart(3, '0')}`;
+  const [h, m, s, ms] = [dt.getHours().toString(), dt.getMinutes().toString(), dt.getSeconds().toString(), dt.getMilliseconds().toString()];
+  const ts = `${h.padStart(2, '0')}:${m.padStart(2, '0')}:${s.padStart(2, '0')}.${ms.padStart(3, '0')}`;
   output += `<div class="log-row"><span class="log-date">${ts}</span>`;
 
   for (i = 0; i < arguments.length; i++) {
@@ -254,7 +253,6 @@ async function extraTweaks() {
   // disable spellchecks
   document.querySelectorAll('input[type="text"], textarea').forEach((elem) => { elem.setAttribute('spellcheck', 'false'); });
 }
-extraTweaks = logFn(extraTweaks); // eslint-disable-line no-func-assign
 
 async function uiuxOptionSettings() {
   let el;
@@ -324,7 +322,6 @@ async function uiuxOptionSettings() {
 async function loadAllPortals() {
   appUiUx.querySelectorAll('.portal').forEach((elem, index, array) => movePortal(elem, 1, index, array.length)); // eslint-disable-line no-use-before-define
 }
-loadAllPortals = logFn(loadAllPortals); // eslint-disable-line no-func-assign
 
 function movePortal(portalElem, tries, index, length) {
   const MAX_TRIES = 3;
@@ -504,7 +501,7 @@ async function mainUiUx() {
   createButtonsForExtensions();
   setupAnimationEventListeners();
   initSplitComponents();
-  await loadAllPortals();
+  await logFn(loadAllPortals)();
   initTabComponents();
   initButtonComponents();
   setupToolButtons();
@@ -521,11 +518,10 @@ async function mainUiUx() {
   showContributors();
   switchMobile();
   trackAsideFocus();
-  extraTweaks();
+  logFn(extraTweaks)();
   applyAutoHide();
   initServerInfo();
   uiFlagInitialized = true;
 }
 
-mainUiUx = logFn(mainUiUx); // eslint-disable-line no-func-assign
-onUiReady(mainUiUx);
+onUiReady(logFn(mainUiUx)());
