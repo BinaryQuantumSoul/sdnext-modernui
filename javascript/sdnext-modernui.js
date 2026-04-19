@@ -253,7 +253,6 @@ async function extraTweaks() {
   // disable spellchecks
   document.querySelectorAll('input[type="text"], textarea').forEach((elem) => { elem.setAttribute('spellcheck', 'false'); });
 }
-extraTweaks = logFn(extraTweaks); // eslint-disable-line no-func-assign
 
 async function uiuxOptionSettings() {
   let el;
@@ -323,7 +322,6 @@ async function uiuxOptionSettings() {
 async function loadAllPortals() {
   appUiUx.querySelectorAll('.portal').forEach((elem, index, array) => movePortal(elem, 1, index, array.length)); // eslint-disable-line no-use-before-define
 }
-loadAllPortals = logFn(loadAllPortals); // eslint-disable-line no-func-assign
 
 function movePortal(portalElem, tries, index, length) {
   const MAX_TRIES = 3;
@@ -503,7 +501,7 @@ async function mainUiUx() {
   createButtonsForExtensions();
   setupAnimationEventListeners();
   initSplitComponents();
-  await loadAllPortals();
+  await logFn(loadAllPortals)();
   initTabComponents();
   initButtonComponents();
   setupToolButtons();
@@ -520,11 +518,10 @@ async function mainUiUx() {
   showContributors();
   switchMobile();
   trackAsideFocus();
-  extraTweaks();
+  logFn(extraTweaks)();
   applyAutoHide();
   initServerInfo();
   uiFlagInitialized = true;
 }
 
-mainUiUx = logFn(mainUiUx); // eslint-disable-line no-func-assign
-onUiReady(mainUiUx);
+onUiReady(logFn(mainUiUx)());
