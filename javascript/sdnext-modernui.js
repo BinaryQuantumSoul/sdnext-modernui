@@ -320,7 +320,11 @@ async function uiuxOptionSettings() {
 }
 
 async function loadAllPortals() {
-  appUiUx.querySelectorAll('.portal').forEach((elem, index, array) => movePortal(elem, 1, index, array.length)); // eslint-disable-line no-use-before-define
+  const t0 = performance.now();
+  const portals = appUiUx.querySelectorAll('.portal');
+  portals.forEach((elem, index, array) => movePortal(elem, 1, index, array.length)); // eslint-disable-line no-use-before-define
+  const t1 = performance.now();
+  log('loadAllPortals', `time=${Math.round(t1 - t0)} portals=${portals.length}`);
 }
 
 function movePortal(portalElem, tries, index, length) {
@@ -501,7 +505,7 @@ async function mainUiUx() {
   createButtonsForExtensions();
   setupAnimationEventListeners();
   initSplitComponents();
-  await logFn(loadAllPortals)();
+  await loadAllPortals();
   initTabComponents();
   initButtonComponents();
   setupToolButtons();
