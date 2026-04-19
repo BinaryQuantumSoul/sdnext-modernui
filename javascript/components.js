@@ -1,6 +1,7 @@
 const splitInstances = [];
 
 function initSplitComponents() {
+  if (!appUiUx) return;
   appUiUx.querySelectorAll('div.split').forEach((elem) => {
     const id = elem.id;
     const nid = appUiUx.querySelector(`#${id}`);
@@ -58,6 +59,7 @@ function initSplitComponents() {
 }
 
 function initAccordionComponents() {
+  if (!appUiUx) return;
   appUiUx.querySelectorAll('.accordion-bar').forEach((elem) => {
     const acc = elem.parentElement;
     const accSplit = acc.closest('.split-container');
@@ -111,6 +113,7 @@ function initAccordionComponents() {
 
 function initTabComponents() {
   function hideActive(tab) {
+    if (!appUiUx) return;
     tab.classList.remove('active');
     const tabItemId = tab.getAttribute('tabItemId');
     appUiUx.querySelectorAll(tabItemId).forEach((tabItem) => {
@@ -120,6 +123,7 @@ function initTabComponents() {
   }
 
   function showActive(tab) {
+    if (!appUiUx) return;
     tab.classList.add('active');
     const tabItemId = tab.getAttribute('tabItemId');
     appUiUx.querySelectorAll(tabItemId).forEach((tabItem) => {
@@ -131,6 +135,7 @@ function initTabComponents() {
   function triggerAccordion(elem, wasActive, checkStored) {
     const accBar = elem.closest('.accordion-bar');
     if (!accBar) return;
+    if (!appUiUx) return;
     const acc = accBar.parentElement;
     const accTrigger = appUiUx.querySelector(acc.getAttribute('iconTrigger'));
     const accFullTrigger = appUiUx.querySelector(acc.getAttribute('iconFullTrigger'));
@@ -151,6 +156,7 @@ function initTabComponents() {
     }
   }
 
+  if (!appUiUx) return;
   appUiUx.querySelectorAll('.xtabs-tab').forEach((elem) => {
     const tabGroup = elem.getAttribute('tabGroup');
     const tabParent = elem.parentElement;
@@ -205,6 +211,7 @@ function initTabComponents() {
 }
 
 function initButtonComponents() {
+  if (!appUiUx) return;
   appUiUx.querySelectorAll('.sd-button').forEach((elem) => {
     const toggle = elem.getAttribute('toggle');
     const active = elem.getAttribute('active');
@@ -291,6 +298,7 @@ async function setupToolButtons() {
 }
 
 async function setupDropdowns() {
+  if (!appUiUx) return;
   appUiUx.querySelectorAll('.gradio-dropdown').forEach((el) => {
     el.addEventListener('click', () => {
       const options = el.querySelector('.options');
