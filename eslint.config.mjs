@@ -113,6 +113,7 @@ const jsConfig = defineConfig([
           code: 240,
           tabWidth: 2,
           ignoreComments: true,
+          ignoreUrls: true,
         },
       ],
       '@stylistic/max-statements-per-line': 'off',
