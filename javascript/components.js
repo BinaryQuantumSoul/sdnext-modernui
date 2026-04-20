@@ -1,6 +1,4 @@
 const splitInstances = [];
-const accordionTriggerBound = new WeakSet();
-const accordionFullTriggerBound = new WeakSet();
 
 function initSplitComponents() {
   if (!appUiUx) return;
@@ -67,46 +65,37 @@ function initAccordionComponents() {
     const accSplit = acc.closest('.split-container');
     const accTrigger = appUiUx.querySelector(acc.getAttribute('iconTrigger'));
     if (accTrigger) elem.classList.add('pointer-events-none');
-    if (acc.classList.contains('accordion-vertical') && accSplit?.classList.contains('split')) {
+    if (acc.className.indexOf('accordion-vertical') !== -1 && accSplit.className.indexOf('split') !== -1) {
       acc.classList.add('expand');
       const splitInstance = splitInstances[accSplit.parentElement.id];
       accSplit.setAttribute('data-sizes', JSON.stringify(splitInstance.getSizes()));
-      const padding = (parseFloat(window.getComputedStyle(elem, null).getPropertyValue('padding-left')) || 0) * 2;
-      const minWidth = `${elem.offsetWidth + padding}px`;
-      if (accTrigger && !accordionTriggerBound.has(accTrigger)) {
-        accordionTriggerBound.add(accTrigger);
-        accTrigger.addEventListener('click', () => {
-          acc.classList.toggle('expand');
-          setStored(`ui-${acc.id}-class`, acc.className);
-          if (accSplit.classList.contains('v-expand')) {
-            accSplit.classList.remove('v-expand');
-            accSplit.style.removeProperty('min-width');
-            requestAnimationFrame(() => {
-              splitInstance.setSizes(JSON.parse(accSplit.getAttribute('data-sizes')));
-            });
+      accTrigger?.addEventListener('click', () => {
+        acc.classList.toggle('expand');
+        setStored(`ui-${acc.id}-class`, acc.className);
+        if (accSplit.className.indexOf('v-expand') !== -1) {
+          accSplit.classList.remove('v-expand');
+          accSplit.style.removeProperty('min-width');
+          splitInstance.setSizes(JSON.parse(accSplit.getAttribute('data-sizes')));
+        } else {
+          accSplit.classList.add('v-expand');
+          const sizes = splitInstance.getSizes();
+          accSplit.setAttribute('data-sizes', JSON.stringify(sizes));
+          if (acc.className.indexOf('left') !== -1) {
+            sizes[sizes.length - 1] = 100;
+            sizes[sizes.length - 2] = 0;
           } else {
-            accSplit.classList.add('v-expand');
-            const sizes = splitInstance.getSizes();
-            accSplit.setAttribute('data-sizes', JSON.stringify(sizes));
-            if (acc.classList.contains('left')) {
-              sizes[sizes.length - 1] = 100;
-              sizes[sizes.length - 2] = 0;
-            } else {
-              sizes[sizes.length - 1] = 0;
-              sizes[sizes.length - 2] = 100;
-            }
-            accSplit.style.minWidth = minWidth;
-            requestAnimationFrame(() => {
-              splitInstance.setSizes(sizes);
-            });
+            sizes[sizes.length - 1] = 0;
+            sizes[sizes.length - 2] = 100;
           }
-        });
-      }
+          const padding = parseFloat(window.getComputedStyle(elem, null).getPropertyValue('padding-left')) * 2;
+          accSplit.style.minWidth = `${elem.offsetWidth + padding}px`;
+          splitInstance.setSizes(sizes);
+        }
+      });
       const savedClasses = getStored(`ui-${acc.id}-class`);
       if (savedClasses && !savedClasses.includes('expand')) accTrigger?.click();
-    } else if (accTrigger && !accordionTriggerBound.has(accTrigger)) {
-      accordionTriggerBound.add(accTrigger);
-      accTrigger.addEventListener('click', () => {
+    } else {
+      accTrigger?.addEventListener('click', () => {
         acc.classList.toggle('expand');
         setStored(`ui-${acc.id}-class`, acc.className);
       });
@@ -114,14 +103,10 @@ function initAccordionComponents() {
 
     const fullTrigger = acc.getAttribute('iconFullTrigger');
     if (fullTrigger) {
-      const fullTriggerElem = appUiUx.querySelector(fullTrigger);
-      if (fullTriggerElem && !accordionFullTriggerBound.has(fullTriggerElem)) {
-        accordionFullTriggerBound.add(fullTriggerElem);
-        fullTriggerElem.addEventListener('click', () => {
-          acc.classList.toggle('full-expand');
-          setStored(`ui-${acc.id}-class`, acc.className);
-        });
-      }
+      appUiUx.querySelector(fullTrigger)?.addEventListener('click', () => {
+        acc.classList.toggle('full-expand');
+        setStored(`ui-${acc.id}-class`, acc.className);
+      });
     }
   });
 }
@@ -176,15 +161,7 @@ function initTabComponents() {
     const tabGroup = elem.getAttribute('tabGroup');
     const tabParent = elem.parentElement;
     const uid = tabGroup || tabParent?.id;
-    let siblingTabs;
-    if (tabGroup) {
-      siblingTabs = [...appUiUx.querySelectorAll(`.xtabs-tab[tabGroup="${tabGroup}"]`)];
-    } else if (tabParent) {
-      siblingTabs = [...tabParent.children];
-    } else {
-      siblingTabs = [];
-    }
-    siblingTabs = siblingTabs.filter((tab) => tab !== elem);
+    const siblingTabs = [...(tabGroup ? appUiUx.querySelectorAll(`[tabGroup="${tabGroup}"]`) : tabParent ? tabParent.children : [])].filter((tab) => tab !== elem); // eslint-disable-line no-nested-ternary
 
     elem.addEventListener('click', () => {
       if (uid) setStored(`tab-${uid}-current`, elem.id);
