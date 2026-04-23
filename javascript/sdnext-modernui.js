@@ -257,7 +257,8 @@ async function extraTweaks() {
   // disable spellchecks
   document.querySelectorAll('input[type="text"], textarea').forEach((elem) => { elem.setAttribute('spellcheck', 'false'); });
   const t1 = performance.now();
-  log('extraTweaks', `time=${Math.round(t1 - t0)}`);
+  log('extraTweaks', Math.round(t1 - t0));
+  timer('extraTweaks', t1 - t0);
 }
 
 async function uiuxOptionSettings() {
@@ -335,6 +336,7 @@ async function loadAllPortals() {
   portals.forEach((elem, index, array) => movePortal(elem, 1, index, array.length)); // eslint-disable-line no-use-before-define
   const t1 = performance.now();
   log('loadAllPortals', `time=${Math.round(t1 - t0)} portals=${portals.length}`);
+  timer('loadAllPortals', t1 - t0);
 }
 
 function movePortal(portalElem, tries, index, length) {
@@ -444,6 +446,7 @@ async function loadCurrentTemplate(data) {
     }
     const t1 = performance.now();
     // log('loadTemplate', curr_data.template, `time=${Math.round(t1 - t0)}`);
+    timer(`loadTemplate:${curr_data.template}`, t1 - t0);
     return loadCurrentTemplate(data);
   }
   return Promise.resolve();
@@ -460,8 +463,10 @@ async function loadAllTemplates() {
   const t0 = performance.now();
   await loadCurrentTemplate(data);
   const t1 = performance.now();
+  timer('loadAllTemplates:load', t1 - t0);
   await replaceRootTemplate();
   const t2 = performance.now();
+  timer('loadAllTemplates:replace', t2 - t1);
   log('loadAllTemplates', `load=${Math.round(t1 - t0)} replace=${Math.round(t2 - t1)}`);
 }
 
@@ -494,7 +499,9 @@ async function removeStyleAssets() {
     [...element.classList].filter((className) => className.match(/^svelte.*/)).forEach((svelteClass) => element.classList.remove(svelteClass));
     count++;
   });
-  log('removeElements', `elements=${removedCount}/${count} stylesheets=${removedStylesheets} time=${Math.round(performance.now() - t0)}`);
+  const t1 = performance.now();
+  log('removeElements', `elements=${removedCount}/${count} stylesheets=${removedStylesheets} time=${Math.round(t1 - t0)}`);
+  timer('removeElements', t1 - t0);
 }
 
 async function setupLogger() {
@@ -521,10 +528,12 @@ async function mainUiUx() {
   setupToolButtons();
   setupDropdowns();
   initAccordionComponents();
+
   const t1 = performance.now();
   await waitForUiPortal();
   const t2 = performance.now();
-  log('waitForUiPortal', `time=${Math.round(t2 - t1)}`);
+  log('waitForUiPortal', Math.round(t2 - t1));
+
   setupGenerateObservers();
   setupControlDynamicObservers();
   uiuxOptionSettings();
@@ -538,6 +547,10 @@ async function mainUiUx() {
   uiFlagInitialized = true;
   const t3 = performance.now();
   log('mainUiUx', { total: Math.round(t3 - t0), load: Math.round(t1 - t0), portal: Math.round(t2 - t1), post: Math.round(t3 - t2) });
+  timer('waitForUiPortal:total', t3 - t0);
+  timer('waitForUiPortal:load', t1 - t0);
+  timer('waitForUiPortal:portal', t2 - t1);
+  timer('waitForUiPortal:post', t3 - t2);
 }
 
 onUiReady(mainUiUx);

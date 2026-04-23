@@ -40,10 +40,10 @@ const hslToRGB = (h, s, l) => {
 };
 
 async function setUserColors() {
+  const t0 = performance.now();
   const h = localStorage.getItem('sd-primary-h');
   const s = localStorage.getItem('sd-primary-s');
   const l = localStorage.getItem('sd-primary-l');
-  log('setUserColors', h, s, l);
   const el = document.getElementById('sd-primary-color');
   el.value = rgbtoHex(...hslToRGB(h, s, l));
   if (h) document.documentElement.style.setProperty('--sd-primary-h', h);
@@ -65,4 +65,7 @@ async function setUserColors() {
     localStorage.setItem('sd-primary-l', '40');
     setUserColors();
   };
+  const t1 = performance.now();
+  log('setUserColors', { h, s, l }, Math.round(t1 - t0));
+  timer('setUserColors', t1 - t0);
 }

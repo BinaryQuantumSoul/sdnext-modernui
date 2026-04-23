@@ -284,6 +284,7 @@ async function setupToolButtons() {
   }
   const t1 = performance.now();
   log('setupToolButtons', Math.round(t1 - t0));
+  timer('setupToolButtons', t1 - t0);
   // appUiUx.querySelectorAll('.tool').forEach((el) => {
   //   if (!vprocessed.has(el)) error('toolButton', el.id);
   // });
