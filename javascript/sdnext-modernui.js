@@ -396,8 +396,7 @@ async function setupAnimationEventListeners() {
 async function replaceRootTemplate() {
   appUiUx = document.querySelector(appId);
   if (!appUiUx) {
-    error('modernUI root element not found');
-    return;
+    throw new Error(`Root element with id "${appId}" not found`);
   }
   gradioApp().insertAdjacentElement('afterbegin', appUiUx);
 }
@@ -513,44 +512,77 @@ async function setupLogger() {
   window.logger = logMonitorJS;
 }
 
+function loadingErrorOverlay(msg, err) {
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(255, 0, 0, 0.2); color: white; display: flex; align-items: center; justify-content: center; z-index: 9999;';
+
+  const content = document.createElement('div');
+  content.style.cssText = 'background-color: #ffff; color: #000; padding: 10px; max-width: 90%; display: flex; flex-direction: column; gap: 10px;';
+
+  const header = document.createElement('div');
+  header.style.cssText = 'font-size: 1.5em; font-weight: bold; margin-bottom: 10px; text-align: center;';
+  header.textContent = msg;
+
+  const summary = document.createElement('div');
+  summary.textContent = err;
+
+  const stack = document.createElement('pre');
+  stack.style.cssText = 'white-space: pre-wrap; word-break: break-word; max-height: 70vh; overflow-y: auto;';
+  stack.textContent = err.stack || new Error().stack;
+
+  content.append(header, summary, stack);
+  overlay.appendChild(content);
+  document.body.appendChild(overlay);
+}
+
 async function mainUiUx() {
-  const t0 = performance.now();
-  log('initModernUi');
-  log('userAgent', navigator?.userAgent);
-  await removeStyleAssets();
-  await loadAllTemplates();
-  createButtonsForExtensions();
-  setupAnimationEventListeners();
-  initSplitComponents();
-  await loadAllPortals();
-  initTabComponents();
-  initButtonComponents();
-  setupToolButtons();
-  setupDropdowns();
-  initAccordionComponents();
+  try {
+    const t0 = performance.now();
+    log('initModernUi');
+    log('userAgent', navigator?.userAgent);
+    await removeStyleAssets();
+    await loadAllTemplates();
+    createButtonsForExtensions();
+    setupAnimationEventListeners();
+    initSplitComponents();
+    await loadAllPortals();
+    initTabComponents();
+    initButtonComponents();
+    setupToolButtons();
+    setupDropdowns();
+    initAccordionComponents();
 
-  const t1 = performance.now();
-  await waitForUiPortal();
-  const t2 = performance.now();
-  log('waitForUiPortal', Math.round(t2 - t1));
+    const t1 = performance.now();
+    await waitForUiPortal();
+    const t2 = performance.now();
+    log('waitForUiPortal', Math.round(t2 - t1));
 
-  setupGenerateObservers();
-  setupControlDynamicObservers();
-  uiuxOptionSettings();
-  setUserColors();
-  showContributors();
-  switchMobile();
-  trackAsideFocus();
-  extraTweaks();
-  applyAutoHide();
-  initServerInfo();
-  uiFlagInitialized = true;
-  const t3 = performance.now();
-  log('mainUiUx', { total: Math.round(t3 - t0), load: Math.round(t1 - t0), portal: Math.round(t2 - t1), post: Math.round(t3 - t2) });
-  timer('waitForUiPortal:total', t3 - t0);
-  timer('waitForUiPortal:load', t1 - t0);
-  timer('waitForUiPortal:portal', t2 - t1);
-  timer('waitForUiPortal:post', t3 - t2);
+    setupGenerateObservers();
+    setupControlDynamicObservers();
+    uiuxOptionSettings();
+    setUserColors();
+    showContributors();
+    switchMobile();
+    trackAsideFocus();
+    extraTweaks();
+    applyAutoHide();
+    initServerInfo();
+    uiFlagInitialized = true;
+    const t3 = performance.now();
+    log('mainUiUx', { total: Math.round(t3 - t0), load: Math.round(t1 - t0), portal: Math.round(t2 - t1), post: Math.round(t3 - t2) });
+    timer('waitForUiPortal:total', t3 - t0);
+    timer('waitForUiPortal:load', t1 - t0);
+    timer('waitForUiPortal:portal', t2 - t1);
+    timer('waitForUiPortal:post', t3 - t2);
+  } catch (err) {
+    const msg = 'An error occurred during ModernUI initialization';
+    try {
+      error(msg, err);
+    } catch {
+      console.error(msg, err);
+    }
+    loadingErrorOverlay(msg, err);
+  }
 }
 
 onUiReady(mainUiUx);
