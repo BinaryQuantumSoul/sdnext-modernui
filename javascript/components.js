@@ -103,7 +103,6 @@ function initAccordionComponents() {
           const padding = parseFloat(window.getComputedStyle(elem, null).getPropertyValue('padding-left')) * 2;
           accSplit.style.minWidth = `${elem.offsetWidth + padding}px`;
           splitInstance.setSizes(sizes);
-          console.log('HERE1', accSplit.style.minWidth);
         }
       });
     } else {
