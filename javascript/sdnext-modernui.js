@@ -237,7 +237,7 @@ async function extraTweaks() {
   controlNav.addEventListener('click', handleTabChange);
   videoNav.addEventListener('click', handleTabChange);
 
-  // Log wrapping
+  // log wrapping
   const serverLog = document.getElementById('logMonitorData');
   document.getElementById('btn_console_log_server_wrap').onclick = () => {
     if (serverLog) serverLog.style.whiteSpace = serverLog.style.whiteSpace === 'nowrap' ? 'break-spaces' : 'nowrap';
@@ -300,9 +300,6 @@ async function uiuxOptionSettings() {
 
   // hide legacy and activate control tab
   log('hideLegacy', window.opts.uiux_hide_legacy);
-  // gradioApp().getElementById('tab_txt2img').style.display = window.opts.uiux_hide_legacy ? 'none' : 'block';
-  // gradioApp().getElementById('tab_img2img').style.display = window.opts.uiux_hide_legacy ? 'none' : 'block';
-  // gradioApp().getElementById('tab_control').style.display = window.opts.uiux_hide_legacy ? 'block' : 'none';
 
   // settings mobile scale
   function mobileScale(value) {
@@ -345,8 +342,6 @@ function movePortal(portalElem, tries, index, length) {
   const dataSelector = portalElem.getAttribute('data-selector');
   const dataOptional = portalElem.getAttribute('data-optional');
   const targetElem = document.querySelector(`${parentSelector} ${dataSelector}`);
-  // const allElements = document.querySelectorAll(`${parentSelector} ${dataSelector}`);
-  // if (allElements.length > 1) error(`Multiple elements num=${allElements.length} selector=${parentSelector} ${dataSelector}`, allElements);
   if (portalElem && !targetElem && dataSelector?.endsWith('_enqueue')) {
     portalTotal += 1;
     portalElem.style.display = 'none';
@@ -540,10 +535,12 @@ async function mainUiUx() {
   setUserColors();
   showContributors();
   switchMobile();
+  restoreAccordionState();
   trackAsideFocus();
   extraTweaks();
   applyAutoHide();
   initServerInfo();
+  
   uiFlagInitialized = true;
   const t3 = performance.now();
   log('mainUiUx', { total: Math.round(t3 - t0), load: Math.round(t1 - t0), portal: Math.round(t2 - t1), post: Math.round(t3 - t2) });
