@@ -58,6 +58,19 @@ function initSplitComponents() {
   });
 }
 
+function restoreAccordionState() {
+  if (!appUiUx) return;
+  appUiUx.querySelectorAll('.accordion-bar').forEach((elem) => {
+    const acc = elem.parentElement;
+    const accSplit = acc.closest('.split-container');
+    const accTrigger = appUiUx.querySelector(acc.getAttribute('iconTrigger'));
+    if (acc.className.indexOf('accordion-vertical') !== -1 && accSplit.className.indexOf('split') !== -1) {
+      const savedClasses = getStored(`ui-${acc.id}-class`);
+      if (savedClasses && !savedClasses.includes('expand')) accTrigger?.click();
+    }
+  });
+}
+
 function initAccordionComponents() {
   if (!appUiUx) return;
   appUiUx.querySelectorAll('.accordion-bar').forEach((elem) => {
@@ -90,10 +103,9 @@ function initAccordionComponents() {
           const padding = parseFloat(window.getComputedStyle(elem, null).getPropertyValue('padding-left')) * 2;
           accSplit.style.minWidth = `${elem.offsetWidth + padding}px`;
           splitInstance.setSizes(sizes);
+          console.log('HERE1', accSplit.style.minWidth);
         }
       });
-      const savedClasses = getStored(`ui-${acc.id}-class`);
-      if (savedClasses && !savedClasses.includes('expand')) accTrigger?.click();
     } else {
       accTrigger?.addEventListener('click', () => {
         acc.classList.toggle('expand');
