@@ -758,13 +758,14 @@ div.float span {
   width: 100%;
 }
 
- .main-prompt .prompt textarea {
+.main-prompt .prompt textarea {
   min-height: 100% !important;
   position: absolute;
   font-size: 16px;
   line-height: 24px;
   resize: none !important;
- }
+  padding-block-end: 2.5em;
+}
 
 * select:focus,
 * input:focus,
