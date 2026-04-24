@@ -509,7 +509,7 @@ async function setupLogger() {
 
 function loadingErrorOverlay(msg, err) {
   const overlay = document.createElement('div');
-  overlay.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background-color:rgba(255, 0, 0, 0.2);color:white;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:9999;';
+  overlay.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background-color:rgba(255, 0, 0, 0.2);display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:9999;';
 
   const content = document.createElement('div');
   content.style.cssText = 'background-color:#fff;color:#000;padding:10px;max-width:90%;display:flex;flex-direction:column;gap:10px;';
