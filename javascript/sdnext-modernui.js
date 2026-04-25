@@ -507,7 +507,7 @@ async function setupLogger() {
   window.logger = logMonitorJS;
 }
 
-function loadingErrorOverlay(msg, err) {
+function largeErrorOverlay(msg, err) {
   const overlay = document.createElement('div');
   overlay.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background-color:rgba(255, 0, 0, 0.2);display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:9999;';
 
@@ -583,7 +583,7 @@ async function mainUiUx() {
     } catch {
       console.error(msg, err);
     }
-    loadingErrorOverlay(msg, err);
+    largeErrorOverlay(msg, err);
   }
 }
 
