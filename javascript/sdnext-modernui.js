@@ -540,7 +540,7 @@ async function mainUiUx() {
   extraTweaks();
   applyAutoHide();
   initServerInfo();
-  
+
   uiFlagInitialized = true;
   const t3 = performance.now();
   log('mainUiUx', { total: Math.round(t3 - t0), load: Math.round(t1 - t0), portal: Math.round(t2 - t1), post: Math.round(t3 - t2) });
