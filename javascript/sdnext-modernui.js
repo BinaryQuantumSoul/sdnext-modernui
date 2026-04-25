@@ -525,7 +525,12 @@ function loadingErrorOverlay(msg, err) {
   stack.style.cssText = 'white-space:pre-wrap;word-break:break-word;max-height:70vh;overflow-y:auto;';
   stack.textContent = err.stack || new Error().stack;
 
-  content.append(header, summary, stack);
+  const dismiss = document.createElement('button');
+  dismiss.textContent = 'Close';
+  dismiss.style.cssText = 'margin-top:10px;align-self:center;padding:5px 10px;background-color:var(--color-error);';
+  dismiss.onclick = () => overlay.remove();
+
+  content.append(header, summary, stack, dismiss);
   overlay.appendChild(content);
   document.body.appendChild(overlay);
 }
