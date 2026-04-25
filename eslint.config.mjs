@@ -56,6 +56,7 @@ const jsConfig = defineConfig([
         initServerInfo: 'readonly',
         createButtonsForExtensions: 'readonly',
         Split: 'readonly',
+        restoreAccordionState: 'readonly',
       },
     },
   },

@@ -758,13 +758,14 @@ div.float span {
   width: 100%;
 }
 
- .main-prompt .prompt textarea {
+.main-prompt .prompt textarea {
   min-height: 100% !important;
   position: absolute;
   font-size: 16px;
   line-height: 24px;
   resize: none !important;
- }
+  padding-block-end: 2.5em;
+}
 
 * select:focus,
 * input:focus,
@@ -5307,7 +5308,9 @@ gallery-folder:hover {
   justify-content: space-between;
 }
 
-.token-counter span {
+.token-counter-contents {
+  display: flex;
+  flex-direction: row;
   outline: none;
   text-align-last: right;
   padding: 0.3em;
@@ -5315,10 +5318,27 @@ gallery-folder:hover {
   opacity: 0.8;
   background: rgba(100, 100, 100, 0.5);
   border-radius: var(--sd-border-radius);
+  & > div:not(:last-child) {
+    background: transparent;
+  }
 }
 
-.token-counter.error span {
+.token-counter.error > div {
   background-color: var(--color-error);
+}
+
+.token-counter-detailed {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex-shrink: 1;
+}
+
+.token-counter-totals {
+  &:not(:only-of-type) {
+    margin-left: 6px;
+  }
+  flex-shrink: 0;
 }
 
 .bottom-right {
@@ -5326,7 +5346,8 @@ gallery-folder:hover {
   position: absolute;
   bottom: 0;
   right: 0;
-  max-height: 2em;
+  padding: 4px;
+  max-width: calc(100% - 8px);
   opacity: 0.7;
   margin: 0.4em;
   background-color: unset;

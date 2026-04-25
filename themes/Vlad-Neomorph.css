@@ -1,6 +1,10 @@
 /* Author: Antigravity */
 
 :root {
+  --sd-body-font: 'NotoSans', sans-serif;
+  --sd-text-font: 'NotoSans', sans-serif;
+  --sd-button-font: 'NotoSans', sans-serif;
+
   /* Neumorphic base colors */
   --sd-primary-h: 190deg;
   --sd-primary-s: 80%;
@@ -9,8 +13,9 @@
   
   /* Tesla App Dark Neumorphism Reference */
   --neo-bg: #242424;
-  --neo-shadow-light: #323232;
   --neo-shadow-dark: #1a1a1a;
+  --neo-shadow-light: #3f3f3f;
+  --neo-shadow-highlight: #6f6f6f;
   
   --sd-secondary-color: var(--neo-bg);
   --sd-main-background-color: var(--neo-bg);
@@ -45,7 +50,7 @@
   --sd-input-padding: 0 12px;
   
   --neo-drop-shadow: 6px 6px 12px var(--neo-shadow-dark), -6px -6px 12px var(--neo-shadow-light);
-  --neo-drop-shadow-hover: 8px 8px 16px var(--neo-shadow-dark), -8px -8px 16px var(--neo-shadow-light);
+  --neo-drop-shadow-hover: 8px 8px 16px var(--neo-shadow-dark), -8px -8px 16px var(--neo-shadow-highlight);
   --neo-inset-shadow: inset 4px 4px 8px var(--neo-shadow-dark), inset -4px -4px 8px var(--neo-shadow-light);
   
   color-scheme: dark;
@@ -97,7 +102,7 @@ button, .gradio-button, .btn {
 /* Button Hover State */
 button:hover, .gradio-button:hover, .btn:hover {
   box-shadow: var(--neo-drop-shadow-hover) !important;
-  color: var(--sd-button-hover-text-color) !important;
+  background-color: #2f2f2f !important;
 }
 
 /* Button Active / Pressed / Selected State - Inset Shape */
@@ -134,8 +139,7 @@ input[type="checkbox"], input[type="radio"] {
   -webkit-appearance: none !important;
   width: 24px !important;
   height: 24px !important;
-  background-color: var(--neo-bg) !important;
-  box-shadow: none !important;
+  box-shadow: var(--neo-inset-shadow) !important;
   border-radius: 6px !important;
   display: inline-block !important;
   position: relative !important;
@@ -193,4 +197,23 @@ button>.mask-icon, button>span {
 
 #main_nav_content, #split-right {
   overflow: visible;
+}
+
+*.gradio-dropdown .secondary-wrap input {
+  box-shadow: var(--neo-inset-shadow) !important;
+}
+
+#sidebar_control button {
+  box-shadow: none !important;
+}
+#sidebar_control button:hover {
+  box-shadow: var(--neo-drop-shadow) !important;
+}
+
+.extra-network-subdirs>button, .settings-tabs button {
+  box-shadow: var(--neo-inset-shadow) !important;
+}
+
+.extra-details {
+  background: var(--neo-shadow-light) !important;
 }
