@@ -9,7 +9,7 @@
   "homepage": "https://github.com/BinaryQuantumSoul/sdnext-modernui",
   "license": "AGPLv3",
   "engines": {
-    "node": ">=22.0.0"
+    "node": "^22.13.0 || >=24"
   },
   "repository": {
     "type": "git",

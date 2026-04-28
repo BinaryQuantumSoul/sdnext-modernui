@@ -528,7 +528,10 @@
             }
 
             // Don't actually drag the element. We emulate that in the drag function.
-            e.preventDefault();
+            // For touch, keep listener passive for better scroll performance.
+            if (e.type !== 'touchstart') {
+                e.preventDefault();
+            }
 
             // Set the dragging property of the pair object.
             self.dragging = true;
@@ -663,7 +666,8 @@
                 );
                 gutterElement[addEventListener](
                     'touchstart',
-                    pair[gutterStartDragging]
+                    pair[gutterStartDragging],
+                    { passive: true }
                 );
 
                 parent.insertBefore(gutterElement, element.element);

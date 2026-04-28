@@ -14,12 +14,10 @@ window.getUICurrentTabContent = () => gradioApp().querySelector('.xtabs-item:not
 window.getSettingsTabs = () => gradioApp().querySelectorAll('#layout-settings .tabitem');
 
 function functionWaitForFlag(checkFlag) {
-  return async function () { // eslint-disable-line func-names
-    return new Promise((resolve) => {
-      const check = () => (checkFlag() ? resolve() : setTimeout(check));
-      check();
-    });
-  };
+  return async () => new Promise((resolve) => {
+    const check = () => (checkFlag() ? resolve() : setTimeout(check, 50));
+    check();
+  });
 }
 
 let uiFlagInitialized = false;
@@ -34,7 +32,8 @@ function logPrettyPrint() {
   let arg;
   let i;
   const dt = new Date();
-  const ts = `${dt.getHours().toString().padStart(2, '0')}:${dt.getMinutes().toString().padStart(2, '0')}:${dt.getSeconds().toString().padStart(2, '0')}.${dt.getMilliseconds().toString().padStart(3, '0')}`;
+  const [h, m, s, ms] = [dt.getHours().toString(), dt.getMinutes().toString(), dt.getSeconds().toString(), dt.getMilliseconds().toString()];
+  const ts = `${h.padStart(2, '0')}:${m.padStart(2, '0')}:${s.padStart(2, '0')}.${ms.padStart(3, '0')}`;
   output += `<div class="log-row"><span class="log-date">${ts}</span>`;
 
   for (i = 0; i < arguments.length; i++) {
@@ -82,6 +81,7 @@ const getStored = (key) => {
 };
 
 function trackAsideFocus() {
+  if (!appUiUx) return;
   const aside = appUiUx.querySelector('#aside-panel');
   aside.addEventListener('focusin', () => { ++asideFocusTracker; });
   aside.addEventListener('focusout', () => {
@@ -91,6 +91,7 @@ function trackAsideFocus() {
 }
 
 function applyDefaultLayout(mobile) {
+  if (!appUiUx) return;
   appUiUx.querySelectorAll('[mobile]').forEach((tabItem) => {
     if (mobile) {
       if (tabItem.childElementCount === 0) {
@@ -148,6 +149,7 @@ async function applyAutoHide() {
     hideSiblings(nextEl);
   };
 
+  if (!appUiUx) return;
   appUiUx.querySelectorAll('h2').forEach((elem) => elem.classList.add('auto-hide'));
   appUiUx.querySelectorAll('.auto-hide').forEach((elem) => {
     elem.onclick = (evt) => {
@@ -184,6 +186,7 @@ async function applyAutoHide() {
 }
 
 async function extraTweaks() {
+  const t0 = performance.now();
   // System tab click second tab
   document.querySelectorAll('#system .tab-nav button')[1].click();
 
@@ -234,7 +237,7 @@ async function extraTweaks() {
   controlNav.addEventListener('click', handleTabChange);
   videoNav.addEventListener('click', handleTabChange);
 
-  // Log wrapping
+  // log wrapping
   const serverLog = document.getElementById('logMonitorData');
   document.getElementById('btn_console_log_server_wrap').onclick = () => {
     if (serverLog) serverLog.style.whiteSpace = serverLog.style.whiteSpace === 'nowrap' ? 'break-spaces' : 'nowrap';
@@ -253,8 +256,10 @@ async function extraTweaks() {
 
   // disable spellchecks
   document.querySelectorAll('input[type="text"], textarea').forEach((elem) => { elem.setAttribute('spellcheck', 'false'); });
+  const t1 = performance.now();
+  log('extraTweaks', Math.round(t1 - t0));
+  timer('extraTweaks', t1 - t0);
 }
-extraTweaks = logFn(extraTweaks); // eslint-disable-line no-func-assign
 
 async function uiuxOptionSettings() {
   let el;
@@ -295,9 +300,6 @@ async function uiuxOptionSettings() {
 
   // hide legacy and activate control tab
   log('hideLegacy', window.opts.uiux_hide_legacy);
-  // gradioApp().getElementById('tab_txt2img').style.display = window.opts.uiux_hide_legacy ? 'none' : 'block';
-  // gradioApp().getElementById('tab_img2img').style.display = window.opts.uiux_hide_legacy ? 'none' : 'block';
-  // gradioApp().getElementById('tab_control').style.display = window.opts.uiux_hide_legacy ? 'block' : 'none';
 
   // settings mobile scale
   function mobileScale(value) {
@@ -322,9 +324,17 @@ async function uiuxOptionSettings() {
 }
 
 async function loadAllPortals() {
-  appUiUx.querySelectorAll('.portal').forEach((elem, index, array) => movePortal(elem, 1, index, array.length)); // eslint-disable-line no-use-before-define
+  if (!appUiUx) {
+    error('loadAllPortals: appUiUx not found');
+    return;
+  }
+  const t0 = performance.now();
+  const portals = appUiUx.querySelectorAll('.portal');
+  portals.forEach((elem, index, array) => movePortal(elem, 1, index, array.length)); // eslint-disable-line no-use-before-define
+  const t1 = performance.now();
+  log('loadAllPortals', `time=${Math.round(t1 - t0)} portals=${portals.length}`);
+  timer('loadAllPortals', t1 - t0);
 }
-loadAllPortals = logFn(loadAllPortals); // eslint-disable-line no-func-assign
 
 function movePortal(portalElem, tries, index, length) {
   const MAX_TRIES = 3;
@@ -332,8 +342,6 @@ function movePortal(portalElem, tries, index, length) {
   const dataSelector = portalElem.getAttribute('data-selector');
   const dataOptional = portalElem.getAttribute('data-optional');
   const targetElem = document.querySelector(`${parentSelector} ${dataSelector}`);
-  // const allElements = document.querySelectorAll(`${parentSelector} ${dataSelector}`);
-  // if (allElements.length > 1) error(`Multiple elements num=${allElements.length} selector=${parentSelector} ${dataSelector}`, allElements);
   if (portalElem && !targetElem && dataSelector?.endsWith('_enqueue')) {
     portalTotal += 1;
     portalElem.style.display = 'none';
@@ -382,6 +390,9 @@ async function setupAnimationEventListeners() {
 
 async function replaceRootTemplate() {
   appUiUx = document.querySelector(appId);
+  if (!appUiUx) {
+    throw new Error(`Root element with id "${appId}" not found`);
+  }
   gradioApp().insertAdjacentElement('afterbegin', appUiUx);
 }
 
@@ -408,10 +419,8 @@ async function loadCurrentTemplate(data) {
         return loadCurrentTemplate(data);
       }
     }
-    // log('loadTemplate', curr_data.template);
     const uri = `${window.subpath}${htmlPath}/templates/${curr_data.template}.html?${Date.now()}`;
     const response = await fetch(uri, { cache: 'reload' });
-    // const response = await fetch(uri);
     if (!response.ok) {
       error('loadTemplate', curr_data.template, curr_data.target);
       if (curr_data.target) curr_data.target.setAttribute('status', 'error');
@@ -422,12 +431,16 @@ async function loadCurrentTemplate(data) {
       const nestedData = await getNestedTemplates(tempDiv);
       data.push(...nestedData);
       if (curr_data.target) {
+        // log('appendTemplate', curr_data.target, tempDiv.firstElementChild);
         curr_data.target.setAttribute('status', 'true');
         curr_data.target.append(tempDiv.firstElementChild);
+      } else {
+        error('loadTemplateNoTarget', curr_data);
       }
     }
     const t1 = performance.now();
     // log('loadTemplate', curr_data.template, `time=${Math.round(t1 - t0)}`);
+    timer(`loadTemplate:${curr_data.template}`, t1 - t0);
     return loadCurrentTemplate(data);
   }
   return Promise.resolve();
@@ -440,11 +453,14 @@ async function loadAllTemplates() {
       target: document.querySelector(tabId),
     },
   ];
+  if (!data[0].target) error('LoadAllTemplates: missing target', data);
   const t0 = performance.now();
   await loadCurrentTemplate(data);
   const t1 = performance.now();
+  timer('loadAllTemplates:load', t1 - t0);
   await replaceRootTemplate();
   const t2 = performance.now();
+  timer('loadAllTemplates:replace', t2 - t1);
   log('loadAllTemplates', `load=${Math.round(t1 - t0)} replace=${Math.round(t2 - t1)}`);
 }
 
@@ -477,15 +493,9 @@ async function removeStyleAssets() {
     [...element.classList].filter((className) => className.match(/^svelte.*/)).forEach((svelteClass) => element.classList.remove(svelteClass));
     count++;
   });
-  log('removeElements', `elements=${removedCount}/${count} stylesheets=${removedStylesheets} time=${Math.round(performance.now() - t0)}`);
-}
-
-function logStartup() {
-  log('userAgent', navigator.userAgent);
-  const filteredOpts = Object.entries(window.opts).filter(([key, value]) => key.startsWith('uiux') && typeof value !== 'string');
-  const uiOpts = {};
-  for (const [key, value] of filteredOpts) uiOpts[key] = value;
-  log('modernUI', uiOpts);
+  const t1 = performance.now();
+  log('removeElements', `elements=${removedCount}/${count} stylesheets=${removedStylesheets} time=${Math.round(t1 - t0)}`);
+  timer('removeElements', t1 - t0);
 }
 
 async function setupLogger() {
@@ -497,35 +507,84 @@ async function setupLogger() {
   window.logger = logMonitorJS;
 }
 
-async function mainUiUx() {
-  logStartup();
-  await removeStyleAssets();
-  await loadAllTemplates();
-  createButtonsForExtensions();
-  setupAnimationEventListeners();
-  initSplitComponents();
-  await loadAllPortals();
-  initTabComponents();
-  initButtonComponents();
-  setupToolButtons();
-  setupDropdowns();
-  initAccordionComponents();
-  const t0 = performance.now();
-  await waitForUiPortal();
-  const t1 = performance.now();
-  log('waitForUiPortal', `time=${Math.round(t1 - t0)}`);
-  setupGenerateObservers();
-  setupControlDynamicObservers();
-  uiuxOptionSettings();
-  setUserColors();
-  showContributors();
-  switchMobile();
-  trackAsideFocus();
-  extraTweaks();
-  applyAutoHide();
-  initServerInfo();
-  uiFlagInitialized = true;
+function largeErrorOverlay(msg, err) {
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background-color:rgba(255, 0, 0, 0.2);display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:9999;';
+
+  const content = document.createElement('div');
+  content.style.cssText = 'background-color:#fff;color:#000;padding:10px;max-width:90%;display:flex;flex-direction:column;gap:10px;pointer-events:auto';
+
+  const header = document.createElement('div');
+  header.style.cssText = 'font-size:1.5em;font-weight:bold;margin-bottom:10px;text-align:center;';
+  header.textContent = msg;
+
+  const summary = document.createElement('div');
+  summary.textContent = err;
+
+  const stack = document.createElement('pre');
+  stack.style.cssText = 'white-space:pre-wrap;word-break:break-word;max-height:70vh;overflow-y:auto;';
+  stack.textContent = err.stack || new Error().stack;
+
+  const dismiss = document.createElement('button');
+  dismiss.textContent = 'Close';
+  dismiss.style.cssText = 'margin-top:10px;align-self:center;padding:5px 10px;background-color:var(--color-error);';
+  dismiss.onclick = () => overlay.remove();
+
+  content.append(header, summary, stack, dismiss);
+  overlay.appendChild(content);
+  document.body.appendChild(overlay);
 }
 
-mainUiUx = logFn(mainUiUx); // eslint-disable-line no-func-assign
+async function mainUiUx() {
+  try {
+    const t0 = performance.now();
+    log('initModernUi');
+    log('userAgent', navigator?.userAgent);
+    await removeStyleAssets();
+    await loadAllTemplates();
+    createButtonsForExtensions();
+    setupAnimationEventListeners();
+    initSplitComponents();
+    await loadAllPortals();
+    initTabComponents();
+    initButtonComponents();
+    setupToolButtons();
+    setupDropdowns();
+    initAccordionComponents();
+
+    const t1 = performance.now();
+    await waitForUiPortal();
+    const t2 = performance.now();
+    log('waitForUiPortal', Math.round(t2 - t1));
+
+    setupGenerateObservers();
+    setupControlDynamicObservers();
+    uiuxOptionSettings();
+    setUserColors();
+    showContributors();
+    switchMobile();
+    restoreAccordionState();
+    trackAsideFocus();
+    extraTweaks();
+    applyAutoHide();
+    initServerInfo();
+
+    uiFlagInitialized = true;
+    const t3 = performance.now();
+    log('mainUiUx', { total: Math.round(t3 - t0), load: Math.round(t1 - t0), portal: Math.round(t2 - t1), post: Math.round(t3 - t2) });
+    timer('waitForUiPortal:total', t3 - t0);
+    timer('waitForUiPortal:load', t1 - t0);
+    timer('waitForUiPortal:portal', t2 - t1);
+    timer('waitForUiPortal:post', t3 - t2);
+  } catch (err) {
+    const msg = 'An error occurred during ModernUI initialization';
+    try {
+      error(msg, err);
+    } catch {
+      console.error(msg, err);
+    }
+    largeErrorOverlay(msg, err);
+  }
+}
+
 onUiReady(mainUiUx);

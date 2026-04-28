@@ -1,6 +1,7 @@
 const splitInstances = [];
 
 function initSplitComponents() {
+  if (!appUiUx) return;
   appUiUx.querySelectorAll('div.split').forEach((elem) => {
     const id = elem.id;
     const nid = appUiUx.querySelector(`#${id}`);
@@ -32,7 +33,7 @@ function initSplitComponents() {
     // log('splitComponent', ids, initSizes, minSizes, direction, gutterSize);
     const onDragEnd = (evt) => setStored(`${id}-sizes`, evt);
     // log('splitSizes', id, initSizes, minSizes, maxSizes);
-    splitInstances[id] = Split(ids, { // eslint-disable-line no-undef
+    splitInstances[id] = Split(ids, {
       sizes: initSizes,
       minSize: minSizes,
       maxSize: maxSizes,
@@ -57,7 +58,21 @@ function initSplitComponents() {
   });
 }
 
+function restoreAccordionState() {
+  if (!appUiUx) return;
+  appUiUx.querySelectorAll('.accordion-bar').forEach((elem) => {
+    const acc = elem.parentElement;
+    const accSplit = acc.closest('.split-container');
+    const accTrigger = appUiUx.querySelector(acc.getAttribute('iconTrigger'));
+    if (acc.className.indexOf('accordion-vertical') !== -1 && accSplit.className.indexOf('split') !== -1) {
+      const savedClasses = getStored(`ui-${acc.id}-class`);
+      if (savedClasses && !savedClasses.includes('expand')) accTrigger?.click();
+    }
+  });
+}
+
 function initAccordionComponents() {
+  if (!appUiUx) return;
   appUiUx.querySelectorAll('.accordion-bar').forEach((elem) => {
     const acc = elem.parentElement;
     const accSplit = acc.closest('.split-container');
@@ -90,8 +105,6 @@ function initAccordionComponents() {
           splitInstance.setSizes(sizes);
         }
       });
-      const savedClasses = getStored(`ui-${acc.id}-class`);
-      if (savedClasses && !savedClasses.includes('expand')) accTrigger?.click();
     } else {
       accTrigger?.addEventListener('click', () => {
         acc.classList.toggle('expand');
@@ -111,6 +124,7 @@ function initAccordionComponents() {
 
 function initTabComponents() {
   function hideActive(tab) {
+    if (!appUiUx) return;
     tab.classList.remove('active');
     const tabItemId = tab.getAttribute('tabItemId');
     appUiUx.querySelectorAll(tabItemId).forEach((tabItem) => {
@@ -120,6 +134,7 @@ function initTabComponents() {
   }
 
   function showActive(tab) {
+    if (!appUiUx) return;
     tab.classList.add('active');
     const tabItemId = tab.getAttribute('tabItemId');
     appUiUx.querySelectorAll(tabItemId).forEach((tabItem) => {
@@ -131,6 +146,7 @@ function initTabComponents() {
   function triggerAccordion(elem, wasActive, checkStored) {
     const accBar = elem.closest('.accordion-bar');
     if (!accBar) return;
+    if (!appUiUx) return;
     const acc = accBar.parentElement;
     const accTrigger = appUiUx.querySelector(acc.getAttribute('iconTrigger'));
     const accFullTrigger = appUiUx.querySelector(acc.getAttribute('iconFullTrigger'));
@@ -151,6 +167,7 @@ function initTabComponents() {
     }
   }
 
+  if (!appUiUx) return;
   appUiUx.querySelectorAll('.xtabs-tab').forEach((elem) => {
     const tabGroup = elem.getAttribute('tabGroup');
     const tabParent = elem.parentElement;
@@ -197,6 +214,7 @@ function initTabComponents() {
 }
 
 function initButtonComponents() {
+  if (!appUiUx) return;
   appUiUx.querySelectorAll('.sd-button').forEach((elem) => {
     const toggle = elem.getAttribute('toggle');
     const active = elem.getAttribute('active');
@@ -277,12 +295,14 @@ async function setupToolButtons() {
   }
   const t1 = performance.now();
   log('setupToolButtons', Math.round(t1 - t0));
+  timer('setupToolButtons', t1 - t0);
   // appUiUx.querySelectorAll('.tool').forEach((el) => {
   //   if (!vprocessed.has(el)) error('toolButton', el.id);
   // });
 }
 
 async function setupDropdowns() {
+  if (!appUiUx) return;
   appUiUx.querySelectorAll('.gradio-dropdown').forEach((el) => {
     el.addEventListener('click', () => {
       const options = el.querySelector('.options');
@@ -303,7 +323,20 @@ async function setupDropdowns() {
 async function createButtonsForExtensions() {
   const other_extensions = document.querySelector('#other_extensions');
   const other_views = document.querySelector('#split-left');
-  const no_button_tabs = ['tab_txt2img', 'tab_img2img', 'tab_control', 'tab_video', 'tab_process', 'tab_caption', 'tab_gallery', 'tab_models', 'tab_extensions', 'tab_system', 'tab_info', 'tab_sdnext_uiux_core'];
+  const no_button_tabs = [
+    'tab_txt2img',
+    'tab_img2img',
+    'tab_control',
+    'tab_video',
+    'tab_process',
+    'tab_caption',
+    'tab_gallery',
+    'tab_models',
+    'tab_extensions',
+    'tab_system',
+    'tab_info',
+    'tab_sdnext_uiux_core',
+  ];
   const snakeToCamel = (str) => str.replace(/(_\w)/g, (match) => match[1].toUpperCase());
   document.querySelectorAll('#tabs > .tabitem').forEach((c) => {
     const cid = c.id;
