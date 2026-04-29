@@ -195,8 +195,13 @@ async function extraTweaks() {
     const minWidth = childCount * firstChildMinWidth + (childCount - 1) * gapWidth;
     const currentDirection = getComputedStyle(flexContainer).flexDirection;
     const currentWidth = flexContainer.clientWidth;
-    if (currentWidth < minWidth && !flexContainer.classList.contains('flex-force-column')) flexContainer.classList.add('flex-force-column');
-    else if (currentWidth >= minWidth && flexContainer.classList.contains('flex-force-column')) flexContainer.classList.remove('flex-force-column');
+    if (currentWidth < minWidth && !flexContainer.classList.contains('flex-force-column')) {
+      flexContainer.classList.add('flex-force-column');
+      flexContainer.classList.remove('flex-force-row');
+    } else if (currentWidth >= minWidth && flexContainer.classList.contains('flex-force-column')) {
+      flexContainer.classList.remove('flex-force-column');
+      flexContainer.classList.add('flex-force-row');
+    }
   }
 
   const controlColumns = document.getElementById('control-columns');
