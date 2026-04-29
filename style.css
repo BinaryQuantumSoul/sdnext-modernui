@@ -5661,11 +5661,6 @@ div#changelog_result p {
   width: 100%;
 }
 
-#control_show_input,
-#control_show_preview {
-  display: none;
-}
-
 .jqstooltip {
   width: 10em;
   height: 6em;
