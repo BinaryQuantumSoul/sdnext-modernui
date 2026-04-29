@@ -396,7 +396,7 @@
               <div class="flexbox col">
 
                 <h2>Input</h2>
-                <div data-parent-selector="#tab_control" data-selector="#control_input .gap" class="portal no-outline"></div>
+                <div data-parent-selector="#tab_control" data-selector="#control_input_denoising_strength" class="portal no-outline"></div>
 
                 <h2>Mask</h2>
                 <div data-parent-selector="#tab_control" data-selector="#control_mask .gap" class="portal no-outline"></div>
@@ -417,13 +417,19 @@
 
           <div id="control_params_control_tabitem_group" class="flexbox col outline-params">
             <div id="control_params_control_tabitem" class="xtabs-item">
-              <h2>Control Methods</h2>
+
+              <h2>Control Method</h2>
+              <div data-parent-selector="#tab_control" data-selector="#control_input_type" class="portal"></div>
+
+              <h2>Control Type</h2>
               <div data-parent-selector="#tab_control" data-selector="#control_elements div:last-child > div" class="portal"></div>
+
             </div>
           </div>
 
           <div id="control_scripts_tabitem_group" class="flexbox col">
             <div id="control_scripts_tabitem" class="xtabs-item">
+
               <h2 title="Select generate extras">Extras</h2>
               <div data-parent-selector="#control_script_container" data-selector="#control_extras_alwayson" class="portal no-bg no-outline gradio-row"></div>
 
@@ -432,6 +438,7 @@
 
               <h2 title="Select generate extension">Extensions</h2>
               <div data-parent-selector="#control_script_container" data-selector="#control_script_alwayson" class="portal no-bg no-outline gradio-row"></div>
+
             </div>
           </div>
 
