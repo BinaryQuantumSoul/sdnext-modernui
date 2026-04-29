@@ -4774,12 +4774,12 @@ button>span {
 }
 
 .flex-force-column  {
-  flex-direction: column;
+  flex-direction: column !important;
   gap: var(--sd-gap-size-val);
 }
 
 .flex-force-row {
-  flex-direction: row;
+  flex-direction: row !important;
   gap: var(--sd-gap-size-val);
 }
 

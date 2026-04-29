@@ -148,11 +148,17 @@ async function applyAutoHide() {
   if (!appUiUx) return;
   appUiUx.querySelectorAll('h2').forEach((elem) => elem.classList.add('auto-hide'));
   appUiUx.querySelectorAll('.auto-hide').forEach((elem) => {
+    const id = elem.id || elem.innerText;
     elem.onclick = (evt) => {
       elem.classList.toggle('minimize');
+      setStored(`hide_${id}`, elem.classList.contains('minimize'));
       for (const child of evt.target.children) child.classList.toggle('hidden-animate');
       hideSiblings(evt.target?.nextElementSibling);
+      log('autoHide', { id, hide: elem.classList.contains('minimize') });
     };
+    if (getStored(`hide_${id}`)) {
+      elem.click();
+    }
   });
 
   // autohide control panels
@@ -162,23 +168,27 @@ async function applyAutoHide() {
       || evt.target.parentElement === el.firstElementChild
       || (el.firstElementChild?.contains(evt.target) && evt.target.nodeName === 'H2')
     ) {
+      const id = el.id || el.innerText;
       el.classList.toggle('minimize');
+      setStored(`hide_${id}`, el.classList.contains('minimize'));
+      log('autoHide', { id, hide: el.classList.contains('minimize') });
       evt.stopPropagation();
       evt.stopImmediatePropagation();
     }
   };
-  const headerControlInput = document.querySelector('#control-template-column-input');
-  const headerControlInit = document.querySelector('#control-template-column-init');
-  const headerControlOutput = document.querySelector('#control-template-column-output');
-  const headerControlPreview = document.querySelector('#control-template-column-preview');
-  const headerImg2imgInput = document.querySelector('#img2img-template-column-input');
-  const headerImg2imgOutput = document.querySelector('#img2img-template-column-output');
-  if (headerControlInput) headerControlInput.addEventListener('click', (evt) => minimizeToggle(headerControlInput, evt));
-  if (headerControlInit) headerControlInit.addEventListener('click', (evt) => minimizeToggle(headerControlInit, evt));
-  if (headerControlOutput) headerControlOutput.addEventListener('click', (evt) => minimizeToggle(headerControlOutput, evt));
-  if (headerControlPreview) headerControlPreview.addEventListener('click', (evt) => minimizeToggle(headerControlPreview, evt));
-  if (headerImg2imgInput) headerImg2imgInput.addEventListener('click', (evt) => minimizeToggle(headerImg2imgInput, evt));
-  if (headerImg2imgOutput) headerImg2imgOutput.addEventListener('click', (evt) => minimizeToggle(headerImg2imgOutput, evt));
+  const panels = [
+    document.querySelector('#control-template-column-input'),
+    document.querySelector('#control-template-column-output'),
+    document.querySelector('#img2img-template-column-input'),
+    document.querySelector('#img2img-template-column-output'),
+  ];
+  panels.forEach((panel) => {
+    if (panel) {
+      const id = panel.id || panel.innerText;
+      panel.addEventListener('click', (evt) => minimizeToggle(panel, evt));
+      if (getStored(`hide_${id}`)) panel.click();
+    }
+  });
 }
 
 async function extraTweaks() {
