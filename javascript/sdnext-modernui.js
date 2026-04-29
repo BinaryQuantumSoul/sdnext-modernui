@@ -118,12 +118,10 @@ function applyDefaultLayout(mobile) {
       if (appUiUx.querySelector('#accordion-aside')?.classList.contains('expand')) appUiUx.querySelector('#acc-arrow-button')?.click(); // collapse networks in mobile view
     }
     appUiUx.querySelector('#control_dynamic_input:not(:checked)')?.click();
-    appUiUx.querySelector('#control_dynamic_control:not(:checked)')?.click();
     appUiUx.classList.add('media-mobile');
     appUiUx.classList.remove('media-desktop');
   } else {
     if (!getStored('control-dynamic-input')) appUiUx.querySelector('#control_dynamic_input:checked')?.click();
-    if (!getStored('control-dynamic-control')) appUiUx.querySelector('#control_dynamic_control:checked')?.click();
     appUiUx.classList.add('media-desktop');
     appUiUx.classList.remove('media-mobile');
   }
