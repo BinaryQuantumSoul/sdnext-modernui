@@ -2507,6 +2507,10 @@ button.active .icon-sort {
   mask-image: url(./html/svg/folder-image.svg);
 }
 
+.icon-rotate {
+  mask-image: url(./html/svg/table-pivot.svg);
+}
+
 .icon-trophy {
   mask-image: url(./html/svg/trophy-line.svg);
 }
