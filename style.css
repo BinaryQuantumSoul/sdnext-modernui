@@ -3606,8 +3606,8 @@ div[data-testid="image"] canvas {
 }
 
 .group-row>* button, .group-row>* {
-  height: 2.7em;
-  min-width: 2.7em;
+  height: 2.5em;
+  min-width: 2.5em;
   padding: 0;
 }
 

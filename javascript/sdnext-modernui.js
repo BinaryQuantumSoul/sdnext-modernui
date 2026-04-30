@@ -219,9 +219,15 @@ async function extraTweaks() {
   new ResizeObserver(() => adjustFlexDirection(controlColumns)).observe(controlColumns);
   const controlOrientationBtn = document.getElementById('control_panel_orientation');
   controlOrientationBtn.addEventListener('click', () => {
-    document.documentElement.style.setProperty('--sd-panel-min-width', '10em');
-    controlColumns.classList.toggle('flex-force-column');
-    controlColumns.classList.toggle('flex-force-row');
+    if (controlColumns.classList.contains('flex-force-column')) {
+      document.documentElement.style.setProperty('--sd-panel-min-width', '128px');
+      controlColumns.classList.remove('flex-force-column');
+      controlColumns.classList.add('flex-force-row');
+    } else {
+      document.documentElement.style.setProperty('--sd-panel-min-width', '512px');
+      controlColumns.classList.add('flex-force-column');
+      controlColumns.classList.remove('flex-force-row');
+    }
   });
 
   // Extra networks tab
