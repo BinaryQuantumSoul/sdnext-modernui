@@ -195,31 +195,37 @@ async function extraTweaks() {
   const t0 = performance.now();
   // System tab click second tab
   document.querySelectorAll('#system .tab-nav button')[1].click();
+  const controlColumns = document.getElementById('control-columns');
 
   // Control tab flex row
-  async function adjustFlexDirection(flexContainer) {
-    if (!flexContainer || !flexContainer.firstElementChild) return;
-    const childCount = flexContainer.childElementCount;
-    const firstChildMinWidth = parseFloat(getComputedStyle(flexContainer.firstElementChild).minWidth);
-    const gapWidth = parseFloat(getComputedStyle(flexContainer).gap);
+  async function adjustFlexDirection(evt) {
+    const w = Math.floor(evt[0]?.contentRect.width || 0 / 8);
+    if (w === controlColumns.prevWidth) return;
+    controlColumns.prevWidth = w;
+    if (!controlColumns || !controlColumns.firstElementChild) return;
+    const childCount = controlColumns.childElementCount;
+    const firstChildMinWidth = parseFloat(getComputedStyle(controlColumns.firstElementChild).minWidth);
+    const gapWidth = parseFloat(getComputedStyle(controlColumns).gap);
     const minWidth = childCount * firstChildMinWidth + (childCount - 1) * gapWidth;
-    const currentDirection = getComputedStyle(flexContainer).flexDirection;
-    const currentWidth = flexContainer.clientWidth;
-    if (currentWidth < minWidth && !flexContainer.classList.contains('flex-force-column')) {
-      flexContainer.classList.add('flex-force-column');
-      flexContainer.classList.remove('flex-force-row');
-    } else if (currentWidth >= minWidth && flexContainer.classList.contains('flex-force-column')) {
-      flexContainer.classList.remove('flex-force-column');
-      flexContainer.classList.add('flex-force-row');
+    const currentDirection = getComputedStyle(controlColumns).flexDirection;
+    const currentWidth = controlColumns.clientWidth;
+
+    if (currentWidth < minWidth && !controlColumns.classList.contains('flex-force-column')) {
+      controlColumns.classList.add('flex-force-column');
+      controlColumns.classList.remove('flex-force-row');
+    } else if (currentWidth >= minWidth && controlColumns.classList.contains('flex-force-column')) {
+      controlColumns.classList.remove('flex-force-column');
+      controlColumns.classList.add('flex-force-row');
     }
+    // log('adjustFlexDirection', controlColumns.classList);
   }
 
-  const controlColumns = document.getElementById('control-columns');
-  adjustFlexDirection(controlColumns);
-  new ResizeObserver(() => adjustFlexDirection(controlColumns)).observe(controlColumns);
-  const controlOrientationBtn = document.getElementById('control_panel_orientation');
-  controlOrientationBtn.addEventListener('click', () => {
-    if (controlColumns.classList.contains('flex-force-column')) {
+  async function toggleControlOrientation(forceRow = false) {
+    if (forceRow) {
+      document.documentElement.style.setProperty('--sd-panel-min-width', '512px');
+      controlColumns.classList.add('flex-force-column');
+      controlColumns.classList.remove('flex-force-row');
+    } else if (controlColumns.classList.contains('flex-force-column')) {
       document.documentElement.style.setProperty('--sd-panel-min-width', '128px');
       controlColumns.classList.remove('flex-force-column');
       controlColumns.classList.add('flex-force-row');
@@ -228,7 +234,19 @@ async function extraTweaks() {
       controlColumns.classList.add('flex-force-column');
       controlColumns.classList.remove('flex-force-row');
     }
-  });
+    // log('toggleControlOrientation', forceRow, controlColumns.classList);
+  }
+
+  new ResizeObserver(adjustFlexDirection).observe(controlColumns);
+  const controlOrientationBtn = document.getElementById('control_panel_orientation');
+  controlOrientationBtn.addEventListener('click', () => toggleControlOrientation());
+
+  setTimeout(() => {
+    const panelInput = document.getElementById('control-template-column-input');
+    const panelOutput = document.getElementById('control-template-column-output');
+    const forceRow = panelInput.classList.contains('minimize') || panelOutput.classList.contains('minimize');
+    toggleControlOrientation(forceRow);
+  }, 10);
 
   // Extra networks tab
   ['txt2img', 'img2img', 'control', 'video'].forEach((key) => {
@@ -588,8 +606,8 @@ async function mainUiUx() {
     switchMobile();
     restoreAccordionState();
     trackAsideFocus();
-    extraTweaks();
     applyAutoHide();
+    extraTweaks();
     initServerInfo();
 
     uiFlagInitialized = true;
