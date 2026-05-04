@@ -220,7 +220,7 @@ async function extraTweaks() {
     // log('adjustFlexDirection', controlColumns.classList);
   }
 
-  async function toggleControlOrientation(forceRow = false) {
+  async function toggleControlOrientation(forceRow = false, disconnectObserver = false) {
     if (forceRow) {
       document.documentElement.style.setProperty('--sd-panel-min-width', '512px');
       controlColumns.classList.add('flex-force-column');
@@ -234,18 +234,23 @@ async function extraTweaks() {
       controlColumns.classList.add('flex-force-column');
       controlColumns.classList.remove('flex-force-row');
     }
+    if (disconnectObserver && controlColumns.resizeObserver) {
+      controlColumns.resizeObserver.disconnect();
+      delete controlColumns.resizeObserver;
+    }
     // log('toggleControlOrientation', forceRow, controlColumns.classList);
   }
 
-  new ResizeObserver(adjustFlexDirection).observe(controlColumns);
+  controlColumns.resizeObserver = new ResizeObserver(adjustFlexDirection);
+  controlColumns.resizeObserver.observe(controlColumns);
   const controlOrientationBtn = document.getElementById('control_panel_orientation');
-  controlOrientationBtn.addEventListener('click', () => toggleControlOrientation());
+  controlOrientationBtn.addEventListener('click', () => toggleControlOrientation(false, true));
 
   setTimeout(() => {
     const panelInput = document.getElementById('control-template-column-input');
     const panelOutput = document.getElementById('control-template-column-output');
     const forceRow = panelInput.classList.contains('minimize') || panelOutput.classList.contains('minimize');
-    toggleControlOrientation(forceRow);
+    toggleControlOrientation(forceRow, false);
   }, 10);
 
   // Extra networks tab
