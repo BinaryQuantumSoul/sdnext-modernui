@@ -4109,6 +4109,14 @@ div#quicksettings div+button {
   display: flex !important;
 }
 
+#tab-gallery-thumb-size {
+  min-height: unset;
+  min-width: unset;
+  max-width: 64px;
+  max-height: 14px;
+  align-self: center;
+}
+
 @keyframes fade-out {
   0% { opacity: 1; }
   100% { opacity: 0; }
