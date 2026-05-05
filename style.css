@@ -1728,11 +1728,9 @@ li.item span {
   min-height: var(--sd-input-height);
   min-width: var(--sd-input-height);
   padding: var(--sd-input-padding);
-}
-
-.xtabs-tab {
   background: var(--sd-button-normal-color);
   color: var(--sd-button-normal-text-color);
+  box-shadow: 1px 1px 4px var(--sd-input-background-color);
 }
 
 .xtabs-tab span {
@@ -2839,6 +2837,7 @@ div#main-nav {
   justify-content: center;
   padding: 0;
   height: var(--sd-button-height);
+  box-shadow: 1px 1px 4px var(--sd-input-background-color);
 }
 
 .sd-button .mask-icon {
@@ -4875,58 +4874,19 @@ div#video_params_control_tabitem .video-settings .gradio-accordion .form {
   outline: none !important;
 }
 
-button.caption,
-button.caption-clip,
-button.caption-blip,
-button.image-fit {
-  opacity: 0.5;
+.overlay-buttons {
   position: absolute;
-  top: 0;
-  background: var(--sd-panel-background-color);
+  top: var(--sd-panel-padding);
+  display: flex;
+  right: 5.7em;
   z-index: 1;
+  opacity: 0.5;
+  gap: var(--sd-gap-size);
 }
 
-button.caption {
-  right: 5.8em;
-}
-
+button.caption,
 button.image-fit {
-  right: 8.6em;
-}
-
-button.caption-clip {
-  left: 1em;
-}
-
-button.caption-blip {
-  left: 3em;
-}
-
-button.caption-clip::after,
-button.caption-blip::after {
-  -webkit-mask-position: center center;
-  -webkit-mask-repeat: no-repeat;
-  -webkit-mask-size: contain;
-  background-color: var(--sd-input-text-color);
-  border: 0;
-  content: '';
-  height: 80%;
-  left: 10%;
-  margin: 0;
-  mask-image: url(./html/svg/question-answer-line.svg);
-  mask-position: center center;
-  mask-repeat: no-repeat;
-  mask-size: contain;
-  padding: 0;
-  position: absolute;
-  top: 10%;
-  width: 80%;
-}
-
-button.caption-clip:hover::after,
-button.caption-blip:hover::after {
-  background-color: var(--sd-input-hover-text-color);
-  mask-image: url(./html/svg/question-answer-fill.svg);
+  background: var(--sd-panel-background-color);
 }
 
 .outline-params h2 {
