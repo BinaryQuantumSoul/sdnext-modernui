@@ -1325,7 +1325,6 @@ li.item span {
 }
 
 * .livePreview {
-  background-color: var(--sd-main-background-color);
   max-height: calc(100vh - 130px);
   object-fit: var(--sd-image-fit);
   text-align: center;
