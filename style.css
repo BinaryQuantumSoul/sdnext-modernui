@@ -3134,6 +3134,10 @@ button:hover svg {
   min-height: 512px;
 }
 
+.scroll-auto {
+  overflow: auto !important;
+}
+
 .scroll-hide {
   overflow-y: hidden !important;
   resize: vertical !important;
@@ -5470,6 +5474,10 @@ div#changelog_result p {
 
 #civit_metadata {
   overflow: auto;
+}
+
+.simple-table th {
+  cursor: pointer;
 }
 
 .simple-table tr {
