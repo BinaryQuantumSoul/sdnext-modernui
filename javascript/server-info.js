@@ -83,4 +83,22 @@ async function initServerInfo() {
     });
   });
   observer.observe(el);
+
+  const btnCopy = document.getElementById('serverinfo-copy');
+  btnCopy.addEventListener('click', (evt) => {
+    evt.preventDefault();
+    evt.stopPropagation();
+    if (!info) return;
+    const infoToCopy = {
+      version: info.version,
+      model: info.model,
+      torch: info.torch,
+      gpu: info.gpu,
+      platform: info.platform,
+      // status: info.status,
+      // memory: info.memory,
+    };
+    navigator.clipboard.writeText(JSON.stringify(infoToCopy, null, 2));
+    log('infoCopy', infoToCopy);
+  });
 }

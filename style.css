@@ -2162,6 +2162,10 @@ div#layout-3 {
   mask-image: url(./html/svg/folder-open-line.svg);
 }
 
+.icon-copy {
+  mask-image: url(./html/svg/copy.svg);
+}
+
 .icon-paste {
   mask-image: url(./html/svg/paste.svg);
 }
