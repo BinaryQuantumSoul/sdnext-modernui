@@ -258,7 +258,7 @@ const buttonMap = {
   load: 'floppy-disk-circle-arrow-right',
   model: 'database',
   override: 'sliders',
-  preview: 'image',
+  preview: 'aperture',
   random: 'shuffle',
   refresh: 'arrows-rotate',
   remove: 'eraser',

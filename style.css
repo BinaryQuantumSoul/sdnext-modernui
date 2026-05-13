@@ -86,7 +86,7 @@
   --sd-text-font: 'IBM Plex Mono', monospace;
   --sd-button-font: 'NotoSans', sans-serif;
   --sd-image-fit: scale-down;
-  --sd-panel-min-width: 30em;
+  --sd-panel-min-width: 512px;
   --sd-grid-image-size: 150px;
 }
 
@@ -1325,7 +1325,6 @@ li.item span {
 }
 
 * .livePreview {
-  background-color: var(--sd-main-background-color);
   max-height: calc(100vh - 130px);
   object-fit: var(--sd-image-fit);
   text-align: center;
@@ -1728,11 +1727,9 @@ li.item span {
   min-height: var(--sd-input-height);
   min-width: var(--sd-input-height);
   padding: var(--sd-input-padding);
-}
-
-.xtabs-tab {
   background: var(--sd-button-normal-color);
   color: var(--sd-button-normal-text-color);
+  box-shadow: 1px 1px 4px var(--sd-input-background-color);
 }
 
 .xtabs-tab span {
@@ -2165,6 +2162,10 @@ div#layout-3 {
   mask-image: url(./html/svg/folder-open-line.svg);
 }
 
+.icon-copy {
+  mask-image: url(./html/svg/copy.svg);
+}
+
 .icon-paste {
   mask-image: url(./html/svg/paste.svg);
 }
@@ -2507,6 +2508,10 @@ button.active .icon-sort {
   mask-image: url(./html/svg/folder-image.svg);
 }
 
+.icon-rotate {
+  mask-image: url(./html/svg/table-pivot.svg);
+}
+
 .icon-trophy {
   mask-image: url(./html/svg/trophy-line.svg);
 }
@@ -2835,6 +2840,7 @@ div#main-nav {
   justify-content: center;
   padding: 0;
   height: var(--sd-button-height);
+  box-shadow: 1px 1px 4px var(--sd-input-background-color);
 }
 
 .sd-button .mask-icon {
@@ -3132,6 +3138,10 @@ button:hover svg {
   min-height: 512px;
 }
 
+.scroll-auto {
+  overflow: auto !important;
+}
+
 .scroll-hide {
   overflow-y: hidden !important;
   resize: vertical !important;
@@ -3398,26 +3408,21 @@ td.gridjs-td {
   width: 100%;
 }
 
-#control-tab-input>.tabitem,
-#control-tab-init>.tabitem {
+#control-tab-input>.tabitem {
   background-color: transparent;
 }
 
 #control-tab-input .tabitem,
-#control-tab-input .gap,
-#control-tab-init .tabitem,
-#control-tab-init .gap {
+#control-tab-input .gap {
   padding: 0;
 }
 
-#control-tab-input .gradio-row,
-#control-tab-init .gradio-row {
+#control-tab-input .gradio-row {
   height: var(--sd-button-height);
   padding: 0;
 }
 
-#control-tab-input .gradio-tabitem,
-#control-tab-init .gradio-tabitem {
+#control-tab-input .gradio-tabitem {
   height: 0;
 }
 
@@ -3607,8 +3612,8 @@ div[data-testid="image"] canvas {
 }
 
 .group-row>* button, .group-row>* {
-  height: 2.7em;
-  min-width: 2.7em;
+  height: 2.5em;
+  min-width: 2.5em;
   padding: 0;
 }
 
@@ -4108,6 +4113,14 @@ div#quicksettings div+button {
 #img2img_override_settings,
 #txt2img_override_settings {
   display: flex !important;
+}
+
+#tab-gallery-thumb-size {
+  min-height: unset;
+  min-width: unset;
+  max-width: 64px;
+  max-height: 14px;
+  align-self: center;
 }
 
 @keyframes fade-out {
@@ -4778,9 +4791,14 @@ button>span {
   object-fit: var(--sd-image-fit);
 }
 
-#control-columns.flex-force-column,
-#video-columns.flex-force-column {
-  flex-direction: column;
+.flex-force-column  {
+  flex-direction: column !important;
+  gap: var(--sd-gap-size-val);
+}
+
+.flex-force-row {
+  flex-direction: row !important;
+  gap: var(--sd-gap-size-val);
 }
 
 div#control_params_control_tabitem .control-settings .gradio-accordion .form,
@@ -4863,58 +4881,19 @@ div#video_params_control_tabitem .video-settings .gradio-accordion .form {
   outline: none !important;
 }
 
-button.caption,
-button.caption-clip,
-button.caption-blip,
-button.image-fit {
-  opacity: 0.5;
+.overlay-buttons {
   position: absolute;
-  top: 0;
-  background: var(--sd-panel-background-color);
+  top: var(--sd-panel-padding);
+  display: flex;
+  right: 5.7em;
   z-index: 1;
+  opacity: 0.5;
+  gap: var(--sd-gap-size);
 }
 
-button.caption {
-  right: 5.8em;
-}
-
+button.caption,
 button.image-fit {
-  right: 8.6em;
-}
-
-button.caption-clip {
-  left: 1em;
-}
-
-button.caption-blip {
-  left: 3em;
-}
-
-button.caption-clip::after,
-button.caption-blip::after {
-  -webkit-mask-position: center center;
-  -webkit-mask-repeat: no-repeat;
-  -webkit-mask-size: contain;
-  background-color: var(--sd-input-text-color);
-  border: 0;
-  content: '';
-  height: 80%;
-  left: 10%;
-  margin: 0;
-  mask-image: url(./html/svg/question-answer-line.svg);
-  mask-position: center center;
-  mask-repeat: no-repeat;
-  mask-size: contain;
-  padding: 0;
-  position: absolute;
-  top: 10%;
-  width: 80%;
-}
-
-button.caption-clip:hover::after,
-button.caption-blip:hover::after {
-  background-color: var(--sd-input-hover-text-color);
-  mask-image: url(./html/svg/question-answer-fill.svg);
+  background: var(--sd-panel-background-color);
 }
 
 .outline-params h2 {
@@ -5501,6 +5480,10 @@ div#changelog_result p {
   overflow: auto;
 }
 
+.simple-table th {
+  cursor: pointer;
+}
+
 .simple-table tr {
   vertical-align: baseline;
 }
@@ -5659,11 +5642,6 @@ div#changelog_result p {
 
 #gallery-video video {
   width: 100%;
-}
-
-#control_show_input,
-#control_show_preview {
-  display: none;
 }
 
 .jqstooltip {

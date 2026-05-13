@@ -1,8 +1,4 @@
 async function setupControlDynamicObservers() {
-  const dynamicInput = document.getElementById('control_dynamic_input');
-  const dynamicInit = document.getElementById('control_dynamic_init');
-  const dynamicControl = document.getElementById('control_dynamic_control');
-
   const qInputCtrl = '#control-template-column-input, #control_params_mask, #control_dynamic_resize';
   const qInputBtn = '[tabitemid="#control_resize_mask_tabitem"], [tabitemid="#control_before_scale_by_tabitem"], [tabitemid="#control_before_scale_to_tabitem"]';
   const inputElems = document.querySelectorAll(`${qInputCtrl}, ${qInputBtn}`);
@@ -25,10 +21,6 @@ async function setupControlDynamicObservers() {
     dynamic.checked = getStored(storedKey) || false;
     toggleDynamicElements(dynamic, elems);
   }
-
-  setupDynamicListener(dynamicInput, inputElems, 'control-dynamic-input');
-  setupDynamicListener(dynamicInit, initElems, 'control-dynamic-init');
-  setupDynamicListener(dynamicControl, controlElems, 'control-dynamic-control');
 }
 
 async function setupGenerateObservers() {

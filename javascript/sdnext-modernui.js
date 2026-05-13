@@ -117,13 +117,9 @@ function applyDefaultLayout(mobile) {
     if (asideFocusTracker === 0) {
       if (appUiUx.querySelector('#accordion-aside')?.classList.contains('expand')) appUiUx.querySelector('#acc-arrow-button')?.click(); // collapse networks in mobile view
     }
-    appUiUx.querySelector('#control_dynamic_input:not(:checked)')?.click();
-    appUiUx.querySelector('#control_dynamic_control:not(:checked)')?.click();
     appUiUx.classList.add('media-mobile');
     appUiUx.classList.remove('media-desktop');
   } else {
-    if (!getStored('control-dynamic-input')) appUiUx.querySelector('#control_dynamic_input:checked')?.click();
-    if (!getStored('control-dynamic-control')) appUiUx.querySelector('#control_dynamic_control:checked')?.click();
     appUiUx.classList.add('media-desktop');
     appUiUx.classList.remove('media-mobile');
   }
@@ -152,11 +148,17 @@ async function applyAutoHide() {
   if (!appUiUx) return;
   appUiUx.querySelectorAll('h2').forEach((elem) => elem.classList.add('auto-hide'));
   appUiUx.querySelectorAll('.auto-hide').forEach((elem) => {
+    const id = elem.id || elem.innerText;
     elem.onclick = (evt) => {
       elem.classList.toggle('minimize');
+      setStored(`hide_${id}`, elem.classList.contains('minimize'));
       for (const child of evt.target.children) child.classList.toggle('hidden-animate');
       hideSiblings(evt.target?.nextElementSibling);
+      log('autoHide', { id, hide: elem.classList.contains('minimize') });
     };
+    if (getStored(`hide_${id}`)) {
+      elem.click();
+    }
   });
 
   // autohide control panels
@@ -166,46 +168,90 @@ async function applyAutoHide() {
       || evt.target.parentElement === el.firstElementChild
       || (el.firstElementChild?.contains(evt.target) && evt.target.nodeName === 'H2')
     ) {
+      const id = el.id || el.innerText;
       el.classList.toggle('minimize');
+      setStored(`hide_${id}`, el.classList.contains('minimize'));
+      log('autoHide', { id, hide: el.classList.contains('minimize') });
       evt.stopPropagation();
       evt.stopImmediatePropagation();
     }
   };
-  const headerControlInput = document.querySelector('#control-template-column-input');
-  const headerControlInit = document.querySelector('#control-template-column-init');
-  const headerControlOutput = document.querySelector('#control-template-column-output');
-  const headerControlPreview = document.querySelector('#control-template-column-preview');
-  const headerImg2imgInput = document.querySelector('#img2img-template-column-input');
-  const headerImg2imgOutput = document.querySelector('#img2img-template-column-output');
-  if (headerControlInput) headerControlInput.addEventListener('click', (evt) => minimizeToggle(headerControlInput, evt));
-  if (headerControlInit) headerControlInit.addEventListener('click', (evt) => minimizeToggle(headerControlInit, evt));
-  if (headerControlOutput) headerControlOutput.addEventListener('click', (evt) => minimizeToggle(headerControlOutput, evt));
-  if (headerControlPreview) headerControlPreview.addEventListener('click', (evt) => minimizeToggle(headerControlPreview, evt));
-  if (headerImg2imgInput) headerImg2imgInput.addEventListener('click', (evt) => minimizeToggle(headerImg2imgInput, evt));
-  if (headerImg2imgOutput) headerImg2imgOutput.addEventListener('click', (evt) => minimizeToggle(headerImg2imgOutput, evt));
+  const panels = [
+    document.querySelector('#control-template-column-input'),
+    document.querySelector('#control-template-column-output'),
+    document.querySelector('#img2img-template-column-input'),
+    document.querySelector('#img2img-template-column-output'),
+  ];
+  panels.forEach((panel) => {
+    if (panel) {
+      const id = panel.id || panel.innerText;
+      panel.addEventListener('click', (evt) => minimizeToggle(panel, evt));
+      if (getStored(`hide_${id}`)) panel.click();
+    }
+  });
 }
 
 async function extraTweaks() {
   const t0 = performance.now();
   // System tab click second tab
   document.querySelectorAll('#system .tab-nav button')[1].click();
+  const controlColumns = document.getElementById('control-columns');
 
   // Control tab flex row
-  async function adjustFlexDirection(flexContainer) {
-    if (!flexContainer || !flexContainer.firstElementChild) return;
-    const childCount = flexContainer.childElementCount;
-    const firstChildMinWidth = parseFloat(getComputedStyle(flexContainer.firstElementChild).minWidth);
-    const gapWidth = parseFloat(getComputedStyle(flexContainer).gap);
+  async function adjustFlexDirection(evt) {
+    const w = Math.floor(evt[0]?.contentRect.width || 0 / 8);
+    if (w === controlColumns.prevWidth) return;
+    controlColumns.prevWidth = w;
+    if (!controlColumns || !controlColumns.firstElementChild) return;
+    const childCount = controlColumns.childElementCount;
+    const firstChildMinWidth = parseFloat(getComputedStyle(controlColumns.firstElementChild).minWidth);
+    const gapWidth = parseFloat(getComputedStyle(controlColumns).gap);
     const minWidth = childCount * firstChildMinWidth + (childCount - 1) * gapWidth;
-    const currentDirection = getComputedStyle(flexContainer).flexDirection;
-    const currentWidth = flexContainer.clientWidth;
-    if (currentWidth < minWidth && !flexContainer.classList.contains('flex-force-column')) flexContainer.classList.add('flex-force-column');
-    else if (currentWidth >= minWidth && flexContainer.classList.contains('flex-force-column')) flexContainer.classList.remove('flex-force-column');
+    const currentDirection = getComputedStyle(controlColumns).flexDirection;
+    const currentWidth = controlColumns.clientWidth;
+
+    if (currentWidth < minWidth && !controlColumns.classList.contains('flex-force-column')) {
+      controlColumns.classList.add('flex-force-column');
+      controlColumns.classList.remove('flex-force-row');
+    } else if (currentWidth >= minWidth && controlColumns.classList.contains('flex-force-column')) {
+      controlColumns.classList.remove('flex-force-column');
+      controlColumns.classList.add('flex-force-row');
+    }
+    // log('adjustFlexDirection', controlColumns.classList);
   }
 
-  const controlColumns = document.getElementById('control-columns');
-  adjustFlexDirection(controlColumns);
-  new ResizeObserver(() => adjustFlexDirection(controlColumns)).observe(controlColumns);
+  async function toggleControlOrientation(forceRow = false, disconnectObserver = false) {
+    if (forceRow) {
+      document.documentElement.style.setProperty('--sd-panel-min-width', '512px');
+      controlColumns.classList.add('flex-force-column');
+      controlColumns.classList.remove('flex-force-row');
+    } else if (controlColumns.classList.contains('flex-force-column')) {
+      document.documentElement.style.setProperty('--sd-panel-min-width', '128px');
+      controlColumns.classList.remove('flex-force-column');
+      controlColumns.classList.add('flex-force-row');
+    } else {
+      document.documentElement.style.setProperty('--sd-panel-min-width', '512px');
+      controlColumns.classList.add('flex-force-column');
+      controlColumns.classList.remove('flex-force-row');
+    }
+    if (disconnectObserver && controlColumns.resizeObserver) {
+      controlColumns.resizeObserver.disconnect();
+      delete controlColumns.resizeObserver;
+    }
+    // log('toggleControlOrientation', forceRow, controlColumns.classList);
+  }
+
+  controlColumns.resizeObserver = new ResizeObserver(adjustFlexDirection);
+  controlColumns.resizeObserver.observe(controlColumns);
+  const controlOrientationBtn = document.getElementById('control_panel_orientation');
+  controlOrientationBtn.addEventListener('click', () => toggleControlOrientation(false, true));
+
+  setTimeout(() => {
+    const panelInput = document.getElementById('control-template-column-input');
+    const panelOutput = document.getElementById('control-template-column-output');
+    const forceRow = panelInput.classList.contains('minimize') || panelOutput.classList.contains('minimize');
+    toggleControlOrientation(forceRow, false);
+  }, 10);
 
   // Extra networks tab
   ['txt2img', 'img2img', 'control', 'video'].forEach((key) => {
@@ -565,8 +611,8 @@ async function mainUiUx() {
     switchMobile();
     restoreAccordionState();
     trackAsideFocus();
-    extraTweaks();
     applyAutoHide();
+    extraTweaks();
     initServerInfo();
 
     uiFlagInitialized = true;
