@@ -5259,11 +5259,14 @@ gallery-folder:hover {
 
 #vlm_system textarea,
 #vlm_prompt textarea,
+#analyze_system textarea,
+#analyze_prompt textarea,
 #caption_output_prompt textarea {
   resize: vertical !important;
 }
 
-#vlm_system textarea {
+#vlm_system textarea,
+#analyze_system textarea {
   height: 5rem;
 }
 
