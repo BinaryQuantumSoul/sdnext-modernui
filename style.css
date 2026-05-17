@@ -6030,7 +6030,7 @@ div#changelog_result p {
 }
 
 .settings_section {
-  padding: var(--sd-panel-padding) !important;
+  padding: 0 !important;
 }
 
 .gradio-uploadbutton {
