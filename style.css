@@ -3430,6 +3430,10 @@ td.gridjs-td {
   overflow-y: hidden;
 }
 
+#control_out_gallery_tabitem div {
+  justify-content: flex-start;
+}
+
 .gradio-file {
   color: var(--sd-input-secondary-text-color);
   cursor: copy;
