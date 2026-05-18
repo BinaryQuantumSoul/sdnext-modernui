@@ -35,5 +35,7 @@
     "strictFunctionTypes": true,
     "strictNullChecks": true,
     "strictPropertyInitialization": true
-  }
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["dist", "javascript", "node_modules"]
 }
