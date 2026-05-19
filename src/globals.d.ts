@@ -10,10 +10,10 @@ declare function onUiReady(fn: () => Promise<void> | void): void;
 declare function authFetch(url: string, options?: RequestInit): Promise<Response>;
 
 interface Window {
-  opts: Record<string, unknown>; // SD.Next options object
-  api: string;
-  subpath: string;
-  logger: HTMLElement | null;
+  opts: Record<string, unknown>; // options object
+  api: string; // base api path
+  subpath: string; // base api subpath
+  logger: HTMLElement | null; // global logger element
   logPrettyPrint?: (...args: unknown[]) => string;
   waitForUiReady: () => Promise<void>;
   getUICurrentTabContent: () => Element | null;
