@@ -213,6 +213,7 @@ const htmlConfig = defineConfig([
         2,
       ],
       'html/no-duplicate-class': 'error',
+      'html/no-extra-spacing-tags': 'off',
       'html/no-extra-spacing-attrs': [
         'error',
         {
