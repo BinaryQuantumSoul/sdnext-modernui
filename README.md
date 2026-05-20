@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://github.com/vladmandic/sdnext/blob/dev/html/favicon.png" width=200 alt="SD.Next">
+<img src="https://github.com/vladmandic/sdnext/blob/dev/ui/assets/favicon.png" width=200 alt="SD.Next">
 
 # SD.Next ModernUI
 

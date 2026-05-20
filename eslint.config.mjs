@@ -239,8 +239,7 @@ export default defineConfig([
   includeIgnoreFile(gitignorePath),
   globalIgnores([
     'src/vendor/*', // Ignore vendor files (e.g. split.js) that are not meant to be edited
-    'javascript/modernui.mjs', // Ignore generated output file
-    '**/_*/**', // Ignore all files in any folder starting with _ (e.g. _javascript, _css, etc.)
+    'javascript/*', // Ignore generated output file
     '**/Vlad-Neomorph.css', // Waiting on plugin fix https://github.com/eslint/css/pull/411
   ]),
   ...jsConfig,
