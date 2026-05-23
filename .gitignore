@@ -1,5 +1,4 @@
 __pycache__
 node_modules
 build.log
-pnpm-lock.yaml
 package-lock.json
