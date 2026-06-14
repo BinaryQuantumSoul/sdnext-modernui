@@ -1,5 +1,3 @@
-// Original credits: <https://github.com/anapnoe/stable-diffusion-webui-ux/blob/8307896c59032a9cdac1ab24c975102ff9a674d3/extensions-builtin/anapnoe-sd-uiux/javascript/anapnoe_sd_uiux_core.js>
-
 /* ModernUI entrypoint: orchestrates initialization and window compatibility hooks. */
 
 import {
@@ -20,9 +18,10 @@ import { state } from './state';
 import { setupLogger, largeErrorOverlay } from './logger';
 import { loadAllTemplates } from './templates';
 import { loadAllPortals, loadRetryPortals } from './portals';
-import { removeStyleAssets } from './styles';
+import { removeStyleAssets, styleLists } from './styles';
 import { uiuxOptionSettings } from './options';
-import { setupAnimationEventListeners, trackAsideFocus, switchMobile, applyAutoHide, extraTweaks } from './layout';
+import { setupAnimationEventListeners, trackAsideFocus, switchMobile, applyAutoHide } from './layout';
+import { applyTweaks } from './tweaks';
 import { functionWaitForFlag } from './utils';
 
 const htmlPath = '/file=extensions-builtin/sdnext-modernui/html';
@@ -68,7 +67,7 @@ async function mainUiUx(): Promise<void> {
     restoreAccordionState();
     trackAsideFocus();
     applyAutoHide();
-    extraTweaks();
+    applyTweaks();
     initServerInfo();
 
     loadRetryPortals(); // some elements may be late so retrying

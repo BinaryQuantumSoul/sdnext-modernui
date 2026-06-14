@@ -476,6 +476,11 @@ hr {
   vertical-align: middle;
 }
 
+.dropdown-divider {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
 *.shrink {
   flex-grow: 0;
   flex-wrap: nowrap;

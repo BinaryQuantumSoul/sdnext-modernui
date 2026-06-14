@@ -953,6 +953,14 @@ async function setupGenerateObservers() {
       }
     }).observe(captionBtn, { childList: true, subtree: true });
   }
+  const captionDropdown = document.querySelectorAll(".gradio-dropdown");
+  captionDropdown.forEach((dropdown) => {
+    new MutationObserver(() => {
+      dropdown.querySelectorAll("li").forEach((li) => {
+        if (li.dataset.value?.startsWith("\u2500")) li.classList.add("dropdown-divider");
+      });
+    }).observe(dropdown, { childList: true, subtree: true });
+  });
 }
 
 // src/color-hue.ts
@@ -1622,7 +1630,9 @@ function setupAnimationEventListeners() {
     }
   });
 }
-async function extraTweaks() {
+
+// src/tweaks.ts
+async function applyTweaks() {
   const t0 = performance.now();
   document.querySelectorAll("#system .tab-nav button")[1]?.click();
   const controlColumns = document.getElementById("control-columns");
@@ -1766,7 +1776,7 @@ async function mainUiUx() {
     restoreAccordionState();
     trackAsideFocus();
     applyAutoHide();
-    extraTweaks();
+    applyTweaks();
     initServerInfo();
     loadRetryPortals();
     state.uiFlagInitialized = true;

@@ -1,8 +1,8 @@
 import gradio as gr
 from modules import script_callbacks
+
+
 """
-
-
 def on_ui_settings():
     from modules.shared import OptionInfo, options_section , options_templates
     options_templates.update(options_section(('ui', "User Interface"), {

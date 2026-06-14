@@ -31,7 +31,6 @@ export async function setupGenerateObservers(): Promise<void> {
     const tgb = document.querySelector(`${key}_generate`);
     if (tgb) {
       const tg = tgb.closest('.sd-button');
-
       new MutationObserver(() => {
         if (tgb.textContent && !tgb.querySelector('span')) {
           if (tgb.textContent === 'Generate') {
@@ -48,7 +47,6 @@ export async function setupGenerateObservers(): Promise<void> {
     const teb = document.querySelector(`${key}_enqueue`);
     if (teb) {
       const te = teb.closest('.sd-button');
-
       new MutationObserver(() => {
         if (teb.textContent && !teb.querySelector('span')) {
           if (teb.textContent === 'Enqueue') {
@@ -78,7 +76,6 @@ export async function setupGenerateObservers(): Promise<void> {
   const captionBtn = document.querySelector('#btn_vlm_caption');
   if (captionBtn) {
     const captionButton = captionBtn.closest('.sd-button');
-
     new MutationObserver(() => {
       if (captionBtn.textContent && !captionBtn.querySelector('span')) {
         if (captionBtn.textContent === 'Caption') {
@@ -91,4 +88,14 @@ export async function setupGenerateObservers(): Promise<void> {
       }
     }).observe(captionBtn, { childList: true, subtree: true });
   }
+
+  // Caption dropdown observer
+  const captionDropdown = document.querySelectorAll('.gradio-dropdown');
+  captionDropdown.forEach((dropdown) => {
+    new MutationObserver(() => {
+      dropdown.querySelectorAll('li').forEach((li) => {
+        if (li.dataset.value?.startsWith('─')) li.classList.add('dropdown-divider');
+      });
+    }).observe(dropdown, { childList: true, subtree: true });
+  });
 }
