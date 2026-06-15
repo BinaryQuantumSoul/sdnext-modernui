@@ -1,4 +1,4 @@
-import { getStored, setStored } from './utils';
+import { getStored } from './utils';
 
 export async function applyTweaks(): Promise<void> {
   const t0 = performance.now();

@@ -18,7 +18,7 @@ import { state } from './state';
 import { setupLogger, largeErrorOverlay } from './logger';
 import { loadAllTemplates } from './templates';
 import { loadAllPortals, loadRetryPortals } from './portals';
-import { removeStyleAssets, styleLists } from './styles';
+import { removeStyleAssets } from './styles';
 import { uiuxOptionSettings } from './options';
 import { setupAnimationEventListeners, trackAsideFocus, switchMobile, applyAutoHide } from './layout';
 import { applyTweaks } from './tweaks';

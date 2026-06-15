@@ -491,7 +491,7 @@ var state = {
 };
 
 // src/utils.ts
-var setStored = (key, val) => {
+var setStored2 = (key, val) => {
   if (!window.opts.uiux_persist_layout) return;
   try {
     localStorage.setItem(`ui-${key}`, JSON.stringify(val));
@@ -1585,7 +1585,7 @@ async function applyAutoHide() {
     const id = elem.id || elem.innerText;
     elem.onclick = (evt) => {
       elem.classList.toggle("minimize");
-      setStored(`hide_${id}`, elem.classList.contains("minimize"));
+      setStored2(`hide_${id}`, elem.classList.contains("minimize"));
       for (const child of evt.target.children) child.classList.toggle("hidden-animate");
       hideSiblings(evt.target?.nextElementSibling);
       log("autoHide", { id, hide: elem.classList.contains("minimize") });
@@ -1598,7 +1598,7 @@ async function applyAutoHide() {
     if (evt.target === el || evt.target === el.firstElementChild || evt.target.parentElement === el.firstElementChild || el.firstElementChild?.contains(evt.target) && evt.target.nodeName === "H2") {
       const id = el.id || el.innerText;
       el.classList.toggle("minimize");
-      setStored(`hide_${id}`, el.classList.contains("minimize"));
+      setStored2(`hide_${id}`, el.classList.contains("minimize"));
       log("autoHide", { id, hide: el.classList.contains("minimize") });
       evt.stopPropagation();
       evt.stopImmediatePropagation();
