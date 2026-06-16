@@ -1,18 +1,25 @@
-const splitInstances = [];
+/* Split/tab/button UI component initialization and split pane state handling. */
+import Split from './vendor/split.js';
+import type { SplitInstance } from './vendor/split.js';
+import { state } from './state';
+import { getStored, setStored } from './utils';
 
-function initSplitComponents() {
+const splitInstances: Record<string, SplitInstance> = {};
+
+export function initSplitComponents(): void {
+  const appUiUx = state.appUiUx;
   if (!appUiUx) return;
   appUiUx.querySelectorAll('div.split').forEach((elem) => {
     const id = elem.id;
     const nid = appUiUx.querySelector(`#${id}`);
     const direction = nid?.getAttribute('direction') === 'vertical' ? 'vertical' : 'horizontal';
     const gutterSize = nid?.getAttribute('gutterSize') || '8';
-    const ids = [];
-    const initSizes = [];
-    const minSizes = [];
-    const maxSizes = [];
+    const ids: string[] = [];
+    const initSizes: number[] = [];
+    const minSizes: number[] = [];
+    const maxSizes: number[] = [];
     const containers = appUiUx.querySelectorAll(`#${id} > div.split-container`);
-    containers.forEach(((c, index) => {
+    containers.forEach((c, index) => {
       const initSize = c.getAttribute('data-initSize');
       const minSize = c.getAttribute('data-minSize');
       const maxSize = c.getAttribute('data-maxSize');
@@ -29,10 +36,8 @@ function initSplitComponents() {
       }
       minSizes.push(minSize ? parseInt(minSize) : 0);
       maxSizes.push(maxSize ? parseInt(maxSize) : Infinity);
-    }));
-    // log('splitComponent', ids, initSizes, minSizes, direction, gutterSize);
-    const onDragEnd = (evt) => setStored(`${id}-sizes`, evt);
-    // log('splitSizes', id, initSizes, minSizes, maxSizes);
+    });
+    const onDragEnd = (evt: number[]) => setStored(`${id}-sizes`, evt);
     splitInstances[id] = Split(ids, {
       sizes: initSizes,
       minSize: minSizes,
@@ -42,12 +47,12 @@ function initSplitComponents() {
       snapOffset: 0,
       dragInterval: 1,
       onDragEnd,
-      elementStyle(dimension, size, gs) {
+      elementStyle(_dimension: string, size: number, gs: number) {
         return {
           'flex-basis': `calc(${size}% - ${gs}px)`,
         };
       },
-      gutterStyle(dimension, gs) {
+      gutterStyle(_dimension: string, gs: number) {
         return {
           'flex-basis': `${gs}px`,
           'min-width': `${gs}px`,
@@ -58,37 +63,40 @@ function initSplitComponents() {
   });
 }
 
-function restoreAccordionState() {
+export function restoreAccordionState(): void {
+  const appUiUx = state.appUiUx;
   if (!appUiUx) return;
   appUiUx.querySelectorAll('.accordion-bar').forEach((elem) => {
     const acc = elem.parentElement;
-    const accSplit = acc.closest('.split-container');
-    const accTrigger = appUiUx.querySelector(acc.getAttribute('iconTrigger'));
-    if (acc.className.indexOf('accordion-vertical') !== -1 && accSplit.className.indexOf('split') !== -1) {
+    const accSplit = acc?.closest('.split-container');
+    const accTrigger = acc ? appUiUx.querySelector(acc.getAttribute('iconTrigger') ?? '') : null;
+    if (acc && accSplit && acc.className.indexOf('accordion-vertical') !== -1 && accSplit.className.indexOf('split') !== -1) {
       const savedClasses = getStored(`ui-${acc.id}-class`);
-      if (savedClasses && !savedClasses.includes('expand')) accTrigger?.click();
+      if (savedClasses && !(savedClasses as string).includes('expand')) (accTrigger as HTMLElement | null)?.click();
     }
   });
 }
 
-function initAccordionComponents() {
+export function initAccordionComponents(): void {
+  const appUiUx = state.appUiUx;
   if (!appUiUx) return;
   appUiUx.querySelectorAll('.accordion-bar').forEach((elem) => {
     const acc = elem.parentElement;
+    if (!acc) return;
     const accSplit = acc.closest('.split-container');
-    const accTrigger = appUiUx.querySelector(acc.getAttribute('iconTrigger'));
+    const accTrigger = appUiUx.querySelector(acc.getAttribute('iconTrigger') ?? '');
     if (accTrigger) elem.classList.add('pointer-events-none');
-    if (acc.className.indexOf('accordion-vertical') !== -1 && accSplit.className.indexOf('split') !== -1) {
+    if (accSplit && acc.className.indexOf('accordion-vertical') !== -1 && accSplit.className.indexOf('split') !== -1) {
       acc.classList.add('expand');
-      const splitInstance = splitInstances[accSplit.parentElement.id];
+      const splitInstance = splitInstances[accSplit.parentElement?.id ?? ''];
       accSplit.setAttribute('data-sizes', JSON.stringify(splitInstance.getSizes()));
       accTrigger?.addEventListener('click', () => {
         acc.classList.toggle('expand');
         setStored(`ui-${acc.id}-class`, acc.className);
         if (accSplit.className.indexOf('v-expand') !== -1) {
           accSplit.classList.remove('v-expand');
-          accSplit.style.removeProperty('min-width');
-          splitInstance.setSizes(JSON.parse(accSplit.getAttribute('data-sizes')));
+          (accSplit as HTMLElement).style.removeProperty('min-width');
+          splitInstance.setSizes(JSON.parse(accSplit.getAttribute('data-sizes') ?? '[]'));
         } else {
           accSplit.classList.add('v-expand');
           const sizes = splitInstance.getSizes();
@@ -101,7 +109,7 @@ function initAccordionComponents() {
             sizes[sizes.length - 2] = 100;
           }
           const padding = parseFloat(window.getComputedStyle(elem, null).getPropertyValue('padding-left')) * 2;
-          accSplit.style.minWidth = `${elem.offsetWidth + padding}px`;
+          (accSplit as HTMLElement).style.minWidth = `${(elem as HTMLElement).offsetWidth + padding}px`;
           splitInstance.setSizes(sizes);
         }
       });
@@ -122,35 +130,44 @@ function initAccordionComponents() {
   });
 }
 
-function initTabComponents() {
-  function hideActive(tab) {
+export function initTabComponents(): void {
+  function hideActive(tab: Element): void {
+    const appUiUx = state.appUiUx;
     if (!appUiUx) return;
     tab.classList.remove('active');
     const tabItemId = tab.getAttribute('tabItemId');
-    appUiUx.querySelectorAll(tabItemId).forEach((tabItem) => {
-      tabItem.classList.remove('fade-in');
-      tabItem.classList.add('fade-out');
-    });
+    if (tabItemId) {
+      appUiUx.querySelectorAll(tabItemId).forEach((tabItem) => {
+        tabItem.classList.remove('fade-in');
+        tabItem.classList.add('fade-out');
+      });
+    }
   }
 
-  function showActive(tab) {
+  function showActive(tab: Element): void {
+    const appUiUx = state.appUiUx;
     if (!appUiUx) return;
     tab.classList.add('active');
     const tabItemId = tab.getAttribute('tabItemId');
-    appUiUx.querySelectorAll(tabItemId).forEach((tabItem) => {
-      tabItem.classList.add('fade-in');
-      tabItem.classList.remove('fade-out');
-    });
+    if (tabItemId) {
+      appUiUx.querySelectorAll(tabItemId).forEach((tabItem) => {
+        tabItem.classList.add('fade-in');
+        tabItem.classList.remove('fade-out');
+      });
+    }
   }
 
-  function triggerAccordion(elem, wasActive, checkStored) {
+  function triggerAccordion(elem: Element, wasActive: boolean, checkStored: boolean): void {
+    const appUiUx = state.appUiUx;
     const accBar = elem.closest('.accordion-bar');
-    if (!accBar) return;
-    if (!appUiUx) return;
+    if (!accBar || !appUiUx) return;
     const acc = accBar.parentElement;
-    const accTrigger = appUiUx.querySelector(acc.getAttribute('iconTrigger'));
-    const accFullTrigger = appUiUx.querySelector(acc.getAttribute('iconFullTrigger'));
-    const accStoredClasses = getStored(`ui-${acc.id}-class`) || '';
+    if (!acc) return;
+    const accTriggerSelector = acc.getAttribute('iconTrigger');
+    const accFullTriggerSelector = acc.getAttribute('iconFullTrigger');
+    const accTrigger = accTriggerSelector ? appUiUx.querySelector(accTriggerSelector) : null;
+    const accFullTrigger = accFullTriggerSelector ? appUiUx.querySelector(accFullTriggerSelector) : null;
+    const accStoredClasses = (getStored(`ui-${acc.id}-class`) as string) || '';
     const storedAsCollapsed = accStoredClasses && (accStoredClasses.indexOf('expand') === -1);
     const storedAsFullExpanded = accStoredClasses && accStoredClasses.indexOf('full-expand') !== -1;
 
@@ -159,14 +176,15 @@ function initTabComponents() {
     const shouldFullExpand = acc.classList.contains('expand') && !acc.classList.contains('full-expand') && (checkStored && storedAsFullExpanded);
 
     if (shouldExpand || shouldCollapse) {
-      if (accTrigger) accTrigger.click();
-      else accBar.click();
+      if (accTrigger) (accTrigger as HTMLElement).click();
+      else (accBar as HTMLElement).click();
     }
     if (shouldFullExpand) {
-      if (accFullTrigger) accFullTrigger.click();
+      if (accFullTrigger) (accFullTrigger as HTMLElement).click();
     }
   }
 
+  const appUiUx = state.appUiUx;
   if (!appUiUx) return;
   appUiUx.querySelectorAll('.xtabs-tab').forEach((elem) => {
     const tabGroup = elem.getAttribute('tabGroup');
@@ -182,7 +200,7 @@ function initTabComponents() {
       triggerAccordion(elem, wasActive, false);
     });
 
-    const storedTab = uid ? getStored(`tab-${uid}-current`) || '' : '';
+    const storedTab = uid ? (getStored(`tab-${uid}-current`) as string) || '' : '';
     const active = storedTab ? storedTab === elem.id : elem.getAttribute('active');
 
     if (active) {
@@ -193,15 +211,15 @@ function initTabComponents() {
     }
   });
 
-  function showHideAnchors(anchor, index) {
+  function showHideAnchors(anchor: Element, index: number): void {
     Array.from(anchor.children).forEach((elem) => {
-      if (elem.matches(`[anchor*="${index}"]`)) elem.style.display = 'flex';
-      else elem.style.display = 'none';
+      if (elem.matches(`[anchor*="${index}"]`)) (elem as HTMLElement).style.display = 'flex';
+      else (elem as HTMLElement).style.display = 'none';
     });
   }
 
   appUiUx.querySelectorAll('.xtabs-anchor').forEach((anchor) => {
-    const tabNav = document.querySelector(anchor.getAttribute('anchorNav'));
+    const tabNav = document.querySelector(anchor.getAttribute('anchorNav') ?? '');
     if (tabNav) {
       const observer = new MutationObserver(() => {
         const index = Array.from(tabNav.children).findIndex((btn) => btn.classList.contains('selected')) + 1;
@@ -213,7 +231,8 @@ function initTabComponents() {
   });
 }
 
-function initButtonComponents() {
+export function initButtonComponents(): void {
+  const appUiUx = state.appUiUx;
   if (!appUiUx) return;
   appUiUx.querySelectorAll('.sd-button').forEach((elem) => {
     const toggle = elem.getAttribute('toggle');
@@ -227,7 +246,7 @@ function initButtonComponents() {
     if (active) elem.classList.add('active');
     else elem.classList.remove('active');
     if (toggle) {
-      elem.addEventListener('click', (e) => {
+      elem.addEventListener('click', () => {
         const inputEl = elem.querySelector('input');
         if (inputEl) {
           inputEl.click();
@@ -244,43 +263,43 @@ function initButtonComponents() {
     const extraClicks = elem.getAttribute('data-click');
     if (extraClicks) {
       elem.addEventListener('click', () => {
-        document.querySelectorAll(extraClicks).forEach((el) => el.click());
+        document.querySelectorAll(extraClicks).forEach((el) => (el as HTMLElement).click());
       });
     }
   });
 }
 
-const buttonMap = {
-  apply: 'paste',
-  clear: 'empty-set',
-  close: 'square-xmark',
-  list: 'list',
-  load: 'floppy-disk-circle-arrow-right',
-  model: 'database',
-  override: 'sliders',
-  preview: 'aperture',
-  random: 'shuffle',
-  refresh: 'arrows-rotate',
-  remove: 'eraser',
-  reset: 'empty-set',
-  reuse: 'recycle',
-  save: 'floppy-disk',
-  scan: 'radar',
-  search: 'magnifying-glass',
-  select: 'pen-swirl',
-  size: 'ruler-triangle',
-  sort: 'sort',
-  swap: 'arrow-up-arrow-down',
-  upload: 'upload',
-  view: 'grid',
-};
-const iconKeys = Object.keys(buttonMap);
-
-async function setupToolButtons() {
+export async function setupToolButtons(): Promise<void> {
+  const appUiUx = state.appUiUx;
+  const htmlPath = '/file=extensions-builtin/sdnext-modernui/html';
+  const buttonMap: Record<string, string> = {
+    apply: 'paste',
+    clear: 'empty-set',
+    close: 'square-xmark',
+    list: 'list',
+    load: 'floppy-disk-circle-arrow-right',
+    model: 'database',
+    override: 'sliders',
+    preview: 'aperture',
+    random: 'shuffle',
+    refresh: 'arrows-rotate',
+    remove: 'eraser',
+    reset: 'empty-set',
+    reuse: 'recycle',
+    save: 'floppy-disk',
+    scan: 'radar',
+    search: 'magnifying-glass',
+    select: 'pen-swirl',
+    size: 'ruler-triangle',
+    sort: 'sort',
+    swap: 'arrow-up-arrow-down',
+    upload: 'upload',
+    view: 'grid',
+  };
   const t0 = performance.now();
   if (!appUiUx) return;
-  const processed = new Set();
-  for (const key of iconKeys) {
+  const processed = new Set<Element>();
+  for (const key of Object.keys(buttonMap)) {
     const iconName = buttonMap[key];
     const nodes = appUiUx.querySelectorAll(`.tool[id$="${key}"]`);
     nodes.forEach((el) => {
@@ -296,12 +315,10 @@ async function setupToolButtons() {
   const t1 = performance.now();
   log('setupToolButtons', Math.round(t1 - t0));
   timer('setupToolButtons', t1 - t0);
-  // appUiUx.querySelectorAll('.tool').forEach((el) => {
-  //   if (!vprocessed.has(el)) error('toolButton', el.id);
-  // });
 }
 
-async function setupDropdowns() {
+export async function setupDropdowns(): Promise<void> {
+  const appUiUx = state.appUiUx;
   if (!appUiUx) return;
   appUiUx.querySelectorAll('.gradio-dropdown').forEach((el) => {
     el.addEventListener('click', () => {
@@ -309,21 +326,21 @@ async function setupDropdowns() {
       if (!options) return;
       const rect = options.getBoundingClientRect();
       if (el.id.startsWith('setting_')) {
-        options.style.cssText = 'top: 2.2em;'; // dont move components inside settings
+        (options as HTMLElement).style.cssText = 'top: 2.2em;';
       } else if (rect.bottom > window.innerHeight) {
         const offset = Math.min(500, rect.height);
-        options.style.cssText = `top: -${offset}px !important;`; // dropdrop top offset
+        (options as HTMLElement).style.cssText = `top: -${offset}px !important;`;
       } else {
-        options.style.cssText = 'top: 2.2em;'; // dropdown bellow, not over
+        (options as HTMLElement).style.cssText = 'top: 2.2em;';
       }
     });
   });
 }
 
-async function createButtonsForExtensions() {
-  const other_extensions = document.querySelector('#other_extensions');
-  const other_views = document.querySelector('#split-left');
-  const no_button_tabs = [
+export async function createButtonsForExtensions(): Promise<void> {
+  const otherExtensions = document.querySelector('#other_extensions');
+  const otherViews = document.querySelector('#split-left');
+  const noButtonTabs = [
     'tab_txt2img',
     'tab_img2img',
     'tab_control',
@@ -337,11 +354,11 @@ async function createButtonsForExtensions() {
     'tab_info',
     'tab_sdnext_uiux_core',
   ];
-  const snakeToCamel = (str) => str.replace(/(_\w)/g, (match) => match[1].toUpperCase());
+  const snakeToCamel = (str: string) => str.replace(/(_\w)/g, (match) => match[1].toUpperCase());
   document.querySelectorAll('#tabs > .tabitem').forEach((c) => {
     const cid = c.id;
     const nid = cid.replace('tab_', '').replace('_tab', '');
-    if (!no_button_tabs.includes(cid)) {
+    if (!noButtonTabs.includes(cid)) {
       const temp = document.createElement('div');
       let button;
       if (nid === 'agent_scheduler') button = '<div class="mask-icon icon-calendar"></div>';
@@ -354,13 +371,13 @@ async function createButtonsForExtensions() {
           class="xtabs-tab">${button}<span>${snakeToCamel(nid)}</span>
         </button>
       `;
-      other_extensions.append(temp.firstElementChild);
+      otherExtensions?.append(temp.firstElementChild!);
       temp.innerHTML = `
         <div id="${cid}_tabitem" class="xtabs-item other">
           <div data-parent-selector="gradio-app" data-selector="#${cid} > div" class="portal"></div>
         </div>
       `;
-      other_views.append(temp.firstElementChild);
+      otherViews?.append(temp.firstElementChild!);
     }
   });
 }

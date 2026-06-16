@@ -4,9 +4,8 @@ import { includeIgnoreFile } from '@eslint/compat';
 import css from '@eslint/css';
 import js from '@eslint/js';
 import json from '@eslint/json';
-import markdown from '@eslint/markdown';
 import html from '@html-eslint/eslint-plugin';
-import { configs, helpers, plugins } from 'eslint-config-airbnb-extended';
+import { configs, helpers, plugins, rules } from 'eslint-config-airbnb-extended';
 import pluginPromise from 'eslint-plugin-promise';
 import { defineConfig, globalIgnores } from 'eslint/config';
 import globals from 'globals';
@@ -28,35 +27,6 @@ const jsConfig = defineConfig([
       globals: { // Set per project
         ...globals.builtin,
         ...globals.browser,
-        authFetch: 'readonly',
-        gradioApp: 'readonly',
-        log: 'readonly',
-        debug: 'readonly',
-        error: 'readonly',
-        timer: 'readonly',
-        logFn: 'readonly',
-        logTimers: 'readonly',
-        generateForever: 'readonly',
-        onUiReady: 'readonly',
-        appUiUx: 'readonly',
-        getStored: 'readonly',
-        setStored: 'readonly',
-        htmlPath: 'readonly',
-        initSplitComponents: 'readonly',
-        initAccordionComponents: 'readonly',
-        initTabComponents: 'readonly',
-        initButtonComponents: 'readonly',
-        setupToolButtons: 'readonly',
-        setupDropdowns: 'readonly',
-        setupGenerateObservers: 'readonly',
-        setupDynamicObservers: 'readonly',
-        setupControlDynamicObservers: 'readonly',
-        setUserColors: 'readonly',
-        showContributors: 'readonly',
-        initServerInfo: 'readonly',
-        createButtonsForExtensions: 'readonly',
-        Split: 'readonly',
-        restoreAccordionState: 'readonly',
       },
     },
   },
@@ -149,29 +119,50 @@ const jsConfig = defineConfig([
   },
 ]);
 
-// const typescriptConfig = defineConfig([
-//   // TypeScript ESLint plugin
-//   plugins.typescriptEslint,
-//   // Airbnb base TypeScript config
-//   ...configs.base.typescript,
-//   {
-//     name: 'sdnext/typescript',
-//     files: helpers.extensions.tsFiles,
-//     rules: {
-//       '@typescript-eslint/ban-ts-comment': 'off',
-//       '@typescript-eslint/explicit-module-boundary-types': 'off',
-//       '@typescript-eslint/no-shadow': 'error',
-//       '@typescript-eslint/no-var-requires': 'off',
-//     },
-//   },
-// ]);
+const typescriptConfig = defineConfig([
+  // TypeScript ESLint plugin
+  plugins.typescriptEslint,
+  // Airbnb base TypeScript config
+  ...configs.base.typescript,
+  {
+    name: 'sdnext-modernui/typescript',
+    files: ['src/**/*.ts'],
+    rules: {
+      '@typescript-eslint/ban-ts-comment': 'off',
+      '@typescript-eslint/explicit-module-boundary-types': 'off',
+      '@typescript-eslint/no-shadow': 'error',
+      '@typescript-eslint/no-var-requires': 'off',
+      '@typescript-eslint/no-for-in-array': 'off',
+      '@typescript-eslint/no-unused-vars': 'off',
+      '@typescript-eslint/prefer-destructuring': 'off',
+      'import-x/prefer-default-export': 'off',
+    },
+  },
+]);
 
-// const nodeConfig = defineConfig([
-//   // Node plugin
-//   plugins.node,
-//   // Airbnb Node recommended config
-//   ...configs.node.recommended,
-// ]);
+const nodeConfig = defineConfig([
+  // Node plugin
+  plugins.node,
+  {
+    name: 'sdnext-modernui/node',
+    files: helpers.extensions.allFiles,
+    ignores: ['**/src/*', '**/javascript/*'],
+    languageOptions: {
+      globals: {
+        ...globals.node,
+      },
+    },
+    rules: {
+      ...rules.node.base.rules,
+      ...rules.node.globals.rules,
+      ...rules.node.noUnsupportedFeatures.rules,
+      ...rules.node.promises.rules,
+      'n/no-sync': 'off',
+      'n/no-process-exit': 'off',
+      'n/hashbang': 'off',
+    },
+  },
+]);
 
 const jsonConfig = defineConfig([
   {
@@ -180,16 +171,6 @@ const jsonConfig = defineConfig([
     plugins: { json },
     language: 'json/json',
     extends: ['json/recommended'],
-  },
-]);
-
-const markdownConfig = defineConfig([
-  {
-    files: ['**/*.md'],
-    plugins: { markdown },
-    language: 'markdown/gfm',
-    processor: 'markdown/markdown',
-    extends: ['markdown/recommended'],
   },
 ]);
 
@@ -232,6 +213,7 @@ const htmlConfig = defineConfig([
         2,
       ],
       'html/no-duplicate-class': 'error',
+      'html/no-extra-spacing-tags': 'off',
       'html/no-extra-spacing-attrs': [
         'error',
         {
@@ -256,21 +238,14 @@ export default defineConfig([
   // Ignore files and folders listed in .gitignore
   includeIgnoreFile(gitignorePath),
   globalIgnores([
-    '**/node_modules',
-    '**/extensions',
-    '**/repositories',
-    '**/venv',
-    '**/panZoom.js',
-    '**/split.js',
-    '**/exifr.js',
-    '**/iframeResizer.min.js',
+    'src/vendor/*', // Ignore vendor files (e.g. split.js) that are not meant to be edited
+    'javascript/*', // Ignore generated output file
     '**/Vlad-Neomorph.css', // Waiting on plugin fix https://github.com/eslint/css/pull/411
   ]),
   ...jsConfig,
-  // ...typescriptConfig,
-  // ...nodeConfig,
+  ...typescriptConfig,
+  ...nodeConfig,
   ...jsonConfig,
-  ...markdownConfig,
   ...cssConfig,
   ...htmlConfig,
 ]);

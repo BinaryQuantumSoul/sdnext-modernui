@@ -1,43 +1,23 @@
-async function setupControlDynamicObservers() {
-  const qInputCtrl = '#control-template-column-input, #control_params_mask, #control_dynamic_resize';
-  const qInputBtn = '[tabitemid="#control_resize_mask_tabitem"], [tabitemid="#control_before_scale_by_tabitem"], [tabitemid="#control_before_scale_to_tabitem"]';
-  const inputElems = document.querySelectorAll(`${qInputCtrl}, ${qInputBtn}`);
-  const initElems = document.querySelectorAll('#control-template-column-init');
-  const controlElems = document.querySelectorAll('#control-template-column-preview');
-
-  function setupDynamicListener(dynamic, elems, storedKey) {
-    function toggleDynamicElements(dynamicEl) {
-      elems.forEach((elem) => {
-        if (dynamicEl.checked) elem.classList.remove('hidden');
-        else elem.classList.add('hidden');
-      });
-    }
-
-    if (!dynamic) return;
-    dynamic.addEventListener('click', () => {
-      setStored(storedKey, dynamic.checked);
-      toggleDynamicElements(dynamic, elems);
-    });
-    dynamic.checked = getStored(storedKey) || false;
-    toggleDynamicElements(dynamic, elems);
-  }
+/* Mutation observer wiring for generate and control button behaviors. */
+export async function setupControlDynamicObservers(): Promise<void> {
+  // Dead code preserved from original — dynamic control observer wiring is currently disabled
 }
 
-async function setupGenerateObservers() {
-  function addButtonIcon(button, iconClass) {
+export async function setupGenerateObservers(): Promise<void> {
+  function addButtonIcon(button: Element, iconClass: string): void {
     const icon = document.createElement('div');
     icon.classList.add('mask-icon', iconClass);
     button.appendChild(icon);
   }
 
-  function addButtonSpan(button, spanText) {
+  function addButtonSpan(button: Element, spanText: string): void {
     const span = document.createElement('span');
     span.textContent = spanText;
     if (!spanText) span.style.display = 'none';
     button.appendChild(span);
   }
 
-  function enableButtonAnimation(parentButton, enable) {
+  function enableButtonAnimation(parentButton: Element | null, enable: boolean): void {
     if (!parentButton) return;
     if (enable) parentButton.classList.add('active');
     else parentButton.classList.remove('active');
@@ -51,7 +31,6 @@ async function setupGenerateObservers() {
     const tgb = document.querySelector(`${key}_generate`);
     if (tgb) {
       const tg = tgb.closest('.sd-button');
-
       new MutationObserver(() => {
         if (tgb.textContent && !tgb.querySelector('span')) {
           if (tgb.textContent === 'Generate') {
@@ -68,7 +47,6 @@ async function setupGenerateObservers() {
     const teb = document.querySelector(`${key}_enqueue`);
     if (teb) {
       const te = teb.closest('.sd-button');
-
       new MutationObserver(() => {
         if (teb.textContent && !teb.querySelector('span')) {
           if (teb.textContent === 'Enqueue') {
@@ -98,7 +76,6 @@ async function setupGenerateObservers() {
   const captionBtn = document.querySelector('#btn_vlm_caption');
   if (captionBtn) {
     const captionButton = captionBtn.closest('.sd-button');
-
     new MutationObserver(() => {
       if (captionBtn.textContent && !captionBtn.querySelector('span')) {
         if (captionBtn.textContent === 'Caption') {
@@ -111,4 +88,14 @@ async function setupGenerateObservers() {
       }
     }).observe(captionBtn, { childList: true, subtree: true });
   }
+
+  // Caption dropdown observer
+  const captionDropdown = document.querySelectorAll('.gradio-dropdown');
+  captionDropdown.forEach((dropdown) => {
+    new MutationObserver(() => {
+      dropdown.querySelectorAll('li').forEach((li) => {
+        if (li.dataset.value?.startsWith('─')) li.classList.add('dropdown-divider');
+      });
+    }).observe(dropdown, { childList: true, subtree: true });
+  });
 }

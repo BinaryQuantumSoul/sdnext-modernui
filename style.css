@@ -476,6 +476,11 @@ hr {
   vertical-align: middle;
 }
 
+.dropdown-divider {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
 *.shrink {
   flex-grow: 0;
   flex-wrap: nowrap;
@@ -3430,6 +3435,10 @@ td.gridjs-td {
   overflow-y: hidden;
 }
 
+#control_out_gallery_tabitem div {
+  justify-content: flex-start;
+}
+
 .gradio-file {
   color: var(--sd-input-secondary-text-color);
   cursor: copy;
@@ -5259,11 +5268,14 @@ gallery-folder:hover {
 
 #vlm_system textarea,
 #vlm_prompt textarea,
+#analyze_system textarea,
+#analyze_prompt textarea,
 #caption_output_prompt textarea {
   resize: vertical !important;
 }
 
-#vlm_system textarea {
+#vlm_system textarea,
+#analyze_system textarea {
   height: 5rem;
 }
 
@@ -6027,7 +6039,7 @@ div#changelog_result p {
 }
 
 .settings_section {
-  padding: var(--sd-panel-padding) !important;
+  padding: 0 !important;
 }
 
 .gradio-uploadbutton {

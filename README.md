@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://github.com/vladmandic/sdnext/blob/dev/html/favicon.png" width=200 alt="SD.Next">
+<img src="https://github.com/vladmandic/sdnext/blob/dev/ui/assets/favicon.png" width=200 alt="SD.Next">
 
 # SD.Next ModernUI
 
@@ -18,9 +18,13 @@ Fully **mobile** compatible.
 <image src="https://github.com/user-attachments/assets/1f1d0912-7940-4ea6-9819-85d6d7069a2d" width="60%"/>
 <image src="https://github.com/user-attachments/assets/08afab5e-7e3b-4950-b483-b9f27d441c06" width="60%"/>
 
-## Screenshots
+## Develop
 
-[ModernUI Screenshots](https://github.com/BinaryQuantumSoul/sdnext-modernui/issues/124)  
+```shell
+pnpm install # install dev dependencies
+pnpm dev # start development server with watch mode
+pnpm prod # build production bundle
+```
 
 ## Credits
 
