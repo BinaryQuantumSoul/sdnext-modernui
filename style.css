@@ -1825,6 +1825,12 @@ h1 {
   padding: 0 !important;
 }
 
+.extra-details-tabs {
+  min-height: 10vh;
+  max-height: 35vh;
+  overflow: auto;
+}
+
 #models_civitai_tab textarea {
   resize: none !important;
   max-height: 2em;
@@ -5258,6 +5264,7 @@ gallery-folder:hover {
 #control_extra_details_img img,
 #video_extra_details_img img {
   height: 100%;
+  max-height: 400px;
   object-fit: contain;
   overflow: hidden;
 }
