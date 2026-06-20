@@ -39,6 +39,7 @@
   --color-red: palevioletred;
   --color-trace: #666666;
   --color-warning: #FF9900;
+  --color-legacy: #AA6688;
   --sd-border-radius: 5px;
   --sd-border-size: 2px;
   --sd-button-hover-color: var(--sd-button-selected-color);
@@ -2541,6 +2542,10 @@ button.active .icon-sort {
 
 .icon-video {
   mask-image: url(./html/svg/video.svg);
+}
+
+.icon-exclamation {
+  mask-image: url(./html/svg/square-exclamation.svg);
 }
 
 .icon-menuadd {
@@ -6125,4 +6130,13 @@ input.border-none.subdued {
 #server-info-time {
   text-align: right;
   color: var(--sd-button-hover-color);
+}
+
+.legacy {
+  background: var(--color-legacy);
+  cursor: help;
+}
+
+.legacy:hover {
+  background: var(--color-legacy);
 }
