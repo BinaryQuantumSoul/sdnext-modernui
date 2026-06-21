@@ -1497,10 +1497,6 @@ async function uiuxOptionSettings() {
   el = gradioApp().querySelector("#setting_uiux_mobile_scale input[type=number]");
   if (el) el.addEventListener("change", (e) => mobileScale(e.target.value));
   mobileScale(window.opts.uiux_mobile_scale);
-  const panelMinWidth = (value) => document.documentElement.style.setProperty("--sd-panel-min-width", `${value}em`);
-  el = gradioApp().querySelector("#setting_uiux_panel_min_width input[type=number]");
-  if (el) el.addEventListener("change", (e) => panelMinWidth(e.target.value));
-  panelMinWidth(window.opts.uiux_panel_min_width);
   const gridImageSize = (value) => document.documentElement.style.setProperty("--sd-grid-image-size", `${value}px`);
   el = gradioApp().querySelector("#setting_uiux_grid_image_size input[type=number]");
   if (el) el.addEventListener("change", (e) => gridImageSize(e.target.value));
@@ -1639,54 +1635,42 @@ async function applyTweaks() {
   if (!controlColumns) return;
   const controlColumnsElement = controlColumns;
   const anyControlColumns = controlColumnsElement;
-  async function adjustFlexDirection(evt) {
-    const w = Math.floor((evt[0]?.contentRect.width ?? 0) / 8);
-    if (w === anyControlColumns.prevWidth) return;
-    anyControlColumns.prevWidth = w;
-    const firstElementChild = controlColumnsElement.firstElementChild;
-    if (!firstElementChild) return;
-    const childCount = controlColumnsElement.childElementCount;
-    const firstChildMinWidth = parseFloat(getComputedStyle(firstElementChild).minWidth);
-    const gapWidth = parseFloat(getComputedStyle(controlColumnsElement).gap);
-    const minWidth = childCount * firstChildMinWidth + (childCount - 1) * gapWidth;
-    const currentWidth = controlColumnsElement.clientWidth;
-    if (currentWidth < minWidth && !controlColumnsElement.classList.contains("flex-force-column")) {
+  async function setOrientation(mode) {
+    if (!mode) mode = "auto";
+    log("setPanelOrientation", mode);
+    if (mode === "auto") {
+      if (window.innerHeight > window.innerWidth) {
+        controlColumnsElement.classList.add("flex-force-column");
+        controlColumnsElement.classList.remove("flex-force-row");
+      } else if (controlColumnsElement.clientWidth > controlColumnsElement.clientHeight) {
+        controlColumnsElement.classList.add("flex-force-column");
+        controlColumnsElement.classList.remove("flex-force-row");
+      } else {
+        controlColumnsElement.classList.add("flex-force-column");
+        controlColumnsElement.classList.remove("flex-force-row");
+      }
+    } else if (mode === "portrait") {
       controlColumnsElement.classList.add("flex-force-column");
       controlColumnsElement.classList.remove("flex-force-row");
-    } else if (currentWidth >= minWidth && controlColumnsElement.classList.contains("flex-force-column")) {
-      controlColumnsElement.classList.remove("flex-force-column");
+    } else if (mode === "landscape") {
       controlColumnsElement.classList.add("flex-force-row");
+      controlColumnsElement.classList.remove("flex-force-column");
+    } else if (mode === "toggle") {
+      if (controlColumnsElement.classList.contains("flex-force-column")) {
+        setStored("control-panel-orientation", "landscape");
+        controlColumnsElement.classList.remove("flex-force-column");
+        controlColumnsElement.classList.add("flex-force-row");
+      } else {
+        setStored("control-panel-orientation", "portrait");
+        controlColumnsElement.classList.add("flex-force-column");
+        controlColumnsElement.classList.remove("flex-force-row");
+      }
     }
   }
-  async function toggleControlOrientation(forceRow = false, disconnectObserver = false) {
-    if (forceRow) {
-      document.documentElement.style.setProperty("--sd-panel-min-width", "512px");
-      controlColumnsElement.classList.add("flex-force-column");
-      controlColumnsElement.classList.remove("flex-force-row");
-    } else if (controlColumnsElement.classList.contains("flex-force-column")) {
-      document.documentElement.style.setProperty("--sd-panel-min-width", "128px");
-      controlColumnsElement.classList.remove("flex-force-column");
-      controlColumnsElement.classList.add("flex-force-row");
-    } else {
-      document.documentElement.style.setProperty("--sd-panel-min-width", "512px");
-      controlColumnsElement.classList.add("flex-force-column");
-      controlColumnsElement.classList.remove("flex-force-row");
-    }
-    if (disconnectObserver && anyControlColumns.resizeObserver) {
-      anyControlColumns.resizeObserver.disconnect();
-      delete anyControlColumns.resizeObserver;
-    }
-  }
-  anyControlColumns.resizeObserver = new ResizeObserver(adjustFlexDirection);
-  anyControlColumns.resizeObserver.observe(controlColumnsElement);
+  const stored = getStored("control-panel-orientation");
+  setOrientation(stored);
   const controlOrientationBtn = document.getElementById("control_panel_orientation");
-  controlOrientationBtn?.addEventListener("click", () => toggleControlOrientation(false, true));
-  setTimeout(() => {
-    const panelInput = document.getElementById("control-template-column-input");
-    const panelOutput = document.getElementById("control-template-column-output");
-    const forceRow = panelInput?.classList.contains("minimize") || panelOutput?.classList.contains("minimize");
-    toggleControlOrientation(forceRow, false);
-  }, 10);
+  controlOrientationBtn?.addEventListener("click", () => setOrientation("toggle"));
   ["txt2img", "img2img", "control", "video"].forEach((key) => {
     const buttonNav = document.getElementById(`${key}_nav`);
     const buttonEN = document.getElementById(`btn-en-layout-${key}`);

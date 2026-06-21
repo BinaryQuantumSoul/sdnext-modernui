@@ -51,11 +51,6 @@ export async function uiuxOptionSettings(): Promise<void> {
   if (el) el.addEventListener('change', (e) => mobileScale((e.target as HTMLInputElement).value));
   mobileScale(window.opts.uiux_mobile_scale);
 
-  const panelMinWidth = (value: unknown) => document.documentElement.style.setProperty('--sd-panel-min-width', `${value}em`);
-  el = gradioApp().querySelector('#setting_uiux_panel_min_width input[type=number]');
-  if (el) el.addEventListener('change', (e) => panelMinWidth((e.target as HTMLInputElement).value));
-  panelMinWidth(window.opts.uiux_panel_min_width);
-
   const gridImageSize = (value: unknown) => document.documentElement.style.setProperty('--sd-grid-image-size', `${value}px`);
   el = gradioApp().querySelector('#setting_uiux_grid_image_size input[type=number]');
   if (el) el.addEventListener('change', (e) => gridImageSize((e.target as HTMLInputElement).value));

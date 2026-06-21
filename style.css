@@ -87,7 +87,7 @@
   --sd-text-font: 'IBM Plex Mono', monospace;
   --sd-button-font: 'NotoSans', sans-serif;
   --sd-image-fit: scale-down;
-  --sd-panel-min-width: 512px;
+  --sd-panel-min-width: 256px;
   --sd-grid-image-size: 150px;
 }
 
