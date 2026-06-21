@@ -1654,7 +1654,6 @@ async function applyTweaks() {
   const controlColumns = document.getElementById("control-columns");
   if (!controlColumns) return;
   const controlColumnsElement = controlColumns;
-  const anyControlColumns = controlColumnsElement;
   async function setOrientation(mode) {
     if (!mode) mode = "auto";
     log("setPanelOrientation", mode);
@@ -1687,7 +1686,7 @@ async function applyTweaks() {
       }
     }
   }
-  const stored = getStored("control-panel-orientation");
+  const stored = getStored("control-panel-orientation") || "auto";
   setOrientation(stored);
   const controlOrientationBtn = document.getElementById("control_panel_orientation");
   controlOrientationBtn?.addEventListener("click", () => setOrientation("toggle"));

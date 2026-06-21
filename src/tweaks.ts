@@ -7,9 +7,7 @@ export async function applyTweaks(): Promise<void> {
   if (!controlColumns) return;
   const controlColumnsElement = controlColumns;
 
-  const anyControlColumns = controlColumnsElement as unknown as { prevWidth?: number; resizeObserver?: ResizeObserver };
-
-  async function setOrientation(mode: 'portrait' | 'landscape' | 'toggle' | 'auto'): Promise<void> {
+  async function setOrientation(mode: string): Promise<void> {
     if (!mode) mode = 'auto';
     log('setPanelOrientation', mode);
     if (mode === 'auto') {
@@ -42,8 +40,8 @@ export async function applyTweaks(): Promise<void> {
     }
   }
 
-  const stored = getStored('control-panel-orientation');
-  setOrientation(stored);
+  const stored = getStored('control-panel-orientation') || 'auto';
+  setOrientation(stored as string);
   const controlOrientationBtn = document.getElementById('control_panel_orientation');
   controlOrientationBtn?.addEventListener('click', () => setOrientation('toggle'));
 
