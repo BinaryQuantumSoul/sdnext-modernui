@@ -1569,6 +1569,25 @@ function switchMobile() {
     applyDefaultLayout(false);
   }
 }
+async function audoHideImageControls() {
+  const controls = [
+    "control_dynamic_resize",
+    "control_before_scale_group",
+    "control_before_resize_mask"
+  ];
+  const el = document.querySelector("#control-template-column-input");
+  if (!el) return;
+  new MutationObserver(() => {
+    const hidden = el.classList.contains("minimize");
+    for (const control of controls) {
+      const controlEl = document.getElementById(control);
+      if (controlEl) {
+        if (hidden) controlEl.classList.add("hidden");
+        else controlEl.classList.remove("hidden");
+      }
+    }
+  }).observe(el, { childList: false, subtree: false, attributes: true });
+}
 async function applyAutoHide() {
   if (!state.appUiUx) return;
   const hideSiblings = (elem) => {
@@ -1613,6 +1632,7 @@ async function applyAutoHide() {
       if (getStored(`hide_${id}`)) panel.click();
     }
   });
+  audoHideImageControls();
 }
 function setupAnimationEventListeners() {
   document.addEventListener("animationstart", (e) => {
