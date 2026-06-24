@@ -2707,6 +2707,19 @@ div#main-nav {
 .network-folder::before {
   content: "󰉖 ";
   margin-right: 0.3em;
+  font-size: 1.1em;
+  color: var(--sd-label-color)
+}
+
+.network-local {
+  filter: contrast(0.8);
+}
+
+.network-local::before {
+  content: "󰴊 ";
+  margin-right: 0.3em;
+  font-size: 1.1em;
+  color: var(--sd-label-color)
 }
 
 .network-reference {
@@ -2714,8 +2727,10 @@ div#main-nav {
 }
 
 .network-reference::before {
-  content: "󰴊 ";
+  content: "󰉍 ";
   margin-right: 0.3em;
+  font-size: 1.1em;
+  color: var(--sd-label-color)
 }
 
 .network-model {
@@ -2725,6 +2740,8 @@ div#main-nav {
 .network-model::before {
   content: "󰴉 ";
   margin-right: 0.3em;
+  font-size: 1.1em;
+  color: var(--sd-label-color)
 }
 
 .extra-network-subdirs>button,
