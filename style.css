@@ -4838,6 +4838,10 @@ button>span {
   gap: var(--sd-gap-size-val);
 }
 
+.video_output {
+  padding: 0 0 var(--sd-panel-padding) 0;
+}
+
 div#control_params_control_tabitem .control-settings .gradio-accordion .form,
 div#video_params_control_tabitem .video-settings .gradio-accordion .form {
   flex-direction: row;
