@@ -5270,6 +5270,7 @@ gallery-folder:hover {
   text-wrap: auto;
   color: var(--color-trace) !important;
   font-size: 0.9em !important;
+  cursor: help;
 }
 
 #control-result,
