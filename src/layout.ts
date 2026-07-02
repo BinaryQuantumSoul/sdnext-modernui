@@ -22,7 +22,9 @@ export function applyDefaultLayout(mobile: boolean): void {
   appUiUx.querySelectorAll('[mobile]').forEach((tabItem) => {
     if (mobile) {
       if (tabItem.childElementCount === 0) {
-        const mobileTarget = appUiUx.querySelector(tabItem.getAttribute('mobile') ?? '');
+        const attr = tabItem.getAttribute('mobile');
+        if (!attr) return;
+        const mobileTarget = appUiUx.querySelector(attr);
         if (mobileTarget) {
           const targetParentId = mobileTarget.parentElement?.id;
           if (targetParentId) tabItem.setAttribute('mobile-restore', `#${targetParentId}`);
@@ -30,7 +32,9 @@ export function applyDefaultLayout(mobile: boolean): void {
         }
       }
     } else if (tabItem.childElementCount > 0) {
-      const mobileRestoreTarget = appUiUx.querySelector(tabItem.getAttribute('mobile-restore') ?? '');
+      const attr = tabItem.getAttribute('mobile-restore');
+      if (!attr) return;
+      const mobileRestoreTarget = appUiUx.querySelector(attr);
       if (mobileRestoreTarget) {
         tabItem.removeAttribute('mobile-restore');
         mobileRestoreTarget.append(tabItem.firstElementChild!);
