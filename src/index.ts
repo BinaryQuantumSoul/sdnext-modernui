@@ -23,6 +23,7 @@ import { uiuxOptionSettings } from './options';
 import { setupAnimationEventListeners, trackAsideFocus, switchMobile, applyAutoHide } from './layout';
 import { applyTweaks } from './tweaks';
 import { functionWaitForFlag } from './utils';
+import { initHotkeys } from './hotkeys';
 
 const htmlPath = '/file=extensions-builtin/sdnext-modernui/html';
 const rootTemplate = 'template-app-root';
@@ -69,6 +70,7 @@ async function mainUiUx(): Promise<void> {
     applyAutoHide();
     applyTweaks();
     initServerInfo();
+    initHotkeys();
 
     loadRetryPortals(); // some elements may be late so retrying
 

@@ -11,7 +11,7 @@
             <button title="Generate" class="sd-button generate">
               <div data-selector="#extras_generate" data-parent-selector="#tab_process" droppable="true" class="portal no-bg shrink invisible btn-generate">
                 <div class="mask-icon icon-generate"></div>
-                <span>Generate</span>
+                <span>Process</span>
               </div>
             </button>
             <div title="Skip" data-selector="#extras_skip" data-parent-selector="#tab_process" droppable="true" class="portal no-bg shrink invisible">
@@ -40,13 +40,16 @@
         </div>
 
         <div class="panel no-tr flexbox col">
-          <div data-selector="#extras_gallery" data-parent-selector="#tab_process" class="portal full-height no-bg no-padding" droppable="true">
+          <div data-selector="#extras_gallery" data-parent-selector="#tab_process" class="portal no-grow no-bg no-padding" droppable="true">
             <div class="flexbox col progress-flex">
-              <div data-selector="#extras_gallery_container" data-parent-selector="gradio-app" class="portal"></div>
+              <div data-selector="#extras_gallery_container" data-parent-selector="gradio-app" class="portal full-height"></div>
             </div>
           </div>
+          <div class="">
+            <div data-selector="#extras_output_video" data-parent-selector="gradio-app" class="portal"></div>
+          </div>
 
-          <div iconTrigger="#info_icon_btn_extras" class="accordion no-tr expand margin-top">
+          <div id="extras_info" iconTrigger="#info_icon_btn_extras" class="accordion no-tr expand margin-top">
             <div class="accordion-bar no-tr">
               <div class="flexbox row center">
                 <button id="info_icon_btn_extras" toggle="true" class="sd-button">
