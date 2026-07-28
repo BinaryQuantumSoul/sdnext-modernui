@@ -26,6 +26,10 @@
           <div class="mask-icon icon-folder-grid"></div>
           <span>Output</span>
         </button>
+        <button title="Extras" tabItemId=".video_extras_tabitem" tabGroup="video" id="video_params_extras" class="xtabs-tab shrink">
+          <div class="mask-icon icon-folder-grid"></div>
+          <span>Extras</span>
+        </button>
         <div class="only-mobile break"></div>
         <button title="Output" tabItemId=".video_output_tabitem" tabGroup="video" id="video_params_output" class="xtabs-tab only-mobile">
           <div class="mask-icon icon-results"></div>
@@ -132,6 +136,17 @@
               <div class="flexbox col">
                 <h2>Output</h2>
                 <div data-parent-selector="#tab_video" data-selector="#video_outputs" class="portal no-bg"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="layout-content">
+          <div id="video_params_extras_tabitem_group" class="outline-params">
+            <div id="video_params_extras_tabitem" class="xtabs-item video_extras_tabitem">
+              <div class="flexbox col">
+                <h2>Extras</h2>
+                <div data-parent-selector="#tab_video" data-selector="#video_extras" class="portal no-bg"></div>
               </div>
             </div>
           </div>

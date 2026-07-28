@@ -6217,3 +6217,7 @@ input.border-none.subdued {
 .legacy:hover {
   background: var(--color-legacy);
 }
+
+#video_extras {
+  display: block !important;
+}
