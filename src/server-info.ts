@@ -53,6 +53,28 @@ function jsonToHtml(heading: string, json: Record<string, unknown> | Record<stri
   `;
 }
 
+// the memory endpoint reports every size in bytes; these keys are the only counts in it
+const memoryCounters = new Set(['retries', 'oom']);
+
+function formatBytes(value: number): string {
+  const units = ['B', 'KB', 'MB', 'GB', 'TB'];
+  let scaled = value;
+  let unit = 0;
+  while (Math.abs(scaled) >= 1024 && unit < units.length - 1) {
+    scaled /= 1024;
+    unit += 1;
+  }
+  return unit === 0 ? `${scaled} ${units[unit]}` : `${scaled.toFixed(2)} ${units[unit]}`;
+}
+
+function formatMemoryInfo(value: unknown, key = ''): unknown {
+  if (typeof value === 'number') return memoryCounters.has(key) ? value : formatBytes(value);
+  if (value && typeof value === 'object' && !Array.isArray(value)) {
+    return Object.fromEntries(Object.entries(value as Record<string, unknown>).map(([k, v]) => [k, formatMemoryInfo(v, k)]));
+  }
+  return value; // error strings and anything else pass through
+}
+
 function updateNetworksInfo(loras: string[] | null): Record<string, unknown> {
   const networks: Record<string, unknown> = getSelectedNetworks() || {};
   if (networks.lora) {
@@ -118,7 +140,7 @@ async function renderServerInfo(): Promise<void> {
     ${jsonToHtml('GPU', info.gpu as Record<string, unknown>, false)}
     ${jsonToHtml('Platform', info.platform as Record<string, unknown>, false)}
     ${jsonToHtml('Status', info.status as Record<string, unknown>, false)}
-    ${jsonToHtml('Memory', info.memory as Record<string, unknown>, false)}
+    ${jsonToHtml('Memory', formatMemoryInfo(info.memory) as Record<string, unknown>, false)}
     ${jsonToHtml('Browser', info.browser as Record<string, unknown>, false)}
   `;
 }

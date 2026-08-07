@@ -1153,6 +1153,24 @@ function jsonToHtml(heading, json, visible = true) {
     </div>
   `;
 }
+var memoryCounters = /* @__PURE__ */ new Set(["retries", "oom"]);
+function formatBytes(value) {
+  const units = ["B", "KB", "MB", "GB", "TB"];
+  let scaled = value;
+  let unit = 0;
+  while (Math.abs(scaled) >= 1024 && unit < units.length - 1) {
+    scaled /= 1024;
+    unit += 1;
+  }
+  return unit === 0 ? `${scaled} ${units[unit]}` : `${scaled.toFixed(2)} ${units[unit]}`;
+}
+function formatMemoryInfo(value, key = "") {
+  if (typeof value === "number") return memoryCounters.has(key) ? value : formatBytes(value);
+  if (value && typeof value === "object" && !Array.isArray(value)) {
+    return Object.fromEntries(Object.entries(value).map(([k, v]) => [k, formatMemoryInfo(v, k)]));
+  }
+  return value;
+}
 function updateNetworksInfo(loras) {
   const networks = getSelectedNetworks() || {};
   if (networks.lora) {
@@ -1215,7 +1233,7 @@ async function renderServerInfo() {
     ${jsonToHtml("GPU", info.gpu, false)}
     ${jsonToHtml("Platform", info.platform, false)}
     ${jsonToHtml("Status", info.status, false)}
-    ${jsonToHtml("Memory", info.memory, false)}
+    ${jsonToHtml("Memory", formatMemoryInfo(info.memory), false)}
     ${jsonToHtml("Browser", info.browser, false)}
   `;
 }
