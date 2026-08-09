@@ -1456,8 +1456,8 @@ async function loadCurrentTemplate(data, htmlPath2) {
       }
     }
     const uri = `${window.subpath}${htmlPath2}/templates/${currData.template}.html?${Date.now()}`;
-    const response = await fetch(uri, { cache: "reload" });
-    if (!response.ok) {
+    const response = await authFetch(uri, { cache: "reload" });
+    if (!response?.ok) {
       error("loadTemplate", { template: currData.template, target: currData.target, status: "error" });
       if (currData.target) currData.target.setAttribute("status", "error");
     } else {
