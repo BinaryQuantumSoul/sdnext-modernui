@@ -206,6 +206,13 @@ hr {
 
 .full-height {
   height: 100%;
+  resize: none;
+}
+
+.full-height>textarea {
+  height: 100% !important;
+  resize: none;
+  overflow-y: auto !important;
 }
 
 .inset {
@@ -1811,12 +1818,6 @@ li.item span {
 
 .border-padding {
   padding: var(--sd-panel-padding);
-}
-
-.full-height>textarea,
-.full-height {
-  height: 100% !important;
-  resize: none;
 }
 
 .position-right {
@@ -3513,10 +3514,6 @@ td.gridjs-td {
 #pnginfo_image [data-testid="image"] img {
   max-height: unset;
   min-height: 100%;
-}
-
-.full-height>textarea {
-  overflow-y: auto !important;
 }
 
 .sd-popup {
