@@ -3504,6 +3504,7 @@ td.gridjs-td {
 
 #control_out_gallery_tabitem div {
   justify-content: flex-start;
+  min-height: auto;
 }
 
 .gradio-file {
