@@ -281,6 +281,10 @@ hr {
   float: right;
 }
 
+.relative {
+  position: relative;
+}
+
 .min-width {
   min-width: min(200px, 100%);
 }
@@ -5761,6 +5765,13 @@ div#changelog_result p {
 .smaller {
   font-size: 0.9em;
   padding-left: var(--sd-panel-padding);
+}
+
+.highlighted-label {
+  padding: var(--sd-panel-padding);
+  border-radius: var(--sd-border-radius);
+  background-color: var(--sd-panel-border-color);
+  margin: 0 3em 0 var(--sd-panel-padding);
 }
 
 #history_table {
