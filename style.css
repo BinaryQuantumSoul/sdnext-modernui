@@ -665,7 +665,7 @@ input[type="color"] {
 [data-testid="block-label"],
 div.float {
   align-items: center;
-  background: var(--sd-input-background-color);
+  background: unset;
   border: var(--sd-input-border-size) solid var(--sd-input-border-color);
   border-bottom-left-radius: 0;
   border-radius: var(--sd-border-radius);
@@ -2710,6 +2710,7 @@ button.active .icon-sort {
 
 .accordion-bar .xtabs-tab span {
   display: none;
+  padding-top: 2px;
 }
 
 .xtabs-tab svg {
@@ -3510,6 +3511,19 @@ td.gridjs-td {
 .gradio-file {
   color: var(--sd-input-secondary-text-color);
   cursor: copy;
+}
+
+.gradio-file div {
+  background-color: unset;
+}
+
+.gradio-file table {
+  width: 100%;
+  table-layout: auto;
+}
+
+.gradio-file [style*="position: absolute"] {
+  align-self: end;
 }
 
 #pnginfo_image [data-testid="image"] img {
@@ -5742,6 +5756,11 @@ div#changelog_result p {
   height: 6em;
   background-color: var(--sd-main-accent-color);
   border: none;
+}
+
+.smaller {
+  font-size: 0.9em;
+  padding-left: var(--sd-panel-padding);
 }
 
 #history_table {
