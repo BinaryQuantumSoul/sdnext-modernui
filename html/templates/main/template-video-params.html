@@ -10,10 +10,6 @@
           <div class="mask-icon icon-folder-bookmark"></div>
           <span>Prompts</span>
         </button>
-        <button title="Video models" tabItemId=".video_generic_tabitem" tabGroup="video" id="video_params_generic" class="xtabs-tab shrink">
-          <div class="mask-icon icon-folder-grid"></div>
-          <span>Models</span>
-        </button>
         <button title="Output" tabItemId=".video_outputs_tabitem" tabGroup="video" id="video_params_outputs" class="xtabs-tab shrink">
           <div class="mask-icon icon-folder-gear"></div>
           <span>Output</span>
@@ -30,6 +26,10 @@
 
         <div class="spacer"><br /></div>
 
+        <button title="Video models" tabItemId=".video_generic_tabitem" tabGroup="video" id="video_params_generic" class="xtabs-tab shrink">
+          <div class="mask-icon icon-folder-grid"></div>
+          <span>Base Models</span>
+        </button>
         <button title="MiniMax" tabItemId=".video_minimax_tabitem" tabGroup="video" id="video_params_minimax" class="xtabs-tab shrink">
           <div class="mask-icon icon-folder-image"></div>
           <span>MiniMax</span>
@@ -109,7 +109,7 @@
           <div id="video_params_generic_tabitem_group" class="outline-params">
             <div id="video_params_generic_tabitem" class="xtabs-item video_generic_tabitem">
               <div class="flexbox col">
-                <h2>Generic</h2>
+                <h2>Base Models</h2>
                 <div data-parent-selector="#tab_video" data-selector="#video_settings" class="portal no-bg"></div>
               </div>
             </div>
