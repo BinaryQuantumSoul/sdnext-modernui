@@ -4974,6 +4974,14 @@ div#video_params_control_tabitem .video-settings .gradio-accordion .form {
   max-width: 6em;
 }
 
+*.ar-dropdown label>span {
+  display: block !important;
+  opacity: 0.7;
+  min-height: 1.2em;
+  align-self: center;
+  line-height: 0.8em;
+}
+
 .subseed-strength {
   outline: none !important;
 }
@@ -5772,6 +5780,11 @@ div#changelog_result p {
   border-radius: var(--sd-border-radius);
   background-color: var(--sd-panel-border-color);
   margin: 0 3em 0 var(--sd-panel-padding);
+}
+
+.codec-label {
+  justify-content: flex-end;
+  margin: 0 0 10px 1em;
 }
 
 #history_table {
