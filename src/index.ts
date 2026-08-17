@@ -24,6 +24,7 @@ import { setupAnimationEventListeners, trackAsideFocus, switchMobile, applyAutoH
 import { applyTweaks } from './tweaks';
 import { functionWaitForFlag } from './utils';
 import { initHotkeys } from './hotkeys';
+import { bindVideoButtons } from './video';
 
 const htmlPath = '/file=extensions-builtin/sdnext-modernui/html';
 const rootTemplate = 'template-app-root';
@@ -71,6 +72,7 @@ async function mainUiUx(): Promise<void> {
     applyTweaks();
     initServerInfo();
     initHotkeys();
+    bindVideoButtons();
 
     loadRetryPortals(); // some elements may be late so retrying
 

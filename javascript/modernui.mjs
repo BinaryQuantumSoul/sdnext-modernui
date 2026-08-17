@@ -1928,6 +1928,20 @@ async function initHotkeys() {
   });
 }
 
+// src/video.ts
+async function bindVideoButtons() {
+  const parentEl = document.getElementById("sidebar_video");
+  const buttonsCtl = parentEl.querySelectorAll("button.video-none");
+  const buttonsGen = parentEl.querySelectorAll("button.video-generate");
+  const btnGenerate = document.getElementById("video-button-generate");
+  buttonsCtl.forEach((btn) => btn.addEventListener("click", () => {
+    btnGenerate.classList.add("disabled");
+  }));
+  buttonsGen.forEach((btn) => btn.addEventListener("click", () => {
+    btnGenerate.classList.remove("disabled");
+  }));
+}
+
 // src/index.ts
 var htmlPath = "/file=extensions-builtin/sdnext-modernui/html";
 var rootTemplate = "template-app-root";
@@ -1969,6 +1983,7 @@ async function mainUiUx() {
     applyTweaks();
     initServerInfo();
     initHotkeys();
+    bindVideoButtons();
     loadRetryPortals();
     state.uiFlagInitialized = true;
     const t3 = performance.now();

@@ -154,6 +154,11 @@ hr {
   padding: 0;
 }
 
+.disabled {
+  filter: grayscale(1);
+  opacity: 0.5;
+}
+
 .maximize {
   height: 100%;
   width: 100%;
