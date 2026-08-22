@@ -24,6 +24,7 @@ Fully **mobile** compatible.
 pnpm install # install dev dependencies
 pnpm dev # start development server with watch mode
 pnpm prod # build production bundle
+pnpm all # run checks, lint, build
 ```
 
 ## Credits

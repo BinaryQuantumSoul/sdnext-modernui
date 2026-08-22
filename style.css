@@ -154,6 +154,11 @@ hr {
   padding: 0;
 }
 
+.disabled {
+  filter: grayscale(1);
+  opacity: 0.5;
+}
+
 .maximize {
   height: 100%;
   width: 100%;
@@ -206,6 +211,13 @@ hr {
 
 .full-height {
   height: 100%;
+  resize: none;
+}
+
+.full-height>textarea {
+  height: 100% !important;
+  resize: none;
+  overflow-y: auto !important;
 }
 
 .inset {
@@ -272,6 +284,10 @@ hr {
 
 .float-right {
   float: right;
+}
+
+.relative {
+  position: relative;
 }
 
 .min-width {
@@ -658,7 +674,7 @@ input[type="color"] {
 [data-testid="block-label"],
 div.float {
   align-items: center;
-  background: var(--sd-input-background-color);
+  background: unset;
   border: var(--sd-input-border-size) solid var(--sd-input-border-color);
   border-bottom-left-radius: 0;
   border-radius: var(--sd-border-radius);
@@ -1813,12 +1829,6 @@ li.item span {
   padding: var(--sd-panel-padding);
 }
 
-.full-height>textarea,
-.full-height {
-  height: 100% !important;
-  resize: none;
-}
-
 .position-right {
   position: absolute;
   right: 1em;
@@ -2709,6 +2719,7 @@ button.active .icon-sort {
 
 .accordion-bar .xtabs-tab span {
   display: none;
+  padding-top: 2px;
 }
 
 .xtabs-tab svg {
@@ -3503,6 +3514,7 @@ td.gridjs-td {
 
 #control_out_gallery_tabitem div {
   justify-content: flex-start;
+  min-height: auto;
 }
 
 .gradio-file {
@@ -3510,13 +3522,22 @@ td.gridjs-td {
   cursor: copy;
 }
 
+.gradio-file div {
+  background-color: unset;
+}
+
+.gradio-file table {
+  width: 100%;
+  table-layout: auto;
+}
+
+.gradio-file [style*="position: absolute"] {
+  align-self: end;
+}
+
 #pnginfo_image [data-testid="image"] img {
   max-height: unset;
   min-height: 100%;
-}
-
-.full-height>textarea {
-  overflow-y: auto !important;
 }
 
 .sd-popup {
@@ -4958,6 +4979,14 @@ div#video_params_control_tabitem .video-settings .gradio-accordion .form {
   max-width: 6em;
 }
 
+*.ar-dropdown label>span {
+  display: block !important;
+  opacity: 0.7;
+  min-height: 1.2em;
+  align-self: center;
+  line-height: 0.8em;
+}
+
 .subseed-strength {
   outline: none !important;
 }
@@ -5744,6 +5773,23 @@ div#changelog_result p {
   height: 6em;
   background-color: var(--sd-main-accent-color);
   border: none;
+}
+
+.smaller {
+  font-size: 0.9em;
+  padding-left: var(--sd-panel-padding);
+}
+
+.highlighted-label {
+  padding: var(--sd-panel-padding);
+  border-radius: var(--sd-border-radius);
+  background-color: var(--sd-panel-border-color);
+  margin: 0 3em 0 var(--sd-panel-padding);
+}
+
+.codec-label {
+  justify-content: flex-end;
+  margin: 0 0 10px 1em;
 }
 
 #history_table {
