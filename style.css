@@ -5273,15 +5273,19 @@ gallery-folder:hover {
   margin-bottom: var(--sd-group-gap);
 }
 
+.json-holder {
+  font-size: 0.9em;
+}
+
 .json-node {
   color: var(--sd-label-color);
   display: inline;
   font-family: monospace;
-  line-height: var(--sd-input-line-height);
+  line-height: 18px;
 }
 
 .json-node .children {
-  padding-left: var(--sd-gap-size);
+  padding-left: 8px;
 }
 
 .json-node .spacer {
