@@ -1,10 +1,12 @@
 async function selectHotKeyElement(e: KeyboardEvent, id: string) {
   const elem = document.querySelector(id);
-  log('hotkey', { key: e.key, meta: e.metaKey, ctrl: e.ctrlKey, alt: e.altKey, id, elid: elem?.id, elnode: elem?.nodeName });
   if (elem) {
+    log('selectHotKey', { key: e.key, meta: e.metaKey, ctrl: e.ctrlKey, alt: e.altKey, id, elid: elem?.id, elnode: elem?.nodeName });
     e.preventDefault();
     if (elem.nodeName === 'BUTTON') (elem as HTMLButtonElement).click();
     else (elem as HTMLElement).focus();
+  } else {
+    error('selectHotKey', { key: e.key, meta: e.metaKey, ctrl: e.ctrlKey, alt: e.altKey, id });
   }
 }
 
