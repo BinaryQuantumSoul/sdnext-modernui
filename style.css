@@ -4700,7 +4700,7 @@ input[type="range"]::-ms-fill-upper {
 
 .md ul {
   list-style-type: square !important;
-  margin-left: 4em;
+  margin-left: 3em;
   text-indent: 1em;
 }
 
