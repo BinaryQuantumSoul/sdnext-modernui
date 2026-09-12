@@ -4,9 +4,9 @@
   --sd-primary-h: 180deg;
   --sd-primary-s: 60%;
   --sd-primary-l: 40%;
-  --sd-body-font: 'NotoSans', sans-serif;
-  --sd-text-font: 'NotoSans', sans-serif;
-  --sd-button-font: 'NotoSans', sans-serif;
+  --sd-body-font: 'Ubuntu', sans-serif;
+  --sd-text-font: 'Ubuntu', sans-serif;
+  --sd-button-font: 'Ubuntu', sans-serif;
   --sd-main-accent-color:hsl(var(--sd-primary-h) 30% 40%);
   --sd-input-placeholder-text-color:hsl(var(--sd-primary-h) var(--sd-primary-s) 60%);
   --sd-secondary-color:hsl(0deg 0% 13%);
@@ -54,11 +54,12 @@
 }
 
 .group-col {
-  gap: 2px !important;
+  gap: 4px !important;
 }
 
 .form {
-  gap: 8px;
+  column-gap: 6px;
+  row-gap: 12px;
 }
 
 .extra-network-subdirs {
@@ -189,6 +190,10 @@ button>span {
 }
 
 
+.generate {
+  max-height: 36px;
+}
+
 .generate.active>.portal>button {
   filter: drop-shadow(2px 4px 6px black)
 }
@@ -214,4 +219,28 @@ input[type="checkbox"]:hover, input[type="radio"]:hover {
 
 input[type="checkbox"]:checked, input[type="radio"]:checked {
   mask-image: url(../html/svg/square-xmark.svg);
+}
+
+
+@keyframes glassFlow {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
+.xtabs-tab, .gradio-button, .sd-button {
+  box-shadow:
+    6px 6px 12px rgba(0,0,0,0.45),
+    -6px -6px 12px rgba(255,255,255,0.05);
+  transition: all 0.2s ease;
+}
+
+.xtabs-tab:hover, .gradio-button:hover, .sd-button:hover {
+  box-shadow:
+    8px 8px 16px rgba(0,0,0,0.50),
+    -8px -8px 16px rgba(255,255,255,0.07);
+  transform: translateY(-2px);
+}
+
+#main-nav, #main-nav-bar, #layout-footer {
+  gap: 4px;
 }

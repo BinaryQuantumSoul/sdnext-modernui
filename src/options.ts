@@ -4,19 +4,6 @@ import { state } from './state';
 export async function uiuxOptionSettings(): Promise<void> {
   let el: Element | null;
 
-  function showInputRangeTicks(): void {
-    gradioApp().querySelectorAll("input[type='range']").forEach((elem) => {
-      const rangeElem = elem as HTMLInputElement;
-      const spacing = (Number(rangeElem.step) / (Number(rangeElem.max) - Number(rangeElem.min))) * 100.0;
-      const tsp = `max(3px, calc(${spacing}% - 1px))`;
-      const fsp = `max(4px, calc(${spacing}% + 0px))`;
-      const overlay = `repeating-linear-gradient(90deg, transparent, transparent ${tsp}, var(--sd-input-border-color) ${tsp}, var(--sd-input-border-color) ${fsp})`;
-      rangeElem.style.setProperty('--sd-slider-bg-overlay', overlay);
-    });
-  }
-
-  showInputRangeTicks();
-
   function setupUiUxSetting(settingId: string, className: string): void {
     const appUiUx = state.appUiUx;
     function updateUiUxClass(cn: string, value: unknown): void {

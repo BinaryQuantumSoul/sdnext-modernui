@@ -1,5 +1,5 @@
 <div class="layout">
-  <div class="flexbox col">
+  <div class="flexbox col no-gap">
     <div class="flexbox row panel padding shrink" id="control_results_header_panel">
 
       <div id="control_generate_group" class="flexbox row flex-end group-row generate-icons">
@@ -12,9 +12,11 @@
         <div data-selector="#control_reprocess" data-parent-selector="#tab_control" droppable="true" class="portal no-bg shrink invisible">
           <div class="mask-icon icon-reprocess"></div>
         </div>
-        <button title="Generate forever" id="control_loop" toggle="true" class="sd-button">
-          <div id="mask-icon-loop" class="mask-icon icon-loop">Generate forever</div>
-        </button>
+        <div class="no-bg shrink invisible">
+          <button title="Generate forever" id="control_loop" toggle="true" class="gradio-button lg primary">
+            <div id="mask-icon-loop" class="mask-icon icon-loop">Generate forever</div>
+          </button>
+        </div>
         <div title="Skip" data-selector="#control_skip" data-parent-selector="#tab_control" droppable="true" class="portal no-bg shrink invisible">
           <div class="mask-icon icon-skip"></div>
         </div>
@@ -82,7 +84,7 @@
                     </div>
                     <div iconTrigger="#info_icon_btn_control" class="accordion shrink no-tr">
                       <div class="accordion-bar no-tr">
-                        <div class="flexbox row center">
+                        <div class="flexbox row center action-bar">
                           <button id="info_icon_btn_control" toggle="true" class="sd-button">
                             <div class="mask-icon icon-info"></div>
                           </button>

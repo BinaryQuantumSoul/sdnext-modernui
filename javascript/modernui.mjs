@@ -1617,17 +1617,6 @@ async function removeStyleAssets() {
 // src/options.ts
 async function uiuxOptionSettings() {
   let el;
-  function showInputRangeTicks() {
-    gradioApp().querySelectorAll("input[type='range']").forEach((elem) => {
-      const rangeElem = elem;
-      const spacing = Number(rangeElem.step) / (Number(rangeElem.max) - Number(rangeElem.min)) * 100;
-      const tsp = `max(3px, calc(${spacing}% - 1px))`;
-      const fsp = `max(4px, calc(${spacing}% + 0px))`;
-      const overlay = `repeating-linear-gradient(90deg, transparent, transparent ${tsp}, var(--sd-input-border-color) ${tsp}, var(--sd-input-border-color) ${fsp})`;
-      rangeElem.style.setProperty("--sd-slider-bg-overlay", overlay);
-    });
-  }
-  showInputRangeTicks();
   function setupUiUxSetting(settingId, className) {
     const appUiUx = state.appUiUx;
     function updateUiUxClass(cn, value) {
@@ -1764,6 +1753,8 @@ async function applyAutoHide() {
   state.appUiUx.querySelectorAll(".auto-hide").forEach((elem) => {
     const id = elem.id || elem.innerText;
     elem.onclick = (evt) => {
+      evt.stopPropagation();
+      if (elem.classList.contains("no-hide")) return;
       elem.classList.toggle("minimize");
       setStored(`hide_${id}`, elem.classList.contains("minimize"));
       for (const child of evt.target.children) child.classList.toggle("hidden-animate");

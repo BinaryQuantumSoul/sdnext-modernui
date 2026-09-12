@@ -12,6 +12,34 @@
   font-weight: 100;
   src: local('IBMPlexMonoNerd'), url('themes/assets/ibmplexmono-nerdfont-medium.ttf')
 }
+@font-face {
+  font-display: swap;
+  font-family: 'Arimo';
+  font-style: normal;
+  font-weight: 100;
+  src: local('Arimo'), url('themes/assets/arimo-nerdfont.ttf')
+}
+@font-face {
+  font-display: swap;
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 100;
+  src: local('Roboto'), url('themes/assets/roboto-nerdfont.ttf')
+}
+@font-face {
+  font-display: swap;
+  font-family: 'Ubuntu';
+  font-style: normal;
+  font-weight: 100;
+  src: local('Ubuntu'), url('themes/assets/ubuntu-nerdfont.ttf')
+}
+@font-face {
+  font-display: swap;
+  font-family: 'Mononoki';
+  font-style: normal;
+  font-weight: 100;
+  src: local('Mononoki'), url('themes/assets/mononoki-nerdfont.ttf')
+}
 
 .icon-sdnext {
   mask-image: url(./html/favicon.svg);
@@ -86,11 +114,12 @@
   --sd-tooltip-text-color: var(--sd-input-background-color);
   --sd-body-font: 'IBM Plex Mono', monospace;
   --sd-text-font: 'IBM Plex Mono', monospace;
-  --sd-button-font: 'NotoSans', sans-serif;
+  --sd-button-font: 'Ubuntu', sans-serif;
   --sd-image-fit: scale-down;
   --sd-panel-min-width: 256px;
   --sd-grid-image-size: 150px;
-}
+  --sd-slider-bg-overlay: repeating-linear-gradient(90deg, transparent, transparent 6px, black 8px);
+  }
 
 body {
   --sd-display-legacy: 'block';
@@ -456,16 +485,19 @@ hr {
   font-family: inherit;
   line-height: 16px;
   margin-top: 0px;
+  margin-left: -2px;
   max-height: 22px;
   min-height: 22px;
-  padding: 0 5px;
+  padding: 0;
   width: auto;
   text-align: right;
   background-color: transparent;
+  filter: opacity(0.7);
 }
 
 *.gradio-slider input[type="number"]:hover, *.gradio-slider input[type="number"]:focus {
   background-color: var(--sd-input-background-color);
+  filter: none;
 }
 
 *.no-border>*:not(:first-child) {
@@ -497,7 +529,7 @@ hr {
   font-size: var(--sd-input-font-size);
   line-height: var(--sd-input-line-height);
   margin: 0;
-  min-height: var(--sd-input-height);
+  min-height: calc(var(--sd-input-height) - 4px);
   padding: var(--sd-input-padding);
   vertical-align: middle;
 }
@@ -667,7 +699,7 @@ input[type="color"] {
   height: auto;
   justify-content: space-between;
   margin: 0;
-  min-width: min(140px, 100%);
+  min-width: min(120px, 100%);
   padding: 0;
 }
 
@@ -1068,7 +1100,7 @@ button:hover .mask-icon {
   flex-grow: 1;
   font-family: var(--sd-body-font), 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;
   line-height: calc(var(--sd-input-icon-height) - 10px);
-  font-family: 'NotoSans', var(--font);
+  font-family: 'Ubuntu', var(--font);
   min-height: unset;
   min-height: calc(var(--sd-input-height) - (var(--sd-input-border-size) * 2));
   min-width: 3.4em;
@@ -1078,8 +1110,7 @@ button:hover .mask-icon {
   align-items: center;
   display: flex;
   flex-grow: 1;
-  gap: var(--sd-gap-size-val);
-  padding-right: var(--sd-input-height);
+  padding-right: 1.4rem;
 }
 
 *.gradio-dropdown div.wrap {
@@ -1177,16 +1208,18 @@ li.item span {
 
 *.token-remove {
   align-self: center;
-  background: var(--sd-input-background-color);
+  background: transparent;
   border: var(--sd-input-border-size) solid var(--sd-input-background-color);
-  border-radius: 50%;
+  border-radius: var(--sd-border-radius);
   display: flex;
   flex-direction: column;
   padding: 1px;
+  zoom: 80%;
+  cursor: pointer;
 }
 
 *.token-remove svg {
-  fill: var(--sd-input-text-color);
+  fill: var(--sd-button-selected-color);
 }
 
 *.gradio-gallery {
@@ -1529,7 +1562,7 @@ li.item span {
 
 .accordion-bar .flexbox {
   align-items: center;
-  gap: var(--sd-gap-size);
+  gap: var(--sd-gap-size-val);
 }
 
 .accordion.expand .accordion-bar {
@@ -1636,7 +1669,7 @@ li.item span {
 .layout-footer {
   display: flex;
   flex-direction: column;
-  gap: var(--sd-gap-size);
+  gap: var(--sd-gap-size-val);
   padding: 0;
 }
 
@@ -1714,6 +1747,10 @@ li.item span {
   min-width: var(--sd-input-height);
 }
 
+.action-bar > .sd-button {
+  box-shadow: none
+}
+
 .icons-bar {
   justify-content: center;
   padding-bottom: 0;
@@ -1777,6 +1814,7 @@ li.item span {
 
 .xtabs-tab span {
   color: var(--sd-button-normal-text-color);
+  align-items: center;
 }
 
 .xtabs-tab .mask-icon {
@@ -1784,7 +1822,7 @@ li.item span {
 }
 
 .xtabs-tab.active {
-  background-color: var(--sd-button-selected-color);
+  background: linear-gradient(120deg, var(--sd-button-selected-color) 0%, transparent 150%);
   color: var(--sd-button-selected-text-color);
 }
 
@@ -1797,7 +1835,7 @@ li.item span {
 }
 
 .xtabs-tab:hover {
-  background-color: var(--sd-button-hover-color);
+  background: linear-gradient(120deg, var(--sd-button-selected-color) 0%, transparent 100%);
   color: var(--sd-button-hover-text-color);
 }
 
@@ -2775,7 +2813,7 @@ div#main-nav {
 }
 
 .network-reference {
-  filter: contrast(0.9);
+  filter: saturate(0.3);
 }
 
 .network-reference::before {
@@ -2804,6 +2842,8 @@ div#main-nav {
   text-align: left;
   white-space: pre-wrap;
   min-height: unset;
+  background: unset;
+  box-shadow: none;
 }
 
 .extra-network-subdirs {
@@ -2964,14 +3004,18 @@ button:hover svg {
 }
 
 .generate-icons {
-  gap: var(--sd-gap-size) !important;
+  gap: var(--sd-gap-size-val) !important;
+}
+
+.generate-icons button {
+  padding: 0 !important;
 }
 
 .sd-button .gradio-button {
   align-items: center;
   border: 0;
   display: flex;
-  min-width: unset;
+  min-width: 36px;
   padding: 0;
   padding: var(--sd-panel-padding);
 }
@@ -2979,6 +3023,21 @@ button:hover svg {
 .sd-button .gradio-button span {
   font-size: var(--sd-input-font-size);
   padding: 0.1em;
+}
+
+.size-group {
+  display: flex !important;
+  gap: 1rem;
+}
+
+.size-group div {
+  gap: var(--sd-gap-size-val);
+}
+
+.size-group button {
+  width: 3.5rem;
+  justify-content: center !important;
+  box-shadow: none;
 }
 
 .padding {
@@ -3703,14 +3762,20 @@ div[data-testid="image"] canvas {
 }
 
 .group-row {
-  gap: 0;
+  gap: var(--sd-gap-size-val);
   align-items: center;
 }
 
-.group-row>* button, .group-row>* {
+.group-row>* {
   height: 2.5em;
   min-width: 2.5em;
   padding: 0;
+}
+
+.group-row>button {
+  height: unset;
+  min-height: 1.8rem !important;
+  min-width: 1.8rem;
 }
 
 .group-row>*:last-child button,
@@ -4234,6 +4299,7 @@ div#quicksettings div+button {
     border-radius: var(--sd-border-radius);
     overflow: hidden;
     position: relative;
+    cursor: col-resize;
     width: 100%;
   }
 
@@ -4241,25 +4307,20 @@ div#quicksettings div+button {
     background-image: var(--sd-slider-bg-overlay);
     content: "";
     height: 100%;
-    left: 1px;
     position: absolute;
     width: 100%;
   }
 
   input[type="range"]::-webkit-slider-runnable-track {
     -webkit-appearance: none;
-    color: var(--sd-main-accent-color);
-    height: 14px;
-    margin-top: -1px;
   }
 
   input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
     background-color: var(--sd-main-accent-color);
     box-shadow: -1024px 0 0 1024px var(--sd-main-accent-color);
-    cursor: ew-resize;
-    height: 14px;
-    width: 0px;
+    cursor: col-resize;
+    width: 89px;
   }
 }
 
@@ -4973,6 +5034,7 @@ div#video_params_control_tabitem .video-settings .gradio-accordion .form {
 
 .ar-dropdown {
   outline: none !important;
+  min-inline-size: min-content;
 }
 
 .ar-dropdown .container, .ar-dropdown ul {
@@ -5075,7 +5137,7 @@ gallery-folder {
 
 .gallery-sort,
 gallery-folder {
-  font-family: 'NotoSans';
+  font-family: 'Ubuntu';
 }
 
 gallery-folder:hover {
@@ -5396,6 +5458,7 @@ gallery-folder:hover {
 #control_generate,
 #video_generate {
   min-height: 32px;
+  box-shadow: none;
 }
 
 #txt2img_script_ip_adapters, #txt2img_script_alwayson, #img2img_script_ip_adapters, #img2img_script_alwayson {
@@ -5833,6 +5896,10 @@ div#changelog_result p {
   display: none;
 }
 
+.size-controls {
+  display: flex;
+}
+
 /* Modern UI layout for caption image */
 #layout-caption-image {
   position: relative !important;
@@ -6223,8 +6290,13 @@ div#changelog_result p {
 
 #control_output_group button {
   min-height: unset;
+  box-shadow: none;
+  background: transparent;
 }
 
+#control_output_group button:hover {
+  background: var(--sd-button-hover-color);
+}
 #control-tab-input-parent {
   width: 100%;
   height:100%;
@@ -6242,8 +6314,9 @@ div#changelog_result p {
 }
 
 input.border-none.subdued {
-  padding-right: 0;
   width: 0;
+  padding: 0;
+  min-inline-size: auto;
 }
 
 #extras_image {

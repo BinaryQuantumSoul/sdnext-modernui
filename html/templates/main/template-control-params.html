@@ -124,14 +124,16 @@
 
                     <div class="flexbox col outline-params">
 
-                      <h2>Size</h2>
-                      <!-- <div data-parent-selector="#tab_control" data-selector="#control_size .gap" class="portal no-outline"></div> -->
-                      <div class="flexbox col group">
-                        <div class="flexbox panel row group-row">
+                      <h2 class="size-group no-hide">Size
+                        <div class="flexbox row group-row shrink">
                           <button tabItemId="#control_resize_before_tabitem" tabGroup="control-resize-group" class="xtabs-tab" active="true"><span>Initial</span></button>
                           <button tabItemId="#control_resize_after_tabitem" tabGroup="control-resize-group" class="xtabs-tab"><span>Post</span></button>
                           <button tabItemId="#control_resize_mask_tabitem" tabGroup="control-resize-group" class="xtabs-tab" id="control_before_resize_mask"><span>Mask</span></button>
                         </div>
+                      </h2>
+
+                      <!-- <div data-parent-selector="#tab_control" data-selector="#control_size .gap" class="portal no-outline"></div> -->
+                      <div class="flexbox col group">
                         <div class="xtabs sub-group no-padding">
 
                           <div id="control_resize_before_tabitem" class="xtabs-item initial inset notransition">
@@ -163,11 +165,13 @@
                               </div>
                               <div class="flexbox col center panel shrink">
                                 <div data-parent-selector="#tab_control" data-selector="#control_before_resize_ar" class="portal no-bg"></div>
-                                <div data-parent-selector="#tab_control" data-selector="#control_before_resize_size_swap" droppable="true" class="portal invisible tool">
-                                  <div class="mask-icon icon-res-switch"></div>
-                                </div>
-                                <div data-parent-selector="#tab_control" data-selector="#control_before_resize_detect_size" droppable="true" class="portal invisible tool">
-                                  <div class="mask-icon icon-ruler"></div>
+                                <div class="size-controls">
+                                  <div data-parent-selector="#tab_control" data-selector="#control_before_resize_size_swap" droppable="true" class="portal invisible tool">
+                                    <div class="mask-icon icon-res-switch"></div>
+                                  </div>
+                                  <div data-parent-selector="#tab_control" data-selector="#control_before_resize_detect_size" droppable="true" class="portal invisible tool">
+                                    <div class="mask-icon icon-ruler"></div>
+                                  </div>
                                 </div>
                               </div>
                               <div id="control_dynamic_resize" class="flexbox col panel">
