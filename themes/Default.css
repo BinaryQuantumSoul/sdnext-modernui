@@ -221,12 +221,6 @@ input[type="checkbox"]:checked, input[type="radio"]:checked {
   mask-image: url(../html/svg/square-xmark.svg);
 }
 
-
-@keyframes glassFlow {
-  0% { background-position: 0% 50%; }
-  100% { background-position: 100% 50%; }
-}
-
 .xtabs-tab, .gradio-button, .sd-button {
   box-shadow:
     6px 6px 12px rgba(0,0,0,0.45),

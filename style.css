@@ -1768,6 +1768,10 @@ li.item span {
   min-width: calc(var(--sd-input-height) + var(--sd-input-border-size) * 2);
 }
 
+.gradio-button {
+  background: linear-gradient(120deg, var(--sd-button-selected-color) 0%, transparent 150%)
+}
+
 .xtabs {
   background-color: var(--sd-panel-background-color);
   border-radius: var(--sd-border-radius);
