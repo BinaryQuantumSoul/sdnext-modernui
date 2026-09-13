@@ -370,7 +370,6 @@ hr {
 }
 
 *.gradio-button {
-
   background: var(--sd-button-normal-color)
 }
 
@@ -1768,10 +1767,6 @@ li.item span {
   min-width: calc(var(--sd-input-height) + var(--sd-input-border-size) * 2);
 }
 
-.gradio-button {
-  background: linear-gradient(120deg, var(--sd-button-selected-color) 0%, transparent 150%)
-}
-
 .xtabs {
   background-color: var(--sd-panel-background-color);
   border-radius: var(--sd-border-radius);
@@ -1826,7 +1821,7 @@ li.item span {
 }
 
 .xtabs-tab.active {
-  background: linear-gradient(120deg, var(--sd-button-selected-color) 0%, transparent 150%);
+  background-color: var(--sd-button-selected-color);
   color: var(--sd-button-selected-text-color);
 }
 
@@ -1839,7 +1834,7 @@ li.item span {
 }
 
 .xtabs-tab:hover {
-  background: linear-gradient(120deg, var(--sd-button-selected-color) 0%, transparent 100%);
+  background-color: var(--sd-button-hover-color);
   color: var(--sd-button-hover-text-color);
 }
 
