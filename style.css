@@ -4392,6 +4392,7 @@ div#quicksettings div+button {
 #acc-arrow-button-control,
 .option-aside-labels .accordion-bar>div {
   width: 100%;
+  box-shadow: none;
 }
 
 .media-mobile .template>.full-height {
