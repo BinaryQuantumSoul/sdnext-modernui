@@ -1,0 +1,738 @@
+/* Tillerz-CleanBlack
+   A flat, soft dark theme for SD.Next ModernUI.
+   Built from Default.css (VladMandic) plus a reworked surface style:
+   neutral grey panels, sunken fields, raised controls with a small
+   top highlight, and a blue accent. No black glow, no bevels. */
+
+:root {
+  /* ---------- palette ---------- */
+  --ui-bg:      #1b1b1d;   /* page background       */
+  --ui-panel:   #242427;   /* cards and panels      */
+  --ui-panel-2: #2b2b2f;   /* raised control face   */
+  --ui-field:   #131315;   /* sunken input field    */
+  --ui-line:    #343438;   /* hairline border       */
+  --ui-text:    #f2f2f4;   /* headings and values   */
+  --ui-label:   #9b9ba1;   /* field labels          */
+  --ui-muted:   #8e8e96;   /* placeholder text      */
+  --ui-accent:  #2f7fff;   /* blue highlight        */
+  --ui-hover:   #33333a;   /* hover face            */
+  --ui-edge:    #46464d;   /* hover border          */
+  --ui-radius:  10px;
+
+  /* ---------- shared surface recipes ---------- */
+  --ui-raise-bg: linear-gradient(to bottom,
+    rgba(255, 255, 255, 0.055) 0%,
+    rgba(255, 255, 255, 0.012) 50%,
+    rgba(0, 0, 0, 0.070) 100%);
+  --ui-raise-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.075),
+    0 1px 2px rgba(0, 0, 0, 0.30);
+  --ui-sunk-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.40);
+  --ui-focus-ring: 0 0 0 2px rgba(47, 127, 255, 0.35);
+
+  /* ---------- ModernUI variables ---------- */
+  --sd-primary-h: 217deg;
+  --sd-primary-s: 100%;
+  --sd-primary-l: 59%;
+
+  --sd-body-font:   -apple-system, "SF Pro Display", "Inter", "Segoe UI", system-ui, sans-serif;
+  --sd-text-font:   var(--sd-body-font);
+  --sd-button-font: var(--sd-body-font);
+
+  --sd-main-background-color: var(--ui-bg);
+  --sd-secondary-color:       var(--ui-panel);
+  --sd-main-accent-color:     var(--ui-accent);
+
+  --sd-panel-background-color: var(--ui-panel);
+  --sd-panel-border-color:     var(--ui-line);
+  --sd-panel-padding:          5px;
+
+  --sd-group-background-color: var(--ui-panel);
+  --sd-group-border-color:     var(--ui-line);
+  --sd-group-border-radius:    var(--ui-radius);
+  --sd-group-border-size:      0;
+  --sd-group-padding:          3px;
+  --sd-group-gap:              5px;
+
+  --sd-border-radius:    var(--ui-radius);
+  --sd-border-size:      0;
+  --sd-gap-size:         3px;
+  --sd-extra-gap:        calc(2 * var(--sd-gap-size));
+  --sd-outside-gap-size: 6px;
+
+  --sd-input-height:            38px;
+  --sd-input-line-height:       30px;
+  --sd-input-padding:           4px 12px;
+  --sd-input-border-size:       1px;
+  --sd-input-border-color:      var(--ui-line);
+  --sd-input-background-color:  var(--ui-field);
+  --sd-input-text-color:        var(--ui-text);
+  --sd-input-hover-text-color:  var(--ui-text);
+  --sd-input-placeholder-text-color: var(--ui-muted);
+  --sd-input-icon-height: calc(var(--sd-input-height) - var(--sd-input-border-size) * 2);
+  --sd-input-slider-height: 0.42;
+
+  --sd-label-color: var(--ui-label);
+  --sd-muted-color: var(--ui-muted);
+
+  --sd-button-normal-color:        var(--ui-panel-2);
+  --sd-button-hover-color:         var(--ui-hover);
+  --sd-button-selected-color:      var(--ui-accent);
+  --sd-button-normal-text-color:   var(--ui-text);
+  --sd-button-hover-text-color:    #ffffff;
+  --sd-button-selected-text-color: #ffffff;
+
+  --sd-scrollbar-color: #3a3a40;
+  --sd-outline-color:   var(--ui-accent);
+  --sd-outline-size:    1px;
+
+  color-scheme: dark;
+}
+
+/* =================================================================
+   1. Flat surfaces
+   The base theme paints shadows in near-black and adds bevels.
+   Wipe both, then apply one shared raised look.
+   ================================================================= */
+
+*,
+*::before,
+*::after {
+  text-shadow: none !important;
+}
+
+button,
+.sd-button,
+.xtabs-tab,
+.gradio-button,
+.gradio-dropdown,
+.gradio-textbox,
+.gradio-accordion,
+.gradio-group,
+.gradio-box,
+.block,
+.form,
+.portal,
+.tab-nav,
+.tab-nav button,
+ul.options,
+.extra-details,
+.extra-network-cards .card,
+.extra-network-cards .card-selected,
+.token-counter > .token-counter-contents {
+  box-shadow: none !important;
+}
+
+/* the base theme hangs black drop-shadows on these */
+h1, h2, h3, h4,
+ul.options,
+.mask-icon,
+button > .mask-icon,
+button > span,
+.video-model-link,
+.generate.active > .portal > button,
+.extra-details,
+.extra-network-cards .version,
+.extra-network-cards .card .overlay .name,
+.extra-network-cards .card .tag:hover {
+  filter: none !important;
+}
+
+/* the one raised look, used by every clickable face */
+.sd-button,
+.xtabs-tab,
+.gradio-button,
+.gradio-dropdown div.wrap,
+select {
+  background-color: var(--ui-panel-2) !important;
+  background-image: var(--ui-raise-bg) !important;
+  border: 1px solid var(--ui-line) !important;
+  border-radius: var(--ui-radius) !important;
+  box-shadow: var(--ui-raise-shadow) !important;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.sd-button:hover,
+.xtabs-tab:hover,
+.gradio-button:hover {
+  background-color: var(--ui-hover) !important;
+  border-color: var(--ui-edge) !important;
+  transform: none !important;
+}
+
+.sd-button:active,
+.xtabs-tab:active,
+.gradio-button:active {
+  background-image: linear-gradient(to bottom,
+    rgba(0, 0, 0, 0.10) 0%,
+    rgba(255, 255, 255, 0.02) 100%) !important;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.45) !important;
+}
+
+/* the base theme nests a .gradio-button inside a .sd-button.
+   Only the outer one draws the frame. */
+.sd-button .gradio-button,
+.sd-button .gradio-button:hover,
+.sd-button button,
+.gradio-button .gradio-button {
+  background: transparent !important;
+  background-image: none !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  border-radius: inherit !important;
+}
+
+/* panels keep a whisper of the same shading */
+.gradio-accordion,
+.gradio-group,
+ul.options {
+  background-image: linear-gradient(to bottom,
+    rgba(255, 255, 255, 0.022) 0%,
+    rgba(255, 255, 255, 0) 90px);
+}
+
+.gradio-group,
+.gradio-box,
+.gradio-accordion,
+.block {
+  border-radius: var(--ui-radius) !important;
+}
+
+.gradio-accordion {
+  background-color: var(--ui-panel) !important;
+  border: 1px solid var(--ui-line) !important;
+}
+
+/* =================================================================
+   2. Inputs
+   ================================================================= */
+
+input[type="text"],
+input[type="number"],
+input[type="password"],
+textarea,
+.gradio-textbox textarea,
+.gradio-textbox input,
+.gradio-number input {
+  background-color: var(--ui-field) !important;
+  color: var(--ui-text) !important;
+  border: 1px solid var(--ui-line) !important;
+  border-radius: var(--ui-radius) !important;
+  box-shadow: var(--ui-sunk-shadow);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+textarea:focus,
+select:focus,
+.gradio-textbox textarea:focus,
+.gradio-textbox input:focus {
+  border-color: var(--ui-accent) !important;
+  box-shadow: var(--ui-focus-ring);
+  outline: none !important;
+}
+
+::placeholder,
+input::placeholder,
+textarea::placeholder {
+  color: var(--ui-muted) !important;
+  opacity: 1 !important;
+}
+
+.gradio-textbox {
+  padding: 0 !important;
+}
+
+/* =================================================================
+   3. Dropdowns
+   Structure: .gradio-dropdown > label > div.wrap > .secondary-wrap > input
+   Only div.wrap is the box. It must not clip: the options list
+   pops out of it.
+   ================================================================= */
+
+.gradio-dropdown div.wrap {
+  overflow: visible !important;
+}
+
+.gradio-dropdown div.wrap:focus-within {
+  border-color: var(--ui-accent) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.075),
+    var(--ui-focus-ring) !important;
+}
+
+.gradio-dropdown .secondary-wrap,
+.gradio-dropdown .secondary-wrap input,
+.gradio-dropdown input,
+.gradio-dropdown input:focus {
+  background: transparent !important;
+  background-image: none !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  outline: none !important;
+  color: var(--ui-text) !important;
+}
+
+svg.dropdown-arrow {
+  fill: var(--ui-label) !important;
+}
+
+ul.options {
+  background: var(--ui-panel) !important;
+  border: 1px solid var(--ui-line) !important;
+  border-radius: var(--ui-radius) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45) !important;
+}
+
+/* =================================================================
+   4. Tab bars, labels, headings
+   ================================================================= */
+
+.tab-nav {
+  background-color: var(--ui-field) !important;
+  border: 1px solid var(--ui-line) !important;
+  border-radius: var(--ui-radius) !important;
+  padding: 4px !important;
+  gap: 4px;
+  resize: none !important;
+}
+
+.tab-nav button {
+  background-color: transparent !important;
+  border: 1px solid transparent !important;
+  border-radius: calc(var(--ui-radius) - 3px) !important;
+  color: var(--ui-label) !important;
+}
+
+.tab-nav button:hover {
+  background-color: rgba(255, 255, 255, 0.04) !important;
+  color: var(--ui-text) !important;
+}
+
+
+.settings-tabs .tab-nav {
+  background-color: transparent !important;
+  border: 0 !important;
+  gap: var(--sd-gap-size);
+}
+
+.settings-tabs .tab-nav br {
+  display: none;
+}
+
+.extra-network-subdirs > button,
+.settings-tabs button {
+  padding: 6px;
+}
+
+label span,
+.gradio-label,
+span[data-testid="block-info"] {
+  color: var(--ui-label) !important;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+}
+
+h1, h2, h3, h4 {
+  color: var(--ui-text) !important;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  cursor: default !important;
+  margin: 2px 4px !important;
+}
+
+/* =================================================================
+   5. Sliders, checkboxes, scrollbars
+   ================================================================= */
+
+/* Range sliders.
+   The base theme fills the bar with a trick: the thumb casts a
+   1024px shadow to its left and the track clips it with
+   overflow:hidden. That shadow must survive, or the blue fill
+   disappears and a dark thumb on a dark track shows nothing. */
+
+input[type="range"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 100%;
+  padding: 0;
+  cursor: col-resize;
+  position: relative;
+  overflow: hidden;
+  background-color: var(--ui-field) !important;
+  background-image: none !important;
+  border: 1px solid var(--ui-line) !important;
+  border-radius: 999px !important;
+  box-shadow: var(--ui-sunk-shadow) !important;
+}
+
+/* the base theme lays black stripes over the bar */
+input[type="range"]::after {
+  background-image: none !important;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+  -webkit-appearance: none;
+  background: transparent;
+  border: 0;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 12px;
+  height: 32px;
+  border: 0;
+  border-radius: 2px;
+  background-color: #cfd6e2;
+  cursor: col-resize;
+  /* keep the fill trick, in the accent colour */
+  box-shadow: -1024px 0 0 1024px var(--ui-accent);
+}
+
+input[type="range"]:hover::-webkit-slider-thumb {
+  background-color: #ffffff;
+}
+
+input[type="range"]:focus-visible {
+  border-color: var(--ui-accent) !important;
+  box-shadow: var(--ui-focus-ring) !important;
+  outline: none;
+}
+
+/* Firefox draws the fill itself, so no shadow trick is needed */
+input[type="range"]::-moz-range-track {
+  background-color: var(--ui-field);
+  background-image: none;
+  border: 0;
+  height: 100%;
+}
+
+input[type="range"]::-moz-range-progress {
+  background-color: var(--ui-accent);
+  background-image: none;
+  height: 100%;
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 12px;
+  height: 32px;
+  border: 0;
+  border-radius: 2px;
+  background-color: #cfd6e2;
+  cursor: col-resize;
+}
+
+input[type="range"]:-moz-focusring {
+  outline: none;
+  border-color: var(--ui-accent);
+}
+
+/* Checkboxes are drawn here, not masked.
+   The base theme masked them with html/svg/square.svg, whose
+   viewBox is 448x512 - not square - and it set no mask-size. The
+   shape came out stretched and soft. Checked used an X, which
+   reads as "no". Plain CSS gives a crisp box and a real tick. */
+
+input[type="checkbox"],
+input[type="radio"] {
+  appearance: none;
+  -webkit-appearance: none;
+  mask-image: none !important;
+  scale: 1 !important;
+  box-sizing: border-box;
+  flex: 0 0 auto;
+  display: inline-block;
+  vertical-align: middle;
+  width: 18px;
+  height: 18px;
+  min-width: 18px;
+  min-height: 18px !important;
+  max-height: 18px;
+  margin: 0 2px;
+  padding: 0;
+  cursor: pointer;
+  background-color: var(--ui-field);
+  background-image: none;
+  background-repeat: no-repeat;
+  background-position: center;
+  border: 1px solid var(--ui-line);
+  border-radius: 5px;
+  box-shadow: var(--ui-sunk-shadow);
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+input[type="radio"] {
+  border-radius: 50%;
+}
+
+input[type="checkbox"]:hover,
+input[type="radio"]:hover {
+  background-color: #1d1d21;
+  border-color: var(--ui-edge);
+}
+
+input[type="checkbox"]:checked,
+input[type="radio"]:checked {
+  background-color: var(--ui-accent);
+  border-color: #1f5fd0;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18);
+}
+
+/* white tick, drawn as a background image so no pseudo-element
+   is needed - form controls do not always render those */
+input[type="checkbox"]:checked {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='none' stroke='%23fff' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round' d='M3.5 8.4l3 3 6-6'/%3E%3C/svg%3E");
+  background-size: 13px 13px;
+}
+
+input[type="radio"]:checked {
+  background-image: radial-gradient(circle at center,
+    #ffffff 0 3px, transparent 3.5px);
+}
+
+input[type="checkbox"]:focus-visible,
+input[type="radio"]:focus-visible {
+  outline: none;
+  border-color: var(--ui-accent);
+  box-shadow: var(--ui-focus-ring);
+}
+
+input[type="checkbox"]:disabled,
+input[type="radio"]:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #3a3a40;
+  border-radius: 6px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #4c4c54;
+  background-clip: content-box;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid var(--ui-line);
+}
+
+/* =================================================================
+   6. Icons
+   An icon is a background colour cut to shape by a mask. Its box
+   must stay square and tight, or the rounded corners eat the icon.
+   ================================================================= */
+
+.mask-icon,
+.overlay-icon,
+button > .mask-icon,
+button > span.mask-icon {
+  border-radius: 0 !important;
+  padding: 0 !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  border: 0 !important;
+}
+
+button > .mask-icon,
+button > span {
+  height: 1.5em;
+  min-width: 1.3em;
+  line-height: 1.3em;
+  margin: 0.1em;
+  pointer-events: none;
+}
+
+.btn-generate button { color: hsl(145, 60%, 75%); }
+
+.icon-generate,
+.icon-loop,
+.icon-save                { background-color: hsl(145, 60%, 75%) !important; }
+.icon-skip                { background-color: hsl(50, 30%, 75%) !important; }
+.icon-pause,
+.icon-magic               { background-color: hsl(50, 60%, 75%) !important; }
+.icon-stop,
+.icon-delete              { background-color: hsl(0, 60%, 75%) !important; }
+.icon-enqueue,
+.icon-reprocess           { background-color: hsl(145, 30%, 75%) !important; }
+.icon-folder,
+.icon-info,
+.icon-paste,
+.refresh                  { background-color: hsl(195, 30%, 75%) !important; }
+.icon-autocomplete        { height: 1.2em !important; }
+
+.autocomplete-inactive    { background-color: hsl(0, 60%, 75%) !important; }
+.autocomplete-active      { background-color: hsl(145, 30%, 75%) !important; }
+
+/* selected card: a blue ring, not a glow */
+.extra-network-cards .card-selected {
+  outline: 2px solid var(--ui-accent) !important;
+  outline-offset: -2px;
+  transform: none !important;
+}
+
+/* =================================================================
+   7. Spacing and layout
+   ================================================================= */
+
+.gradio-row {
+  padding-bottom: 0.3em !important;
+}
+
+.form {
+  column-gap: 4px;
+  row-gap: 6px;
+}
+
+.group-col {
+  gap: 3px !important;
+}
+
+.padding {
+  margin-bottom: var(--sd-panel-padding) !important;
+}
+
+#main-nav,
+#main-nav-bar,
+#layout-footer {
+  gap: 3px;
+}
+
+#main-nav {
+  margin-right: 0 !important;
+}
+
+.extra-network-subdirs {
+  gap: 2px;
+  margin-left: -4px;
+  margin-right: 8px;
+}
+
+.flexbox.row {
+  margin-bottom: unset;
+}
+
+.accordion-vertical.expand {
+  margin-right: 0;
+}
+
+.generate {
+  max-height: 36px;
+}
+
+/* =================================================================
+   8. Misc carry-overs from the base theme
+   ================================================================= */
+
+.empty                          { display: none !important; }
+.grid-wrap                      { background-color: unset; }
+.gradio-gallery .preview        { background-color: unset; }
+*.gradio-gallery .preview img   { background-color: var(--sd-group-background-color); }
+.acc-button                     { background-color: unset; width: unset; }
+.locale-indicator               { background-color: unset; }
+
+.gutter.gutter-horizontal,
+.gutter.gutter-vertical         { background: transparent; }
+
+/* =================================================================
+   9. Selected state
+   The base theme marks the live tab or button with .active
+   (.selected on tab bars). Section 1 uses !important, so the
+   selected look must be restated here to win.
+   ================================================================= */
+
+button.active,
+.sd-button.active,
+.xtabs-tab.active,
+.gradio-button.active,
+.tab-nav button.selected,
+.toolbutton-selected,
+button.thumbnail-item.selected {
+  background-color: var(--ui-accent) !important;
+  background-image: linear-gradient(to bottom,
+    rgba(255, 255, 255, 0.13) 0%,
+    rgba(255, 255, 255, 0.03) 50%,
+    rgba(0, 0, 0, 0.08) 100%) !important;
+  border-color: #1f5fd0 !important;
+  color: #ffffff !important;
+}
+
+button.active:hover,
+.sd-button.active:hover,
+.xtabs-tab.active:hover,
+.gradio-button.active:hover,
+.tab-nav button.selected:hover {
+  background-color: #4a92ff !important;
+  border-color: var(--ui-accent) !important;
+}
+
+/* text and icons inside a selected control turn white */
+button.active span,
+.sd-button.active span,
+.xtabs-tab.active span,
+.gradio-button.active span,
+.tab-nav button.selected span,
+.tab-nav button.active span {
+  color: #ffffff !important;
+}
+
+button.active > .mask-icon,
+.sd-button.active .mask-icon,
+.xtabs-tab.active .mask-icon,
+.gradio-button.active .mask-icon,
+.tab-nav button.selected .mask-icon,
+.tab-nav button.active .mask-icon {
+  background-color: #ffffff !important;
+}
+
+/* =================================================================
+   10. Network tiles: last row cut off
+   The base theme sizes the tile grid with
+     height: calc(100vh - var(--card-size) - 8px)
+   That counts the whole window, but the grid starts well below the
+   top: header, tab row and search box sit above it. So the grid
+   hangs past the screen and its parent, which has overflow:hidden,
+   cuts the bottom row off. Browser zoom changes the size of that
+   header, so the error changes with the zoom level.
+
+   Fix: let the grid stretch to the height of the flex row it lives
+   in, instead of guessing from the window. The old value stays as
+   max-height, so nothing can grow without bound. A half card of
+   bottom padding keeps the last row reachable either way.
+   ================================================================= */
+
+.extra-networks-page {
+  min-height: 0;
+}
+
+*.extra-network-cards {
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: calc(100vh - var(--card-size) - 8px);
+  align-self: stretch !important;
+  padding-bottom: calc(var(--card-size) / 2);
+  box-sizing: border-box;
+  overscroll-behavior: contain;
+}
+
+/* the subdir list beside it follows the same rule */
+.extra-network-subdirs {
+  align-self: stretch;
+  min-height: 0;
+  overflow-y: auto;
+}
