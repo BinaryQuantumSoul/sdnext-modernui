@@ -81,8 +81,8 @@
   --sd-gap-size-val: 5px;
   --sd-group-background-color: hsl(0deg 0% 16%);
   --sd-group-border-color: hsl(0deg 0% 16%);
-  --sd-group-border-radius: 7px;
-  --sd-group-border-size: 2px;
+  --sd-group-border-radius: 4px;
+  --sd-group-border-size: 0;
   --sd-button-height: 2.4em;
   --sd-group-gap: 6px;
   --sd-group-padding: 2px;
@@ -344,6 +344,7 @@ hr {
   align-self: flex-end;
   background: unset;
   padding: 0;
+  box-shadow: none;
 }
 
 *.gradio-button.tool div {
