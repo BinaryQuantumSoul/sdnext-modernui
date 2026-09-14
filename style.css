@@ -5280,6 +5280,8 @@ gallery-folder:hover {
   border-spacing: var(--sd-group-gap);
   display: block;
   width: 100%;
+  line-height: 1.4em;
+  padding: 0.4em;
 }
 
 .table-wrap table caption {
@@ -6368,4 +6370,8 @@ input.border-none.subdued {
 
 #video_extras {
   display: block !important;
+}
+
+#serverinfo h3 {
+  margin-top: 0.7em;
 }
