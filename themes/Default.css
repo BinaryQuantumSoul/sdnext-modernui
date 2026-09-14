@@ -99,6 +99,7 @@
 .acc-button {
   background-color: unset;
   width: unset;
+  box-shadow: unset !important;
 }
 
 .gradio-row {
