@@ -1754,6 +1754,7 @@ async function applyAutoHide() {
     const id = elem.id || elem.innerText;
     elem.onclick = (evt) => {
       evt.stopPropagation();
+      if (!evt.target) return;
       if (elem.classList.contains("no-hide")) return;
       elem.classList.toggle("minimize");
       setStored(`hide_${id}`, elem.classList.contains("minimize"));
