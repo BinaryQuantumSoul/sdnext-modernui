@@ -432,6 +432,10 @@ hr {
   flex-direction: column;
 }
 
+*.gradio-slider wrap {
+  max-width: 15em;
+}
+
 * label>span {
   border: var(--sd-input-border-size) solid transparent;
   color: var(--sd-label-color);
@@ -455,7 +459,7 @@ hr {
   margin-top: calc(0.5 * var(--sd-gap-size));
   min-height: calc(var(--sd-input-height) * var(--sd-input-slider-height));
   padding: 0;
-  width: 100%;
+  max-width: 15em;
 }
 
 * .option-no-slider-layout .gradio-slider input[type="range"] {
@@ -4300,7 +4304,6 @@ div#quicksettings div+button {
     overflow: hidden;
     position: relative;
     cursor: col-resize;
-    width: 100%;
   }
   
   /* Overlay background */
