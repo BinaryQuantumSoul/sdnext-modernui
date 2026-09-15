@@ -1948,6 +1948,7 @@ window.getSettingsTabs = () => gradioApp().querySelectorAll("#layout-settings .t
 window.waitForUiReady = functionWaitForFlag(() => state.uiFlagInitialized);
 var waitForUiPortal = functionWaitForFlag(() => state.uiFlagPortalInitialized);
 async function mainUiUx() {
+  if (window.opts.theme_type.toLowerCase().startsWith("standard")) return;
   try {
     const t0 = performance.now();
     log("initModernUi");
