@@ -4302,7 +4302,8 @@ div#quicksettings div+button {
     cursor: col-resize;
     width: 100%;
   }
-
+  
+  /* Overlay background */
   input[type="range"]::after {
     background-image: var(--sd-slider-bg-overlay);
     content: "";
@@ -4310,18 +4311,45 @@ div#quicksettings div+button {
     position: absolute;
     width: 100%;
   }
-
+  
+  /* WebKit (Chrome, Edge, Safari) */
   input[type="range"]::-webkit-slider-runnable-track {
     -webkit-appearance: none;
+    height: 8px;
+    border-radius: var(--sd-border-radius);
   }
-
+  
   input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
     background-color: var(--sd-main-accent-color);
-    box-shadow: -1024px 0 0 1024px var(--sd-main-accent-color);
+    box-shadow: -1000px 0 0 1000px var(--sd-main-accent-color);
     cursor: col-resize;
-    width: 89px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    margin-top: -3px;
   }
+  
+  /* Firefox */
+  input[type="range"]::-moz-range-track {
+    height: 8px;
+    border-radius: var(--sd-border-radius);
+    background: linear-gradient(to right, var(--sd-main-accent-color) 0%, var(--sd-main-accent-color) var(--value-percent), var(--sd-input-background-color) var(--value-percent), var(--sd-input-background-color) 100%);
+  }
+  
+  input[type="range"]::-moz-range-thumb {
+    background-color: var(--sd-main-accent-color);
+    cursor: col-resize;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: none;
+  }
+  
+  /* Optional: consistent vertical alignment */
+  input[type="range"]::-moz-focus-outer {
+    border: 0;
+  } 
 }
 
 .media-desktop .only-mobile,
