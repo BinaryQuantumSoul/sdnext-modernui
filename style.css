@@ -69,6 +69,7 @@
   --color-trace: #666666;
   --color-warning: #FF9900;
   --color-legacy: #AA6688;
+  --color-maybe: orchid;
   --sd-border-radius: 5px;
   --sd-border-size: 2px;
   --sd-button-hover-color: var(--sd-button-selected-color);
@@ -5395,15 +5396,15 @@ gallery-folder:hover {
 }
 
 .json-node .number {
-  color: var(--color-blue);
-}
-
-.json-node .string {
   color: var(--color-green);
 }
 
+.json-node .string {
+  color: var(--color-blue);
+}
+
 .json-node .bool {
-  color: var(--color-red);
+  color: var(--color-maybe);
 }
 
 .gradio-json button {
