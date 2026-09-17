@@ -38,6 +38,9 @@ window.waitForUiReady = functionWaitForFlag(() => state.uiFlagInitialized);
 const waitForUiPortal = functionWaitForFlag(() => state.uiFlagPortalInitialized);
 
 async function mainUiUx(): Promise<void> {
+  let theme = 'modern';
+  if (window.opts.theme_type) theme = (window.opts.theme_type as string).toLowerCase();
+  if (theme.startsWith('standard')) return;
   try {
     const t0 = performance.now();
     log('initModernUi');

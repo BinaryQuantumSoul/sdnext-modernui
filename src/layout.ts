@@ -107,9 +107,15 @@ export async function applyAutoHide(): Promise<void> {
   state.appUiUx.querySelectorAll('.auto-hide').forEach((elem) => {
     const id = elem.id || (elem as HTMLElement).innerText;
     (elem as HTMLElement).onclick = (evt: MouseEvent) => {
+      evt.stopPropagation();
+      if (!evt.target) return;
+      if (elem.classList.contains('no-hide')) return;
       elem.classList.toggle('minimize');
       setStored(`hide_${id}`, elem.classList.contains('minimize'));
-      for (const child of (evt.target as Element).children) child.classList.toggle('hidden-animate');
+      for (const child of (evt.target as Element).children) {
+        if (child.classList.contains('no-hide') || (evt.target as Element).classList.contains('no-hide')) continue;
+        child.classList.toggle('hidden-animate');
+      }
       hideSiblings((evt.target as Element)?.nextElementSibling);
       log('autoHide', { id, hide: elem.classList.contains('minimize') });
     };

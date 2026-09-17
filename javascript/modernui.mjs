@@ -1617,17 +1617,6 @@ async function removeStyleAssets() {
 // src/options.ts
 async function uiuxOptionSettings() {
   let el;
-  function showInputRangeTicks() {
-    gradioApp().querySelectorAll("input[type='range']").forEach((elem) => {
-      const rangeElem = elem;
-      const spacing = Number(rangeElem.step) / (Number(rangeElem.max) - Number(rangeElem.min)) * 100;
-      const tsp = `max(3px, calc(${spacing}% - 1px))`;
-      const fsp = `max(4px, calc(${spacing}% + 0px))`;
-      const overlay = `repeating-linear-gradient(90deg, transparent, transparent ${tsp}, var(--sd-input-border-color) ${tsp}, var(--sd-input-border-color) ${fsp})`;
-      rangeElem.style.setProperty("--sd-slider-bg-overlay", overlay);
-    });
-  }
-  showInputRangeTicks();
   function setupUiUxSetting(settingId, className) {
     const appUiUx = state.appUiUx;
     function updateUiUxClass(cn, value) {
@@ -1764,9 +1753,15 @@ async function applyAutoHide() {
   state.appUiUx.querySelectorAll(".auto-hide").forEach((elem) => {
     const id = elem.id || elem.innerText;
     elem.onclick = (evt) => {
+      evt.stopPropagation();
+      if (!evt.target) return;
+      if (elem.classList.contains("no-hide")) return;
       elem.classList.toggle("minimize");
       setStored(`hide_${id}`, elem.classList.contains("minimize"));
-      for (const child of evt.target.children) child.classList.toggle("hidden-animate");
+      for (const child of evt.target.children) {
+        if (child.classList.contains("no-hide") || evt.target.classList.contains("no-hide")) continue;
+        child.classList.toggle("hidden-animate");
+      }
       hideSiblings(evt.target?.nextElementSibling);
       log("autoHide", { id, hide: elem.classList.contains("minimize") });
     };
@@ -1904,11 +1899,13 @@ async function applyTweaks() {
 // src/hotkeys.ts
 async function selectHotKeyElement(e, id) {
   const elem = document.querySelector(id);
-  log("hotkey", { key: e.key, meta: e.metaKey, ctrl: e.ctrlKey, alt: e.altKey, id, elid: elem?.id, elnode: elem?.nodeName });
   if (elem) {
+    log("selectHotKey", { key: e.key, meta: e.metaKey, ctrl: e.ctrlKey, alt: e.altKey, id, elid: elem?.id, elnode: elem?.nodeName });
     e.preventDefault();
     if (elem.nodeName === "BUTTON") elem.click();
     else elem.focus();
+  } else {
+    error("selectHotKey", { key: e.key, meta: e.metaKey, ctrl: e.ctrlKey, alt: e.altKey, id });
   }
 }
 async function initHotkeys() {
@@ -1951,6 +1948,9 @@ window.getSettingsTabs = () => gradioApp().querySelectorAll("#layout-settings .t
 window.waitForUiReady = functionWaitForFlag(() => state.uiFlagInitialized);
 var waitForUiPortal = functionWaitForFlag(() => state.uiFlagPortalInitialized);
 async function mainUiUx() {
+  let theme = "modern";
+  if (window.opts.theme_type) theme = window.opts.theme_type.toLowerCase();
+  if (theme.startsWith("standard")) return;
   try {
     const t0 = performance.now();
     log("initModernUi");
