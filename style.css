@@ -5498,6 +5498,7 @@ gallery-folder:hover {
 #txt2img_generate,
 #img2img_generate,
 #control_generate,
+#extras_generate,
 #video_generate {
   min-height: 32px;
   box-shadow: none;
