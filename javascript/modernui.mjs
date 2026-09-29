@@ -1519,6 +1519,9 @@ function movePortal(portalElem, tries, index, length) {
     state.portalTotal += 1;
     const droppable = portalElem.getAttribute("droppable");
     if (droppable) {
+      Array.from(targetElem.childNodes).forEach((node) => {
+        if (node.nodeType === Node.TEXT_NODE) node.remove();
+      });
       Array.from(portalElem.children).forEach((child) => {
         if (child !== targetElem) {
           if (targetElem.className.indexOf("gradio-accordion") !== -1) targetElem.children[2].append(child);
