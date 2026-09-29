@@ -23,10 +23,6 @@ function movePortal(portalElem: Element, tries: number, index: number, length: n
     state.portalTotal += 1;
     const droppable = portalElem.getAttribute('droppable');
     if (droppable) {
-      // Clear any existing plain text nodes in targetElem before appending template children
-      Array.from(targetElem.childNodes).forEach((node) => {
-        if (node.nodeType === Node.TEXT_NODE) node.remove();
-      });
       Array.from(portalElem.children).forEach((child) => {
         if (child !== targetElem) {
           if (targetElem.className.indexOf('gradio-accordion') !== -1) targetElem.children[2].append(child);
