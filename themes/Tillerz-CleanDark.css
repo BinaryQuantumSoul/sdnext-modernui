@@ -35,7 +35,7 @@
   --sd-primary-s: 100%;
   --sd-primary-l: 59%;
 
-  --sd-body-font:   -apple-system, "SF Pro Display", "Inter", "Segoe UI", system-ui, sans-serif;
+  --sd-body-font:   -apple-system, "Ubuntu", sans-serif;
   --sd-text-font:   var(--sd-body-font);
   --sd-button-font: var(--sd-body-font);
 
