@@ -198,6 +198,13 @@ hr {
   margin-top: 4em;
 }
 
+.video_output_placeholder {
+  color: var(--sd-muted-color);
+  font-size: var(--sd-input-font-size);
+  text-align: center;
+  margin-top: 1em;
+}
+
 #video_gallery {
   min-height: 50vh;
 }
@@ -5491,6 +5498,7 @@ gallery-folder:hover {
 #txt2img_generate,
 #img2img_generate,
 #control_generate,
+#extras_generate,
 #video_generate {
   min-height: 32px;
   box-shadow: none;
