@@ -56301,6 +56301,7 @@ var activeObjectUrls = [];
 var refreshInProgress = false;
 var nextTaskOffset = 0;
 var hasMoreTasks = true;
+var taskRowsSnapshot = "[]";
 function element(id) {
   return document.getElementById(id);
 }
@@ -56316,7 +56317,7 @@ function releaseObjectUrls() {
 }
 async function apiRequest(path, options = {}) {
   const headers = new Headers(options.headers);
-  if (options.body && !headers.has("Content-Type")) headers.set("Content-Type", "application/json");
+  if (options.body && !(options.body instanceof FormData) && !headers.has("Content-Type")) headers.set("Content-Type", "application/json");
   const response = await authFetch(`${window.api}${path}`, { ...options, headers });
   if (!response) throw new Error("The scheduler API did not return a response");
   if (!response.ok) {
@@ -56336,6 +56337,16 @@ function controlParameters(task) {
   if (control && typeof control === "object" && !Array.isArray(control)) return control;
   return task.parameters;
 }
+function generationParameters(task) {
+  if (task.mode === "video") {
+    const video = task.parameters.video;
+    if (video && typeof video === "object" && !Array.isArray(video)) {
+      const args = video.arguments;
+      if (args && typeof args === "object" && !Array.isArray(args)) return args;
+    }
+  }
+  return controlParameters(task);
+}
 var hiddenControlParameters = /* @__PURE__ */ new Set(["state", "scheduler", "units", "input_script_args", "inputs", "inits", "mask", "unit_type", "is_generator", "input_type"]);
 var commonTextControlFields = ["prompt", "negative_prompt"];
 var commonNumberControlFields = ["steps", "width_before", "height_before"];
@@ -56344,9 +56355,35 @@ var commonModelFields = ["sd_model_checkpoint", "sd_model_refiner", "sd_unet", "
 function editableControlParameters(task) {
   return Object.fromEntries(Object.entries(controlParameters(task)).filter(([key]) => !hiddenControlParameters.has(key) && !commonControlFields.has(key)));
 }
+function mediaReferences(value, references = /* @__PURE__ */ new Map()) {
+  if (Array.isArray(value)) {
+    value.forEach((item) => mediaReferences(item, references));
+  } else if (value && typeof value === "object") {
+    const record = value;
+    const marker = Object.getOwnPropertyDescriptor(record, "__sd_scheduler_type__")?.value;
+    let mediaType = "application/octet-stream";
+    if (typeof record.media_type === "string") mediaType = record.media_type;
+    else if (marker === "image") mediaType = "image/png";
+    if ((marker === "image" || marker === "file" || marker === "blob") && typeof record.id === "number") {
+      references.set(record.id, {
+        marker,
+        filename: typeof record.filename === "string" ? record.filename : `media-${record.id}`,
+        mediaType
+      });
+    } else Object.values(record).forEach((item) => mediaReferences(item, references));
+  }
+  return [...references.entries()].sort(([left], [right]) => left - right).map(([id, media]) => ({ id, ...media }));
+}
+function editableTaskParameters(task) {
+  if (task.mode !== "video") return editableControlParameters(task);
+  return Object.fromEntries(Object.entries(generationParameters(task)).filter(([key, value]) => key !== "task_id" && key !== "_ui_state" && mediaReferences(value).length === 0));
+}
 function populateTaskEditor(task) {
   const parameters = element("scheduler-parameters");
-  if (parameters) parameters.value = JSON.stringify(editableControlParameters(task), null, 2);
+  if (parameters) parameters.value = JSON.stringify(editableTaskParameters(task), null, 2);
+  const isVideo = task.mode === "video";
+  const commonSection = element("scheduler-control-common");
+  if (commonSection) commonSection.hidden = isVideo;
   const control = controlParameters(task);
   [...commonTextControlFields, ...commonNumberControlFields].forEach((key) => {
     const input = element(`scheduler-common-${key}`);
@@ -56372,21 +56409,11 @@ function populateTaskResults(task) {
   }
 }
 function promptFor(task) {
-  const prompt = controlParameters(task).prompt;
+  const prompt = generationParameters(task).prompt;
   return typeof prompt === "string" ? prompt : "";
 }
-function imageReferences(value, indices = /* @__PURE__ */ new Set()) {
-  if (Array.isArray(value)) {
-    value.forEach((item) => imageReferences(item, indices));
-  } else if (value && typeof value === "object") {
-    const record = value;
-    if (Object.getOwnPropertyDescriptor(record, "__sd_scheduler_type__")?.value === "image" && typeof record.id === "number") indices.add(record.id);
-    else Object.values(record).forEach((item) => imageReferences(item, indices));
-  }
-  return [...indices].sort((left, right) => left - right);
-}
 function stylesFor(task) {
-  const styles = controlParameters(task).styles;
+  const styles = generationParameters(task).styles;
   if (Array.isArray(styles)) return styles.filter((style) => typeof style === "string").join(", ");
   return typeof styles === "string" ? styles : "";
 }
@@ -56400,23 +56427,56 @@ function appendEmpty(target, message) {
 async function loadInputImages(task) {
   const target = element("scheduler-input-previews");
   if (!target) return;
-  const indices = imageReferences(task.parameters);
+  const references = mediaReferences(task.parameters);
   target.replaceChildren();
-  if (indices.length === 0) {
-    appendEmpty(target, "No stored input images");
+  if (references.length === 0) {
+    appendEmpty(target, "No stored input media");
     return;
   }
-  for (const index of indices) {
-    const response = await authFetch(`${window.api}/scheduler/tasks/${task.id}/images/${index}`);
+  for (const reference of references) {
+    const label = document.createElement("label");
+    label.className = "scheduler-media-editor";
+    label.textContent = `Replace ${reference.filename} `;
+    const input = document.createElement("input");
+    input.type = "file";
+    input.disabled = task.status === "running";
+    input.dataset.schedulerMediaId = String(reference.id);
+    if (reference.mediaType.startsWith("image/")) input.accept = "image/*";
+    else if (reference.mediaType.startsWith("video/")) input.accept = "video/*";
+    else if (reference.mediaType.startsWith("audio/")) input.accept = "audio/*";
+    label.append(input);
+    target.append(label);
+    const response = await authFetch(`${window.api}/scheduler/tasks/${task.id}/media/${reference.id}`);
     if (!response?.ok || selectedTask?.id !== task.id) continue;
     const objectUrl = URL.createObjectURL(await response.blob());
     activeObjectUrls.push(objectUrl);
-    const image = document.createElement("img");
-    image.src = objectUrl;
-    image.alt = `Input image ${index + 1} for task ${task.id}`;
-    target.append(image);
+    if (reference.mediaType.startsWith("image/")) {
+      const image = document.createElement("img");
+      image.src = objectUrl;
+      image.alt = `Input image ${reference.id + 1} for task ${task.id}`;
+      target.append(image);
+    } else if (reference.mediaType.startsWith("video/")) {
+      const video = document.createElement("video");
+      video.src = objectUrl;
+      video.controls = true;
+      video.preload = "metadata";
+      video.setAttribute("aria-label", `Input video ${reference.filename}`);
+      target.append(video);
+    } else if (reference.mediaType.startsWith("audio/")) {
+      const audio = document.createElement("audio");
+      audio.src = objectUrl;
+      audio.controls = true;
+      audio.setAttribute("aria-label", `Input audio ${reference.filename}`);
+      target.append(audio);
+    } else {
+      const link = document.createElement("a");
+      link.href = objectUrl;
+      link.download = reference.filename;
+      link.textContent = reference.filename;
+      target.append(link);
+    }
   }
-  if (!target.childElementCount) appendEmpty(target, "Input images could not be loaded");
+  if (!target.childElementCount) appendEmpty(target, "Input media could not be loaded");
 }
 async function loadResultImages(task) {
   const target = element("scheduler-result-previews");
@@ -56432,26 +56492,51 @@ async function loadResultImages(task) {
     if (!response?.ok || selectedTask?.id !== task.id) continue;
     const blob = await response.blob();
     const extension = path.split(".").pop()?.toLowerCase() ?? "";
-    const mimeTypes = { png: "image/png", jpg: "image/jpeg", jpeg: "image/jpeg", webp: "image/webp", gif: "image/gif", avif: "image/avif" };
-    const imageBlob = blob.type.startsWith("image/") ? blob : new Blob([blob], { type: mimeTypes[extension] ?? "application/octet-stream" });
-    const objectUrl = URL.createObjectURL(imageBlob);
+    const mimeTypes = {
+      png: "image/png",
+      jpg: "image/jpeg",
+      jpeg: "image/jpeg",
+      webp: "image/webp",
+      gif: "image/gif",
+      avif: "image/avif",
+      mp4: "video/mp4",
+      mov: "video/quicktime",
+      webm: "video/webm",
+      mp3: "audio/mpeg",
+      wav: "audio/wav"
+    };
+    const resultBlob = blob.type === "application/octet-stream" ? new Blob([blob], { type: mimeTypes[extension] ?? blob.type }) : blob;
+    const objectUrl = URL.createObjectURL(resultBlob);
     activeObjectUrls.push(objectUrl);
-    const image = document.createElement("img");
-    image.src = objectUrl;
-    image.alt = `Result from task ${task.id}: ${path.split(/[\\/]/).pop() ?? path}`;
-    image.title = path;
-    image.addEventListener("click", (event) => window.galleryClickEventHandler?.(event), true);
-    target.append(image);
+    if (resultBlob.type.startsWith("video/")) {
+      const video = document.createElement("video");
+      video.src = objectUrl;
+      video.controls = true;
+      video.preload = "metadata";
+      video.title = path;
+      target.append(video);
+    } else if (resultBlob.type.startsWith("audio/")) {
+      const audio = document.createElement("audio");
+      audio.src = objectUrl;
+      audio.controls = true;
+      audio.title = path;
+      target.append(audio);
+    } else if (resultBlob.type.startsWith("image/")) {
+      const image = document.createElement("img");
+      image.src = objectUrl;
+      image.alt = `Result from task ${task.id}: ${path.split(/[\\/]/).pop() ?? path}`;
+      image.title = path;
+      image.addEventListener("click", (event) => window.galleryClickEventHandler?.(event), true);
+      target.append(image);
+    }
   }
   if (!target.childElementCount) appendEmpty(target, "Saved result previews are unavailable");
 }
 function setActionState(task) {
   const canReschedule = Boolean(task && ["scheduled", "paused", "failed"].includes(task.status));
   const canEdit = Boolean(task && task.status !== "running");
-  ["scheduler-common-parameters-save", "scheduler-parameters-save"].forEach((id) => {
-    const button = element(id);
-    if (button) button.disabled = !canEdit;
-  });
+  const button = element("scheduler-parameters-save");
+  if (button) button.disabled = !canEdit;
   const input = element("scheduler-reschedule-at");
   if (input) input.disabled = !canReschedule;
 }
@@ -56502,28 +56587,35 @@ async function refreshTasks() {
     const status = await apiRequest("/scheduler");
     nextTaskOffset = taskRows.length;
     hasMoreTasks = lastPageSize === 1e3;
-    gridApi.setGridOption("rowData", taskRows);
+    const snapshot = JSON.stringify(taskRows);
+    if (snapshot !== taskRowsSnapshot) {
+      gridApi.setGridOption("rowData", taskRows);
+      taskRowsSnapshot = snapshot;
+    }
     const loadMore = element("scheduler-load-more");
     if (loadMore) loadMore.hidden = !hasMoreTasks;
     if (selectedTask) {
       const refreshed = taskRows.find((task) => task.id === selectedTask?.id);
-      if (refreshed) setSelectedTask(refreshed, false);
-      else {
+      if (refreshed) {
+        if (JSON.stringify(refreshed) !== JSON.stringify(selectedTask)) setSelectedTask(refreshed, false);
+      } else {
         selectedTask = null;
         setActionState(null);
       }
     }
     const statusTarget = element("scheduler-worker-status");
     const windowStatus = status.state === "Auto" ? ` ${status.start}-${status.end} | Window ${status.window_open ? "open" : "closed"}` : "";
-    if (statusTarget) statusTarget.textContent = `${status.worker_running ? "Worker online" : "Worker offline"} | ${status.state}${windowStatus}`;
+    const statusText = `${status.worker_running ? "Worker online" : "Worker offline"} | ${status.state}${windowStatus}`;
+    if (statusTarget && statusTarget.textContent !== statusText) statusTarget.textContent = statusText;
     ["Active", "Paused", "Auto"].forEach((state2) => {
       const button = element(`scheduler-mode-${state2.toLowerCase()}`);
-      if (button) button.setAttribute("aria-pressed", String(status.state === state2));
+      const pressed = String(status.state === state2);
+      if (button && button.getAttribute("aria-pressed") !== pressed) button.setAttribute("aria-pressed", pressed);
     });
     const start = element("scheduler-window-start");
     const end = element("scheduler-window-end");
-    if (start && document.activeElement !== start) start.value = status.start;
-    if (end && document.activeElement !== end) end.value = status.end;
+    if (start && document.activeElement !== start && start.value !== status.start) start.value = status.start;
+    if (end && document.activeElement !== end && end.value !== status.end) end.value = status.end;
   } catch (err) {
     setMessage(`Refresh failed: ${String(err)}`, true);
   } finally {
@@ -56538,7 +56630,9 @@ async function loadMoreTasks() {
   try {
     const page = await apiRequest(`/scheduler/tasks?limit=1000&offset=${nextTaskOffset}`);
     const tasks = gridApi.getGridOption("rowData") ?? [];
-    gridApi.setGridOption("rowData", [...tasks, ...page]);
+    const updatedTasks = [...tasks, ...page];
+    gridApi.setGridOption("rowData", updatedTasks);
+    taskRowsSnapshot = JSON.stringify(updatedTasks);
     nextTaskOffset += page.length;
     hasMoreTasks = page.length === 1e3;
     if (loadMore) loadMore.hidden = !hasMoreTasks;
@@ -56634,12 +56728,24 @@ function taskActionsCell(params) {
 }
 function columnDefinitions() {
   return [
-    { field: "id", headerName: "ID", width: 88, filter: false, rowDrag: (params) => params.data?.status === "scheduled" || params.data?.status === "paused" },
-    { field: "created_at", headerName: "Created", width: 122, cellClass: "scheduler-datetime-cell", valueFormatter: (params) => formatDateTime(params.value) },
+    {
+      field: "id",
+      headerName: "ID",
+      width: 64,
+      filter: false,
+      rowDrag: (params) => params.data?.status === "scheduled" || params.data?.status === "paused"
+    },
+    {
+      field: "created_at",
+      headerName: "Created",
+      width: 90,
+      cellClass: "scheduler-datetime-cell",
+      valueFormatter: (params) => formatDateTime(params.value)
+    },
     {
       headerName: "Scheduled",
       field: "scheduled_at",
-      width: 122,
+      width: 90,
       cellClass: "scheduler-datetime-cell",
       tooltip: (params) => {
         const task = params.data;
@@ -56660,7 +56766,19 @@ function columnDefinitions() {
         }
       }
     },
-    { field: "started_at", headerName: "Executed", width: 122, cellClass: "scheduler-datetime-cell", valueFormatter: (params) => formatDateTime(params.value) },
+    {
+      field: "started_at",
+      headerName: "Executed",
+      width: 90,
+      cellClass: "scheduler-datetime-cell",
+      valueFormatter: (params) => formatDateTime(params.value)
+    },
+    {
+      field: "mode",
+      headerName: "Mode",
+      width: 68,
+      valueFormatter: (params) => typeof params.value === "string" ? params.value : "control"
+    },
     {
       headerName: "Model",
       valueGetter: (params) => typeof params.data?.parameters.model === "string" ? params.data.parameters.model : "",
@@ -56670,12 +56788,29 @@ function columnDefinitions() {
       cellClass: "scheduler-wrap-cell",
       tooltip: (params) => typeof params.value === "string" ? params.value : ""
     },
-    { headerName: "Prompt", valueGetter: (params) => params.data ? promptFor(params.data) : "", flex: 1, minWidth: 180, wrapText: true, autoHeight: true, cellClass: "scheduler-wrap-cell" },
-    { headerName: "Styles", valueGetter: (params) => params.data ? stylesFor(params.data) : "", width: 180 },
-    { field: "status", headerName: "Status", width: 124, tooltip: (params) => params.data ? `Task ${params.data.id}: ${params.data.status}` : "" },
+    {
+      headerName: "Prompt",
+      valueGetter: (params) => params.data ? promptFor(params.data) : "",
+      flex: 1,
+      minWidth: 180,
+      wrapText: true,
+      autoHeight: true,
+      cellClass: "scheduler-wrap-cell"
+    },
+    {
+      headerName: "Styles",
+      valueGetter: (params) => params.data ? stylesFor(params.data) : "",
+      width: 180
+    },
+    {
+      field: "status",
+      headerName: "Status",
+      width: 84,
+      tooltip: (params) => params.data ? `Task ${params.data.id}: ${params.data.status}` : ""
+    },
     {
       headerName: "Actions",
-      width: 164,
+      width: 130,
       pinned: "right",
       sortable: false,
       filter: false,
@@ -56684,6 +56819,29 @@ function columnDefinitions() {
       cellRendererParams: { suppressMouseEventHandling: () => true }
     }
   ];
+}
+async function saveTaskParameters(taskId, parameters, includeMedia = false) {
+  const inputs = Array.from(document.querySelectorAll('#scheduler-input-previews input[type="file"][data-scheduler-media-id]'));
+  const selected = includeMedia ? inputs.flatMap((input) => {
+    const file = input.files?.[0];
+    return file ? [{ id: Number(input.dataset.schedulerMediaId), file }] : [];
+  }) : [];
+  if (selected.length === 0) {
+    return performAction(`/scheduler/tasks/${taskId}/parameters`, "PATCH", { parameters }, `Task ${taskId} parameters saved`);
+  }
+  const form = new FormData();
+  form.set("parameters", JSON.stringify(parameters));
+  form.set("media_ids", JSON.stringify(selected.map(({ id }) => id)));
+  selected.forEach(({ file }) => form.append("media", file, file.name));
+  try {
+    await apiRequest(`/scheduler/tasks/${taskId}/parameters/media`, { method: "PATCH", body: form });
+    setMessage(`Task ${taskId} parameters and media saved`);
+    await refreshTasks();
+    return true;
+  } catch (err) {
+    setMessage(String(err), true);
+    return false;
+  }
 }
 function bindControls() {
   element("scheduler-search")?.addEventListener("input", (event) => {
@@ -56718,56 +56876,43 @@ function bindControls() {
     if (!before || !confirmButton("scheduler-prune", "Prune tasks")) return;
     performAction("/scheduler/prune", "POST", { before: new Date(before).toISOString() }, "Old tasks pruned").catch(() => void 0);
   });
-  element("scheduler-common-parameters-save")?.addEventListener("click", () => {
-    if (!selectedTask || selectedTask.status === "running") return;
-    const taskId = selectedTask.id;
-    const control = controlParameters(selectedTask);
-    const changed = {};
-    commonTextControlFields.forEach((key) => {
-      const value = element(`scheduler-common-${key}`)?.value;
-      if (value !== void 0 && control[key] !== value) changed[key] = value;
-    });
-    try {
-      commonNumberControlFields.forEach((key) => {
-        const input = element(`scheduler-common-${key}`);
-        if (!input) return;
-        const value = input.valueAsNumber;
-        if (!Number.isInteger(value) || value < 1) throw new Error(`${key} must be a positive whole number`);
-        if (control[key] !== value) changed[key] = value;
-      });
-      commonModelFields.forEach((key) => {
-        const input = element(`scheduler-common-${key}`);
-        if (!input) return;
-        const value = input.value;
-        if (!Object.hasOwn(selectedTask?.parameters ?? {}, key) && value === "") return;
-        if (selectedTask?.parameters[key] !== value) changed[key] = value;
-      });
-      if (Object.keys(changed).length === 0) {
-        setMessage("No parameter changes");
-        return;
-      }
-      performAction(`/scheduler/tasks/${taskId}/parameters`, "PATCH", { parameters: changed }, `Task ${taskId} common parameters saved`).then((saved) => {
-        if (saved && selectedTask?.id === taskId) populateTaskEditor(selectedTask);
-      }).catch(() => void 0);
-    } catch (err) {
-      setMessage(`Invalid common parameters: ${String(err)}`, true);
-    }
-  });
   element("scheduler-reschedule-at")?.addEventListener("change", (event) => {
     const scheduledAt = event.target.value;
     if (!selectedTask || !scheduledAt) return;
     performAction(`/scheduler/tasks/${selectedTask.id}/reschedule`, "POST", { scheduled_at: new Date(scheduledAt).toISOString() }, `Task ${selectedTask.id} rescheduled`).catch(() => void 0);
   });
   element("scheduler-parameters-save")?.addEventListener("click", () => {
-    if (!selectedTask) return;
+    if (!selectedTask || selectedTask.status === "running") return;
+    const task = selectedTask;
     try {
       const parameters = JSON.parse(element("scheduler-parameters")?.value ?? "");
       if (!parameters || typeof parameters !== "object" || Array.isArray(parameters)) throw new Error("Parameters must be a JSON object");
-      const current = editableControlParameters(selectedTask);
+      const current = editableTaskParameters(task);
       const immutable = /* @__PURE__ */ new Set(["state", "scheduler", "units", "inputs", "inits", "mask", "input_script_args", "override_script_args"]);
       const removed = Object.keys(current).filter((key) => !Object.hasOwn(parameters, key));
       if (removed.length) throw new Error(`Removing parameters is not supported: ${removed.join(", ")}`);
       const changed = {};
+      const control = generationParameters(task);
+      if (task.mode !== "video") {
+        commonTextControlFields.forEach((key) => {
+          const value = element(`scheduler-common-${key}`)?.value;
+          if (value !== void 0 && control[key] !== value) changed[key] = value;
+        });
+        commonNumberControlFields.forEach((key) => {
+          const input = element(`scheduler-common-${key}`);
+          if (!input) return;
+          const value = input.valueAsNumber;
+          if (!Number.isInteger(value) || value < 1) throw new Error(`${key} must be a positive whole number`);
+          if (control[key] !== value) changed[key] = value;
+        });
+      }
+      commonModelFields.forEach((key) => {
+        const input = element(`scheduler-common-${key}`);
+        if (!input) return;
+        const value = input.value;
+        if (!Object.hasOwn(task.parameters, key) && value === "") return;
+        if (task.parameters[key] !== value) changed[key] = value;
+      });
       Object.entries(parameters).forEach(([key, value]) => {
         if (!Object.hasOwn(current, key)) throw new Error(`Adding parameter "${key}" is not supported`);
         if (JSON.stringify(current[key]) !== JSON.stringify(value)) {
@@ -56775,12 +56920,13 @@ function bindControls() {
           changed[key] = value;
         }
       });
-      if (Object.keys(changed).length === 0) {
+      const hasMediaReplacement = Array.from(document.querySelectorAll('#scheduler-input-previews input[type="file"][data-scheduler-media-id]')).some((input) => Boolean(input.files?.length));
+      if (Object.keys(changed).length === 0 && !hasMediaReplacement) {
         setMessage("No parameter changes");
         return;
       }
-      const taskId = selectedTask.id;
-      performAction(`/scheduler/tasks/${taskId}/parameters`, "PATCH", { parameters: changed }, `Task ${taskId} parameters saved`).then((saved) => {
+      const taskId = task.id;
+      saveTaskParameters(taskId, changed, true).then((saved) => {
         if (saved && selectedTask?.id === taskId) populateTaskEditor(selectedTask);
       }).catch(() => void 0);
     } catch (err) {

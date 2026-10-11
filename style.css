@@ -120,6 +120,7 @@
   --sd-panel-min-width: 256px;
   --sd-grid-image-size: 150px;
   --sd-slider-bg-overlay: repeating-linear-gradient(90deg, transparent, transparent 6px, black 8px);
+  --ag-cell-horizontal-padding: 4px;
   }
 
 body {
@@ -1272,11 +1273,6 @@ li.item span {
   color: var(--sd-muted-color);
 }
 
-.scheduler-details-header {
-  justify-content: space-between !important;
-  align-items: center;
-}
-
 .scheduler-common-parameter {
   display: flex;
   margin: 4px;
@@ -1292,7 +1288,6 @@ li.item span {
 }
 .scheduler-detail-section {
   display: block;
-  min-width: 240px;
   margin-bottom: 4px;
 }
 
@@ -1303,6 +1298,13 @@ li.item span {
   font-family: monospace;
   font-size: 0.9em;
   color: beige;
+}
+
+#scheduler-parameters-save {
+  position: absolute;
+  top: 4px;
+  right: 0;
+  height: 20px;
 }
 
 .scheduler-detail-section > div {
@@ -1355,9 +1357,19 @@ li.item span {
   flex: 0 1 auto;
 }
 
+#layout-scheduler > .layout-content {
+  min-height: 0;
+  overflow: hidden;
+}
+
+#layout-scheduler > .layout-content > .xtabs {
+  flex: 1 1 0;
+  min-height: 0;
+}
+
 #scheduler-grid {
-  flex: 1 1 420px;
-  min-height: 420px;
+  flex: 1 1 0;
+  min-height: 0;
   width: 100%;
 }
 
@@ -1410,10 +1422,12 @@ li.item span {
   min-width: 28px;
   padding: 0;
   width: 28px;
+  background-color: transparent;
+  box-shadow: none;
 }
 
 #scheduler-grid .ag-row.scheduler-status-scheduled .ag-cell {
-  background-color: color-mix(in srgb, #3974b8 16%, var(--sd-main-background-color));
+  background-color: var(--sd-panel-background-color);
 }
 
 #scheduler-grid .ag-row.scheduler-status-running .ag-cell {

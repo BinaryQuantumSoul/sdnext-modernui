@@ -2,15 +2,15 @@
 
   <div class="flexbox row shrink panel padding scheduler-details-header">
     <h2>Task details</h2>
-    <button id="scheduler-parameters-save" class="sd-button" type="button" aria-label="Update task parameters" title="Update advanced parameters" disabled>
-      <div class="mask-icon icon-save" aria-hidden="true"></div>
-    </button>
   </div>
 
   <div class="flexbox column">
-    <section class="scheduler-detail-section panel">
+    <section id="scheduler-control-common" class="scheduler-detail-section panel">
       <h2>Parameters</h2>
-      <label class="scheduler-common-parameter scheduler-common-parameter-wide" for="scheduler-common-at">Schedule<input id="scheduler-reschedule-at" type="datetime-local" aria-label="Reschedule task time" /></label>
+      <button id="scheduler-parameters-save" class="sd-button" type="button" aria-label="Save task parameters" title="Save task parameters" disabled>
+        <div class="mask-icon icon-save" aria-hidden="true"></div>
+      </button>
+      <label class="scheduler-common-parameter scheduler-common-parameter-wide" for="scheduler-reschedule-at">Run at<input id="scheduler-reschedule-at" type="datetime-local" aria-label="Reschedule task time" /></label>
       <label class="scheduler-common-parameter scheduler-common-parameter-wide" for="scheduler-common-prompt">Prompt<textarea id="scheduler-common-prompt" rows="2"></textarea></label>
       <label class="scheduler-common-parameter scheduler-common-parameter-wide" for="scheduler-common-negative_prompt">Negative<textarea id="scheduler-common-negative_prompt" rows="2"></textarea></label>
       <label class="scheduler-common-parameter" for="scheduler-common-steps">Steps<input id="scheduler-common-steps" type="number" min="1" step="1" /></label>
@@ -18,7 +18,7 @@
       <label class="scheduler-common-parameter" for="scheduler-common-height_before">Height<input id="scheduler-common-height_before" type="number" min="1" step="1" /></label>
     </section>
 
-    <section class="scheduler-detail-section panel">
+    <section id="scheduler-control-model" class="scheduler-detail-section panel">
       <h2>Model</h2>
       <label class="scheduler-common-parameter" for="scheduler-common-sd_model_checkpoint">Model<input id="scheduler-common-sd_model_checkpoint" type="text" /></label>
       <label class="scheduler-common-parameter" for="scheduler-common-sd_model_refiner">Refiner<input id="scheduler-common-sd_model_refiner" type="text" /></label>
