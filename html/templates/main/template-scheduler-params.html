@@ -2,7 +2,7 @@
   <div class="layout-header">
     <div class="flexbox row shrink panel padding no-br">
       <div class="flexbox col shrink align-end">
-        <h2>Scheduler</h2>
+        <h2 id="scheduler-title">Scheduler</h2>
       </div>
     </div>
   </div>
@@ -18,7 +18,7 @@
               <button id="scheduler-mode-auto" class="sd-button" type="button" aria-pressed="false"><div class="mask-icon icon-playpause"></div></button>
             </div>
             <div id="scheduler-window">
-              <label for="scheduler-window-start">Active time</label>
+              <label for="scheduler-window-start"><span id="scheduler-label-active-time">Active time</span></label>
               <input id="scheduler-window-start" type="time" />
               <label for="scheduler-window-end"> - </label>
               <input id="scheduler-window-end" type="time" />

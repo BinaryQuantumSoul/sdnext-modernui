@@ -82,6 +82,7 @@ let gridApi: GridApi<SchedulerTask> | null = null;
 let selectedTask: SchedulerTask | null = null;
 let refreshTimer: ReturnType<typeof setInterval> | null = null;
 let activeObjectUrls: string[] = [];
+let activeResultObjectUrls: string[] = [];
 let refreshInProgress = false;
 let nextTaskOffset = 0;
 let hasMoreTasks = true;
@@ -98,9 +99,19 @@ function setMessage(message: string, isError = false): void {
   target.style.color = isError ? 'var(--color-warning)' : '';
 }
 
-function releaseObjectUrls(): void {
+function releaseResultObjectUrls(): void {
+  activeResultObjectUrls.forEach((url) => URL.revokeObjectURL(url));
+  activeResultObjectUrls = [];
+}
+
+function releaseInputObjectUrls(): void {
   activeObjectUrls.forEach((url) => URL.revokeObjectURL(url));
   activeObjectUrls = [];
+}
+
+function releaseObjectUrls(): void {
+  releaseInputObjectUrls();
+  releaseResultObjectUrls();
 }
 
 async function apiRequest<T>(path: string, options: RequestInit = {}): Promise<T> {
@@ -284,6 +295,7 @@ async function loadInputImages(task: SchedulerTask): Promise<void> {
 async function loadResultImages(task: SchedulerTask): Promise<void> {
   const target = element('scheduler-result-previews');
   if (!target) return;
+  releaseResultObjectUrls();
   target.replaceChildren();
   if (task.results.length === 0) {
     appendEmpty(target, task.last_error || 'No saved result files');
@@ -310,7 +322,7 @@ async function loadResultImages(task: SchedulerTask): Promise<void> {
     };
     const resultBlob = blob.type === 'application/octet-stream' ? new Blob([blob], { type: mimeTypes[extension] ?? blob.type }) : blob;
     const objectUrl = URL.createObjectURL(resultBlob);
-    activeObjectUrls.push(objectUrl);
+    activeResultObjectUrls.push(objectUrl);
     if (resultBlob.type.startsWith('video/')) {
       const video = document.createElement('video');
       video.src = objectUrl;
@@ -341,6 +353,8 @@ function setActionState(task: SchedulerTask | null): void {
   const canEdit = Boolean(task && task.status !== 'running');
   const button = element<HTMLButtonElement>('scheduler-parameters-save');
   if (button) button.disabled = !canEdit;
+  document.querySelectorAll<HTMLInputElement>('#scheduler-input-previews input[type="file"][data-scheduler-media-id]')
+    .forEach((mediaInput) => { mediaInput.disabled = !canEdit; });
   const input = element<HTMLInputElement>('scheduler-reschedule-at');
   if (input) input.disabled = !canReschedule;
 }
@@ -403,7 +417,12 @@ async function refreshTasks(): Promise<void> {
     if (selectedTask) {
       const refreshed = taskRows.find((task) => task.id === selectedTask?.id);
       if (refreshed) {
-        if (JSON.stringify(refreshed) !== JSON.stringify(selectedTask)) setSelectedTask(refreshed, false);
+        if (JSON.stringify(refreshed) !== JSON.stringify(selectedTask)) {
+          const resultsChanged = JSON.stringify(refreshed.results) !== JSON.stringify(selectedTask.results);
+          const finished = refreshed.status !== selectedTask.status && ['completed', 'failed'].includes(refreshed.status);
+          setSelectedTask(refreshed, false);
+          if (resultsChanged || finished) loadResultImages(refreshed).catch((err: unknown) => setMessage(`Result preview error: ${String(err)}`, true));
+        }
       } else {
         selectedTask = null;
         setActionState(null);
@@ -651,6 +670,10 @@ async function saveTaskParameters(taskId: number, parameters: Record<string, unk
     await apiRequest(`/scheduler/tasks/${taskId}/parameters/media`, { method: 'PATCH', body: form });
     setMessage(`Task ${taskId} parameters and media saved`);
     await refreshTasks();
+    if (selectedTask?.id === taskId) {
+      releaseInputObjectUrls();
+      await loadInputImages(selectedTask);
+    }
     return true;
   } catch (err) {
     setMessage(String(err), true);

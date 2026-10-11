@@ -56298,6 +56298,7 @@ var gridApi = null;
 var selectedTask = null;
 var refreshTimer = null;
 var activeObjectUrls = [];
+var activeResultObjectUrls = [];
 var refreshInProgress = false;
 var nextTaskOffset = 0;
 var hasMoreTasks = true;
@@ -56311,9 +56312,17 @@ function setMessage(message, isError = false) {
   target.textContent = message;
   target.style.color = isError ? "var(--color-warning)" : "";
 }
-function releaseObjectUrls() {
+function releaseResultObjectUrls() {
+  activeResultObjectUrls.forEach((url) => URL.revokeObjectURL(url));
+  activeResultObjectUrls = [];
+}
+function releaseInputObjectUrls() {
   activeObjectUrls.forEach((url) => URL.revokeObjectURL(url));
   activeObjectUrls = [];
+}
+function releaseObjectUrls() {
+  releaseInputObjectUrls();
+  releaseResultObjectUrls();
 }
 async function apiRequest(path, options = {}) {
   const headers = new Headers(options.headers);
@@ -56481,6 +56490,7 @@ async function loadInputImages(task) {
 async function loadResultImages(task) {
   const target = element("scheduler-result-previews");
   if (!target) return;
+  releaseResultObjectUrls();
   target.replaceChildren();
   if (task.results.length === 0) {
     appendEmpty(target, task.last_error || "No saved result files");
@@ -56507,7 +56517,7 @@ async function loadResultImages(task) {
     };
     const resultBlob = blob.type === "application/octet-stream" ? new Blob([blob], { type: mimeTypes[extension] ?? blob.type }) : blob;
     const objectUrl = URL.createObjectURL(resultBlob);
-    activeObjectUrls.push(objectUrl);
+    activeResultObjectUrls.push(objectUrl);
     if (resultBlob.type.startsWith("video/")) {
       const video = document.createElement("video");
       video.src = objectUrl;
@@ -56537,6 +56547,9 @@ function setActionState(task) {
   const canEdit = Boolean(task && task.status !== "running");
   const button = element("scheduler-parameters-save");
   if (button) button.disabled = !canEdit;
+  document.querySelectorAll('#scheduler-input-previews input[type="file"][data-scheduler-media-id]').forEach((mediaInput) => {
+    mediaInput.disabled = !canEdit;
+  });
   const input = element("scheduler-reschedule-at");
   if (input) input.disabled = !canReschedule;
 }
@@ -56597,7 +56610,12 @@ async function refreshTasks() {
     if (selectedTask) {
       const refreshed = taskRows.find((task) => task.id === selectedTask?.id);
       if (refreshed) {
-        if (JSON.stringify(refreshed) !== JSON.stringify(selectedTask)) setSelectedTask(refreshed, false);
+        if (JSON.stringify(refreshed) !== JSON.stringify(selectedTask)) {
+          const resultsChanged = JSON.stringify(refreshed.results) !== JSON.stringify(selectedTask.results);
+          const finished = refreshed.status !== selectedTask.status && ["completed", "failed"].includes(refreshed.status);
+          setSelectedTask(refreshed, false);
+          if (resultsChanged || finished) loadResultImages(refreshed).catch((err) => setMessage(`Result preview error: ${String(err)}`, true));
+        }
       } else {
         selectedTask = null;
         setActionState(null);
@@ -56837,6 +56855,10 @@ async function saveTaskParameters(taskId, parameters, includeMedia = false) {
     await apiRequest(`/scheduler/tasks/${taskId}/parameters/media`, { method: "PATCH", body: form });
     setMessage(`Task ${taskId} parameters and media saved`);
     await refreshTasks();
+    if (selectedTask?.id === taskId) {
+      releaseInputObjectUrls();
+      await loadInputImages(selectedTask);
+    }
     return true;
   } catch (err) {
     setMessage(String(err), true);
