@@ -1281,9 +1281,8 @@ li.item span {
 
 .scheduler-common-parameter {
   display: grid;
-  grid-template-columns: 100px 1fr;
+  grid-template-columns: 80px 1fr;
   align-items: center;
-  max-width: 400px;
   margin-bottom: 4px;
 }
 .scheduler-detail-section {
