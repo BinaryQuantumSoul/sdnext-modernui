@@ -27,6 +27,9 @@
   },
   "keywords": [],
   "type": "module",
+  "dependencies": {
+    "ag-grid-community": "^36.2.0"
+  },
   "devDependencies": {
     "@eslint/compat": "^2.1.1",
     "@eslint/css": "^1.4.0",
@@ -35,7 +38,6 @@
     "@html-eslint/eslint-plugin": "^0.60.0",
     "@types/node": "^25.9.9",
     "@vladmandic/build": "^0.10.3",
-    "ag-grid-community": "^36.2.0",
     "esbuild": "^0.28.2",
     "eslint": "^9.39.5",
     "eslint-config-airbnb-extended": "^3.3.0",
