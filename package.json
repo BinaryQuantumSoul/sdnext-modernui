@@ -42,5 +42,8 @@
     "globals": "^17.11.0",
     "tslib": "^2.8.1",
     "typescript": "^6.0.3"
+  },
+  "dependencies": {
+    "ag-grid-community": "^36.2.0"
   }
 }

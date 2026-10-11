@@ -1,0 +1,62 @@
+<div id="scheduler-details" class="col full-height border-padding scheduler-details">
+
+  <div class="flexbox row shrink panel padding scheduler-details-header">
+    <h2>Task details</h2>
+    <button id="scheduler-parameters-save" class="sd-button" type="button" aria-label="Update task parameters" title="Update advanced parameters" disabled>
+      <div class="mask-icon icon-save" aria-hidden="true"></div>
+    </button>
+  </div>
+
+  <div class="flexbox column">
+    <section class="scheduler-detail-section panel">
+      <h2>Parameters</h2>
+      <label class="scheduler-common-parameter scheduler-common-parameter-wide" for="scheduler-common-at">Schedule<input id="scheduler-reschedule-at" type="datetime-local" aria-label="Reschedule task time" /></label>
+      <label class="scheduler-common-parameter scheduler-common-parameter-wide" for="scheduler-common-prompt">Prompt<textarea id="scheduler-common-prompt" rows="2"></textarea></label>
+      <label class="scheduler-common-parameter scheduler-common-parameter-wide" for="scheduler-common-negative_prompt">Negative<textarea id="scheduler-common-negative_prompt" rows="2"></textarea></label>
+      <label class="scheduler-common-parameter" for="scheduler-common-steps">Steps<input id="scheduler-common-steps" type="number" min="1" step="1" /></label>
+      <label class="scheduler-common-parameter" for="scheduler-common-width_before">Width<input id="scheduler-common-width_before" type="number" min="1" step="1" /></label>
+      <label class="scheduler-common-parameter" for="scheduler-common-height_before">Height<input id="scheduler-common-height_before" type="number" min="1" step="1" /></label>
+    </section>
+
+    <section class="scheduler-detail-section panel">
+      <h2>Model</h2>
+      <label class="scheduler-common-parameter" for="scheduler-common-sd_model_checkpoint">Model<input id="scheduler-common-sd_model_checkpoint" type="text" /></label>
+      <label class="scheduler-common-parameter" for="scheduler-common-sd_model_refiner">Refiner<input id="scheduler-common-sd_model_refiner" type="text" /></label>
+      <label class="scheduler-common-parameter" for="scheduler-common-sd_unet">Unet<input id="scheduler-common-sd_unet" type="text" /></label>
+      <label class="scheduler-common-parameter" for="scheduler-common-sd_vae">VAE<input id="scheduler-common-sd_vae" type="text" /></label>
+      <label class="scheduler-common-parameter" for="scheduler-common-sd_text_encoder">TE<input id="scheduler-common-sd_text_encoder" type="text" /></label>
+    </section>
+
+    <section class="scheduler-detail-section panel">
+      <h2>Advanced</h2>
+      <div>
+        <textarea id="scheduler-parameters" spellcheck="false" aria-label="Task parameters JSON" placeholder="Select a task to view parameters"></textarea>
+      </div>
+    </section>
+  </div>
+
+  <div></div>
+
+  <div class="flexbox column">
+    <section class="scheduler-detail-section panel">
+      <h2>Results</h2>
+      <div id="scheduler-results">
+        <h3>Infotexts</h3>
+        <div id="scheduler-infotexts"></div>
+        <h3>Stats</h3>
+        <pre id="scheduler-process-stats"></pre>
+      </div>
+    </section>
+
+    <section class="scheduler-detail-section panel">
+      <h2>Inputs</h2>
+      <div id="scheduler-input-previews" class="scheduler-media-list"></div>
+    </section>
+
+    <section class="scheduler-detail-section panel">
+      <h2>Outputs</h2>
+      <div id="scheduler-result-previews" class="scheduler-media-list"></div>
+    </section>
+  </div>
+
+</div>

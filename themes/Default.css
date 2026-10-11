@@ -173,7 +173,7 @@ button>span {
 .icon-stop, .icon-delete {
   background-color: hsl(0, 60%, 75%) !important;
 }
-.icon-enqueue, .icon-reprocess {
+.icon-enqueue, .icon-reprocess, .icon-plus {
   background-color: hsl(145, 30%, 75%) !important;
 }
 .icon-skip, .icon-folder, .icon-info, .icon-paste, .refresh {

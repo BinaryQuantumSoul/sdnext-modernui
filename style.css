@@ -1234,6 +1234,222 @@ li.item span {
   fill: var(--sd-button-selected-color);
 }
 
+.ag-root-wrapper {
+  border: none;
+}
+
+.scheduler-panel {
+  display: contents;
+}
+
+.scheduler-toolbar {
+  flex-wrap: wrap;
+  display: flex;
+  justify-content: space-between;
+  max-height: fit-content;
+  margin-bottom: 0.5em !important;
+}
+
+#scheduler-message {
+  position: absolute;
+  right: 0.8em;
+  bottom: 0.8em;
+  color: var(--sd-muted-color);
+}
+
+.scheduler-toolbar > div {
+  margin-right: 0.5em;
+  display: flex;
+}
+
+.scheduler-mode {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 0;
+}
+
+.scheduler-media-empty {
+  color: var(--sd-muted-color);
+}
+
+.scheduler-details-header {
+  justify-content: space-between !important;
+  align-items: center;
+}
+
+.scheduler-common-parameter {
+  display: flex;
+  margin: 4px;
+  align-items: center;
+}
+
+.scheduler-common-parameter {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  align-items: center;
+  max-width: 400px;
+  margin-bottom: 4px;
+}
+.scheduler-detail-section {
+  display: block;
+  min-width: 240px;
+  margin-bottom: 4px;
+}
+
+#scheduler-parameters {
+  width: stretch;
+  height: 98%;
+  line-height: 20px;
+  font-family: monospace;
+  font-size: 0.9em;
+  color: beige;
+}
+
+.scheduler-detail-section > div {
+  padding: 0.8em 0.2em 0.2em 0.2em;
+  height: 94%;
+}
+
+.scheduler-common-parameter input,
+.scheduler-common-parameter textarea {
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.scheduler-media-list img {
+  object-fit: contain;
+  width: 100%;
+}
+
+#scheduler-results pre {
+  margin: 0.25em 0.4em 0.75em;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+  line-height: 1.4em;
+}
+
+#scheduler-result-previews img {
+  cursor: pointer;
+}
+
+.scheduler-common-parameter-wide {
+  grid-column: 1 / -1;
+}
+
+.scheduler-parameter-actions {
+  justify-content: flex-end;
+  margin-top: 0.5em;
+}
+
+.scheduler-mode button[aria-pressed="true"] {
+  background: var(--sd-button-selected-color);
+  color: var(--sd-button-selected-text-color);
+}
+
+#scheduler-window {
+  margin-left: 1em;
+}
+
+#scheduler-worker-status {
+  color: var(--sd-muted-color);
+  flex: 0 1 auto;
+}
+
+#scheduler-grid {
+  flex: 1 1 420px;
+  min-height: 420px;
+  width: 100%;
+}
+
+#scheduler-grid .ag-row-drag {
+  cursor: grab;
+}
+
+#scheduler-grid .ag-row-drag:active {
+  cursor: grabbing;
+}
+
+#scheduler-grid .scheduler-overdue {
+  color: var(--color-warning);
+  font-weight: 700;
+}
+
+#scheduler-grid .scheduler-soon {
+  color: var(--color-info);
+}
+
+#scheduler-grid .scheduler-datetime-cell {
+  align-items: center;
+  align-content: center;
+  line-height: 1.3;
+  white-space: pre-line;
+}
+
+#scheduler-grid .scheduler-wrap-cell {
+  align-items: center;
+  align-content: center;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+.scheduler-row-actions {
+  align-items: center;
+  display: flex;
+  gap: 2px;
+  height: 100%;
+  justify-content: center;
+  width: 100%;
+}
+
+.scheduler-row-action.sd-button {
+  align-items: center;
+  display: inline-flex;
+  height: 28px;
+  justify-content: center;
+  min-width: 28px;
+  padding: 0;
+  width: 28px;
+}
+
+#scheduler-grid .ag-row.scheduler-status-scheduled .ag-cell {
+  background-color: color-mix(in srgb, #3974b8 16%, var(--sd-main-background-color));
+}
+
+#scheduler-grid .ag-row.scheduler-status-running .ag-cell {
+  background-color: color-mix(in srgb, #258a91 18%, var(--sd-main-background-color));
+}
+
+#scheduler-grid .ag-row.scheduler-status-paused .ag-cell {
+  background-color: color-mix(in srgb, #b57c20 18%, var(--sd-main-background-color));
+}
+
+#scheduler-grid .ag-row.scheduler-status-completed .ag-cell {
+  background-color: color-mix(in srgb, #39845a 16%, var(--sd-main-background-color));
+}
+
+#scheduler-grid .ag-row.scheduler-status-failed .ag-cell {
+  background-color: color-mix(in srgb, #b84343 18%, var(--sd-main-background-color));
+}
+
+#scheduler-grid .ag-row.ag-row-selected .ag-cell {
+  background-image: linear-gradient(
+    color-mix(in srgb, var(--sd-main-accent-color) 16%, transparent),
+    color-mix(in srgb, var(--sd-main-accent-color) 16%, transparent)
+  );
+}
+
+.scheduler-task-status {
+  align-self: center;
+  color: var(--sd-muted-color);
+  overflow-wrap: anywhere;
+}
+
+input[type="time"], input[type="datetime-local"] {
+  background: transparent;
+  justify-items: left;
+}
+
 *.gradio-gallery {
   min-height: 30vh;
   justify-content: center;
@@ -2291,6 +2507,10 @@ div#layout-3 {
   mask-image: url(./html/svg/file-zip-line.svg);
 }
 
+.icon-refresh {
+  mask-image: url(./html/svg/arrows-rotate.svg);
+}
+
 .icon-2txt2img {
   mask-image: url(./html/svg/t-box-line.svg);
 }
@@ -2392,8 +2612,20 @@ div#layout-3 {
   mask-image: url(./html/svg/backward-step.svg);
 }
 
+.icon-plus {
+  mask-image: url(./html/svg/plus.svg);
+}
+
 .icon-loop {
   mask-image: url(./html/svg/infinity.svg);
+}
+
+.icon-forward {
+  mask-image: url(./html/svg/forward.svg);
+}
+
+.icon-playpause {
+  mask-image: url(./html/svg/play-pause.svg);
 }
 
 .icon-skip {
