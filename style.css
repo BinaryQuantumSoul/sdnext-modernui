@@ -1519,6 +1519,14 @@ input[type="time"], input[type="datetime-local"] {
   border: 0;
 }
 
+.header-text {
+  position: unset;
+  display: flex;
+  flex: auto;
+  align-items: center;
+  margin-left: 1em;
+}
+
 *.grid-wrap {
   background-color: var(--sd-main-background-color);
   display: flex;
