@@ -5121,6 +5121,13 @@ input[type="range"]::-ms-fill-upper {
   display: none;
 }
 
+.benchmark-log {
+  white-space: pre;
+  font-family: monospace;
+  font-size: smaller;
+  background: var(--sd-main-background-color);
+}
+
 #split-console>div {
   direction: rtl;
 }
