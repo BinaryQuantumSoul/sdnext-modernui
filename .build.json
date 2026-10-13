@@ -36,6 +36,14 @@
         "output": "javascript/modernui.mjs",
         "platform": "node",
         "external": ["typedoc", "typescript", "eslint", "esbuild", "fsevents"]
+      },
+      {
+        "name": "build scheduler",
+        "input": "src/scheduler.ts",
+        "output": "javascript/scheduler.mjs",
+        "platform": "node",
+        "format": "esm",
+        "external": ["typedoc", "typescript", "eslint", "esbuild", "fsevents"]
       }
     ]
   },

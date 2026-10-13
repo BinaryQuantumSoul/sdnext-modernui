@@ -4,9 +4,7 @@ import {
   ClientSideRowModelModule,
   CellStyleModule,
   createGrid,
-  DateFilterModule,
   ModuleRegistry,
-  NumberFilterModule,
   PaginationModule,
   QuickFilterModule,
   RowAutoHeightModule,
@@ -15,7 +13,6 @@ import {
   RowStyleModule,
   TextFilterModule,
   TooltipModule,
-  ValidationModule,
   themeQuartz,
 } from 'ag-grid-community';
 import type {
@@ -65,8 +62,6 @@ type TaskAction = 'execute' | 'pause' | 'resume' | 'delete';
 ModuleRegistry.registerModules([
   ClientSideRowModelModule,
   CellStyleModule,
-  DateFilterModule,
-  NumberFilterModule,
   PaginationModule,
   QuickFilterModule,
   RowAutoHeightModule,
@@ -75,7 +70,6 @@ ModuleRegistry.registerModules([
   RowStyleModule,
   TextFilterModule,
   TooltipModule,
-  ValidationModule,
 ]);
 
 let gridApi: GridApi<SchedulerTask> | null = null;
@@ -498,34 +492,6 @@ async function performAction(path: string, method = 'POST', body?: unknown, mess
     setMessage(String(err), true);
     return false;
   }
-}
-
-function confirmButton(target: string | HTMLButtonElement, label: string): boolean {
-  const button = typeof target === 'string' ? element<HTMLButtonElement>(target) : target;
-  if (!button) return false;
-  const iconOnly = Boolean(button.querySelector('.mask-icon'));
-  const setLabel = (value: string): void => {
-    if (iconOnly) {
-      button.setAttribute('aria-label', value);
-      button.title = value;
-    } else {
-      button.textContent = value;
-    }
-  };
-  if (button.dataset.confirmArmed === 'true') {
-    button.dataset.confirmArmed = 'false';
-    setLabel(label);
-    return true;
-  }
-  button.dataset.confirmArmed = 'true';
-  setLabel(iconOnly ? `Confirm ${label.toLowerCase()}` : 'Confirm');
-  window.setTimeout(() => {
-    if (button.dataset.confirmArmed === 'true') {
-      button.dataset.confirmArmed = 'false';
-      setLabel(label);
-    }
-  }, 5000);
-  return false;
 }
 
 function performTaskAction(action: TaskAction, task: SchedulerTask): void {
