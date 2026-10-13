@@ -35,21 +35,21 @@
     /* Dark panel background */
     --sd-panel-background-color: hsl(0deg 0% 18%);
     --sd-panel-border-color: hsl(0deg 0% 30%);
-    --sd-panel-padding: 4px;
+    --sd-panel-padding: 5px;
     /* Windows 11 uses subtle rounded corners */
     --sd-border-radius: 4px;
     --sd-border-size: 0;
-    --sd-gap-size-val: 2px;
-    --sd-gap-size: 2px;
+    --sd-gap-size-val: 3px;
+    --sd-gap-size: 3px;
     /* Mica-like subtle background for groups */
     --sd-group-background-color: hsl(0deg 0% 15%);
-    --sd-group-padding: 2px;
+    --sd-group-padding: 3px;
     --sd-group-border-radius: 4px;
     --sd-group-border-size: 0;
     --sd-group-border-color: hsl(0deg 0% 28%);
-    --sd-group-gap: 2px;
-    --sd-outside-gap-size: 4px;
-    --sd-extra-gap: 4px;
+    --sd-group-gap: 5px;
+    --sd-outside-gap-size: 6px;
+    --sd-extra-gap: calc(2 * var(--sd-gap-size));
     /* Scrollbar */
     --sd-scrollbar-color: hsl(0deg 0% 35%);
     /* Button colors - Windows 11 dark style */
@@ -160,13 +160,24 @@ h6 {
 }
 
 h2.auto-hide:hover {
-    text-decoration: underline !important;
+    text-decoration: none !important;
     cursor: pointer !important;
 }
 
 /* Clean button styling */
 button {
     border: 1px solid hsl(0deg 0% 35%) !important;
+}
+
+button,
+button *,
+.sd-button,
+.sd-button *,
+.xtabs-tab,
+.xtabs-tab *,
+.gradio-button,
+.gradio-button * {
+    text-decoration: none !important;
 }
 
 /* Remove borders from radio buttons */
@@ -181,6 +192,11 @@ fieldset,
     box-shadow: none !important;
 }
 
+/* Clean accordion */
+.gradio-accordion {
+    background-color: transparent !important;
+}
+
 button:hover {
     border-color: var(--sd-button-hover-color) !important;
 }
@@ -190,6 +206,50 @@ button:hover {
     border: 1px solid var(--sd-input-border-color) !important;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
     background-color: var(--sd-input-background-color) !important;
+}
+
+/* Tab navigation */
+.tab-nav {
+    background-color: transparent;
+    gap: 4px;
+}
+
+/* Tab navigation buttons - add horizontal spacing */
+.tab-nav button {
+    margin: 2px !important;
+}
+
+/* Settings tabs - menu items borderless, bottom border only, blue when selected */
+.settings-tabs .tab-nav {
+    gap: var(--sd-gap-size);
+    background-color: transparent;
+}
+
+.settings-tabs .tab-nav button {
+    border: none !important;
+    border-bottom: 2px solid transparent !important;
+    border-radius: 0 !important;
+    background-color: transparent !important;
+    margin: 0 !important;
+    padding: 6px 12px !important;
+}
+
+.settings-tabs .tab-nav button:hover {
+    border-bottom-color: hsl(0deg 0% 45%) !important;
+    background-color: hsl(0deg 0% 22%) !important;
+    color: hsl(0deg 0% 92%) !important;
+}
+
+.settings-tabs .tab-nav button:active {
+    background-color: hsl(0deg 0% 18%) !important;
+    color: hsl(0deg 0% 92%) !important;
+}
+
+.settings-tabs .tab-nav button.selected,
+.settings-tabs .tab-nav button[aria-selected="true"] {
+    border-bottom-color: var(--sd-main-accent-color) !important;
+    background-color: var(--sd-main-accent-color) !important;
+    color: white !important;
 }
 
 /* ============================================
@@ -221,6 +281,14 @@ button:hover {
 .sd-button.active {
     background-color: var(--sd-button-selected-color);
     color: white;
+}
+
+/* Keep nested buttons from drawing a second frame inside square controls */
+.sd-button .gradio-button,
+.sd-button .gradio-button:hover,
+.sd-button button,
+.gradio-button .gradio-button {
+    border: 0 !important;
 }
 
 /* Generate button - proper width for icon + text, dark green */
@@ -272,6 +340,10 @@ button:has(.icon-generate):hover {
     color: hsl(0deg 0% 95%) !important;
 }
 
+.generate.active .gradio-button {
+    border: none !important;
+}
+
 /* Remove accent-colored text glow on active generate button */
 .generate.active>.portal>button {
     filter: none !important;
@@ -302,15 +374,18 @@ div.generate-icons button.gradio-button {
 }
 
 /* Icon buttons - square, centered, consistent size (exclude generate button) */
-.generate-icons button:not(.generate button),
-.icons-bar button,
-button[aria-label]:not(.generate button),
+.generate-icons button:not(.generate):not(:has(> span)),
+.icons-bar button:not(:has(> span)),
 .generate-icons .portal[title]:not([title=""]),
-.generate-icons .sd-button {
+.generate-icons .sd-button:not(.generate):not(:has(> span)) {
     --sd-input-background-color: transparent !important;
     height: 36px !important;
+    max-height: 36px !important;
     min-height: 36px !important;
+    width: 36px !important;
     min-width: 36px !important;
+    max-width: 36px !important;
+    box-sizing: border-box !important;
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
@@ -490,11 +565,14 @@ div.portal[data-selector*="_tab"]>button {
 }
 
 /* Outer sd-button wrapper containing portal - must also be 36px */
-button.sd-button:has(.portal.invisible),
-button.sd-button:has(.portal) {
+button.sd-button:has(> .portal.invisible):not(.generate) {
     height: 36px !important;
+    max-height: 36px !important;
     min-height: 36px !important;
+    width: 36px !important;
     min-width: 36px !important;
+    max-width: 36px !important;
+    box-sizing: border-box !important;
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
@@ -502,14 +580,18 @@ button.sd-button:has(.portal) {
 }
 
 /* Icons bar sd-buttons - must be transparent to show hover, match generate icons sizing */
-.icons-bar button.sd-button,
-.icons-bar .sd-button {
+.icons-bar button.sd-button:not(:has(> span)),
+.icons-bar .sd-button:not(:has(> span)) {
     background-color: transparent !important;
     background: transparent !important;
     border: none !important;
     height: 36px !important;
+    max-height: 36px !important;
     min-height: 36px !important;
+    width: 36px !important;
     min-width: 36px !important;
+    max-width: 36px !important;
+    box-sizing: border-box !important;
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
@@ -542,68 +624,54 @@ button.sd-button:has(.portal) {
 /* Tool buttons */
 .sd-button.tool {
     height: 36px;
+    max-height: 36px;
     min-height: 36px;
-    min-width: 36px;
     width: 36px;
+    min-width: 36px;
+    max-width: 36px;
+    box-sizing: border-box;
 }
 
-/* Tab navigation */
-.tab-nav {
-    background-color: transparent;
-    gap: 6px;
+/* Icon-only tabs stay square; tabs with labels retain their natural width. */
+.xtabs-tab:has(> .mask-icon):not(:has(> span)) {
+    box-sizing: border-box !important;
+    width: calc(1.2 * var(--sd-input-height)) !important;
+    height: calc(1.2 * var(--sd-input-height)) !important;
+    max-width: calc(1.2 * var(--sd-input-height)) !important;
+    max-height: calc(1.2 * var(--sd-input-height)) !important;
+    padding: 0 !important;
 }
 
-/* Tab navigation buttons - add horizontal spacing */
-.tab-nav button {
-    margin: 2px !important;
+/* Keep icon-only group controls square and aligned with output tabs. */
+.group-row > button:has(> .mask-icon):not(:has(> span)) {
+    align-items: center;
+    border-radius: var(--sd-border-radius);
+    box-shadow: none;
+    box-sizing: border-box !important;
+    display: inline-flex;
+    justify-content: center;
+    width: calc(1.2 * var(--sd-input-height)) !important;
+    min-width: calc(1.2 * var(--sd-input-height));
+    max-width: calc(1.2 * var(--sd-input-height)) !important;
+    height: calc(1.2 * var(--sd-input-height)) !important;
+    min-height: calc(1.2 * var(--sd-input-height)) !important;
+    max-height: calc(1.2 * var(--sd-input-height)) !important;
+    padding: 0 !important;
 }
 
 /* Form spacing */
 .form {
-    gap: 4px;
+    column-gap: 4px;
+    row-gap: 6px;
 }
 
 /* Group styling */
 .group-col {
-    gap: 2px !important;
+    gap: 3px !important;
 }
 
-/* Clean accordion */
-.gradio-accordion {
-    background-color: transparent !important;
-}
-
-/* Settings tabs - menu items borderless, bottom border only, blue when selected */
-.settings-tabs .tab-nav {
-    gap: 0;
-    background-color: transparent;
-}
-
-.settings-tabs .tab-nav button {
-    border: none !important;
-    border-bottom: 2px solid transparent !important;
-    border-radius: 0 !important;
-    background-color: transparent !important;
-    margin: 0 !important;
-    padding: 6px 12px !important;
-}
-
-.settings-tabs .tab-nav button:hover {
-    border-bottom-color: hsl(0deg 0% 45%) !important;
-    background-color: hsl(0deg 0% 22%) !important;
-    color: hsl(0deg 0% 92%) !important;
-}
-
-.settings-tabs .tab-nav button:active {
-    background-color: hsl(0deg 0% 18%) !important;
-    color: hsl(0deg 0% 92%) !important;
-}
-
-.settings-tabs .tab-nav button.selected,
-.settings-tabs .tab-nav button[aria-selected="true"] {
-    border-bottom-color: var(--sd-main-accent-color) !important;
-    background-color: var(--sd-main-accent-color) !important;
-    color: white !important;
+.padding {
+    margin-bottom: var(--sd-panel-padding) !important;
 }
 
 /* Panels */
@@ -1115,10 +1183,13 @@ button.lg.primary.gradio-button:active {
 /* User requested 32x32 size and proper styling for control buttons */
 #control_caption_output,
 #control_image_fit {
+    box-sizing: border-box !important;
     width: 36px !important;
     height: 36px !important;
     min-width: 36px !important;
     min-height: 36px !important;
+    max-width: 36px !important;
+    max-height: 36px !important;
     margin: 4px;
     padding: 0 !important;
     display: inline-flex !important;
@@ -1215,6 +1286,9 @@ button.lg.primary.gradio-button:active {
     min-width: 36px !important;
     width: 36px !important;
     height: 36px !important;
+    max-width: 36px !important;
+    max-height: 36px !important;
+    box-sizing: border-box !important;
     padding: 0 !important;
     align-items: center !important;
     justify-content: center !important;
