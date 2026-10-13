@@ -13,9 +13,15 @@
         <div class="flexbox row scheduler-toolbar">
           <div>
             <div id="scheduler-mode" class="scheduler-mode" role="group" aria-label="Scheduler mode">
-              <button id="scheduler-mode-active" class="sd-button" type="button" aria-pressed="false"><div class="mask-icon icon-forward"></div></button>
-              <button id="scheduler-mode-paused" class="sd-button" type="button" aria-pressed="false"><div class="mask-icon icon-pause"></div></button>
-              <button id="scheduler-mode-auto" class="sd-button" type="button" aria-pressed="false"><div class="mask-icon icon-playpause"></div></button>
+              <button id="scheduler-mode-active" class="sd-button" type="button" aria-pressed="false">
+                <div class="mask-icon icon-forward" aria-hidden="true"></div>
+              </button>
+              <button id="scheduler-mode-paused" class="sd-button" type="button" aria-pressed="false">
+                <div class="mask-icon icon-pause" aria-hidden="true"></div>
+              </button>
+              <button id="scheduler-mode-auto" class="sd-button" type="button" aria-pressed="false">
+                <div class="mask-icon icon-playpause" aria-hidden="true"></div>
+              </button>
             </div>
             <div id="scheduler-window">
               <label for="scheduler-window-start"><span id="scheduler-label-active-time">Active time</span></label>
@@ -40,17 +46,23 @@
             </select>
           </div>
           <div>
-            <button id="scheduler-refresh" class="sd-button" type="button" aria-label="Refresh" title="Refresh"><div class="mask-icon icon-refresh" aria-hidden="true"></div></button>
-            <button id="scheduler-load-more" class="sd-button" type="button" aria-label="Load more tasks" title="Load more tasks" hidden><div class="mask-icon icon-plus" aria-hidden="true"></div></button>
+            <button id="scheduler-refresh" class="sd-button" type="button" aria-label="Refresh" title="Refresh">
+              <div class="mask-icon icon-refresh" aria-hidden="true"></div>
+            </button>
+            <button id="scheduler-load-more" class="sd-button" type="button" aria-label="Load more tasks" title="Load more tasks" hidden>
+              <div class="mask-icon icon-plus" aria-hidden="true"></div>
+            </button>
           </div>
         </div>
 
         <div id="scheduler-grid" aria-label="Scheduled generation tasks"></div>
 
         <div style="display: flex">
-          <div class="flexbox row shrink scheduler-prune">
+          <div class="flexbox row shrink">
             <input id="scheduler-prune-before" type="datetime-local" />
-            <button id="scheduler-prune" class="sd-button" type="button" title="Prune tasks older than"><div class="mask-icon icon-delete" aria-hidden="true"></div></button>
+            <button id="scheduler-prune" class="sd-button" type="button" title="Prune tasks older than">
+              <div class="mask-icon icon-database" aria-hidden="true"></div>
+            </button>
           </div>
           <div id="scheduler-message" role="status" aria-live="polite"></div>
         </div>

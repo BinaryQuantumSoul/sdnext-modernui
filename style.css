@@ -1322,11 +1322,13 @@ li.item span {
   width: 100%;
 }
 
-#scheduler-results pre {
-  margin: 0.25em 0.4em 0.75em;
-  overflow-wrap: anywhere;
-  white-space: pre-wrap;
+#scheduler-results div {
+  padding: 0.4em;
   line-height: 1.4em;
+}
+
+#scheduler-process-infotexts {
+  color: var(--color-debug);
 }
 
 #scheduler-result-previews img {
@@ -2675,6 +2677,10 @@ div#layout-3 {
 
 .icon-delete {
   mask-image: url(./html/svg/delete-bin-2-line.svg);
+}
+
+.icon-database {
+  mask-image: url(./html/svg/database.svg);
 }
 
 .icon-docs {

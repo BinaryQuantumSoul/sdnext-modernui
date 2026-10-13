@@ -204,16 +204,34 @@ function populateTaskEditor(task: SchedulerTask): void {
 }
 
 function populateTaskResults(task: SchedulerTask): void {
+  const joinStr = ' <span style="color: var(--sd-main-accent-color)">|</span> ';
   const stats = element<HTMLElement>('scheduler-process-stats');
-  const infotexts = element<HTMLElement>('scheduler-infotexts');
-  if (stats) stats.textContent = JSON.stringify(task.process_stats ?? {}, null, 2);
-  if (infotexts) {
+  const header = element<HTMLElement>('scheduler-process-header');
+  const infotexts = element<HTMLElement>('scheduler-process-infotexts');
+  if (stats) {
+    const statsLst = [];
+    for (const [key, value] of Object.entries(task.process_stats ?? {})) {
+      if (key === 'total') continue;
+      statsLst.push(`${key}: ${value}`);
+    }
+    stats.innerHTML = statsLst.join(joinStr);
+  }
+  if (infotexts && header) {
+    const metadata = new Map<string, Set<string>>();
     infotexts.replaceChildren();
     (task.infotexts ?? []).forEach((infotext) => {
-      const entry = document.createElement('pre');
-      entry.textContent = infotext;
+      const entry = document.createElement('span');
+      entry.innerHTML = infotext.replace(/(?:^|,\s*)(App|Version|Pipeline|Operations):\s*([^,\n]*)/gi, (_match, key: string, value: string) => {
+        const values = metadata.get(key) ?? new Set<string>();
+        values.add(value.trim());
+        metadata.set(key, values);
+        return '';
+      }).replace(/,\s*,/g, ',').replace(/^\s*,|,\s*$/g, '').trim();
       infotexts.append(entry);
     });
+    header.innerHTML = [...metadata.entries()]
+      .map(([key, values]) => `${key}: ${[...values].join(', ')}`)
+      .join(joinStr);
   }
 }
 
@@ -712,9 +730,9 @@ function bindControls(): void {
     });
   });
   element('scheduler-prune')?.addEventListener('click', () => {
-    const before = element<HTMLInputElement>('scheduler-prune-before')?.value;
-    if (!before || !confirmButton('scheduler-prune', 'Prune tasks')) return;
-    performAction('/scheduler/prune', 'POST', { before: new Date(before).toISOString() }, 'Old tasks pruned').catch(() => undefined);
+    let before = element<HTMLInputElement>('scheduler-prune-before')?.value;
+    if (!before) before = new Date(Date.now() - 365 * 24 * 60 * 60 * 1000).toISOString();
+    performAction('/scheduler/prune', 'POST', { before: new Date(before).toISOString() }, 'Database pruned').catch(() => undefined);
   });
   element<HTMLInputElement>('scheduler-reschedule-at')?.addEventListener('change', (event) => {
     const scheduledAt = (event.target as HTMLInputElement).value;

@@ -56405,16 +56405,32 @@ function populateTaskEditor(task) {
   });
 }
 function populateTaskResults(task) {
+  const joinStr = ' <span style="color: var(--sd-main-accent-color)">|</span> ';
   const stats = element("scheduler-process-stats");
-  const infotexts = element("scheduler-infotexts");
-  if (stats) stats.textContent = JSON.stringify(task.process_stats ?? {}, null, 2);
-  if (infotexts) {
+  const header = element("scheduler-process-header");
+  const infotexts = element("scheduler-process-infotexts");
+  if (stats) {
+    const statsLst = [];
+    for (const [key, value] of Object.entries(task.process_stats ?? {})) {
+      if (key === "total") continue;
+      statsLst.push(`${key}: ${value}`);
+    }
+    stats.innerHTML = statsLst.join(joinStr);
+  }
+  if (infotexts && header) {
+    const metadata = /* @__PURE__ */ new Map();
     infotexts.replaceChildren();
     (task.infotexts ?? []).forEach((infotext) => {
-      const entry = document.createElement("pre");
-      entry.textContent = infotext;
+      const entry = document.createElement("span");
+      entry.innerHTML = infotext.replace(/(?:^|,\s*)(App|Version|Pipeline|Operations):\s*([^,\n]*)/gi, (_match, key, value) => {
+        const values = metadata.get(key) ?? /* @__PURE__ */ new Set();
+        values.add(value.trim());
+        metadata.set(key, values);
+        return "";
+      }).replace(/,\s*,/g, ",").replace(/^\s*,|,\s*$/g, "").trim();
       infotexts.append(entry);
     });
+    header.innerHTML = [...metadata.entries()].map(([key, values]) => `${key}: ${[...values].join(", ")}`).join(joinStr);
   }
 }
 function promptFor(task) {
@@ -56672,33 +56688,6 @@ async function performAction(path, method = "POST", body, message = "Scheduler u
     return false;
   }
 }
-function confirmButton(target, label) {
-  const button = typeof target === "string" ? element(target) : target;
-  if (!button) return false;
-  const iconOnly = Boolean(button.querySelector(".mask-icon"));
-  const setLabel = (value) => {
-    if (iconOnly) {
-      button.setAttribute("aria-label", value);
-      button.title = value;
-    } else {
-      button.textContent = value;
-    }
-  };
-  if (button.dataset.confirmArmed === "true") {
-    button.dataset.confirmArmed = "false";
-    setLabel(label);
-    return true;
-  }
-  button.dataset.confirmArmed = "true";
-  setLabel(iconOnly ? `Confirm ${label.toLowerCase()}` : "Confirm");
-  window.setTimeout(() => {
-    if (button.dataset.confirmArmed === "true") {
-      button.dataset.confirmArmed = "false";
-      setLabel(label);
-    }
-  }, 5e3);
-  return false;
-}
 function performTaskAction(action, task) {
   const paths = {
     execute: `/scheduler/tasks/${task.id}/execute`,
@@ -56894,9 +56883,9 @@ function bindControls() {
     });
   });
   element("scheduler-prune")?.addEventListener("click", () => {
-    const before = element("scheduler-prune-before")?.value;
-    if (!before || !confirmButton("scheduler-prune", "Prune tasks")) return;
-    performAction("/scheduler/prune", "POST", { before: new Date(before).toISOString() }, "Old tasks pruned").catch(() => void 0);
+    let before = element("scheduler-prune-before")?.value;
+    if (!before) before = new Date(Date.now() - 365 * 24 * 60 * 60 * 1e3).toISOString();
+    performAction("/scheduler/prune", "POST", { before: new Date(before).toISOString() }, "Database pruned").catch(() => void 0);
   });
   element("scheduler-reschedule-at")?.addEventListener("change", (event) => {
     const scheduledAt = event.target.value;
