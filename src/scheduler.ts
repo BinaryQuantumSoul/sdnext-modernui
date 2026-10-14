@@ -49,7 +49,7 @@ interface SchedulerTask {
 }
 
 interface SchedulerStatus {
-  state: 'Active' | 'Paused' | 'Auto';
+  state: 'Active' | 'Paused' | 'Auto' | 'Stopped';
   start: string;
   end: string;
   window_open: boolean;
@@ -78,6 +78,7 @@ let refreshTimer: ReturnType<typeof setInterval> | null = null;
 let activeObjectUrls: string[] = [];
 let activeResultObjectUrls: string[] = [];
 let refreshInProgress = false;
+let schedulerStopped = false;
 let nextTaskOffset = 0;
 let hasMoreTasks = true;
 let taskRowsSnapshot = '[]';
@@ -394,6 +395,39 @@ function setSelectedTask(task: SchedulerTask, refreshDetails = true): void {
   }
 }
 
+function updateSchedulerStatus(status: SchedulerStatus): void {
+  schedulerStopped = status.state === 'Stopped';
+  const statusTarget = element('scheduler-worker-status');
+  const windowStatus = status.state === 'Auto' ? ` ${status.start}-${status.end} | Window ${status.window_open ? 'open' : 'closed'}` : '';
+  let workerStatus = 'Worker offline';
+  if (schedulerStopped) workerStatus = 'Scheduler stopped';
+  else if (status.worker_running) workerStatus = 'Worker online';
+  const statusText = `${workerStatus} | ${status.state}${windowStatus}`;
+  if (statusTarget && statusTarget.textContent !== statusText) statusTarget.textContent = statusText;
+  (['Active', 'Paused', 'Auto', 'Stopped'] as const).forEach((state) => {
+    const button = element<HTMLButtonElement>(`scheduler-mode-${state.toLowerCase()}`);
+    const pressed = String(status.state === state);
+    if (button && button.getAttribute('aria-pressed') !== pressed) button.setAttribute('aria-pressed', pressed);
+  });
+  const start = element<HTMLInputElement>('scheduler-window-start');
+  const end = element<HTMLInputElement>('scheduler-window-end');
+  if (start && document.activeElement !== start && start.value !== status.start) start.value = status.start;
+  if (end && document.activeElement !== end && end.value !== status.end) end.value = status.end;
+  const prune = element<HTMLButtonElement>('scheduler-prune');
+  const pruneBefore = element<HTMLInputElement>('scheduler-prune-before');
+  if (prune) prune.disabled = schedulerStopped;
+  if (pruneBefore) pruneBefore.disabled = schedulerStopped;
+  if (schedulerStopped) {
+    releaseObjectUrls();
+    selectedTask = null;
+    setActionState(null);
+    gridApi?.setGridOption('rowData', []);
+    taskRowsSnapshot = '[]';
+    const loadMore = element<HTMLButtonElement>('scheduler-load-more');
+    if (loadMore) loadMore.hidden = true;
+  }
+}
+
 function formatDateTime(value: unknown): string {
   if (typeof value !== 'string' || !value) return '';
   const date = new Date(value);
@@ -405,6 +439,9 @@ async function refreshTasks(): Promise<void> {
   if (!gridApi || refreshInProgress || window.serverOnline !== true) return;
   refreshInProgress = true;
   try {
+    const status = await apiRequest<SchedulerStatus>('/scheduler');
+    updateSchedulerStatus(status);
+    if (status.state === 'Stopped') return;
     const taskRows: SchedulerTask[] = [];
     const targetCount = Math.max(1000, nextTaskOffset);
     let lastPageSize = 0;
@@ -416,7 +453,6 @@ async function refreshTasks(): Promise<void> {
       if (page.length < 1000) break;
     }
     if (window.serverOnline !== true) return;
-    const status = await apiRequest<SchedulerStatus>('/scheduler');
     nextTaskOffset = taskRows.length;
     hasMoreTasks = lastPageSize === 1000;
     const snapshot = JSON.stringify(taskRows);
@@ -440,19 +476,6 @@ async function refreshTasks(): Promise<void> {
         setActionState(null);
       }
     }
-    const statusTarget = element('scheduler-worker-status');
-    const windowStatus = status.state === 'Auto' ? ` ${status.start}-${status.end} | Window ${status.window_open ? 'open' : 'closed'}` : '';
-    const statusText = `${status.worker_running ? 'Worker online' : 'Worker offline'} | ${status.state}${windowStatus}`;
-    if (statusTarget && statusTarget.textContent !== statusText) statusTarget.textContent = statusText;
-    (['Active', 'Paused', 'Auto'] as const).forEach((state) => {
-      const button = element<HTMLButtonElement>(`scheduler-mode-${state.toLowerCase()}`);
-      const pressed = String(status.state === state);
-      if (button && button.getAttribute('aria-pressed') !== pressed) button.setAttribute('aria-pressed', pressed);
-    });
-    const start = element<HTMLInputElement>('scheduler-window-start');
-    const end = element<HTMLInputElement>('scheduler-window-end');
-    if (start && document.activeElement !== start && start.value !== status.start) start.value = status.start;
-    if (end && document.activeElement !== end && end.value !== status.end) end.value = status.end;
   } catch (err) {
     setMessage(`Refresh failed: ${String(err)}`, true);
   } finally {
@@ -460,8 +483,22 @@ async function refreshTasks(): Promise<void> {
   }
 }
 
+async function setSchedulerMode(state: SchedulerStatus['state']): Promise<void> {
+  try {
+    const status = await apiRequest<SchedulerStatus>('/scheduler/state', {
+      method: 'POST',
+      body: JSON.stringify({ state }),
+    });
+    setMessage(`Scheduler set to ${state}`);
+    updateSchedulerStatus(status);
+    if (state !== 'Stopped') await refreshTasks();
+  } catch (err) {
+    setMessage(String(err), true);
+  }
+}
+
 async function loadMoreTasks(): Promise<void> {
-  if (!gridApi || refreshInProgress || !hasMoreTasks || window.serverOnline !== true) return;
+  if (!gridApi || schedulerStopped || refreshInProgress || !hasMoreTasks || window.serverOnline !== true) return;
   refreshInProgress = true;
   const loadMore = element<HTMLButtonElement>('scheduler-load-more');
   if (loadMore) loadMore.disabled = true;
@@ -526,6 +563,7 @@ function taskActionsCell(params: ICellRendererParams<SchedulerTask>): HTMLElemen
     const button = document.createElement('button');
     button.type = 'button';
     button.className = 'sd-button scheduler-row-action';
+    button.id = `scheduler-task-${task.id}-action-${action}`;
     button.disabled = !enabled;
     button.setAttribute('aria-label', label);
     button.title = label;
@@ -677,9 +715,9 @@ function bindControls(): void {
   });
   element('scheduler-refresh')?.addEventListener('click', () => refreshTasks().catch(() => undefined));
   element('scheduler-load-more')?.addEventListener('click', () => loadMoreTasks().catch(() => undefined));
-  (['Active', 'Paused', 'Auto'] as const).forEach((state) => {
+  (['Active', 'Paused', 'Auto', 'Stopped'] as const).forEach((state) => {
     element(`scheduler-mode-${state.toLowerCase()}`)?.addEventListener('click', () => {
-      performAction('/scheduler/state', 'POST', { state }, `Scheduler set to ${state}`).catch(() => undefined);
+      setSchedulerMode(state).catch(() => undefined);
     });
   });
   ([
