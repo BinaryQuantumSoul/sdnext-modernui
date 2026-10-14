@@ -1496,10 +1496,15 @@ input[type="time"], input[type="datetime-local"] {
   width: 100%;
 }
 
+#extras_gallery img {
+  object-fit: cover;
+  height: fit-content !important;
+}
+
 *.gradio-gallery .preview {
   background-color: var(--sd-main-background-color);
   border: var(--sd-border-size) solid var(--sd-input-border-color);
-  display: contents;
+  display: flex;
   flex-direction: column;
   height: 100%;
   position: absolute;
