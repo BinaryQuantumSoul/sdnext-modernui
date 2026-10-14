@@ -1499,7 +1499,7 @@ input[type="time"], input[type="datetime-local"] {
 *.gradio-gallery .preview {
   background-color: var(--sd-main-background-color);
   border: var(--sd-border-size) solid var(--sd-input-border-color);
-  display: flex;
+  display: contents;
   flex-direction: column;
   height: 100%;
   position: absolute;
