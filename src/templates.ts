@@ -7,6 +7,13 @@ export interface TemplateDescriptor {
   target: Element | null;
 }
 
+const MAX_CONCURRENT_TEMPLATE_LOADS = 16;
+
+function getServerTiming(response: Response): number {
+  const duration = response.headers.get('Server-Timing')?.match(/dur=([\d.]+)/)?.[1];
+  return duration ? Number(duration) : 0;
+}
+
 export async function replaceRootTemplate(appId: string): Promise<void> {
   state.appUiUx = document.querySelector(appId);
   if (!state.appUiUx) {
@@ -27,41 +34,64 @@ export async function getNestedTemplates(container: Element): Promise<TemplateDe
   return nestedData;
 }
 
-export async function loadCurrentTemplate(data: TemplateDescriptor[], htmlPath: string): Promise<void> {
-  const currData = data.shift();
-  if (currData) {
-    const t0 = performance.now();
-    const uiDisabled = Array.isArray(window.opts.ui_disabled) ? window.opts.ui_disabled as string[] : [];
-    for (const disabled of uiDisabled) {
-      if (currData.template.includes(disabled)) {
+export async function loadCurrentTemplate(data: TemplateDescriptor[], htmlPath: string, templateVersions: Record<string, string>, templateContents: Record<string, string>): Promise<void> {
+  while (data.length > 0) {
+    const batch = data.splice(0, MAX_CONCURRENT_TEMPLATE_LOADS);
+    const nestedTemplates = await Promise.all(batch.map(async (currData) => {
+      const t0 = performance.now();
+      const uiDisabled = Array.isArray(window.opts.ui_disabled) ? window.opts.ui_disabled as string[] : [];
+      if (uiDisabled.some((disabled) => currData.template.includes(disabled))) {
         log('loadTemplate', { template: currData.template, status: 'disabled' });
-        return loadCurrentTemplate(data, htmlPath);
+        return [];
       }
-    }
 
-    const uri = `${window.subpath}${htmlPath}/templates/${currData.template}.html?${Date.now()}`;
-    const response = await authFetch(uri, { cache: 'reload' });
-    if (!response?.ok) {
-      error('loadTemplate', { template: currData.template, target: currData.target, status: 'error' });
-      if (currData.target) currData.target.setAttribute('status', 'error');
-    } else {
-      const text = await response.text();
-      const tempDiv = document.createElement('div');
-      tempDiv.innerHTML = currData.key ? text.replace(/\s*\{\{.*?\}\}\s*/g, currData.key) : text;
-      const nestedData = await getNestedTemplates(tempDiv);
-      data.push(...nestedData);
-      if (currData.target) {
-        currData.target.setAttribute('status', 'true');
-        currData.target.append(tempDiv.firstElementChild!);
+      const templatePath = `templates/${currData.template}.html`;
+      const version = templateVersions[templatePath];
+      const uri = `${window.subpath}${htmlPath}/${templatePath}${version ? `?v=${version}` : ''}`;
+      const fetchStart = performance.now();
+      let response: Response | undefined;
+      let text = templateContents[templatePath];
+      if (text === undefined) response = await authFetch(uri, version ? {} : { cache: 'no-cache' });
+      const fetchEnd = performance.now();
+      let nestedData: TemplateDescriptor[] = [];
+      let bodyMs = 0;
+      let parseMs = 0;
+      let appendMs = 0;
+      if (text === undefined && !response?.ok) {
+        error('loadTemplate', { template: currData.template, target: currData.target, status: 'error' });
+        if (currData.target) currData.target.setAttribute('status', 'error');
       } else {
-        error('loadTemplateNoTarget', { template: currData.template, key: currData.key, status: 'error' });
+        if (text === undefined && response) {
+          const bodyStart = performance.now();
+          text = await response.text();
+          bodyMs = performance.now() - bodyStart;
+        }
+        const parseStart = performance.now();
+        const tempDiv = document.createElement('div');
+        const templateText = text ?? '';
+        tempDiv.innerHTML = currData.key ? templateText.replace(/\s*\{\{.*?\}\}\s*/g, currData.key) : templateText;
+        nestedData = await getNestedTemplates(tempDiv);
+        parseMs = performance.now() - parseStart;
+        if (currData.target) {
+          const appendStart = performance.now();
+          currData.target.setAttribute('status', 'true');
+          currData.target.append(tempDiv.firstElementChild!);
+          appendMs = performance.now() - appendStart;
+        } else {
+          error('loadTemplateNoTarget', { template: currData.template, key: currData.key, status: 'error' });
+        }
       }
-    }
-    const t1 = performance.now();
-    timer(`loadTemplate:${currData.template}`, t1 - t0);
-    return loadCurrentTemplate(data, htmlPath);
+      const t1 = performance.now();
+      timer(`loadTemplate:${currData.template}`, t1 - t0);
+      timer(`loadTemplate:${currData.template}:fetch`, fetchEnd - fetchStart);
+      timer(`loadTemplate:${currData.template}:server`, response ? getServerTiming(response) : 0);
+      timer(`loadTemplate:${currData.template}:body`, bodyMs);
+      timer(`loadTemplate:${currData.template}:parse`, parseMs);
+      timer(`loadTemplate:${currData.template}:append`, appendMs);
+      return nestedData;
+    }));
+    nestedTemplates.forEach((nestedData) => data.push(...nestedData));
   }
-  return Promise.resolve();
 }
 
 export async function loadAllTemplates(htmlPath: string, rootTemplate: string, tabId: string): Promise<void> {
@@ -75,11 +105,47 @@ export async function loadAllTemplates(htmlPath: string, rootTemplate: string, t
 
   if (!data[0].target) error('LoadAllTemplates: missing target', { template: rootTemplate, target: data[0].target, status: 'error' });
   const t0 = performance.now();
-  await loadCurrentTemplate(data, htmlPath);
+  let templateVersions: Record<string, string> = {};
+  let templateContents: Record<string, string> = {};
+  const manifestFetchStart = performance.now();
+  const manifestResponse = await authFetch(`${window.subpath}${htmlPath}`, { cache: 'no-cache' });
+  const manifestFetchEnd = performance.now();
+  const manifestServerMs = manifestResponse ? getServerTiming(manifestResponse) : 0;
+  if (manifestResponse?.ok) {
+    try {
+      const manifestBody = await manifestResponse.text();
+      const manifestBodyEnd = performance.now();
+      const payload = JSON.parse(manifestBody) as unknown;
+      const manifestParsed = performance.now();
+      if (payload && typeof payload === 'object' && !Array.isArray(payload)) {
+        const payloadData = payload as Record<string, unknown>;
+        const versions = payloadData.manifest && typeof payloadData.manifest === 'object' ? payloadData.manifest : payloadData;
+        const contents = payloadData.templates && typeof payloadData.templates === 'object' ? payloadData.templates : {};
+        if (!Array.isArray(versions)) {
+          templateVersions = Object.fromEntries(Object.entries(versions).filter((entry): entry is [string, string] => typeof entry[1] === 'string'));
+        }
+        if (!Array.isArray(contents)) {
+          templateContents = Object.fromEntries(Object.entries(contents).filter((entry): entry is [string, string] => typeof entry[1] === 'string'));
+        }
+      }
+      timer('loadAllTemplates:manifest:fetch', manifestFetchEnd - manifestFetchStart);
+      timer('loadAllTemplates:manifest:body', manifestBodyEnd - manifestFetchEnd);
+      timer('loadAllTemplates:manifest:json', manifestParsed - manifestBodyEnd);
+    } catch (err) {
+      error('loadTemplateManifest', { status: 'error', error: err });
+    }
+  } else {
+    error('loadTemplateManifest', { status: 'error' });
+  }
   const t1 = performance.now();
-  timer('loadAllTemplates:load', t1 - t0);
-  await replaceRootTemplate('#sdnext_app');
+  timer('loadAllTemplates:manifest', t1 - t0);
+  timer('loadAllTemplates:manifest-server', manifestServerMs);
+  await loadCurrentTemplate(data, htmlPath, templateVersions, templateContents);
   const t2 = performance.now();
-  timer('loadAllTemplates:replace', t2 - t1);
-  log('loadAllTemplates', { load: Math.round(t1 - t0), replace: Math.round(t2 - t1) });
+  timer('loadAllTemplates:templates', t2 - t1);
+  timer('loadAllTemplates:load', t2 - t0);
+  await replaceRootTemplate('#sdnext_app');
+  const t3 = performance.now();
+  timer('loadAllTemplates:replace', t3 - t2);
+  log('loadAllTemplates', { manifest: Math.round(t1 - t0), load: Math.round(t2 - t1), replace: Math.round(t3 - t2) });
 }

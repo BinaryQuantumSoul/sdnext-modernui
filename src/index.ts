@@ -26,9 +26,27 @@ import { functionWaitForFlag } from './utils';
 import { initHotkeys } from './hotkeys';
 import { bindVideoButtons } from './video';
 
-const htmlPath = '/file=extensions-builtin/sdnext-modernui/html';
+const htmlPath = '/html';
 const rootTemplate = 'template-app-root';
 const tabId = '#tab_sdnext_uiux_core';
+
+function loadSchedulerWhenVisible(): void {
+  const host = document.getElementById('scheduler-grid');
+  if (!host) return;
+  let loading = false;
+  const observer = new IntersectionObserver((entries) => {
+    if (loading || !entries.some((entry) => entry.isIntersecting)) return;
+    loading = true;
+    observer.disconnect();
+    const currentUrl = new URL(import.meta.url);
+    const schedulerUrl = new URL('./scheduler.mjs', currentUrl);
+    schedulerUrl.search = currentUrl.search;
+    import(schedulerUrl.href)
+      .then(({ initScheduler }) => initScheduler())
+      .catch((err: unknown) => error('loadScheduler', err));
+  });
+  observer.observe(host);
+}
 
 // Window compatibility hooks
 window.getUICurrentTabContent = () => gradioApp().querySelector('.xtabs-item:not(.hidden) > .split');
@@ -44,7 +62,6 @@ async function mainUiUx(): Promise<void> {
   try {
     const t0 = performance.now();
     log('initModernUi');
-    log('userAgent', navigator?.userAgent);
     await removeStyleAssets();
     await setupLogger();
     await loadAllTemplates(htmlPath, rootTemplate, tabId);
@@ -76,6 +93,7 @@ async function mainUiUx(): Promise<void> {
     initServerInfo();
     initHotkeys();
     bindVideoButtons();
+    loadSchedulerWhenVisible();
 
     loadRetryPortals(); // some elements may be late so retrying
 

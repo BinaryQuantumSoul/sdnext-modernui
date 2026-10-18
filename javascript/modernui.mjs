@@ -1426,6 +1426,11 @@ function largeErrorOverlay(msg, err) {
 }
 
 // src/templates.ts
+var MAX_CONCURRENT_TEMPLATE_LOADS = 16;
+function getServerTiming(response) {
+  const duration = response.headers.get("Server-Timing")?.match(/dur=([\d.]+)/)?.[1];
+  return duration ? Number(duration) : 0;
+}
 async function replaceRootTemplate(appId) {
   state.appUiUx = document.querySelector(appId);
   if (!state.appUiUx) {
@@ -1444,40 +1449,63 @@ async function getNestedTemplates(container) {
   });
   return nestedData;
 }
-async function loadCurrentTemplate(data, htmlPath2) {
-  const currData = data.shift();
-  if (currData) {
-    const t0 = performance.now();
-    const uiDisabled = Array.isArray(window.opts.ui_disabled) ? window.opts.ui_disabled : [];
-    for (const disabled of uiDisabled) {
-      if (currData.template.includes(disabled)) {
+async function loadCurrentTemplate(data, htmlPath2, templateVersions, templateContents) {
+  while (data.length > 0) {
+    const batch = data.splice(0, MAX_CONCURRENT_TEMPLATE_LOADS);
+    const nestedTemplates = await Promise.all(batch.map(async (currData) => {
+      const t0 = performance.now();
+      const uiDisabled = Array.isArray(window.opts.ui_disabled) ? window.opts.ui_disabled : [];
+      if (uiDisabled.some((disabled) => currData.template.includes(disabled))) {
         log("loadTemplate", { template: currData.template, status: "disabled" });
-        return loadCurrentTemplate(data, htmlPath2);
+        return [];
       }
-    }
-    const uri = `${window.subpath}${htmlPath2}/templates/${currData.template}.html?${Date.now()}`;
-    const response = await authFetch(uri, { cache: "reload" });
-    if (!response?.ok) {
-      error("loadTemplate", { template: currData.template, target: currData.target, status: "error" });
-      if (currData.target) currData.target.setAttribute("status", "error");
-    } else {
-      const text = await response.text();
-      const tempDiv = document.createElement("div");
-      tempDiv.innerHTML = currData.key ? text.replace(/\s*\{\{.*?\}\}\s*/g, currData.key) : text;
-      const nestedData = await getNestedTemplates(tempDiv);
-      data.push(...nestedData);
-      if (currData.target) {
-        currData.target.setAttribute("status", "true");
-        currData.target.append(tempDiv.firstElementChild);
+      const templatePath = `templates/${currData.template}.html`;
+      const version = templateVersions[templatePath];
+      const uri = `${window.subpath}${htmlPath2}/${templatePath}${version ? `?v=${version}` : ""}`;
+      const fetchStart = performance.now();
+      let response;
+      let text = templateContents[templatePath];
+      if (text === void 0) response = await authFetch(uri, version ? {} : { cache: "no-cache" });
+      const fetchEnd = performance.now();
+      let nestedData = [];
+      let bodyMs = 0;
+      let parseMs = 0;
+      let appendMs = 0;
+      if (text === void 0 && !response?.ok) {
+        error("loadTemplate", { template: currData.template, target: currData.target, status: "error" });
+        if (currData.target) currData.target.setAttribute("status", "error");
       } else {
-        error("loadTemplateNoTarget", { template: currData.template, key: currData.key, status: "error" });
+        if (text === void 0 && response) {
+          const bodyStart = performance.now();
+          text = await response.text();
+          bodyMs = performance.now() - bodyStart;
+        }
+        const parseStart = performance.now();
+        const tempDiv = document.createElement("div");
+        const templateText = text ?? "";
+        tempDiv.innerHTML = currData.key ? templateText.replace(/\s*\{\{.*?\}\}\s*/g, currData.key) : templateText;
+        nestedData = await getNestedTemplates(tempDiv);
+        parseMs = performance.now() - parseStart;
+        if (currData.target) {
+          const appendStart = performance.now();
+          currData.target.setAttribute("status", "true");
+          currData.target.append(tempDiv.firstElementChild);
+          appendMs = performance.now() - appendStart;
+        } else {
+          error("loadTemplateNoTarget", { template: currData.template, key: currData.key, status: "error" });
+        }
       }
-    }
-    const t1 = performance.now();
-    timer(`loadTemplate:${currData.template}`, t1 - t0);
-    return loadCurrentTemplate(data, htmlPath2);
+      const t1 = performance.now();
+      timer(`loadTemplate:${currData.template}`, t1 - t0);
+      timer(`loadTemplate:${currData.template}:fetch`, fetchEnd - fetchStart);
+      timer(`loadTemplate:${currData.template}:server`, response ? getServerTiming(response) : 0);
+      timer(`loadTemplate:${currData.template}:body`, bodyMs);
+      timer(`loadTemplate:${currData.template}:parse`, parseMs);
+      timer(`loadTemplate:${currData.template}:append`, appendMs);
+      return nestedData;
+    }));
+    nestedTemplates.forEach((nestedData) => data.push(...nestedData));
   }
-  return Promise.resolve();
 }
 async function loadAllTemplates(htmlPath2, rootTemplate2, tabId2) {
   const data = [
@@ -1489,13 +1517,49 @@ async function loadAllTemplates(htmlPath2, rootTemplate2, tabId2) {
   ];
   if (!data[0].target) error("LoadAllTemplates: missing target", { template: rootTemplate2, target: data[0].target, status: "error" });
   const t0 = performance.now();
-  await loadCurrentTemplate(data, htmlPath2);
+  let templateVersions = {};
+  let templateContents = {};
+  const manifestFetchStart = performance.now();
+  const manifestResponse = await authFetch(`${window.subpath}${htmlPath2}`, { cache: "no-cache" });
+  const manifestFetchEnd = performance.now();
+  const manifestServerMs = manifestResponse ? getServerTiming(manifestResponse) : 0;
+  if (manifestResponse?.ok) {
+    try {
+      const manifestBody = await manifestResponse.text();
+      const manifestBodyEnd = performance.now();
+      const payload = JSON.parse(manifestBody);
+      const manifestParsed = performance.now();
+      if (payload && typeof payload === "object" && !Array.isArray(payload)) {
+        const payloadData = payload;
+        const versions = payloadData.manifest && typeof payloadData.manifest === "object" ? payloadData.manifest : payloadData;
+        const contents = payloadData.templates && typeof payloadData.templates === "object" ? payloadData.templates : {};
+        if (!Array.isArray(versions)) {
+          templateVersions = Object.fromEntries(Object.entries(versions).filter((entry) => typeof entry[1] === "string"));
+        }
+        if (!Array.isArray(contents)) {
+          templateContents = Object.fromEntries(Object.entries(contents).filter((entry) => typeof entry[1] === "string"));
+        }
+      }
+      timer("loadAllTemplates:manifest:fetch", manifestFetchEnd - manifestFetchStart);
+      timer("loadAllTemplates:manifest:body", manifestBodyEnd - manifestFetchEnd);
+      timer("loadAllTemplates:manifest:json", manifestParsed - manifestBodyEnd);
+    } catch (err) {
+      error("loadTemplateManifest", { status: "error", error: err });
+    }
+  } else {
+    error("loadTemplateManifest", { status: "error" });
+  }
   const t1 = performance.now();
-  timer("loadAllTemplates:load", t1 - t0);
-  await replaceRootTemplate("#sdnext_app");
+  timer("loadAllTemplates:manifest", t1 - t0);
+  timer("loadAllTemplates:manifest-server", manifestServerMs);
+  await loadCurrentTemplate(data, htmlPath2, templateVersions, templateContents);
   const t2 = performance.now();
-  timer("loadAllTemplates:replace", t2 - t1);
-  log("loadAllTemplates", { load: Math.round(t1 - t0), replace: Math.round(t2 - t1) });
+  timer("loadAllTemplates:templates", t2 - t1);
+  timer("loadAllTemplates:load", t2 - t0);
+  await replaceRootTemplate("#sdnext_app");
+  const t3 = performance.now();
+  timer("loadAllTemplates:replace", t3 - t2);
+  log("loadAllTemplates", { manifest: Math.round(t1 - t0), load: Math.round(t2 - t1), replace: Math.round(t3 - t2) });
 }
 
 // src/portals.ts
@@ -1940,9 +2004,24 @@ async function bindVideoButtons() {
 }
 
 // src/index.ts
-var htmlPath = "/file=extensions-builtin/sdnext-modernui/html";
+var htmlPath = "/html";
 var rootTemplate = "template-app-root";
 var tabId = "#tab_sdnext_uiux_core";
+function loadSchedulerWhenVisible() {
+  const host = document.getElementById("scheduler-grid");
+  if (!host) return;
+  let loading = false;
+  const observer = new IntersectionObserver((entries) => {
+    if (loading || !entries.some((entry) => entry.isIntersecting)) return;
+    loading = true;
+    observer.disconnect();
+    const currentUrl = new URL(import.meta.url);
+    const schedulerUrl = new URL("./scheduler.mjs", currentUrl);
+    schedulerUrl.search = currentUrl.search;
+    import(schedulerUrl.href).then(({ initScheduler }) => initScheduler()).catch((err) => error("loadScheduler", err));
+  });
+  observer.observe(host);
+}
 window.getUICurrentTabContent = () => gradioApp().querySelector(".xtabs-item:not(.hidden) > .split");
 window.getSettingsTabs = () => gradioApp().querySelectorAll("#layout-settings .tabitem");
 window.waitForUiReady = functionWaitForFlag(() => state.uiFlagInitialized);
@@ -1954,7 +2033,6 @@ async function mainUiUx() {
   try {
     const t0 = performance.now();
     log("initModernUi");
-    log("userAgent", navigator?.userAgent);
     await removeStyleAssets();
     await setupLogger();
     await loadAllTemplates(htmlPath, rootTemplate, tabId);
@@ -1984,6 +2062,7 @@ async function mainUiUx() {
     initServerInfo();
     initHotkeys();
     bindVideoButtons();
+    loadSchedulerWhenVisible();
     loadRetryPortals();
     state.uiFlagInitialized = true;
     const t3 = performance.now();
