@@ -8,6 +8,7 @@ export interface TemplateDescriptor {
 }
 
 const MAX_CONCURRENT_TEMPLATE_LOADS = 16;
+const LEGACY_HTML_PATH = '/file=extensions-builtin/sdnext-modernui/html';
 
 function getServerTiming(response: Response): number {
   const duration = response.headers.get('Server-Timing')?.match(/dur=([\d.]+)/)?.[1];
@@ -107,40 +108,45 @@ export async function loadAllTemplates(htmlPath: string, rootTemplate: string, t
   const t0 = performance.now();
   let templateVersions: Record<string, string> = {};
   let templateContents: Record<string, string> = {};
+  let templateHtmlPath = htmlPath;
   const manifestFetchStart = performance.now();
-  const manifestResponse = await authFetch(`${window.subpath}${htmlPath}`, { cache: 'no-cache' });
-  const manifestFetchEnd = performance.now();
-  const manifestServerMs = manifestResponse ? getServerTiming(manifestResponse) : 0;
-  if (manifestResponse?.ok) {
-    try {
-      const manifestBody = await manifestResponse.text();
-      const manifestBodyEnd = performance.now();
-      const payload = JSON.parse(manifestBody) as unknown;
-      const manifestParsed = performance.now();
-      if (payload && typeof payload === 'object' && !Array.isArray(payload)) {
-        const payloadData = payload as Record<string, unknown>;
-        const versions = payloadData.manifest && typeof payloadData.manifest === 'object' ? payloadData.manifest : payloadData;
-        const contents = payloadData.templates && typeof payloadData.templates === 'object' ? payloadData.templates : {};
-        if (!Array.isArray(versions)) {
-          templateVersions = Object.fromEntries(Object.entries(versions).filter((entry): entry is [string, string] => typeof entry[1] === 'string'));
-        }
-        if (!Array.isArray(contents)) {
-          templateContents = Object.fromEntries(Object.entries(contents).filter((entry): entry is [string, string] => typeof entry[1] === 'string'));
-        }
-      }
-      timer('loadAllTemplates:manifest:fetch', manifestFetchEnd - manifestFetchStart);
-      timer('loadAllTemplates:manifest:body', manifestBodyEnd - manifestFetchEnd);
-      timer('loadAllTemplates:manifest:json', manifestParsed - manifestBodyEnd);
-    } catch (err) {
-      error('loadTemplateManifest', { status: 'error', error: err });
+  let manifestFetchEnd = manifestFetchStart;
+  let manifestServerMs = 0;
+  try {
+    const manifestResponse = await authFetch(`${window.subpath}${htmlPath}`, { cache: 'no-cache' });
+    manifestFetchEnd = performance.now();
+    manifestServerMs = manifestResponse ? getServerTiming(manifestResponse) : 0;
+    if (!manifestResponse?.ok) throw new Error(`Manifest request failed: ${manifestResponse?.status ?? 'no response'}`);
+    const manifestBody = await manifestResponse.text();
+    const manifestBodyEnd = performance.now();
+    const payload = JSON.parse(manifestBody) as unknown;
+    const manifestParsed = performance.now();
+    if (!payload || typeof payload !== 'object' || Array.isArray(payload)) throw new Error('Invalid manifest payload');
+    const payloadData = payload as Record<string, unknown>;
+    const versions = payloadData.manifest;
+    const contents = payloadData.templates;
+    if (!versions || typeof versions !== 'object' || Array.isArray(versions) || !contents || typeof contents !== 'object' || Array.isArray(contents)) {
+      throw new Error('Manifest does not include bundled templates');
     }
-  } else {
-    error('loadTemplateManifest', { status: 'error' });
+    templateVersions = Object.fromEntries(Object.entries(versions).filter((entry): entry is [string, string] => typeof entry[1] === 'string'));
+    templateContents = Object.fromEntries(Object.entries(contents).filter((entry): entry is [string, string] => typeof entry[1] === 'string'));
+    timer('loadAllTemplates:manifest:fetch', manifestFetchEnd - manifestFetchStart);
+    timer('loadAllTemplates:manifest:body', manifestBodyEnd - manifestFetchEnd);
+    timer('loadAllTemplates:manifest:json', manifestParsed - manifestBodyEnd);
+  } catch (err) {
+    if (manifestFetchEnd === manifestFetchStart) manifestFetchEnd = performance.now();
+    templateHtmlPath = LEGACY_HTML_PATH;
+    templateVersions = {};
+    templateContents = {};
+    log('loadTemplateManifestFallback', { path: templateHtmlPath, error: String(err) });
+    timer('loadAllTemplates:manifest:fetch', manifestFetchEnd - manifestFetchStart);
+    timer('loadAllTemplates:manifest:body', 0);
+    timer('loadAllTemplates:manifest:json', 0);
   }
   const t1 = performance.now();
   timer('loadAllTemplates:manifest', t1 - t0);
   timer('loadAllTemplates:manifest-server', manifestServerMs);
-  await loadCurrentTemplate(data, htmlPath, templateVersions, templateContents);
+  await loadCurrentTemplate(data, templateHtmlPath, templateVersions, templateContents);
   const t2 = performance.now();
   timer('loadAllTemplates:templates', t2 - t1);
   timer('loadAllTemplates:load', t2 - t0);
