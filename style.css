@@ -5360,10 +5360,6 @@ div#video_params_control_tabitem .video-settings .gradio-accordion .form {
   line-height: 0.8em;
 }
 
-.subseed-strength {
-  outline: none !important;
-}
-
 .overlay-buttons {
   position: absolute;
   top: var(--sd-panel-padding);
