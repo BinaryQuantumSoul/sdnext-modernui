@@ -1501,6 +1501,10 @@ input[type="time"], input[type="datetime-local"] {
   height: fit-content !important;
 }
 
+.thumbnails.scroll-hide {
+  max-height: max-content;
+}
+
 *.gradio-gallery .preview {
   background-color: var(--sd-main-background-color);
   border: var(--sd-border-size) solid var(--sd-input-border-color);
