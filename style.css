@@ -349,6 +349,10 @@ hr {
   padding: 0;
 }
 
+button > button, button > div > button {
+  box-shadow: none !important;
+}
+
 *.gradio-button.tool {
   align-self: flex-end;
   background: unset;
