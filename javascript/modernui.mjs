@@ -1840,7 +1840,9 @@ async function applyAutoHide() {
     }
   });
   const minimizeToggle = (el, evt) => {
-    if (evt.target === el || evt.target === el.firstElementChild || evt.target.parentElement === el.firstElementChild || el.firstElementChild?.contains(evt.target) && evt.target.nodeName === "H2") {
+    const target = evt.target instanceof Element ? evt.target : null;
+    const heading = target?.closest("h2");
+    if (evt.target === el || evt.target === el.firstElementChild || evt.target.parentElement === el.firstElementChild || heading !== null && heading !== void 0 && el.firstElementChild?.contains(heading)) {
       const id = el.id || el.innerText;
       el.classList.toggle("minimize");
       setStored(`hide_${id}`, el.classList.contains("minimize"));
