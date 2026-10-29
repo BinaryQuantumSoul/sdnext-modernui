@@ -349,6 +349,10 @@ hr {
   padding: 0;
 }
 
+button > button, button > div > button {
+  box-shadow: none !important;
+}
+
 *.gradio-button.tool {
   align-self: flex-end;
   background: unset;
@@ -1499,6 +1503,10 @@ input[type="time"], input[type="datetime-local"] {
 #extras_gallery img {
   object-fit: cover;
   height: fit-content !important;
+}
+
+.thumbnails.scroll-hide {
+  max-height: max-content;
 }
 
 *.gradio-gallery .preview {
@@ -5358,10 +5366,6 @@ div#video_params_control_tabitem .video-settings .gradio-accordion .form {
   min-height: 1.2em;
   align-self: center;
   line-height: 0.8em;
-}
-
-.subseed-strength {
-  outline: none !important;
 }
 
 .overlay-buttons {

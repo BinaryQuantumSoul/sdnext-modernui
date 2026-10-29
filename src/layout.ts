@@ -125,10 +125,12 @@ export async function applyAutoHide(): Promise<void> {
   });
 
   const minimizeToggle = (el: Element, evt: MouseEvent): void => {
+    const target = evt.target instanceof Element ? evt.target : null;
+    const heading = target?.closest('h2');
     if (evt.target === el
       || evt.target === el.firstElementChild
       || (evt.target as Element).parentElement === el.firstElementChild
-      || (el.firstElementChild?.contains(evt.target as Node) && (evt.target as Element).nodeName === 'H2')
+      || (heading !== null && heading !== undefined && el.firstElementChild?.contains(heading))
     ) {
       const id = el.id || (el as HTMLElement).innerText;
       el.classList.toggle('minimize');
