@@ -1,0 +1,58 @@
+<div id="layout-chat" class="layout chat-layout">
+  <div class="layout-header">
+    <div class="flexbox row shrink panel padding no-br">
+      <div class="chat-header-row">
+        <div id="chat-heading" class="chat-title" role="heading" aria-level="2">Chat</div>
+        <div class="chat-header-controls">
+          <span class="chat-local-tag" role="status">Ready</span>
+          <button id="chat-session-toggle" class="sd-button chat-session-toggle" type="button" aria-expanded="false" aria-controls="chat-session-panel">
+            <div class="mask-icon icon-chat" aria-hidden="true"></div>
+            <span id="chat-session-label">Sessions</span>
+          </button>
+          <button id="chat-help" class="sd-button" type="button" aria-label="Help" title="Help">
+            <div class="mask-icon icon-info" aria-hidden="true"></div>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="layout-content">
+    <section id="chat-session-panel" class="chat-session-panel" aria-labelledby="chat-sessions-heading" hidden>
+      <div class="chat-session-panel-header">
+        <h3 id="chat-sessions-heading">Sessions</h3>
+        <div class="chat-session-panel-actions">
+          <button id="chat-new-session" class="sd-button" type="button" title="New chat" aria-label="New chat">
+            <div class="mask-icon icon-plus" aria-hidden="true"></div>
+          </button>
+          <button id="chat-close-sessions" class="sd-button" type="button" title="Close sessions" aria-label="Close sessions">
+            <div class="mask-icon icon-cancel" aria-hidden="true"></div>
+          </button>
+        </div>
+      </div>
+      <div id="chat-session-list" class="chat-session-list" role="list" aria-labelledby="chat-sessions-heading"></div>
+    </section>
+    <dialog id="chat-rename-session-dialog" class="chat-session-rename-dialog" aria-labelledby="chat-rename-session-heading">
+      <form id="chat-rename-session-form">
+        <h3 id="chat-rename-session-heading">Rename session</h3>
+        <label id="chat-rename-session-label" for="chat-rename-session-input">Session name</label>
+        <input id="chat-rename-session-input" type="text" maxlength="64" required autocomplete="off" />
+        <div class="chat-session-panel-actions">
+          <button id="chat-rename-session-cancel" class="sd-button" type="button">Cancel</button>
+          <button id="chat-rename-session-save" class="sd-button" type="submit">Save</button>
+        </div>
+      </form>
+    </dialog>
+    <div class="chat-workspace">
+      <div id="chat-messages" class="chat-message-list" role="log" aria-label="Chat messages" aria-live="polite" aria-relevant="additions">
+        <div id="chat-empty-state" class="chat-empty-state">
+          <div class="mask-icon icon-chat" aria-hidden="true"></div>
+          <strong>No messages yet</strong>
+          <span>Send a message to begin.</span>
+        </div>
+      </div>
+      <form id="chat-composer" class="chat-composer">
+        <textarea id="chat-input" rows="2" aria-label="Message" placeholder="Write a command..." autocomplete="off"></textarea>
+      </form>
+    </div>
+  </div>
+</div>

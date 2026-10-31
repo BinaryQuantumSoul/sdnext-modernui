@@ -1,0 +1,1113 @@
+/* Session-backed deterministic chat client for ModernUI. */
+
+interface ChatSession {
+  id: string;
+  title: string;
+  context: 'image' | 'video' | 'process' | 'caption';
+  drafts: Record<string, Record<string, unknown>>;
+  last_generation_prompt: string | null;
+  last_generation_snapshot: Record<string, unknown> | null;
+  created_at: string;
+  updated_at: string;
+}
+
+interface ChatMessage {
+  id: string;
+  role: 'system' | 'user' | 'assistant';
+  content: string;
+  metadata: Record<string, unknown>;
+  created_at: string;
+}
+
+interface ChatSessionDetail {
+  session: ChatSession;
+  messages: ChatMessage[];
+  operations: Record<string, unknown>[];
+  restore_errors: string[];
+}
+
+interface ChatSubmission {
+  session: ChatSession;
+  user_message: ChatMessage;
+  assistant_message: ChatMessage;
+  result: {
+    kind: 'text' | 'operation' | 'schedule' | 'endpoint' | 'error';
+    text: string;
+    data: Record<string, unknown>;
+    sections?: ChatMessageSection[];
+  };
+}
+
+interface ChatEndpointResult {
+  content: string;
+  metadata: Record<string, unknown>;
+}
+
+interface ChatMessageSection {
+  title: string;
+  content: string;
+  format?: string;
+}
+
+interface ChatParameterEntry {
+  name: string;
+  type: string;
+  value: string;
+  is_set: boolean;
+  is_none?: boolean;
+}
+
+interface ChatLocaleEntry {
+  id: string;
+  label: string;
+  localized: string;
+}
+
+function chatText(id: string, fallback: string): string {
+  const entries = window.localization?._;
+  if (Array.isArray(entries)) {
+    const entry = entries.find((item: unknown): item is ChatLocaleEntry => Boolean(
+      item && typeof item === 'object' && 'id' in item && item.id === id,
+    ));
+    if (entry?.localized) return entry.localized;
+    if (entry?.label) return entry.label;
+  }
+  return fallback;
+}
+
+const CHAT_HTML_TAGS = new Set([
+  'a', 'b', 'blockquote', 'br', 'code', 'del', 'div', 'em', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+  'hr', 'i', 'kbd', 'li', 'ol', 'p', 'pre', 's', 'small', 'span', 'strong', 'sub', 'sup', 'table',
+  'tbody', 'td', 'tfoot', 'th', 'thead', 'tr', 'u', 'ul',
+]);
+const CHAT_HTML_BLOCKED_TAGS = new Set(['iframe', 'object', 'script', 'style', 'svg', 'template']);
+
+function appendSafeHtml(target: Node, html: string): void {
+  const parsed = new DOMParser().parseFromString(html, 'text/html');
+  const copyNode = (node: Node, parent: Node): void => {
+    if (node.nodeType === Node.TEXT_NODE) {
+      parent.appendChild(document.createTextNode(node.textContent ?? ''));
+      return;
+    }
+    if (node.nodeType !== Node.ELEMENT_NODE) return;
+    const element = node as Element;
+    const tagName = element.tagName.toLowerCase();
+    if (CHAT_HTML_BLOCKED_TAGS.has(tagName)) return;
+    if (!CHAT_HTML_TAGS.has(tagName)) {
+      element.childNodes.forEach((child) => copyNode(child, parent));
+      return;
+    }
+    const safeElement = document.createElement(tagName);
+    if (tagName === 'a') {
+      const href = element.getAttribute('href');
+      if (href) {
+        try {
+          const url = new URL(href, document.baseURI);
+          if (['http:', 'https:', 'mailto:'].includes(url.protocol)) {
+            safeElement.setAttribute('href', url.href);
+            safeElement.setAttribute('target', '_blank');
+            safeElement.setAttribute('rel', 'noopener noreferrer');
+          }
+        } catch {
+          // Ignore invalid link targets.
+        }
+      }
+    }
+    element.childNodes.forEach((child) => copyNode(child, safeElement));
+    parent.appendChild(safeElement);
+  };
+  parsed.body.childNodes.forEach((node) => copyNode(node, target));
+}
+
+async function apiRequest<T>(path: string, options: RequestInit = {}): Promise<T> {
+  const headers = new Headers(options.headers);
+  if (options.body && !headers.has('Content-Type')) headers.set('Content-Type', 'application/json');
+  const response = await authFetch(`${window.api}${path}`, { ...options, headers });
+  if (!response) throw new Error('The chat API did not return a response');
+  if (!response.ok) {
+    let detail = `${response.status} ${response.statusText}`;
+    try {
+      const body = await response.json() as { detail?: unknown };
+      if (typeof body.detail === 'string') detail = body.detail;
+    } catch {
+      // Keep the HTTP status when the response is not JSON.
+    }
+    throw new Error(detail);
+  }
+  if (response.status === 204) return undefined as T;
+  return response.json() as Promise<T>;
+}
+
+function setMessageContent(content: HTMLElement, message: ChatMessage): void {
+  content.replaceChildren();
+  content.classList.remove('chat-message-params');
+  const rawData = message.metadata.data;
+  if (rawData && typeof rawData === 'object' && !Array.isArray(rawData)) {
+    const data = rawData as Record<string, unknown>;
+    if (data.format === 'params' && Array.isArray(data.parameters)) {
+      const parameters = data.parameters.filter((entry): entry is ChatParameterEntry => Boolean(
+        entry && typeof entry === 'object' && 'name' in entry && typeof entry.name === 'string'
+        && 'type' in entry && typeof entry.type === 'string'
+        && 'value' in entry && typeof entry.value === 'string'
+        && 'is_set' in entry && typeof entry.is_set === 'boolean',
+      ));
+      if (parameters.length > 0) {
+        content.classList.remove('chat-message-sections');
+        content.classList.add('chat-message-params');
+        const table = document.createElement('table');
+        table.className = 'chat-parameter-table';
+        const head = document.createElement('thead');
+        const heading = document.createElement('tr');
+        ['Key', 'Type', 'Value'].forEach((label) => {
+          const cell = document.createElement('th');
+          cell.scope = 'col';
+          cell.textContent = label;
+          heading.append(cell);
+        });
+        head.append(heading);
+        const body = document.createElement('tbody');
+        parameters.forEach((parameter) => {
+          const row = document.createElement('tr');
+          row.className = 'chat-parameter-row';
+          if (parameter.is_set) row.dataset.set = 'true';
+          const name = document.createElement('th');
+          name.scope = 'row';
+          name.textContent = parameter.name;
+          const type = document.createElement('td');
+          type.className = 'chat-parameter-type';
+          type.textContent = parameter.type;
+          const valueCell = document.createElement('td');
+          const value = document.createElement('span');
+          value.className = 'chat-parameter-value';
+          value.dataset.type = parameter.type;
+          value.dataset.none = String(parameter.is_none ?? parameter.value === 'None');
+          value.textContent = parameter.value;
+          valueCell.append(value);
+          row.append(name, type, valueCell);
+          body.append(row);
+        });
+        table.append(head, body);
+        content.append(table);
+        return;
+      }
+    }
+  }
+  const rawSections = message.metadata.sections;
+  if (Array.isArray(rawSections)) {
+    const sections = rawSections.filter((section): section is ChatMessageSection => Boolean(
+      section && typeof section === 'object' && 'title' in section && typeof section.title === 'string'
+      && 'content' in section && typeof section.content === 'string',
+    ));
+    if (sections.length > 0) {
+      content.classList.add('chat-message-sections');
+      sections.forEach((section) => {
+        const sectionElement = document.createElement('section');
+        sectionElement.className = 'chat-message-section';
+        const title = document.createElement('h3');
+        title.className = 'chat-message-section-title';
+        title.textContent = section.title;
+        const sectionContent = document.createElement('div');
+        sectionContent.className = 'chat-message-section-content';
+        if (section.format === 'json' || section.format === 'key-value') {
+          const pre = document.createElement('pre');
+          pre.textContent = section.content;
+          sectionContent.append(pre);
+        } else {
+          sectionContent.textContent = section.content;
+        }
+        sectionElement.append(title, sectionContent);
+        content.append(sectionElement);
+      });
+      return;
+    }
+  }
+  content.classList.remove('chat-message-sections');
+  if (message.metadata.format === 'html') {
+    appendSafeHtml(content, message.content);
+  } else if (message.metadata.format === 'json' || message.metadata.format === 'key-value') {
+    const pre = document.createElement('pre');
+    pre.textContent = message.content;
+    content.append(pre);
+  } else {
+    content.textContent = message.content;
+  }
+}
+
+function appendMessage(container: HTMLElement, message: ChatMessage): void {
+  document.getElementById('chat-empty-state')?.remove();
+  const article = document.createElement('article');
+  article.className = 'chat-message';
+  article.dataset.messageId = message.id;
+  article.dataset.role = message.role;
+  const kind = message.metadata.kind;
+  if (typeof kind === 'string') article.dataset.kind = kind;
+  if (message.metadata.failed === true) article.dataset.error = 'true';
+
+  const author = document.createElement('span');
+  author.className = 'chat-message-author';
+  author.textContent = message.role === 'user' ? chatText('chat-you', 'You') : chatText('chat-assistant', 'Assistant');
+
+  const timestamp = document.createElement('time');
+  timestamp.dateTime = message.created_at;
+  timestamp.textContent = new Date(message.created_at).toLocaleTimeString();
+  timestamp.className = 'chat-message-time';
+  author.append(' ', timestamp);
+
+  const content = document.createElement('div');
+  content.className = 'chat-message-content';
+  setMessageContent(content, message);
+  article.append(author, content);
+  container.append(article);
+  container.scrollTop = container.scrollHeight;
+}
+
+function replaceMessage(container: HTMLElement, previousId: string, message: ChatMessage, moveToEnd = false): boolean {
+  const article = Array.from(container.querySelectorAll<HTMLElement>('.chat-message'))
+    .find((item) => item.dataset.messageId === previousId);
+  if (!article) return false;
+  article.dataset.messageId = message.id;
+  article.dataset.role = message.role;
+  if (typeof message.metadata.kind === 'string') article.dataset.kind = message.metadata.kind;
+  else delete article.dataset.kind;
+  if (message.metadata.failed === true) article.dataset.error = 'true';
+  else delete article.dataset.error;
+  const timestamp = article.querySelector<HTMLTimeElement>('.chat-message-time');
+  if (timestamp) {
+    timestamp.dateTime = message.created_at;
+    timestamp.textContent = new Date(message.created_at).toLocaleTimeString();
+  }
+  const content = article.querySelector<HTMLElement>('.chat-message-content');
+  if (!content) return false;
+  setMessageContent(content, message);
+  if (moveToEnd) container.append(article);
+  container.scrollTop = container.scrollHeight;
+  return true;
+}
+
+function formatEndpointJson(value: unknown): string {
+  const isRecord = (item: unknown): item is Record<string, unknown> => Boolean(
+    item && typeof item === 'object' && !Array.isArray(item),
+  );
+  const scalar = (item: unknown): string => (item === null ? 'null' : String(item));
+  const formatValue = (item: unknown, indent: string, key?: string, recordItem = false): string[] => {
+    const prefix = key === undefined ? indent : `${indent}${key}:`;
+    const valuePrefix = key === undefined ? indent : `${prefix} `;
+    if (isRecord(item)) {
+      const entries = Object.entries(item);
+      if (entries.length === 0) return [`${valuePrefix}{}`];
+      if (recordItem) {
+        const [[firstKey, firstValue], ...remaining] = entries;
+        return [
+          ...formatValue(firstValue, indent, firstKey),
+          ...remaining.flatMap(([childKey, child]) => formatValue(child, `${indent}  `, childKey)),
+        ];
+      }
+      return [
+        ...(key === undefined ? [] : [prefix]),
+        ...entries.flatMap(([childKey, child]) => formatValue(child, key === undefined ? indent : `${indent}  `, childKey)),
+      ];
+    }
+    if (Array.isArray(item)) {
+      return item.length === 0
+        ? [`${valuePrefix}[]`]
+        : [
+          ...(key === undefined ? [] : [prefix]),
+          ...item.flatMap((child) => formatValue(child, key === undefined ? indent : `${indent}  `, undefined, isRecord(child))),
+        ];
+    }
+    return [`${valuePrefix}${scalar(item)}`];
+  };
+  return formatValue(value, '').join('\n');
+}
+
+function formatGpuSections(value: unknown): ChatMessageSection[] {
+  if (!Array.isArray(value)) return [];
+  return value.flatMap((item: unknown) => {
+    if (!item || typeof item !== 'object' || Array.isArray(item)) return [];
+    const gpu = item as Record<string, unknown>;
+    const name = typeof gpu.name === 'string' ? gpu.name : 'GPU';
+    const data = gpu.data && typeof gpu.data === 'object' && !Array.isArray(gpu.data)
+      ? gpu.data as Record<string, unknown>
+      : {};
+    return [{ title: name, content: formatEndpointJson(data), format: 'key-value' }];
+  });
+}
+
+function formatMemorySections(value: unknown): ChatMessageSection[] {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return [];
+  const memory = value as Record<string, unknown>;
+  return [
+    { title: 'RAM', content: formatEndpointJson(memory.ram), format: 'key-value' },
+    { title: 'CUDA', content: formatEndpointJson(memory.cuda), format: 'key-value' },
+    { title: 'Model', content: formatEndpointJson(memory.model), format: 'key-value' },
+  ];
+}
+
+function formatSectionsText(sections: ChatMessageSection[]): string {
+  return sections.map((section) => `${section.title}\n${section.content}`).join('\n\n');
+}
+
+function emptyMessageList(container: HTMLElement): void {
+  const empty = document.createElement('div');
+  empty.id = 'chat-empty-state';
+  empty.className = 'chat-empty-state';
+  const icon = document.createElement('div');
+  icon.className = 'mask-icon icon-chat';
+  icon.setAttribute('aria-hidden', 'true');
+  const title = document.createElement('strong');
+  title.textContent = chatText('chat-empty-title', 'No messages yet');
+  const prompt = document.createElement('span');
+  prompt.textContent = chatText('chat-empty-prompt', 'Send a message to begin.');
+  empty.append(icon, title, prompt);
+  container.append(empty);
+}
+
+export function initChat(): void {
+  const container = document.getElementById('chat-messages');
+  const form = document.getElementById('chat-composer');
+  const input = document.getElementById('chat-input');
+  const help = document.getElementById('chat-help');
+  const status = document.querySelector<HTMLElement>('.chat-local-tag');
+  const heading = document.getElementById('chat-heading');
+  const resultsContent = document.querySelector<HTMLElement>('#layout-chat-results .chat-results-content');
+  const chatGenerate = document.getElementById('chat_generate');
+  const chatSchedule = document.getElementById('chat-schedule');
+  const chatReprocess = document.getElementById('chat-reprocess');
+  const chatLoop = document.getElementById('chat-loop');
+  const chatSkip = document.getElementById('chat-skip');
+  const chatPause = document.getElementById('chat-pause');
+  const chatInterrupt = document.getElementById('chat-interrupt');
+  const sessionLabel = document.getElementById('chat-session-label');
+  const sessionToggle = document.getElementById('chat-session-toggle');
+  const sessionPanel = document.getElementById('chat-session-panel');
+  const sessionList = document.getElementById('chat-session-list');
+  const newSession = document.getElementById('chat-new-session');
+  const closeSessionPanel = document.getElementById('chat-close-sessions');
+  const renameDialog = document.getElementById('chat-rename-session-dialog');
+  const renameForm = document.getElementById('chat-rename-session-form');
+  const renameInput = document.getElementById('chat-rename-session-input');
+  const renameHeading = document.getElementById('chat-rename-session-heading');
+  const renameLabel = document.getElementById('chat-rename-session-label');
+  const renameCancel = document.getElementById('chat-rename-session-cancel');
+  const renameSave = document.getElementById('chat-rename-session-save');
+  if (!(container instanceof HTMLElement) || !(form instanceof HTMLFormElement) || !(input instanceof HTMLTextAreaElement)
+    || !(help instanceof HTMLButtonElement) || !(status instanceof HTMLElement)
+    || !(heading instanceof HTMLElement) || !(sessionLabel instanceof HTMLElement)
+    || !(chatGenerate instanceof HTMLButtonElement) || !(chatSchedule instanceof HTMLButtonElement)
+    || !(chatReprocess instanceof HTMLButtonElement) || !(chatLoop instanceof HTMLButtonElement)
+    || !(chatSkip instanceof HTMLButtonElement) || !(chatPause instanceof HTMLButtonElement)
+    || !(chatInterrupt instanceof HTMLButtonElement)
+    || !(sessionToggle instanceof HTMLButtonElement)
+    || !(sessionPanel instanceof HTMLElement) || !(sessionList instanceof HTMLElement)
+    || !(newSession instanceof HTMLButtonElement) || !(closeSessionPanel instanceof HTMLButtonElement)
+    || !(renameDialog instanceof HTMLDialogElement) || !(renameForm instanceof HTMLFormElement)
+    || !(renameInput instanceof HTMLInputElement) || !(renameHeading instanceof HTMLHeadingElement)
+    || !(renameLabel instanceof HTMLLabelElement)
+    || !(renameCancel instanceof HTMLButtonElement) || !(renameSave instanceof HTMLButtonElement)) return;
+  const chatGenerateLabel = chatGenerate.querySelector('span');
+  if (!(chatGenerateLabel instanceof HTMLSpanElement)) return;
+  const initialGenerateLabel = chatGenerateLabel.textContent || 'Generate';
+  const setGenerateLabel = (label: string): void => {
+    chatGenerateLabel.textContent = label;
+    chatGenerate.title = label;
+    chatGenerate.setAttribute('aria-label', label);
+  };
+
+  let activeSession: ChatSession | null = null;
+  let renamingSession: ChatSession | null = null;
+  let submitting = false;
+  let latestGeneratedImage: string | null = null;
+  const latestGeneratedImages = new Map<string, string>();
+  let activeGenerations = 0;
+  let loopEnabled = false;
+  let generationPaused = false;
+  const disabled = window.opts.chat_enabled !== true;
+  const storageKey = `sdnext-chat-session:${window.subpath || ''}`;
+  heading.textContent = chatText('chat-header', 'Chat');
+
+  const updateToolbarButtons = (): void => {
+    const context = activeSession?.context;
+    const isBusy = disabled || submitting;
+    const hasSnapshot = Boolean(activeSession?.last_generation_snapshot);
+    const canGenerate = context === 'image' || context === 'video' || Boolean(latestGeneratedImage);
+    chatGenerate.disabled = isBusy || activeGenerations > 0 || !canGenerate;
+    chatSchedule.disabled = isBusy || activeGenerations > 0 || !['image', 'video'].includes(String(context));
+    chatReprocess.disabled = isBusy || activeGenerations > 0
+      || !(hasSnapshot || (['process', 'caption'].includes(String(context)) && Boolean(latestGeneratedImage)));
+    chatLoop.disabled = isBusy || !canGenerate;
+    chatSkip.disabled = isBusy || activeGenerations === 0;
+    chatPause.disabled = isBusy || activeGenerations === 0;
+    chatInterrupt.disabled = isBusy || activeGenerations === 0;
+    if (activeGenerations === 0) setGenerateLabel(initialGenerateLabel);
+    chatLoop.setAttribute('aria-pressed', String(loopEnabled));
+    chatPause.setAttribute('aria-pressed', String(generationPaused));
+  };
+
+  const updateStatus = (): void => {
+    if (disabled) {
+      status.textContent = chatText('chat-disabled', 'Chat disabled');
+      status.dataset.state = 'disabled';
+      return;
+    }
+    delete status.dataset.state;
+    status.textContent = chatText('chat-ready', 'Ready');
+  };
+
+  const updateSessionTitle = (): void => {
+    const label = chatText('chat-sessions-heading', 'Sessions');
+    sessionLabel.textContent = label;
+    sessionToggle.title = activeSession ? `${label}: ${activeSession.title}` : label;
+    sessionToggle.setAttribute('aria-label', sessionToggle.title);
+    updateStatus();
+    updateToolbarButtons();
+  };
+
+  updateSessionTitle();
+
+  const setBusy = (busy: boolean): void => {
+    submitting = busy;
+    input.disabled = disabled || busy;
+    help.disabled = disabled || busy;
+    sessionToggle.disabled = disabled || busy;
+    newSession.disabled = disabled || busy;
+    renameInput.disabled = disabled || busy;
+    renameCancel.disabled = disabled || busy;
+    renameSave.disabled = disabled || busy;
+    sessionList.querySelectorAll<HTMLButtonElement>('button').forEach((button) => {
+      button.disabled = disabled || busy || (
+        button.dataset.sessionAction === 'delete' && button.dataset.sessionId === activeSession?.id
+      );
+    });
+    updateToolbarButtons();
+  };
+
+  const closePanel = (focusComposer: boolean): void => {
+    sessionPanel.hidden = true;
+    sessionToggle.setAttribute('aria-expanded', 'false');
+    if (focusComposer && !disabled) input.focus();
+  };
+
+  const openRenameDialog = (session: ChatSession): void => {
+    renamingSession = session;
+    renameInput.value = session.title;
+    renameDialog.showModal();
+    renameInput.focus();
+    renameInput.select();
+  };
+
+  let deleteSessionById: (sessionId: string) => Promise<void>;
+
+  const renderMessages = (messages: ChatMessage[]): void => {
+    container.replaceChildren();
+    if (messages.length === 0) {
+      emptyMessageList(container);
+      return;
+    }
+    messages.forEach((message) => appendMessage(container, message));
+  };
+
+  const localErrorMessage = (err: unknown): ChatMessage => ({
+    id: `error-${Date.now()}`,
+    role: 'assistant',
+    content: `${chatText('chat-request-failed', 'Chat request failed:')} ${err instanceof Error ? err.message : String(err)}`,
+    metadata: { kind: 'error' },
+    created_at: new Date().toISOString(),
+  });
+
+  const rememberGeneratedImage = (image: string | null): void => {
+    latestGeneratedImage = image;
+    if (!activeSession) return;
+    if (image) latestGeneratedImages.set(activeSession.id, image);
+    else latestGeneratedImages.delete(activeSession.id);
+  };
+
+  const clearGenerationResults = (clearImage = true): void => {
+    if (clearImage) rememberGeneratedImage(null);
+    if (!resultsContent) return;
+    resultsContent.replaceChildren();
+    resultsContent.dataset.hasImages = 'false';
+    const icon = document.createElement('div');
+    icon.className = 'mask-icon icon-results';
+    icon.setAttribute('aria-hidden', 'true');
+    resultsContent.append(icon);
+    updateToolbarButtons();
+  };
+
+  const showGeneratedImages = (value: unknown): void => {
+    if (!resultsContent || !Array.isArray(value)) return;
+    const images = value.filter((image): image is string => typeof image === 'string' && image.length > 0);
+    if (images.length === 0) return;
+    rememberGeneratedImage(images[0]);
+    resultsContent.replaceChildren();
+    resultsContent.dataset.hasImages = 'true';
+    images.forEach((image, index) => {
+      const element = document.createElement('img');
+      element.className = 'chat-result-image';
+      element.alt = `Generated image ${index + 1}`;
+      element.loading = 'lazy';
+      element.src = image.startsWith('data:image/') ? image : `data:image/png;base64,${image}`;
+      resultsContent.append(element);
+    });
+    updateToolbarButtons();
+  };
+
+  const showGeneratedVideo = (data: Record<string, unknown>): void => {
+    if (!resultsContent) return;
+    const video = typeof data.video === 'string' ? data.video : '';
+    const thumbnail = typeof data.thumbnail === 'string' ? data.thumbnail : '';
+    const frames = Array.isArray(data.frames) ? data.frames : [];
+    if (frames.length > 0) {
+      showGeneratedImages(frames);
+      return;
+    }
+    rememberGeneratedImage(thumbnail || null);
+    resultsContent.replaceChildren();
+    const videoPath = typeof data.video_path === 'string' ? data.video_path : '';
+    if (video || videoPath) {
+      const player = document.createElement('video');
+      player.className = 'chat-result-video';
+      player.controls = true;
+      player.preload = 'metadata';
+      if (video) {
+        player.src = video.startsWith('data:') ? video : `data:video/mp4;base64,${video}`;
+      } else {
+        player.src = `${window.api}/video/file?file=${encodeURIComponent(videoPath)}`;
+      }
+      resultsContent.append(player);
+    } else if (thumbnail) {
+      const image = document.createElement('img');
+      image.className = 'chat-result-image';
+      image.alt = 'Generated video thumbnail';
+      image.src = thumbnail.startsWith('data:') ? thumbnail : `data:image/png;base64,${thumbnail}`;
+      resultsContent.append(image);
+    } else {
+      clearGenerationResults();
+      return;
+    }
+    updateToolbarButtons();
+  };
+
+  const executeEndpoint = async (data: Record<string, unknown>): Promise<ChatEndpointResult> => {
+    const allowedMethods: Record<string, readonly string[]> = {
+      '/sdapi/v1/version': ['GET'],
+      '/sdapi/v1/platform': ['GET'],
+      '/sdapi/v1/torch': ['GET'],
+      '/sdapi/v1/gpu': ['GET'],
+      '/sdapi/v1/gpu-smi': ['GET'],
+      '/sdapi/v1/memory': ['GET'],
+      '/sdapi/v1/status': ['GET'],
+      '/sdapi/v1/progress': ['GET'],
+      '/sdapi/v1/storage': ['GET'],
+    };
+    const descriptors = data.endpoints;
+    if (!Array.isArray(descriptors) || descriptors.length === 0) {
+      throw new Error('Invalid validated endpoint group');
+    }
+
+    const executeOne = async (descriptor: unknown): Promise<ChatEndpointResult> => {
+      if (!descriptor || typeof descriptor !== 'object' || Array.isArray(descriptor)) {
+        throw new Error('Invalid validated endpoint descriptor');
+      }
+      const endpoint = descriptor as Record<string, unknown>;
+      const alias = endpoint.alias;
+      const method = endpoint.method;
+      const path = endpoint.path;
+      const location = endpoint.location;
+      const args = endpoint.arguments;
+      const methods = typeof path === 'string' ? allowedMethods[path] : undefined;
+      if (typeof alias !== 'string' || typeof path !== 'string'
+        || typeof method !== 'string' || !methods?.includes(method)
+        || !['none', 'query', 'body'].includes(String(location))
+        || !args || typeof args !== 'object' || Array.isArray(args)) {
+        throw new Error('Invalid validated endpoint descriptor');
+      }
+
+      const parameters = new URLSearchParams();
+      if (location === 'query') {
+        Object.entries(args as Record<string, unknown>).forEach(([key, value]) => {
+          if (value === null || value === undefined) return;
+          if (Array.isArray(value)) value.forEach((item) => parameters.append(key, String(item)));
+          else if (typeof value === 'object') parameters.set(key, JSON.stringify(value));
+          else parameters.set(key, String(value));
+        });
+      }
+      const query = parameters.toString();
+      const endpointUrl = `${window.subpath || ''}${path}${query ? `?${query}` : ''}`;
+      const options: RequestInit = { method };
+      if (location === 'body' && Object.keys(args).length > 0) {
+        options.headers = { 'Content-Type': 'application/json' };
+        options.body = JSON.stringify(args);
+      }
+      const response = await authFetch(endpointUrl, options);
+      if (!response) throw new Error('The endpoint did not return a response');
+
+      const contentType = response.headers.get('Content-Type') || '';
+      let output: string;
+      let outputFormat = 'text';
+      let endpointSections: ChatMessageSection[] | undefined;
+      if (contentType.startsWith('image/')) {
+        output = `HTTP ${response.status}: image response omitted from chat output (${contentType}).`;
+      } else {
+        const body = await response.text();
+        if (!body) output = `HTTP ${response.status} ${response.statusText || 'completed'} (no response body).`;
+        else {
+          try {
+            const value: unknown = JSON.parse(body);
+            if (path === '/sdapi/v1/gpu-smi') {
+              endpointSections = formatGpuSections(value);
+              output = formatSectionsText(endpointSections);
+            } else if (path === '/sdapi/v1/memory') {
+              endpointSections = formatMemorySections(value);
+              output = formatSectionsText(endpointSections);
+            } else {
+              output = formatEndpointJson(value);
+            }
+            outputFormat = 'key-value';
+          } catch {
+            output = body;
+          }
+        }
+      }
+      const maxOutputLength = 12000;
+      if (output.length > maxOutputLength) output = `${output.slice(0, maxOutputLength)}\n[Output truncated]`;
+      return {
+        content: output,
+        metadata: {
+          kind: 'endpoint',
+          alias,
+          method,
+          path,
+          status: response.status,
+          format: outputFormat,
+          ...(endpointSections ? { sections: endpointSections } : {}),
+        },
+      };
+    };
+
+    const results: ChatEndpointResult[] = [];
+    for (const descriptor of descriptors) results.push(await executeOne(descriptor));
+    const alias = typeof data.alias === 'string' ? data.alias : 'endpoint';
+    const sectionTitles: Record<string, string> = {
+      version: 'Version', platform: 'Platform', torch: 'Torch', gpu: 'GPU', status: 'Status', progress: 'Progress',
+    };
+    const isInfo = ['info', 'ver', 'version'].includes(alias.toLowerCase());
+    const isStatusCommand = alias.toLowerCase() === 'status';
+    const isGpuCommand = ['gpu', 'smi'].includes(alias.toLowerCase());
+    const isMemoryCommand = ['mem', 'memory'].includes(alias.toLowerCase());
+    let sections: ChatMessageSection[] = [];
+    if (isInfo || isStatusCommand) {
+      sections = results.map((result) => {
+        const endpointAlias = String(result.metadata.alias);
+        return {
+          title: sectionTitles[endpointAlias] || endpointAlias,
+          content: result.content,
+          format: String(result.metadata.format || 'text'),
+        };
+      });
+    } else if (isGpuCommand || isMemoryCommand) {
+      sections = results.flatMap((result) => {
+        const rawSections = result.metadata.sections;
+        if (!Array.isArray(rawSections)) return [];
+        return rawSections.filter((section): section is ChatMessageSection => Boolean(
+          section && typeof section === 'object' && 'title' in section && typeof section.title === 'string'
+          && 'content' in section && typeof section.content === 'string',
+        ));
+      });
+    }
+    const content = sections.length > 0
+      ? formatSectionsText(sections)
+      : results.map((result) => result.content).join('\n\n');
+    const maxOutputLength = 12000;
+    return {
+      content: content.length > maxOutputLength ? `${content.slice(0, maxOutputLength)}\n[Output truncated]` : content,
+      metadata: {
+        kind: 'endpoint',
+        alias,
+        endpoints: results.map((result) => result.metadata),
+        ...(sections.length > 0 ? { sections } : {}),
+      },
+    };
+  };
+
+  const selectSession = async (sessionId: string, focusComposer: boolean): Promise<void> => {
+    const detail = await apiRequest<ChatSessionDetail>(`/chat/sessions/${encodeURIComponent(sessionId)}/restore`, { method: 'POST' });
+    activeSession = detail.session;
+    latestGeneratedImage = latestGeneratedImages.get(activeSession.id) || null;
+    window.localStorage.setItem(storageKey, activeSession.id);
+    updateSessionTitle();
+    sessionList.querySelectorAll<HTMLButtonElement>('.chat-session-item').forEach((button) => {
+      button.setAttribute('aria-current', button.dataset.sessionId === activeSession?.id ? 'true' : 'false');
+    });
+    clearGenerationResults(false);
+    renderMessages(detail.messages);
+    if (detail.restore_errors.length > 0) {
+      appendMessage(container, {
+        id: 'restore-notice',
+        role: 'assistant',
+        content: `${chatText('chat-restore-failed', 'Some saved settings could not be restored:')}\n${detail.restore_errors.join('\n')}`,
+        metadata: {},
+        created_at: new Date().toISOString(),
+      });
+    }
+    if (focusComposer && !disabled) input.focus();
+  };
+
+  const refreshSessionList = async (): Promise<void> => {
+    const sessions = await apiRequest<ChatSession[]>('/chat/sessions?limit=100');
+    sessionList.replaceChildren();
+    if (sessions.length === 0) {
+      const empty = document.createElement('p');
+      empty.className = 'chat-session-empty';
+      empty.textContent = chatText('chat-no-sessions', 'No saved sessions');
+      sessionList.append(empty);
+      return;
+    }
+    sessions.forEach((session) => {
+      const row = document.createElement('div');
+      row.className = 'chat-session-item-row';
+      row.setAttribute('role', 'listitem');
+
+      const selectButton = document.createElement('button');
+      selectButton.type = 'button';
+      selectButton.className = 'chat-session-item';
+      selectButton.dataset.sessionId = session.id;
+      selectButton.setAttribute('aria-current', session.id === activeSession?.id ? 'true' : 'false');
+      const title = document.createElement('span');
+      title.className = 'chat-session-item-title';
+      title.textContent = session.title === 'New chat' ? chatText('chat-new-session', 'New chat') : session.title;
+      const timestamps = document.createElement('span');
+      timestamps.className = 'chat-session-item-times';
+      [
+        { id: 'chat-session-created', label: 'Created', value: session.created_at },
+        { id: 'chat-session-updated', label: 'Updated', value: session.updated_at },
+      ].forEach((item) => {
+        const time = document.createElement('time');
+        time.className = 'chat-session-item-time';
+        time.dateTime = item.value;
+        time.textContent = `${chatText(item.id, item.label)}: ${new Date(item.value).toLocaleString()}`;
+        timestamps.append(time);
+      });
+      selectButton.append(title, timestamps);
+      selectButton.addEventListener('click', () => {
+        setBusy(true);
+        selectSession(session.id, true)
+          .catch((err: unknown) => appendMessage(container, localErrorMessage(err)))
+          .finally(() => {
+            setBusy(false);
+            input.focus();
+          });
+      });
+
+      const actions = document.createElement('div');
+      actions.className = 'chat-session-item-actions';
+      const renameButton = document.createElement('button');
+      renameButton.type = 'button';
+      renameButton.className = 'sd-button';
+      renameButton.title = chatText('chat-rename-session', 'Rename session');
+      renameButton.setAttribute('aria-label', renameButton.title);
+      const renameIcon = document.createElement('div');
+      renameIcon.className = 'mask-icon icon-styles-edit';
+      renameIcon.setAttribute('aria-hidden', 'true');
+      renameButton.append(renameIcon);
+      renameButton.addEventListener('click', () => {
+        openRenameDialog(session);
+      });
+
+      const deleteButton = document.createElement('button');
+      deleteButton.type = 'button';
+      deleteButton.className = 'sd-button';
+      deleteButton.dataset.sessionAction = 'delete';
+      deleteButton.dataset.sessionId = session.id;
+      deleteButton.disabled = session.id === activeSession?.id;
+      deleteButton.title = chatText('chat-delete-session', 'Delete session');
+      deleteButton.setAttribute('aria-label', deleteButton.title);
+      const deleteIcon = document.createElement('div');
+      deleteIcon.className = 'mask-icon icon-delete';
+      deleteIcon.setAttribute('aria-hidden', 'true');
+      deleteButton.append(deleteIcon);
+      deleteButton.addEventListener('click', () => {
+        deleteSessionById(session.id).catch((err: unknown) => appendMessage(container, localErrorMessage(err)));
+      });
+
+      actions.append(renameButton, deleteButton);
+      row.append(selectButton, actions);
+      sessionList.append(row);
+    });
+    setBusy(submitting);
+  };
+
+  const createSession = async (): Promise<void> => {
+    const session = await apiRequest<ChatSession>('/chat/sessions', {
+      method: 'POST',
+      body: JSON.stringify({ context: 'image' }),
+    });
+    await selectSession(session.id, true);
+    await refreshSessionList();
+  };
+
+  async function saveRenameSession(): Promise<void> {
+    if (!renamingSession || !(renameInput instanceof HTMLInputElement)
+      || !(renameDialog instanceof HTMLDialogElement)) return;
+    const session = renamingSession;
+    const title = renameInput.value.trim();
+    if (!title) {
+      renameInput.reportValidity();
+      return;
+    }
+    if (title === session.title) {
+      renameDialog.close();
+      return;
+    }
+    setBusy(true);
+    try {
+      const updated = await apiRequest<ChatSession>(`/chat/sessions/${encodeURIComponent(session.id)}`, {
+        method: 'PATCH',
+        body: JSON.stringify({ title }),
+      });
+      if (activeSession?.id === updated.id) {
+        activeSession = updated;
+        updateSessionTitle();
+      }
+      await refreshSessionList();
+      renameDialog.close();
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  deleteSessionById = async (sessionId: string): Promise<void> => {
+    if (sessionId === activeSession?.id) return;
+    setBusy(true);
+    try {
+      await apiRequest<void>(`/chat/sessions/${encodeURIComponent(sessionId)}`, { method: 'DELETE' });
+      await refreshSessionList();
+    } finally {
+      setBusy(false);
+      sessionList.querySelector<HTMLButtonElement>('.chat-session-item')?.focus();
+    }
+  };
+
+  const submitCommand = async (text: string): Promise<void> => {
+    const content = text.trim();
+    if (!content || disabled || submitting || !activeSession) return;
+    if (content.toLowerCase() === 'loop') {
+      loopEnabled = !loopEnabled;
+      updateToolbarButtons();
+      if (loopEnabled && activeGenerations === 0) {
+        submitCommand('run').catch((err: unknown) => appendMessage(container, localErrorMessage(err)));
+      }
+      return;
+    }
+    const sessionId = activeSession.id;
+    const context = activeSession.context;
+    const commandName = content.split(/\s+/, 1)[0].toLowerCase();
+    const isGenerationCommand = ['run', 'generate', 'start', 'again', 'reprocess'].includes(commandName);
+    if (isGenerationCommand && activeGenerations > 0) {
+      appendMessage(container, localErrorMessage(new Error('A chat generation is already in progress')));
+      return;
+    }
+    const keepsComposerAvailable = isGenerationCommand;
+    if (isGenerationCommand) {
+      activeGenerations += 1;
+      updateToolbarButtons();
+      setGenerateLabel(chatText('chat-generating', 'Generating'));
+      if (context !== 'caption' && window.requestProgress) {
+        window.requestProgress('undefined', null, resultsContent, null, (progress: unknown) => {
+          if (progress && typeof progress === 'object' && 'paused' in progress && typeof progress.paused === 'boolean') {
+            generationPaused = progress.paused;
+            updateToolbarButtons();
+          }
+          if (progress && typeof progress === 'object' && 'active' in progress && progress.active) {
+            const progressLabel = 'textinfo' in progress && typeof progress.textinfo === 'string' && progress.textinfo
+              ? progress.textinfo
+              : 'Generating';
+            const percentage = 'progress' in progress && typeof progress.progress === 'number'
+              ? ` ${Math.round(progress.progress * 100)}%`
+              : '';
+            const label = 'paused' in progress && progress.paused
+              ? chatText('chat-paused', 'Paused')
+              : progressLabel;
+            setGenerateLabel(`${label}${percentage}`);
+            status.textContent = `${progressLabel}${percentage}`;
+            status.dataset.state = 'busy';
+          }
+        });
+      }
+    }
+    if (commandName === 'cancel' || commandName === 'abort' || commandName === 'stop' || commandName === 'interrupt') {
+      loopEnabled = false;
+      updateToolbarButtons();
+    }
+    const userMessage: ChatMessage = {
+      id: `pending-${Date.now()}`,
+      role: 'user',
+      content,
+      metadata: {},
+      created_at: new Date().toISOString(),
+    };
+    const processingId = `processing-${Date.now()}`;
+    appendMessage(container, userMessage);
+    appendMessage(container, {
+      id: processingId,
+      role: 'assistant',
+      content: chatText('chat-processing', 'Processing...'),
+      metadata: { kind: 'processing' },
+      created_at: new Date().toISOString(),
+    });
+    if (!keepsComposerAvailable) setBusy(true);
+    try {
+      const requestBody: { content: string; image?: string } = { content };
+      if ((context === 'process' || context === 'caption') && latestGeneratedImage) {
+        requestBody.image = latestGeneratedImage;
+      }
+      const submission = await apiRequest<ChatSubmission>(`/chat/sessions/${encodeURIComponent(sessionId)}/messages`, {
+        method: 'POST',
+        body: JSON.stringify(requestBody),
+      });
+      if (activeSession?.id === sessionId) {
+        activeSession = submission.session;
+        window.localStorage.setItem(storageKey, activeSession.id);
+        updateSessionTitle();
+      }
+      let assistantMessage = submission.assistant_message;
+      if (submission.result.kind === 'operation') {
+        if (activeSession?.id === sessionId) {
+          if (context === 'video') showGeneratedVideo(submission.result.data);
+          else showGeneratedImages(submission.result.data.images);
+        }
+      } else if (submission.result.kind === 'endpoint') {
+        let endpointResult: ChatEndpointResult;
+        try {
+          endpointResult = await executeEndpoint(submission.result.data);
+        } catch (err) {
+          endpointResult = {
+            content: `${chatText('chat-endpoint-failed', 'Endpoint request failed:')} ${err instanceof Error ? err.message : String(err)}`,
+            metadata: {
+              kind: 'endpoint',
+              alias: submission.result.data.alias,
+              failed: true,
+            },
+          };
+        }
+        try {
+          assistantMessage = await apiRequest<ChatMessage>(
+            `/chat/sessions/${encodeURIComponent(sessionId)}/messages/${encodeURIComponent(assistantMessage.id)}`,
+            { method: 'PATCH', body: JSON.stringify(endpointResult) },
+          );
+        } catch {
+          assistantMessage = {
+            ...assistantMessage,
+            content: `${endpointResult.content}\n\n${chatText('chat-endpoint-unsaved', 'Result shown but could not be saved to chat history.')}`,
+            metadata: { ...endpointResult.metadata, persistence_error: true },
+          };
+        }
+      }
+      if (activeSession?.id === sessionId) {
+        if (!replaceMessage(container, processingId, assistantMessage, keepsComposerAvailable)) appendMessage(container, assistantMessage);
+        if (!sessionPanel.hidden) await refreshSessionList();
+      }
+    } catch (err) {
+      const errorMessage = localErrorMessage(err);
+      if (activeSession?.id === sessionId) {
+        if (!replaceMessage(container, processingId, errorMessage, keepsComposerAvailable)) appendMessage(container, errorMessage);
+      }
+    } finally {
+      if (isGenerationCommand) {
+        activeGenerations = Math.max(0, activeGenerations - 1);
+        updateToolbarButtons();
+      }
+      if (!keepsComposerAvailable) setBusy(false);
+      if (activeSession?.id === sessionId) {
+        updateStatus();
+        input.focus();
+      }
+      if (loopEnabled && isGenerationCommand && activeSession?.id === sessionId) {
+        submitCommand('again').catch((err: unknown) => appendMessage(container, localErrorMessage(err)));
+      }
+    }
+  };
+
+  chatGenerate.addEventListener('click', () => submitCommand('run').catch((err: unknown) => appendMessage(container, localErrorMessage(err))));
+  chatSchedule.addEventListener('click', () => submitCommand('schedule').catch((err: unknown) => appendMessage(container, localErrorMessage(err))));
+  chatReprocess.addEventListener('click', () => submitCommand('reprocess').catch((err: unknown) => appendMessage(container, localErrorMessage(err))));
+  chatLoop.addEventListener('click', () => submitCommand('loop').catch((err: unknown) => appendMessage(container, localErrorMessage(err))));
+  chatSkip.addEventListener('click', () => submitCommand('skip').catch((err: unknown) => appendMessage(container, localErrorMessage(err))));
+  chatPause.addEventListener('click', () => submitCommand(generationPaused ? 'resume' : 'pause').catch((err: unknown) => appendMessage(container, localErrorMessage(err))));
+  chatInterrupt.addEventListener('click', () => submitCommand('cancel').catch((err: unknown) => appendMessage(container, localErrorMessage(err))));
+
+  const resizeInput = (): void => {
+    input.style.height = 'auto';
+    input.style.height = `${input.scrollHeight}px`;
+  };
+
+  status.textContent = disabled ? chatText('chat-disabled', 'Chat disabled') : chatText('chat-ready', 'Ready');
+  if (disabled) {
+    status.dataset.state = 'disabled';
+    input.disabled = true;
+    help.disabled = true;
+    sessionToggle.disabled = true;
+    newSession.disabled = true;
+    renameInput.disabled = true;
+    renameCancel.disabled = true;
+    renameSave.disabled = true;
+  } else {
+    input.placeholder = chatText('chat-placeholder', 'Write a command...');
+    input.setAttribute('aria-label', chatText('chat-input', 'Message'));
+    help.title = chatText('chat-help', 'Help');
+    help.setAttribute('aria-label', help.title);
+    newSession.title = chatText('chat-new-session', 'New chat');
+    newSession.setAttribute('aria-label', newSession.title);
+    closeSessionPanel.title = chatText('chat-close-sessions', 'Close sessions');
+    closeSessionPanel.setAttribute('aria-label', closeSessionPanel.title);
+    renameHeading.textContent = chatText('chat-rename-session', 'Rename session');
+    renameLabel.textContent = chatText('chat-session-name', 'Session name');
+    renameCancel.textContent = chatText('chat-rename-cancel', 'Cancel');
+    renameSave.textContent = chatText('chat-rename-save', 'Save');
+
+    sessionToggle.addEventListener('click', () => {
+      const opening = sessionPanel.hidden;
+      sessionPanel.hidden = !opening;
+      sessionToggle.setAttribute('aria-expanded', String(opening));
+      if (opening) refreshSessionList().catch((err: unknown) => appendMessage(container, localErrorMessage(err)));
+      else input.focus();
+    });
+    closeSessionPanel.addEventListener('click', () => closePanel(true));
+    newSession.addEventListener('click', () => createSession().catch((err: unknown) => appendMessage(container, localErrorMessage(err))));
+    renameCancel.addEventListener('click', () => renameDialog.close());
+    renameDialog.addEventListener('close', () => { renamingSession = null; });
+    renameForm.addEventListener('submit', (event: SubmitEvent) => {
+      event.preventDefault();
+      saveRenameSession().catch((err: unknown) => appendMessage(container, localErrorMessage(err)));
+    });
+    input.addEventListener('input', resizeInput);
+    input.addEventListener('keydown', (event: KeyboardEvent) => {
+      if (event.key !== 'Enter' || event.shiftKey || event.isComposing) return;
+      event.preventDefault();
+      form.requestSubmit();
+    });
+    form.addEventListener('submit', (event: SubmitEvent) => {
+      event.preventDefault();
+      const text = input.value;
+      if (!text.trim()) return;
+      input.value = '';
+      resizeInput();
+      submitCommand(text).catch((err: unknown) => appendMessage(container, localErrorMessage(err)));
+    });
+    help.addEventListener('click', () => submitCommand('help').catch((err: unknown) => appendMessage(container, localErrorMessage(err))));
+    resizeInput();
+    const initialize = async (): Promise<void> => {
+      const sessions = await apiRequest<ChatSession[]>('/chat/sessions?limit=100');
+      const preferredId = window.localStorage.getItem(storageKey);
+      const preferred = sessions.find((session) => session.id === preferredId);
+      if (preferred) await selectSession(preferred.id, false);
+      else if (sessions.length > 0) await selectSession(sessions[0].id, false);
+      else await createSession();
+    };
+    initialize().catch((err: unknown) => {
+      status.textContent = chatText('chat-unavailable', 'Chat unavailable');
+      status.dataset.state = 'disabled';
+      appendMessage(container, localErrorMessage(err));
+    });
+  }
+  updateSessionTitle();
+}

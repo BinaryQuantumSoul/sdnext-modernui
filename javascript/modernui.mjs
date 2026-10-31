@@ -2030,6 +2030,21 @@ function loadSchedulerWhenVisible() {
   });
   observer.observe(host);
 }
+function loadChatWhenVisible() {
+  const host = document.getElementById("chat-messages");
+  if (!host) return;
+  let loading = false;
+  const observer = new IntersectionObserver((entries) => {
+    if (loading || !entries.some((entry) => entry.isIntersecting)) return;
+    loading = true;
+    observer.disconnect();
+    const currentUrl = new URL(import.meta.url);
+    const chatUrl = new URL("./chat.mjs", currentUrl);
+    chatUrl.search = currentUrl.search;
+    import(chatUrl.href).then(({ initChat }) => initChat()).catch((err) => error("loadChat", err));
+  });
+  observer.observe(host);
+}
 window.getUICurrentTabContent = () => gradioApp().querySelector(".xtabs-item:not(.hidden) > .split");
 window.getSettingsTabs = () => gradioApp().querySelectorAll("#layout-settings .tabitem");
 window.waitForUiReady = functionWaitForFlag(() => state.uiFlagInitialized);
@@ -2071,6 +2086,7 @@ async function mainUiUx() {
     initHotkeys();
     bindVideoButtons();
     loadSchedulerWhenVisible();
+    loadChatWhenVisible();
     loadRetryPortals();
     state.uiFlagInitialized = true;
     const t3 = performance.now();

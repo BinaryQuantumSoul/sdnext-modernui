@@ -44,6 +44,14 @@
         "platform": "node",
         "format": "esm",
         "external": ["typedoc", "typescript", "eslint", "esbuild", "fsevents"]
+      },
+      {
+        "name": "build chat",
+        "input": "src/chat.ts",
+        "output": "javascript/chat.mjs",
+        "platform": "node",
+        "format": "esm",
+        "external": ["typedoc", "typescript", "eslint", "esbuild", "fsevents"]
       }
     ]
   },

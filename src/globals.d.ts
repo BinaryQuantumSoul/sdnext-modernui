@@ -12,6 +12,7 @@ declare function getSelectedNetworks(): Record<string, unknown> | null;
 
 interface Window {
   opts: Record<string, unknown>; // options object
+  localization?: Record<string, unknown>;
   api: string; // base api path
   subpath: string; // base api subpath
   logger: HTMLElement | null; // global logger element
@@ -23,4 +24,5 @@ interface Window {
   getSettingsTabs: () => NodeListOf<Element>;
   getServerInfo: () => Promise<void>;
   getSelectedNetworks: () => Record<string, unknown> | null;
+  requestProgress?: (id_task?: string, progressEl?: HTMLElement | null, galleryEl?: HTMLElement | null, atEnd?: (() => void) | null, onProgress?: ((progress: unknown) => void) | null, once?: boolean) => void;
 }

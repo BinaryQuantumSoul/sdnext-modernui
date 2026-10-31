@@ -1,0 +1,38 @@
+<div id="layout-chat-results" class="layout full-height border-padding">
+  <div class="layout-header">
+    <div class="flexbox row panel padding shrink" id="chat_results_header_panel">
+      <div class="flexbox col shrink">
+        <h2>Results</h2>
+      </div>
+      <div id="chat_generate_group" class="flexbox row flex-end group-row generate-icons btn-generate" role="toolbar" aria-label="Generation controls">
+        <button id="chat_generate" class="sd-button" type="button" title="Generate" aria-label="Generate" disabled>
+          <div class="mask-icon icon-generate" aria-hidden="true"></div>
+          <span>Generate</span>
+        </button>
+        <button id="chat-schedule" class="sd-button" type="button" title="Schedule task" aria-label="Schedule task" disabled>
+          <div class="mask-icon icon-plus" aria-hidden="true"></div>
+        </button>
+        <button id="chat-reprocess" class="sd-button" type="button" title="Reprocess" aria-label="Reprocess" disabled>
+          <div class="mask-icon icon-reprocess" aria-hidden="true"></div>
+        </button>
+        <button id="chat-loop" class="sd-button" type="button" title="Generate forever" aria-label="Generate forever" disabled>
+          <div class="mask-icon icon-loop" aria-hidden="true"></div>
+        </button>
+        <button id="chat-skip" class="sd-button" type="button" title="Skip" aria-label="Skip" disabled>
+          <div class="mask-icon icon-skip" aria-hidden="true"></div>
+        </button>
+        <button id="chat-pause" class="sd-button" type="button" title="Pause" aria-label="Pause" disabled>
+          <div class="mask-icon icon-pause" aria-hidden="true"></div>
+        </button>
+        <button id="chat-interrupt" class="sd-button" type="button" title="Interrupt" aria-label="Interrupt" disabled>
+          <div class="mask-icon icon-stop" aria-hidden="true"></div>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="layout-content">
+    <div class="chat-results-content">
+      <div class="mask-icon icon-results" aria-hidden="true"></div>
+    </div>
+  </div>
+</div>

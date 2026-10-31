@@ -48,6 +48,24 @@ function loadSchedulerWhenVisible(): void {
   observer.observe(host);
 }
 
+function loadChatWhenVisible(): void {
+  const host = document.getElementById('chat-messages');
+  if (!host) return;
+  let loading = false;
+  const observer = new IntersectionObserver((entries) => {
+    if (loading || !entries.some((entry) => entry.isIntersecting)) return;
+    loading = true;
+    observer.disconnect();
+    const currentUrl = new URL(import.meta.url);
+    const chatUrl = new URL('./chat.mjs', currentUrl);
+    chatUrl.search = currentUrl.search;
+    import(chatUrl.href)
+      .then(({ initChat }) => initChat())
+      .catch((err: unknown) => error('loadChat', err));
+  });
+  observer.observe(host);
+}
+
 // Window compatibility hooks
 window.getUICurrentTabContent = () => gradioApp().querySelector('.xtabs-item:not(.hidden) > .split');
 window.getSettingsTabs = () => gradioApp().querySelectorAll('#layout-settings .tabitem');
@@ -94,6 +112,7 @@ async function mainUiUx(): Promise<void> {
     initHotkeys();
     bindVideoButtons();
     loadSchedulerWhenVisible();
+    loadChatWhenVisible();
 
     loadRetryPortals(); // some elements may be late so retrying
 
