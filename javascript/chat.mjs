@@ -70,6 +70,9 @@ function appendSafeHtml(target, html) {
       return;
     }
     const safeElement = document.createElement(tagName);
+    if (tagName === "span" && element.classList.contains("chat-file-line")) {
+      safeElement.classList.add("chat-file-line");
+    }
     if (tagName === "a") {
       const href = element.getAttribute("href");
       if (href) {
@@ -241,6 +244,21 @@ function replaceMessage(container, previousId, message, moveToEnd = false) {
   container.scrollTop = container.scrollHeight;
   return true;
 }
+function updateProcessingMessage(container, messageId, text) {
+  const article = Array.from(container.querySelectorAll(".chat-message")).find((item) => item.dataset.messageId === messageId);
+  const content = article?.querySelector(".chat-message-content");
+  if (!content) return;
+  content.textContent = text;
+  container.scrollTop = container.scrollHeight;
+}
+function watchImportProgress(container, messageId) {
+  if (!window.requestProgress) return;
+  window.requestProgress("undefined", null, null, null, (progress) => {
+    if (progress && typeof progress === "object" && "active" in progress && progress.active === true && "textinfo" in progress && typeof progress.textinfo === "string" && progress.textinfo.startsWith("Processing...")) {
+      updateProcessingMessage(container, messageId, progress.textinfo);
+    }
+  });
+}
 function formatEndpointJson(value) {
   const isRecord = (item) => Boolean(
     item && typeof item === "object" && !Array.isArray(item)
@@ -315,6 +333,9 @@ function initChat() {
   const container = document.getElementById("chat-messages");
   const form = document.getElementById("chat-composer");
   const input = document.getElementById("chat-input");
+  const fileButton = document.getElementById("chat-file-button");
+  const filePicker = document.getElementById("chat-file-picker");
+  const workspace = document.querySelector(".chat-workspace");
   const help = document.getElementById("chat-help");
   const heading = document.getElementById("chat-heading");
   const currentSessionLabel = document.getElementById("chat-current-session-label");
@@ -340,7 +361,7 @@ function initChat() {
   const renameLabel = document.getElementById("chat-rename-session-label");
   const renameCancel = document.getElementById("chat-rename-session-cancel");
   const renameSave = document.getElementById("chat-rename-session-save");
-  if (!(container instanceof HTMLElement) || !(form instanceof HTMLFormElement) || !(input instanceof HTMLTextAreaElement) || !(help instanceof HTMLButtonElement) || !(heading instanceof HTMLElement) || !(currentSessionLabel instanceof HTMLElement) || !(currentSessionName instanceof HTMLElement) || !(sessionLabel instanceof HTMLElement) || !(chatGenerate instanceof HTMLButtonElement) || !(chatSchedule instanceof HTMLButtonElement) || !(chatReprocess instanceof HTMLButtonElement) || !(chatLoop instanceof HTMLButtonElement) || !(chatSkip instanceof HTMLButtonElement) || !(chatPause instanceof HTMLButtonElement) || !(chatInterrupt instanceof HTMLButtonElement) || !(sessionToggle instanceof HTMLButtonElement) || !(sessionPanel instanceof HTMLElement) || !(sessionList instanceof HTMLElement) || !(newSession instanceof HTMLButtonElement) || !(closeSessionPanel instanceof HTMLButtonElement) || !(renameDialog instanceof HTMLDialogElement) || !(renameForm instanceof HTMLFormElement) || !(renameInput instanceof HTMLInputElement) || !(renameHeading instanceof HTMLHeadingElement) || !(renameLabel instanceof HTMLLabelElement) || !(renameCancel instanceof HTMLButtonElement) || !(renameSave instanceof HTMLButtonElement)) return;
+  if (!(container instanceof HTMLElement) || !(form instanceof HTMLFormElement) || !(input instanceof HTMLTextAreaElement) || !(fileButton instanceof HTMLButtonElement) || !(filePicker instanceof HTMLInputElement) || !(workspace instanceof HTMLElement) || !(help instanceof HTMLButtonElement) || !(heading instanceof HTMLElement) || !(currentSessionLabel instanceof HTMLElement) || !(currentSessionName instanceof HTMLElement) || !(sessionLabel instanceof HTMLElement) || !(chatGenerate instanceof HTMLButtonElement) || !(chatSchedule instanceof HTMLButtonElement) || !(chatReprocess instanceof HTMLButtonElement) || !(chatLoop instanceof HTMLButtonElement) || !(chatSkip instanceof HTMLButtonElement) || !(chatPause instanceof HTMLButtonElement) || !(chatInterrupt instanceof HTMLButtonElement) || !(sessionToggle instanceof HTMLButtonElement) || !(sessionPanel instanceof HTMLElement) || !(sessionList instanceof HTMLElement) || !(newSession instanceof HTMLButtonElement) || !(closeSessionPanel instanceof HTMLButtonElement) || !(renameDialog instanceof HTMLDialogElement) || !(renameForm instanceof HTMLFormElement) || !(renameInput instanceof HTMLInputElement) || !(renameHeading instanceof HTMLHeadingElement) || !(renameLabel instanceof HTMLLabelElement) || !(renameCancel instanceof HTMLButtonElement) || !(renameSave instanceof HTMLButtonElement)) return;
   const chatGenerateLabel = chatGenerate.querySelector("span");
   if (!(chatGenerateLabel instanceof HTMLSpanElement)) return;
   const initialGenerateLabel = chatGenerateLabel.textContent || "Generate";
@@ -358,6 +379,7 @@ function initChat() {
   let latestGeneratedImage = null;
   const latestGeneratedImages = /* @__PURE__ */ new Map();
   const sessionResultImages = /* @__PURE__ */ new Map();
+  const artifactObjectUrls = /* @__PURE__ */ new Map();
   let activeGenerations = 0;
   let loopEnabled = false;
   let generationPaused = false;
@@ -393,6 +415,8 @@ function initChat() {
   const setBusy = (busy) => {
     submitting = busy;
     input.disabled = disabled || busy;
+    fileButton.disabled = disabled || busy;
+    filePicker.disabled = disabled || busy;
     help.disabled = disabled || busy;
     sessionToggle.disabled = disabled || busy;
     newSession.disabled = disabled || busy;
@@ -453,13 +477,23 @@ function initChat() {
     updateToolbarButtons();
   };
   const showGeneratedImages = (value) => {
-    if (!resultsContent || !Array.isArray(value)) return;
-    const images = value.filter((image) => typeof image === "string" && image.length > 0);
-    if (images.length === 0) return;
-    rememberGeneratedImage(images[0]);
-    if (activeSession) sessionResultImages.set(activeSession.id, images);
+    if (!resultsContent) return;
+    const images = Array.isArray(value) ? value.filter((image) => typeof image === "string" && image.length > 0) : [];
+    rememberGeneratedImage(images[0] || null);
+    if (activeSession) {
+      if (images.length > 0) sessionResultImages.set(activeSession.id, images);
+      else sessionResultImages.delete(activeSession.id);
+    }
     resultsContent.replaceChildren();
-    resultsContent.dataset.hasImages = "true";
+    resultsContent.dataset.hasImages = String(images.length > 0);
+    if (images.length === 0) {
+      const icon = document.createElement("div");
+      icon.className = "mask-icon icon-results";
+      icon.setAttribute("aria-hidden", "true");
+      resultsContent.append(icon);
+      updateToolbarButtons();
+      return;
+    }
     images.forEach((image, index) => {
       const element = document.createElement("img");
       element.className = "chat-result-image";
@@ -468,6 +502,112 @@ function initChat() {
       element.src = image.startsWith("data:image/") ? image : `data:image/png;base64,${image}`;
       resultsContent.append(element);
     });
+    updateToolbarButtons();
+  };
+  const artifactObjectUrl = async (sessionId, artifactId) => {
+    const cached = artifactObjectUrls.get(artifactId);
+    if (cached) return cached;
+    const response = await authFetch(
+      `${window.api}/chat/sessions/${encodeURIComponent(sessionId)}/artifacts/${encodeURIComponent(artifactId)}/content`
+    );
+    if (!response?.ok) return null;
+    const url = URL.createObjectURL(await response.blob());
+    artifactObjectUrls.set(artifactId, url);
+    return url;
+  };
+  const updateArtifactSelection = () => {
+    const selectedId = activeSession?.selected_image_id;
+    [container, resultsContent].forEach((root) => {
+      root?.querySelectorAll("[data-chat-artifact-id]").forEach((element) => {
+        const selected = element.dataset.chatArtifactId === selectedId;
+        element.dataset.selected = String(selected);
+        const status = element.querySelector(".chat-artifact-selected");
+        if (status) status.hidden = !selected;
+      });
+    });
+  };
+  const renderInputAttachments = async (items, sessionId) => {
+    for (const artifact of items) {
+      if (artifact.role !== "input" || !artifact.message_id) continue;
+      const article = Array.from(container.querySelectorAll(".chat-message")).find((message) => message.dataset.messageId === artifact.message_id);
+      const content = article?.querySelector(".chat-message-content");
+      if (!content || content.querySelector(`[data-chat-artifact-id="${artifact.id}"]`)) continue;
+      const attachment = document.createElement("div");
+      attachment.className = "chat-message-attachment";
+      attachment.dataset.chatArtifactId = artifact.id;
+      if (artifact.available) {
+        const url = await artifactObjectUrl(sessionId, artifact.id);
+        if (url) {
+          if (artifact.media_type.startsWith("image/")) {
+            const image = document.createElement("img");
+            image.src = url;
+            image.alt = artifact.display_name;
+            image.loading = "lazy";
+            attachment.append(image);
+          } else {
+            const download = document.createElement("a");
+            download.href = url;
+            download.download = artifact.display_name;
+            download.textContent = artifact.display_name;
+            attachment.append(download);
+          }
+        }
+      }
+      if (!artifact.available || !attachment.hasChildNodes()) {
+        const unavailable = document.createElement("span");
+        unavailable.className = "chat-message-attachment-unavailable";
+        unavailable.textContent = chatText("chat-attachment-unavailable", "Attachment unavailable");
+        attachment.append(unavailable);
+      }
+      if (artifact.media_type.startsWith("image/")) {
+        const name = document.createElement("span");
+        name.className = "chat-message-attachment-name";
+        name.textContent = artifact.display_name;
+        attachment.append(name);
+      }
+      const selected = document.createElement("span");
+      selected.className = "chat-artifact-selected";
+      selected.textContent = chatText("chat-image-selected", "Selected");
+      selected.hidden = true;
+      attachment.append(selected);
+      content.append(attachment);
+    }
+    updateArtifactSelection();
+  };
+  const renderArtifactResults = async (items, sessionId, messageId) => {
+    if (!resultsContent) return;
+    if (activeSession?.id === sessionId) {
+      rememberGeneratedImage(null);
+      sessionResultImages.delete(sessionId);
+    }
+    const results = items.filter((artifact) => artifact.role === "result" && (!messageId || artifact.message_id === messageId));
+    resultsContent.replaceChildren();
+    resultsContent.dataset.hasImages = String(results.length > 0);
+    for (const artifact of results) {
+      if (!artifact.available) {
+        const unavailable = document.createElement("span");
+        unavailable.className = "chat-message-attachment-unavailable";
+        unavailable.textContent = `${artifact.display_name}: ${chatText("chat-image-unavailable", "Image unavailable")}`;
+        resultsContent.append(unavailable);
+        continue;
+      }
+      const url = await artifactObjectUrl(sessionId, artifact.id);
+      if (!url) continue;
+      const image = document.createElement("img");
+      image.className = "chat-result-image";
+      image.dataset.chatArtifactId = artifact.id;
+      image.alt = artifact.display_name;
+      image.loading = "lazy";
+      image.src = url;
+      resultsContent.append(image);
+    }
+    if (results.length === 0) {
+      const icon = document.createElement("div");
+      icon.className = "mask-icon icon-results";
+      icon.setAttribute("aria-hidden", "true");
+      resultsContent.append(icon);
+    }
+    updateArtifactSelection();
     updateToolbarButtons();
   };
   const showGeneratedVideo = (data) => {
@@ -656,8 +796,17 @@ function initChat() {
     });
     clearGenerationResults(false);
     const savedImages = sessionResultImages.get(activeSession.id);
-    if (savedImages) showGeneratedImages(savedImages);
     renderMessages(detail.messages);
+    await renderInputAttachments(detail.artifacts, activeSession.id);
+    const resultMessageIds = new Set(
+      detail.artifacts.filter((artifact) => artifact.role === "result" && artifact.message_id).map((artifact) => artifact.message_id)
+    );
+    const lastResultMessage = [...detail.messages].reverse().find((message) => resultMessageIds.has(message.id));
+    if (lastResultMessage) {
+      await renderArtifactResults(detail.artifacts, activeSession.id, lastResultMessage.id);
+    } else if (savedImages) {
+      showGeneratedImages(savedImages);
+    }
     if (detail.restore_errors.length > 0) {
       appendMessage(container, {
         id: "restore-notice",
@@ -808,6 +957,7 @@ ${detail.restore_errors.join("\n")}`,
     const sessionId = activeSession.id;
     const context = activeSession.context;
     const commandName = content.split(/\s+/, 1)[0].toLowerCase();
+    const displayContent = ["use", "file"].includes(commandName) ? chatText("chat-server-file-import", "Server file import") : content;
     const isGenerationCommand = ["run", "generate", "start", "again", "reprocess"].includes(commandName);
     if (isGenerationCommand && activeGenerations > 0) {
       appendMessage(container, localErrorMessage(new Error("A chat generation is already in progress")));
@@ -840,7 +990,7 @@ ${detail.restore_errors.join("\n")}`,
     const userMessage = {
       id: `pending-${Date.now()}`,
       role: "user",
-      content,
+      content: displayContent,
       metadata: {},
       created_at: (/* @__PURE__ */ new Date()).toISOString()
     };
@@ -853,10 +1003,11 @@ ${detail.restore_errors.join("\n")}`,
       metadata: { kind: "processing" },
       created_at: (/* @__PURE__ */ new Date()).toISOString()
     });
+    if (commandName === "file" || commandName === "use") watchImportProgress(container, processingId);
     if (!keepsComposerAvailable) setBusy(true);
     try {
       const requestBody = { content };
-      if ((context === "process" || context === "caption") && latestGeneratedImage) {
+      if ((context === "process" || context === "caption") && !activeSession.selected_image_id && latestGeneratedImage) {
         requestBody.image = latestGeneratedImage;
       }
       const submission = await apiRequest(`/chat/sessions/${encodeURIComponent(sessionId)}/messages`, {
@@ -868,11 +1019,16 @@ ${detail.restore_errors.join("\n")}`,
         window.localStorage.setItem(storageKey, activeSession.id);
         updateSessionTitle();
       }
+      replaceMessage(container, userMessage.id, submission.user_message);
+      await renderInputAttachments(submission.artifacts, sessionId);
+      updateArtifactSelection();
       let assistantMessage = submission.assistant_message;
       if (submission.result.kind === "operation") {
         if (activeSession?.id === sessionId) {
           if (context === "video") showGeneratedVideo(submission.result.data);
-          else showGeneratedImages(submission.result.data.images);
+          else if (submission.artifacts.some((artifact) => artifact.role === "result" && artifact.message_id === submission.user_message.id)) {
+            await renderArtifactResults(submission.artifacts, sessionId, submission.user_message.id);
+          } else showGeneratedImages(submission.result.data.images);
         }
       } else if (submission.result.kind === "endpoint") {
         let endpointResult;
@@ -926,6 +1082,67 @@ ${chatText("chat-endpoint-unsaved", "Result shown but could not be saved to chat
       }
     }
   };
+  const uploadChatFile = async (file) => {
+    if (disabled || submitting || !activeSession) return;
+    const sessionId = activeSession.id;
+    const displayName = file.name.replace(/\\/g, "/").split("/").pop() || "upload";
+    const userMessage = {
+      id: `pending-${Date.now()}`,
+      role: "user",
+      content: `${chatText("chat-uploading-file", "Uploading file:")} ${displayName}`,
+      metadata: {},
+      created_at: (/* @__PURE__ */ new Date()).toISOString()
+    };
+    const processingId = `processing-${Date.now()}`;
+    appendMessage(container, userMessage);
+    appendMessage(container, {
+      id: processingId,
+      role: "assistant",
+      content: chatText("chat-processing", "Processing..."),
+      metadata: { kind: "processing" },
+      created_at: (/* @__PURE__ */ new Date()).toISOString()
+    });
+    watchImportProgress(container, processingId);
+    setBusy(true);
+    try {
+      const body = new FormData();
+      body.append("file", file, displayName);
+      const response = await authFetch(
+        `${window.api}/chat/sessions/${encodeURIComponent(sessionId)}/files`,
+        { method: "POST", body }
+      );
+      if (!response) throw new Error("The chat API did not return a response");
+      if (!response.ok) {
+        let detail = `${response.status} ${response.statusText}`;
+        try {
+          const payload = await response.json();
+          if (typeof payload.detail === "string") detail = payload.detail;
+        } catch {
+        }
+        throw new Error(`${chatText("chat-file-upload-failed", "File import failed:")} ${detail}`);
+      }
+      const submission = await response.json();
+      if (activeSession?.id === sessionId) {
+        activeSession = submission.session;
+        updateSessionTitle();
+      }
+      replaceMessage(container, userMessage.id, submission.user_message);
+      replaceMessage(container, processingId, submission.assistant_message, true);
+      await renderInputAttachments(submission.artifacts, sessionId);
+      if (submission.artifacts.some((artifact) => artifact.role === "result" && artifact.message_id === submission.user_message.id)) {
+        await renderArtifactResults(submission.artifacts, sessionId, submission.user_message.id);
+      }
+      if (!sessionPanel.hidden) await refreshSessionList();
+    } catch (err) {
+      replaceMessage(container, processingId, localErrorMessage(err), true);
+    } finally {
+      setBusy(false);
+      if (activeSession?.id === sessionId) input.focus();
+    }
+  };
+  const uploadChatFiles = async (files) => {
+    for (const file of files) await uploadChatFile(file);
+  };
   chatGenerate.addEventListener("click", () => submitCommand("run").catch((err) => appendMessage(container, localErrorMessage(err))));
   chatSchedule.addEventListener("click", () => submitCommand("schedule").catch((err) => appendMessage(container, localErrorMessage(err))));
   chatReprocess.addEventListener("click", () => submitCommand("reprocess").catch((err) => appendMessage(container, localErrorMessage(err))));
@@ -939,6 +1156,8 @@ ${chatText("chat-endpoint-unsaved", "Result shown but could not be saved to chat
   };
   if (disabled) {
     input.disabled = true;
+    fileButton.disabled = true;
+    filePicker.disabled = true;
     help.disabled = true;
     sessionToggle.disabled = true;
     newSession.disabled = true;
@@ -948,6 +1167,8 @@ ${chatText("chat-endpoint-unsaved", "Result shown but could not be saved to chat
   } else {
     input.placeholder = chatText("chat-placeholder", "Write a command...");
     input.setAttribute("aria-label", chatText("chat-input", "Message"));
+    fileButton.title = chatText("chat-attach-file", "Attach file");
+    fileButton.setAttribute("aria-label", fileButton.title);
     help.title = chatText("chat-help", "Help");
     help.setAttribute("aria-label", help.title);
     newSession.title = chatText("chat-new-session", "New chat");
@@ -958,6 +1179,36 @@ ${chatText("chat-endpoint-unsaved", "Result shown but could not be saved to chat
     renameLabel.textContent = chatText("chat-session-name", "Session name");
     renameCancel.textContent = chatText("chat-rename-cancel", "Cancel");
     renameSave.textContent = chatText("chat-rename-save", "Save");
+    fileButton.addEventListener("click", () => filePicker.click());
+    filePicker.addEventListener("change", () => {
+      const files = Array.from(filePicker.files || []);
+      filePicker.value = "";
+      uploadChatFiles(files).catch((err) => appendMessage(container, localErrorMessage(err)));
+    });
+    workspace.addEventListener("dragover", (event) => {
+      if (!Array.from(event.dataTransfer?.types || []).includes("Files")) return;
+      event.preventDefault();
+      form.dataset.dragover = "true";
+      if (event.dataTransfer) event.dataTransfer.dropEffect = "copy";
+    });
+    workspace.addEventListener("dragleave", (event) => {
+      if (!(event.relatedTarget instanceof Node) || !workspace.contains(event.relatedTarget)) {
+        delete form.dataset.dragover;
+      }
+    });
+    workspace.addEventListener("drop", (event) => {
+      const files = Array.from(event.dataTransfer?.files || []);
+      if (files.length === 0) return;
+      event.preventDefault();
+      delete form.dataset.dragover;
+      uploadChatFiles(files).catch((err) => appendMessage(container, localErrorMessage(err)));
+    });
+    input.addEventListener("paste", (event) => {
+      const files = Array.from(event.clipboardData?.files || []);
+      if (files.length === 0) return;
+      event.preventDefault();
+      uploadChatFiles(files).catch((err) => appendMessage(container, localErrorMessage(err)));
+    });
     sessionToggle.addEventListener("click", () => {
       const opening = sessionPanel.hidden;
       sessionPanel.hidden = !opening;

@@ -14,6 +14,9 @@
             <div class="mask-icon icon-chat" aria-hidden="true"></div>
             <span id="chat-session-label">Sessions</span>
           </button>
+          <button id="chat-file-button" class="sd-button" type="button" title="Attach file" aria-label="Attach file">
+            <div class="mask-icon icon-plus" aria-hidden="true"></div>
+          </button>
           <button id="chat-help" class="sd-button" type="button" aria-label="Help" title="Help">
             <div class="mask-icon icon-info" aria-hidden="true"></div>
           </button>
@@ -56,7 +59,10 @@
         </div>
       </div>
       <form id="chat-composer" class="chat-composer">
-        <textarea id="chat-input" rows="2" aria-label="Message" placeholder="Write a command..." autocomplete="off"></textarea>
+        <div class="chat-composer-input-row">
+          <input id="chat-file-picker" type="file" accept=".txt,.md,image/*" multiple hidden />
+          <textarea id="chat-input" rows="2" aria-label="Message" placeholder="Write a command..." autocomplete="off"></textarea>
+        </div>
       </form>
     </div>
   </div>
