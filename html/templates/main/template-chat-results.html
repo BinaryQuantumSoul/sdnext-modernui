@@ -34,5 +34,26 @@
     <div class="chat-results-content">
       <div class="mask-icon icon-results" aria-hidden="true"></div>
     </div>
+    <div id="accordion-chat-results" iconTrigger="#chat-result-info" class="accordion shrink no-tr">
+      <div class="accordion-bar no-tr">
+        <div class="flexbox row center action-bar" role="toolbar" aria-label="Image actions">
+          <button id="chat-result-info" class="sd-button" type="button" title="Info" aria-label="Info" disabled>
+            <div class="mask-icon icon-info" aria-hidden="true"></div>
+          </button>
+          <button id="chat-result-open-folder" class="sd-button" type="button" title="Open folder" aria-label="Open folder" disabled>
+            <div class="mask-icon icon-folder" aria-hidden="true"></div>
+          </button>
+          <button id="chat-result-save" class="sd-button" type="button" title="Save image" aria-label="Save image" disabled>
+            <div class="mask-icon icon-save" aria-hidden="true"></div>
+          </button>
+          <button id="chat-result-delete" class="sd-button" type="button" title="Delete" aria-label="Delete" disabled>
+            <div class="mask-icon icon-delete" aria-hidden="true"></div>
+          </button>
+        </div>
+      </div>
+      <div class="accordion-container">
+        <div id="chat-result-info-details" class="chat-result-info-details" aria-live="polite"></div>
+      </div>
+    </div>
   </div>
 </div>

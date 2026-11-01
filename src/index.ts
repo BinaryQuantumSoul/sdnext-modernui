@@ -49,11 +49,12 @@ function loadSchedulerWhenVisible(): void {
 }
 
 function loadChatWhenVisible(): void {
-  const host = document.getElementById('chat-messages');
-  if (!host) return;
+  const host = document.getElementById('chat-session-toggle');
+  const nav = document.getElementById('chat_nav');
+  if (!host || !nav) return;
   let loading = false;
   const observer = new IntersectionObserver((entries) => {
-    if (loading || !entries.some((entry) => entry.isIntersecting)) return;
+    if (loading || !nav.classList.contains('active') || !entries.some((entry) => entry.isIntersecting)) return;
     loading = true;
     observer.disconnect();
     const currentUrl = new URL(import.meta.url);

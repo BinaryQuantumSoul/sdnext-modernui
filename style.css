@@ -1546,7 +1546,7 @@ li.item span {
   margin: var(--sd-extra-gap);
   overflow-x: auto;
   overflow-wrap: anywhere;
-  white-space: pre-wrap;
+  white-space: normal;
   font-size: 0.9em;
   color: var(--color-code);
 }
@@ -1716,8 +1716,8 @@ li.item span {
   font-size: 0.9em;
 }
 
-.chat-message-attachment[data-selected="true"],
-.chat-result-image[data-selected="true"] {
+.chat-result-image:focus-visible,
+.chat-message-attachment img:focus-visible {
   outline: 2px solid var(--sd-main-accent-color);
   outline-offset: 2px;
 }
@@ -1740,8 +1740,13 @@ li.item span {
 
 .chat-message p {
   margin: 4px;
-  opacity: 0.6;
+  opacity: 0.8;
   font-size: 0.9em;
+}
+
+.chat-message-content div {
+  opacity: 0.6;
+  font-size: 0.95em;
 }
 
 .chat-results-content {
@@ -1771,10 +1776,31 @@ li.item span {
 }
 
 .chat-result-image {
+  cursor: pointer;
   display: block;
   max-height: min(70vh, 100%);
   max-width: 100%;
   object-fit: contain;
+}
+
+#accordion-chat-results .action-bar {
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.chat-result-info-details {
+  overflow-wrap: anywhere;
+  white-space: normal;
+  opacity: 0.75;
+  line-height: 1.3em;
+}
+
+.chat-result-info-details p {
+  margin: 0.5em;
+}
+
+.chat-result-info-details div {
+  font-size: 0.8em;
 }
 
 @media (max-width: 640px) {

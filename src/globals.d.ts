@@ -25,4 +25,10 @@ interface Window {
   getServerInfo: () => Promise<void>;
   getSelectedNetworks: () => Record<string, unknown> | null;
   requestProgress?: (id_task?: string, progressEl?: HTMLElement | null, galleryEl?: HTMLElement | null, atEnd?: (() => void) | null, onProgress?: ((progress: unknown) => void) | null, once?: boolean) => void;
+  galleryClickEventHandler?: (event: MouseEvent) => void;
+  chatImageViewer?: {
+    navigate: (artifactId: string, offset: number) => Promise<{ artifactId: string; src: string } | null>;
+    download: (artifactId: string) => Promise<void>;
+    remove: (artifactId: string) => void;
+  };
 }
