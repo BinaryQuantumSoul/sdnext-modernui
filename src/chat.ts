@@ -367,8 +367,9 @@ export function initChat(): void {
   const form = document.getElementById('chat-composer');
   const input = document.getElementById('chat-input');
   const help = document.getElementById('chat-help');
-  const status = document.querySelector<HTMLElement>('.chat-local-tag');
   const heading = document.getElementById('chat-heading');
+  const currentSessionLabel = document.getElementById('chat-current-session-label');
+  const currentSessionName = document.getElementById('chat-current-session-name');
   const resultsContent = document.querySelector<HTMLElement>('#layout-chat-results .chat-results-content');
   const chatGenerate = document.getElementById('chat_generate');
   const chatSchedule = document.getElementById('chat-schedule');
@@ -391,8 +392,9 @@ export function initChat(): void {
   const renameCancel = document.getElementById('chat-rename-session-cancel');
   const renameSave = document.getElementById('chat-rename-session-save');
   if (!(container instanceof HTMLElement) || !(form instanceof HTMLFormElement) || !(input instanceof HTMLTextAreaElement)
-    || !(help instanceof HTMLButtonElement) || !(status instanceof HTMLElement)
-    || !(heading instanceof HTMLElement) || !(sessionLabel instanceof HTMLElement)
+    || !(help instanceof HTMLButtonElement) || !(heading instanceof HTMLElement)
+    || !(currentSessionLabel instanceof HTMLElement) || !(currentSessionName instanceof HTMLElement)
+    || !(sessionLabel instanceof HTMLElement)
     || !(chatGenerate instanceof HTMLButtonElement) || !(chatSchedule instanceof HTMLButtonElement)
     || !(chatReprocess instanceof HTMLButtonElement) || !(chatLoop instanceof HTMLButtonElement)
     || !(chatSkip instanceof HTMLButtonElement) || !(chatPause instanceof HTMLButtonElement)
@@ -415,9 +417,13 @@ export function initChat(): void {
 
   let activeSession: ChatSession | null = null;
   let renamingSession: ChatSession | null = null;
+  const commandHistory: string[] = [];
+  let commandHistoryIndex = 0;
+  let commandHistoryDraft = '';
   let submitting = false;
   let latestGeneratedImage: string | null = null;
   const latestGeneratedImages = new Map<string, string>();
+  const sessionResultImages = new Map<string, string[]>();
   let activeGenerations = 0;
   let loopEnabled = false;
   let generationPaused = false;
@@ -443,22 +449,13 @@ export function initChat(): void {
     chatPause.setAttribute('aria-pressed', String(generationPaused));
   };
 
-  const updateStatus = (): void => {
-    if (disabled) {
-      status.textContent = chatText('chat-disabled', 'Chat disabled');
-      status.dataset.state = 'disabled';
-      return;
-    }
-    delete status.dataset.state;
-    status.textContent = chatText('chat-ready', 'Ready');
-  };
-
   const updateSessionTitle = (): void => {
     const label = chatText('chat-sessions-heading', 'Sessions');
     sessionLabel.textContent = label;
     sessionToggle.title = activeSession ? `${label}: ${activeSession.title}` : label;
     sessionToggle.setAttribute('aria-label', sessionToggle.title);
-    updateStatus();
+    currentSessionLabel.textContent = `${chatText('chat-session', 'Session')}:`;
+    currentSessionName.textContent = activeSession?.title || chatText('chat-new-session', 'New chat');
     updateToolbarButtons();
   };
 
@@ -522,7 +519,10 @@ export function initChat(): void {
   };
 
   const clearGenerationResults = (clearImage = true): void => {
-    if (clearImage) rememberGeneratedImage(null);
+    if (clearImage) {
+      rememberGeneratedImage(null);
+      if (activeSession) sessionResultImages.delete(activeSession.id);
+    }
     if (!resultsContent) return;
     resultsContent.replaceChildren();
     resultsContent.dataset.hasImages = 'false';
@@ -538,6 +538,7 @@ export function initChat(): void {
     const images = value.filter((image): image is string => typeof image === 'string' && image.length > 0);
     if (images.length === 0) return;
     rememberGeneratedImage(images[0]);
+    if (activeSession) sessionResultImages.set(activeSession.id, images);
     resultsContent.replaceChildren();
     resultsContent.dataset.hasImages = 'true';
     images.forEach((image, index) => {
@@ -560,6 +561,7 @@ export function initChat(): void {
       showGeneratedImages(frames);
       return;
     }
+    if (activeSession) sessionResultImages.delete(activeSession.id);
     rememberGeneratedImage(thumbnail || null);
     resultsContent.replaceChildren();
     const videoPath = typeof data.video_path === 'string' ? data.video_path : '';
@@ -580,6 +582,7 @@ export function initChat(): void {
       image.alt = 'Generated video thumbnail';
       image.src = thumbnail.startsWith('data:') ? thumbnail : `data:image/png;base64,${thumbnail}`;
       resultsContent.append(image);
+      if (activeSession) sessionResultImages.set(activeSession.id, [image.src]);
     } else {
       clearGenerationResults();
       return;
@@ -739,6 +742,8 @@ export function initChat(): void {
       button.setAttribute('aria-current', button.dataset.sessionId === activeSession?.id ? 'true' : 'false');
     });
     clearGenerationResults(false);
+    const savedImages = sessionResultImages.get(activeSession.id);
+    if (savedImages) showGeneratedImages(savedImages);
     renderMessages(detail.messages);
     if (detail.restore_errors.length > 0) {
       appendMessage(container, {
@@ -928,8 +933,6 @@ export function initChat(): void {
               ? chatText('chat-paused', 'Paused')
               : progressLabel;
             setGenerateLabel(`${label}${percentage}`);
-            status.textContent = `${progressLabel}${percentage}`;
-            status.dataset.state = 'busy';
           }
         });
       }
@@ -1018,7 +1021,6 @@ export function initChat(): void {
       }
       if (!keepsComposerAvailable) setBusy(false);
       if (activeSession?.id === sessionId) {
-        updateStatus();
         input.focus();
       }
       if (loopEnabled && isGenerationCommand && activeSession?.id === sessionId) {
@@ -1040,9 +1042,7 @@ export function initChat(): void {
     input.style.height = `${input.scrollHeight}px`;
   };
 
-  status.textContent = disabled ? chatText('chat-disabled', 'Chat disabled') : chatText('chat-ready', 'Ready');
   if (disabled) {
-    status.dataset.state = 'disabled';
     input.disabled = true;
     help.disabled = true;
     sessionToggle.disabled = true;
@@ -1079,8 +1079,32 @@ export function initChat(): void {
       event.preventDefault();
       saveRenameSession().catch((err: unknown) => appendMessage(container, localErrorMessage(err)));
     });
-    input.addEventListener('input', resizeInput);
+    input.addEventListener('input', () => {
+      commandHistoryIndex = commandHistory.length;
+      commandHistoryDraft = input.value;
+      resizeInput();
+    });
     input.addEventListener('keydown', (event: KeyboardEvent) => {
+      if ((event.key === 'ArrowUp' || event.key === 'ArrowDown')
+        && input.selectionStart === 0 && input.selectionEnd === 0 && commandHistory.length > 0) {
+        if (event.key === 'ArrowUp') {
+          if (commandHistoryIndex === commandHistory.length) commandHistoryDraft = input.value;
+          commandHistoryIndex = Math.max(0, commandHistoryIndex - 1);
+          input.value = commandHistory[commandHistoryIndex];
+        } else if (commandHistoryIndex < commandHistory.length - 1) {
+          commandHistoryIndex += 1;
+          input.value = commandHistory[commandHistoryIndex];
+        } else if (commandHistoryIndex === commandHistory.length - 1) {
+          commandHistoryIndex = commandHistory.length;
+          input.value = commandHistoryDraft;
+        } else {
+          return;
+        }
+        event.preventDefault();
+        input.setSelectionRange(0, 0);
+        resizeInput();
+        return;
+      }
       if (event.key !== 'Enter' || event.shiftKey || event.isComposing) return;
       event.preventDefault();
       form.requestSubmit();
@@ -1089,6 +1113,10 @@ export function initChat(): void {
       event.preventDefault();
       const text = input.value;
       if (!text.trim()) return;
+      commandHistory.push(text);
+      if (commandHistory.length > 100) commandHistory.shift();
+      commandHistoryIndex = commandHistory.length;
+      commandHistoryDraft = '';
       input.value = '';
       resizeInput();
       submitCommand(text).catch((err: unknown) => appendMessage(container, localErrorMessage(err)));
@@ -1104,8 +1132,6 @@ export function initChat(): void {
       else await createSession();
     };
     initialize().catch((err: unknown) => {
-      status.textContent = chatText('chat-unavailable', 'Chat unavailable');
-      status.dataset.state = 'disabled';
       appendMessage(container, localErrorMessage(err));
     });
   }

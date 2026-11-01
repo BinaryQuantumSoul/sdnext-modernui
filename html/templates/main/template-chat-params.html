@@ -2,9 +2,14 @@
   <div class="layout-header">
     <div class="flexbox row shrink panel padding no-br">
       <div class="chat-header-row">
-        <div id="chat-heading" class="chat-title" role="heading" aria-level="2">Chat</div>
+        <div class="chat-header-identity">
+          <div id="chat-heading" class="chat-title" role="heading" aria-level="2">Chat</div>
+          <div class="chat-current-session" aria-live="polite">
+            <span id="chat-current-session-label" class="chat-current-session-label">Session:</span>
+            <span id="chat-current-session-name" class="chat-current-session-name">New chat</span>
+          </div>
+        </div>
         <div class="chat-header-controls">
-          <span class="chat-local-tag" role="status">Ready</span>
           <button id="chat-session-toggle" class="sd-button chat-session-toggle" type="button" aria-expanded="false" aria-controls="chat-session-panel">
             <div class="mask-icon icon-chat" aria-hidden="true"></div>
             <span id="chat-session-label">Sessions</span>

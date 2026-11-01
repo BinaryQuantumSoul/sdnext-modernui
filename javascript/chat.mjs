@@ -316,8 +316,9 @@ function initChat() {
   const form = document.getElementById("chat-composer");
   const input = document.getElementById("chat-input");
   const help = document.getElementById("chat-help");
-  const status = document.querySelector(".chat-local-tag");
   const heading = document.getElementById("chat-heading");
+  const currentSessionLabel = document.getElementById("chat-current-session-label");
+  const currentSessionName = document.getElementById("chat-current-session-name");
   const resultsContent = document.querySelector("#layout-chat-results .chat-results-content");
   const chatGenerate = document.getElementById("chat_generate");
   const chatSchedule = document.getElementById("chat-schedule");
@@ -339,7 +340,7 @@ function initChat() {
   const renameLabel = document.getElementById("chat-rename-session-label");
   const renameCancel = document.getElementById("chat-rename-session-cancel");
   const renameSave = document.getElementById("chat-rename-session-save");
-  if (!(container instanceof HTMLElement) || !(form instanceof HTMLFormElement) || !(input instanceof HTMLTextAreaElement) || !(help instanceof HTMLButtonElement) || !(status instanceof HTMLElement) || !(heading instanceof HTMLElement) || !(sessionLabel instanceof HTMLElement) || !(chatGenerate instanceof HTMLButtonElement) || !(chatSchedule instanceof HTMLButtonElement) || !(chatReprocess instanceof HTMLButtonElement) || !(chatLoop instanceof HTMLButtonElement) || !(chatSkip instanceof HTMLButtonElement) || !(chatPause instanceof HTMLButtonElement) || !(chatInterrupt instanceof HTMLButtonElement) || !(sessionToggle instanceof HTMLButtonElement) || !(sessionPanel instanceof HTMLElement) || !(sessionList instanceof HTMLElement) || !(newSession instanceof HTMLButtonElement) || !(closeSessionPanel instanceof HTMLButtonElement) || !(renameDialog instanceof HTMLDialogElement) || !(renameForm instanceof HTMLFormElement) || !(renameInput instanceof HTMLInputElement) || !(renameHeading instanceof HTMLHeadingElement) || !(renameLabel instanceof HTMLLabelElement) || !(renameCancel instanceof HTMLButtonElement) || !(renameSave instanceof HTMLButtonElement)) return;
+  if (!(container instanceof HTMLElement) || !(form instanceof HTMLFormElement) || !(input instanceof HTMLTextAreaElement) || !(help instanceof HTMLButtonElement) || !(heading instanceof HTMLElement) || !(currentSessionLabel instanceof HTMLElement) || !(currentSessionName instanceof HTMLElement) || !(sessionLabel instanceof HTMLElement) || !(chatGenerate instanceof HTMLButtonElement) || !(chatSchedule instanceof HTMLButtonElement) || !(chatReprocess instanceof HTMLButtonElement) || !(chatLoop instanceof HTMLButtonElement) || !(chatSkip instanceof HTMLButtonElement) || !(chatPause instanceof HTMLButtonElement) || !(chatInterrupt instanceof HTMLButtonElement) || !(sessionToggle instanceof HTMLButtonElement) || !(sessionPanel instanceof HTMLElement) || !(sessionList instanceof HTMLElement) || !(newSession instanceof HTMLButtonElement) || !(closeSessionPanel instanceof HTMLButtonElement) || !(renameDialog instanceof HTMLDialogElement) || !(renameForm instanceof HTMLFormElement) || !(renameInput instanceof HTMLInputElement) || !(renameHeading instanceof HTMLHeadingElement) || !(renameLabel instanceof HTMLLabelElement) || !(renameCancel instanceof HTMLButtonElement) || !(renameSave instanceof HTMLButtonElement)) return;
   const chatGenerateLabel = chatGenerate.querySelector("span");
   if (!(chatGenerateLabel instanceof HTMLSpanElement)) return;
   const initialGenerateLabel = chatGenerateLabel.textContent || "Generate";
@@ -350,9 +351,13 @@ function initChat() {
   };
   let activeSession = null;
   let renamingSession = null;
+  const commandHistory = [];
+  let commandHistoryIndex = 0;
+  let commandHistoryDraft = "";
   let submitting = false;
   let latestGeneratedImage = null;
   const latestGeneratedImages = /* @__PURE__ */ new Map();
+  const sessionResultImages = /* @__PURE__ */ new Map();
   let activeGenerations = 0;
   let loopEnabled = false;
   let generationPaused = false;
@@ -375,21 +380,13 @@ function initChat() {
     chatLoop.setAttribute("aria-pressed", String(loopEnabled));
     chatPause.setAttribute("aria-pressed", String(generationPaused));
   };
-  const updateStatus = () => {
-    if (disabled) {
-      status.textContent = chatText("chat-disabled", "Chat disabled");
-      status.dataset.state = "disabled";
-      return;
-    }
-    delete status.dataset.state;
-    status.textContent = chatText("chat-ready", "Ready");
-  };
   const updateSessionTitle = () => {
     const label = chatText("chat-sessions-heading", "Sessions");
     sessionLabel.textContent = label;
     sessionToggle.title = activeSession ? `${label}: ${activeSession.title}` : label;
     sessionToggle.setAttribute("aria-label", sessionToggle.title);
-    updateStatus();
+    currentSessionLabel.textContent = `${chatText("chat-session", "Session")}:`;
+    currentSessionName.textContent = activeSession?.title || chatText("chat-new-session", "New chat");
     updateToolbarButtons();
   };
   updateSessionTitle();
@@ -442,7 +439,10 @@ function initChat() {
     else latestGeneratedImages.delete(activeSession.id);
   };
   const clearGenerationResults = (clearImage = true) => {
-    if (clearImage) rememberGeneratedImage(null);
+    if (clearImage) {
+      rememberGeneratedImage(null);
+      if (activeSession) sessionResultImages.delete(activeSession.id);
+    }
     if (!resultsContent) return;
     resultsContent.replaceChildren();
     resultsContent.dataset.hasImages = "false";
@@ -457,6 +457,7 @@ function initChat() {
     const images = value.filter((image) => typeof image === "string" && image.length > 0);
     if (images.length === 0) return;
     rememberGeneratedImage(images[0]);
+    if (activeSession) sessionResultImages.set(activeSession.id, images);
     resultsContent.replaceChildren();
     resultsContent.dataset.hasImages = "true";
     images.forEach((image, index) => {
@@ -478,6 +479,7 @@ function initChat() {
       showGeneratedImages(frames);
       return;
     }
+    if (activeSession) sessionResultImages.delete(activeSession.id);
     rememberGeneratedImage(thumbnail || null);
     resultsContent.replaceChildren();
     const videoPath = typeof data.video_path === "string" ? data.video_path : "";
@@ -498,6 +500,7 @@ function initChat() {
       image.alt = "Generated video thumbnail";
       image.src = thumbnail.startsWith("data:") ? thumbnail : `data:image/png;base64,${thumbnail}`;
       resultsContent.append(image);
+      if (activeSession) sessionResultImages.set(activeSession.id, [image.src]);
     } else {
       clearGenerationResults();
       return;
@@ -652,6 +655,8 @@ function initChat() {
       button.setAttribute("aria-current", button.dataset.sessionId === activeSession?.id ? "true" : "false");
     });
     clearGenerationResults(false);
+    const savedImages = sessionResultImages.get(activeSession.id);
+    if (savedImages) showGeneratedImages(savedImages);
     renderMessages(detail.messages);
     if (detail.restore_errors.length > 0) {
       appendMessage(container, {
@@ -824,8 +829,6 @@ ${detail.restore_errors.join("\n")}`,
             const percentage = "progress" in progress && typeof progress.progress === "number" ? ` ${Math.round(progress.progress * 100)}%` : "";
             const label = "paused" in progress && progress.paused ? chatText("chat-paused", "Paused") : progressLabel;
             setGenerateLabel(`${label}${percentage}`);
-            status.textContent = `${progressLabel}${percentage}`;
-            status.dataset.state = "busy";
           }
         });
       }
@@ -916,7 +919,6 @@ ${chatText("chat-endpoint-unsaved", "Result shown but could not be saved to chat
       }
       if (!keepsComposerAvailable) setBusy(false);
       if (activeSession?.id === sessionId) {
-        updateStatus();
         input.focus();
       }
       if (loopEnabled && isGenerationCommand && activeSession?.id === sessionId) {
@@ -935,9 +937,7 @@ ${chatText("chat-endpoint-unsaved", "Result shown but could not be saved to chat
     input.style.height = "auto";
     input.style.height = `${input.scrollHeight}px`;
   };
-  status.textContent = disabled ? chatText("chat-disabled", "Chat disabled") : chatText("chat-ready", "Ready");
   if (disabled) {
-    status.dataset.state = "disabled";
     input.disabled = true;
     help.disabled = true;
     sessionToggle.disabled = true;
@@ -975,8 +975,31 @@ ${chatText("chat-endpoint-unsaved", "Result shown but could not be saved to chat
       event.preventDefault();
       saveRenameSession().catch((err) => appendMessage(container, localErrorMessage(err)));
     });
-    input.addEventListener("input", resizeInput);
+    input.addEventListener("input", () => {
+      commandHistoryIndex = commandHistory.length;
+      commandHistoryDraft = input.value;
+      resizeInput();
+    });
     input.addEventListener("keydown", (event) => {
+      if ((event.key === "ArrowUp" || event.key === "ArrowDown") && input.selectionStart === 0 && input.selectionEnd === 0 && commandHistory.length > 0) {
+        if (event.key === "ArrowUp") {
+          if (commandHistoryIndex === commandHistory.length) commandHistoryDraft = input.value;
+          commandHistoryIndex = Math.max(0, commandHistoryIndex - 1);
+          input.value = commandHistory[commandHistoryIndex];
+        } else if (commandHistoryIndex < commandHistory.length - 1) {
+          commandHistoryIndex += 1;
+          input.value = commandHistory[commandHistoryIndex];
+        } else if (commandHistoryIndex === commandHistory.length - 1) {
+          commandHistoryIndex = commandHistory.length;
+          input.value = commandHistoryDraft;
+        } else {
+          return;
+        }
+        event.preventDefault();
+        input.setSelectionRange(0, 0);
+        resizeInput();
+        return;
+      }
       if (event.key !== "Enter" || event.shiftKey || event.isComposing) return;
       event.preventDefault();
       form.requestSubmit();
@@ -985,6 +1008,10 @@ ${chatText("chat-endpoint-unsaved", "Result shown but could not be saved to chat
       event.preventDefault();
       const text = input.value;
       if (!text.trim()) return;
+      commandHistory.push(text);
+      if (commandHistory.length > 100) commandHistory.shift();
+      commandHistoryIndex = commandHistory.length;
+      commandHistoryDraft = "";
       input.value = "";
       resizeInput();
       submitCommand(text).catch((err) => appendMessage(container, localErrorMessage(err)));
@@ -1000,8 +1027,6 @@ ${chatText("chat-endpoint-unsaved", "Result shown but could not be saved to chat
       else await createSession();
     };
     initialize().catch((err) => {
-      status.textContent = chatText("chat-unavailable", "Chat unavailable");
-      status.dataset.state = "disabled";
       appendMessage(container, localErrorMessage(err));
     });
   }
