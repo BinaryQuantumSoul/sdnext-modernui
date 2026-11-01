@@ -546,7 +546,9 @@ export function initChat(): void {
     sessionToggle.title = activeSession ? `${label}: ${activeSession.title}` : label;
     sessionToggle.setAttribute('aria-label', sessionToggle.title);
     currentSessionLabel.textContent = `${chatText('chat-session', 'Session')}:`;
-    currentSessionName.textContent = activeSession?.title || chatText('chat-new-session', 'New chat');
+    currentSessionName.textContent = disabled
+      ? chatText('chat-disabled', 'Disabled')
+      : activeSession?.title || chatText('chat-new-session', 'New chat');
     updateToolbarButtons();
   };
 
