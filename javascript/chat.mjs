@@ -175,7 +175,9 @@ function setMessageContent(content, message) {
         title.textContent = section.title;
         const sectionContent = document.createElement("div");
         sectionContent.className = "chat-message-section-content";
-        if (section.format === "json" || section.format === "key-value") {
+        if (section.format === "html") {
+          appendSafeHtml(sectionContent, section.content);
+        } else if (section.format === "json" || section.format === "key-value") {
           const pre = document.createElement("pre");
           pre.textContent = section.content;
           sectionContent.append(pre);
@@ -408,9 +410,15 @@ function initChat() {
   const disabled = window.opts.chat_enabled !== true;
   const storageKey = `sdnext-chat-session:${window.subpath || ""}`;
   heading.textContent = chatText("chat-header", "Chat");
+  const selectedImageIds = () => {
+    const ids = activeSession?.selected_image_ids;
+    if (Array.isArray(ids) && ids.length > 0) return ids;
+    return activeSession?.selected_image_id ? [activeSession.selected_image_id] : [];
+  };
   const getSelectedArtifact = () => {
     const results = activeArtifacts.filter((artifact) => artifact.role === "result" && artifact.media_type.startsWith("image/") && artifact.available && (!visibleResultMessageId || artifact.message_id === visibleResultMessageId));
-    return results.find((artifact) => artifact.id === activeSession?.selected_image_id) || results[0];
+    const selectedIds = selectedImageIds();
+    return results.find((artifact) => selectedIds.includes(artifact.id)) || results[0];
   };
   const updateResultActionButtons = () => {
     const selected = getSelectedArtifact();
@@ -556,10 +564,10 @@ function initChat() {
     return url;
   };
   const updateArtifactSelection = () => {
-    const selectedId = activeSession?.selected_image_id;
+    const selectedIds = new Set(selectedImageIds());
     [container, resultsContent].forEach((root) => {
       root?.querySelectorAll("[data-chat-artifact-id]").forEach((element) => {
-        const selected = element.dataset.chatArtifactId === selectedId;
+        const selected = selectedIds.has(element.dataset.chatArtifactId || "");
         element.dataset.selected = String(selected);
         if (element instanceof HTMLImageElement && element.getAttribute("role") === "button") {
           element.setAttribute("aria-pressed", String(selected));
@@ -573,25 +581,27 @@ function initChat() {
   const selectArtifact = (artifactId) => {
     if (!activeSession) return Promise.resolve();
     const artifact = activeArtifacts.find((item) => item.id === artifactId && item.media_type.startsWith("image/") && item.available);
-    if (!artifact || activeSession.selected_image_id === artifactId) return Promise.resolve();
+    if (!artifact || selectedImageIds().length === 1 && selectedImageIds()[0] === artifactId) return Promise.resolve();
     const sessionId = activeSession.id;
-    const previousId = activeSession.selected_image_id;
+    const previousIds = selectedImageIds();
     activeSession.selected_image_id = artifactId;
+    activeSession.selected_image_ids = [artifactId];
     updateArtifactSelection();
     updateResultActionButtons();
     artifactSelectionUpdates = artifactSelectionUpdates.then(async () => {
       try {
         const updated = await apiRequest(`/chat/sessions/${encodeURIComponent(sessionId)}`, {
           method: "PATCH",
-          body: JSON.stringify({ selected_image_id: artifactId })
+          body: JSON.stringify({ selected_image_ids: [artifactId] })
         });
-        if (activeSession?.id === sessionId && activeSession.selected_image_id === artifactId) {
+        if (activeSession?.id === sessionId && selectedImageIds().length === 1 && selectedImageIds()[0] === artifactId) {
           activeSession = updated;
           updateSessionTitle();
         }
       } catch (err) {
-        if (activeSession?.id === sessionId && activeSession.selected_image_id === artifactId) {
-          activeSession.selected_image_id = previousId;
+        if (activeSession?.id === sessionId && selectedImageIds().length === 1 && selectedImageIds()[0] === artifactId) {
+          activeSession.selected_image_id = previousIds[0] || null;
+          activeSession.selected_image_ids = previousIds;
           updateArtifactSelection();
           updateResultActionButtons();
         }
@@ -661,8 +671,10 @@ function initChat() {
       if (item.source_artifact_id === artifact.id) return { ...item, source_deleted: true };
       return item;
     });
-    if (activeSession?.id === sessionId && activeSession.selected_image_id === artifact.id) {
-      activeSession.selected_image_id = null;
+    if (activeSession?.id === sessionId && selectedImageIds().includes(artifact.id)) {
+      const remainingIds = selectedImageIds().filter((id) => id !== artifact.id);
+      activeSession.selected_image_ids = remainingIds;
+      activeSession.selected_image_id = remainingIds[0] || null;
     }
     resultInfoDetails.replaceChildren();
     container.querySelectorAll(".chat-message-attachment[data-chat-artifact-id]").forEach((element) => {
@@ -719,7 +731,7 @@ function initChat() {
             image.loading = "lazy";
             image.tabIndex = 0;
             image.setAttribute("role", "button");
-            image.setAttribute("aria-pressed", String(activeSession?.selected_image_id === artifact.id));
+            image.setAttribute("aria-pressed", String(selectedImageIds().includes(artifact.id)));
             image.addEventListener("focus", () => selectArtifactFromEvent(artifact.id));
             image.addEventListener("click", (event) => {
               selectArtifactFromEvent(artifact.id);
@@ -790,7 +802,7 @@ function initChat() {
       image.loading = "lazy";
       image.tabIndex = 0;
       image.setAttribute("role", "button");
-      image.setAttribute("aria-pressed", String(activeSession?.selected_image_id === artifact.id));
+      image.setAttribute("aria-pressed", String(selectedImageIds().includes(artifact.id)));
       image.setAttribute("aria-label", image.alt);
       image.addEventListener("focus", () => selectArtifactFromEvent(artifact.id));
       image.addEventListener("click", (event) => {
@@ -810,10 +822,6 @@ function initChat() {
       icon.className = "mask-icon icon-results";
       icon.setAttribute("aria-hidden", "true");
       resultsContent.append(icon);
-    }
-    const selected = getSelectedArtifact();
-    if (selected && activeSession?.selected_image_id !== selected.id) {
-      selectArtifact(selected.id).catch((err) => appendMessage(container, localErrorMessage(err)));
     }
     updateArtifactSelection();
     updateToolbarButtons();
@@ -1187,6 +1195,10 @@ ${detail.restore_errors.join("\n")}`,
     const sessionId = activeSession.id;
     const context = activeSession.context;
     const commandName = content.split(/\s+/, 1)[0].toLowerCase();
+    if (commandName === "clear") {
+      renderMessages([]);
+      return;
+    }
     const displayContent = ["use", "file"].includes(commandName) ? chatText("chat-server-file-import", "Server file import") : content;
     const isGenerationCommand = ["run", "generate", "start", "again", "reprocess"].includes(commandName);
     if (isGenerationCommand && activeGenerations > 0) {
