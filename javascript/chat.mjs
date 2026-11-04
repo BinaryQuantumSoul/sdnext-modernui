@@ -15,6 +15,16 @@ function chatText(id, fallback) {
   }
   return fallback;
 }
+function setChatHint(element, id) {
+  const entries = window.localization?._;
+  if (!Array.isArray(entries)) return;
+  const entry = entries.find((item) => Boolean(
+    item && typeof item === "object" && "id" in item && item.id === id
+  ));
+  if (!entry?.hint) return;
+  if (window.opts.tooltips === "Browser default") element.title = entry.hint;
+  else if (window.opts.tooltips === "UI tooltips") element.dataset.hint = entry.hint;
+}
 var CHAT_HTML_TAGS = /* @__PURE__ */ new Set([
   "a",
   "b",
@@ -389,6 +399,7 @@ function initChat() {
     chatGenerateLabel.textContent = label;
     chatGenerate.title = label;
     chatGenerate.setAttribute("aria-label", label);
+    setChatHint(chatGenerate, "chat_generate");
   };
   let activeSession = null;
   let activeArtifacts = [];
@@ -409,6 +420,8 @@ function initChat() {
   let generationPaused = false;
   const disabled = window.opts.chat_enabled !== true;
   const storageKey = `sdnext-chat-session:${window.subpath || ""}`;
+  setChatHint(input, "chat-input");
+  setChatHint(renameInput, "chat-rename-session-input");
   heading.textContent = chatText("chat-header", "Chat");
   const selectedImageIds = () => {
     const ids = activeSession?.selected_image_ids;
@@ -450,6 +463,7 @@ function initChat() {
     sessionLabel.textContent = label;
     sessionToggle.title = activeSession ? `${label}: ${activeSession.title}` : label;
     sessionToggle.setAttribute("aria-label", sessionToggle.title);
+    setChatHint(sessionToggle, "chat-session-toggle");
     currentSessionLabel.textContent = `${chatText("chat-session", "Session")}:`;
     currentSessionName.textContent = disabled ? chatText("chat-disabled", "Disabled") : activeSession?.title || chatText("chat-new-session", "New chat");
     updateToolbarButtons();
@@ -732,6 +746,7 @@ function initChat() {
             image.tabIndex = 0;
             image.setAttribute("role", "button");
             image.setAttribute("aria-pressed", String(selectedImageIds().includes(artifact.id)));
+            setChatHint(image, "chat-image-select");
             image.addEventListener("focus", () => selectArtifactFromEvent(artifact.id));
             image.addEventListener("click", (event) => {
               selectArtifactFromEvent(artifact.id);
@@ -748,6 +763,7 @@ function initChat() {
             download.href = url;
             download.download = artifact.display_name;
             download.textContent = artifact.display_name;
+            setChatHint(download, "chat-file-download");
             attachment.append(download);
           }
         }
@@ -804,6 +820,7 @@ function initChat() {
       image.setAttribute("role", "button");
       image.setAttribute("aria-pressed", String(selectedImageIds().includes(artifact.id)));
       image.setAttribute("aria-label", image.alt);
+      setChatHint(image, "chat-image-select");
       image.addEventListener("focus", () => selectArtifactFromEvent(artifact.id));
       image.addEventListener("click", (event) => {
         selectArtifactFromEvent(artifact.id);
@@ -844,6 +861,7 @@ function initChat() {
       player.className = "chat-result-video";
       player.controls = true;
       player.preload = "metadata";
+      setChatHint(player, "chat-video-preview");
       if (video) {
         player.src = video.startsWith("data:") ? video : `data:video/mp4;base64,${video}`;
       } else {
@@ -1057,6 +1075,7 @@ ${detail.restore_errors.join("\n")}`,
       selectButton.className = "chat-session-item";
       selectButton.dataset.sessionId = session.id;
       selectButton.setAttribute("aria-current", session.id === activeSession?.id ? "true" : "false");
+      setChatHint(selectButton, "chat-session-item");
       const title = document.createElement("span");
       title.className = "chat-session-item-title";
       title.textContent = session.title === "New chat" ? chatText("chat-new-session", "New chat") : session.title;
@@ -1087,6 +1106,7 @@ ${detail.restore_errors.join("\n")}`,
       renameButton.className = "sd-button";
       renameButton.title = chatText("chat-rename-session", "Rename session");
       renameButton.setAttribute("aria-label", renameButton.title);
+      setChatHint(renameButton, "chat-rename-session");
       const renameIcon = document.createElement("div");
       renameIcon.className = "mask-icon icon-styles-edit";
       renameIcon.setAttribute("aria-hidden", "true");
@@ -1102,6 +1122,7 @@ ${detail.restore_errors.join("\n")}`,
       deleteButton.disabled = false;
       deleteButton.title = chatText("chat-delete-session", "Delete session");
       deleteButton.setAttribute("aria-label", deleteButton.title);
+      setChatHint(deleteButton, "chat-delete-session");
       const deleteIcon = document.createElement("div");
       deleteIcon.className = "mask-icon icon-delete";
       deleteIcon.setAttribute("aria-hidden", "true");
