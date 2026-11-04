@@ -19416,6 +19416,19 @@ ${suffix.trimStart()}` : suffix;
   content2.textContent = `${content2.textContent}${appended}`;
   container.scrollTop = container.scrollHeight;
 }
+function updateProcessingProgressMessage(container, messageId, progressLabel) {
+  if (!progressLabel) return;
+  const article = Array.from(container.querySelectorAll(".chat-message")).find((item) => item.dataset.messageId === messageId);
+  const content2 = article?.querySelector(".chat-message-content");
+  if (!content2) return;
+  const current = content2.textContent || "";
+  const firstLine = current.split("\n", 1)[0] || "Processing...";
+  const next = `${firstLine}
+${progressLabel}`;
+  if (current === next) return;
+  content2.textContent = next;
+  container.scrollTop = container.scrollHeight;
+}
 function watchImportProgress(container, messageId) {
   if (!window.requestProgress) return;
   window.requestProgress("undefined", null, null, null, (progress) => {
@@ -20411,21 +20424,6 @@ ${detail.restore_errors.join("\n")}`,
     if (isGenerationCommand) {
       activeGenerations += 1;
       updateToolbarButtons();
-      setGenerateLabel(chatText("chat-generating", "Generating"));
-      if (context !== "caption" && window.requestProgress) {
-        window.requestProgress("undefined", null, resultsContent, null, (progress) => {
-          if (progress && typeof progress === "object" && "paused" in progress && typeof progress.paused === "boolean") {
-            generationPaused = progress.paused;
-            updateToolbarButtons();
-          }
-          if (progress && typeof progress === "object" && "active" in progress && progress.active) {
-            const progressLabel = "textinfo" in progress && typeof progress.textinfo === "string" && progress.textinfo ? progress.textinfo : "Generating";
-            const percentage = "progress" in progress && typeof progress.progress === "number" ? ` ${Math.round(progress.progress * 100)}%` : "";
-            const label = "paused" in progress && progress.paused ? chatText("chat-paused", "Paused") : progressLabel;
-            setGenerateLabel(`${label}${percentage}`);
-          }
-        });
-      }
     }
     if (commandName === "cancel" || commandName === "abort" || commandName === "stop" || commandName === "interrupt") {
       loopEnabled = false;
@@ -20447,6 +20445,18 @@ ${detail.restore_errors.join("\n")}`,
       metadata: { kind: "processing" },
       created_at: (/* @__PURE__ */ new Date()).toISOString()
     });
+    if (isGenerationCommand && context !== "caption" && window.requestProgress) {
+      window.requestProgress("undefined", null, resultsContent, null, (progress) => {
+        if (!progress || typeof progress !== "object") return;
+        if ("paused" in progress && typeof progress.paused === "boolean") {
+          generationPaused = progress.paused;
+          updateToolbarButtons();
+        }
+        if ("active" in progress && progress.active) {
+          updateProcessingProgressMessage(container, processingId, chatGenerateLabel.textContent || "");
+        }
+      });
+    }
     if (commandName === "file" || commandName === "use") watchImportProgress(container, processingId);
     if (!keepsComposerAvailable) setBusy(true);
     try {
