@@ -502,6 +502,9 @@ export function initChat(): void {
   let activeSession: ChatSession | null = null;
   let activeArtifacts: ChatArtifact[] = [];
   let activeMessages: ChatMessage[] = [];
+  let parameterSessionId: string | null = null;
+  let parameterContext: ChatSession['context'] | null = null;
+  let parameterEntries: ChatParameterEntry[] = [];
   let visibleResultMessageId: string | null = null;
   let artifactSelectionUpdates = Promise.resolve();
   let renamingSession: ChatSession | null = null;
@@ -538,6 +541,26 @@ export function initChat(): void {
     ));
     const selectedIds = selectedImageIds();
     return results.find((artifact) => selectedIds.includes(artifact.id)) || results[0];
+  };
+
+  const getParameterEntries = (): ChatParameterEntry[] => (
+    activeSession?.id === parameterSessionId && activeSession.context === parameterContext ? parameterEntries : []
+  );
+
+  const refreshParameterEntries = async (session: ChatSession): Promise<void> => {
+    if (session.id === parameterSessionId && session.context === parameterContext) return;
+    try {
+      const result = await apiRequest<{ context: ChatSession['context']; parameters: ChatParameterEntry[] }>(
+        `/chat/sessions/${encodeURIComponent(session.id)}/parameters`,
+      );
+      if (activeSession?.id === session.id && activeSession.context === result.context) {
+        parameterSessionId = session.id;
+        parameterContext = result.context;
+        parameterEntries = result.parameters;
+      }
+    } catch (err) {
+      console.warn('Chat parameter autocomplete is unavailable', err);
+    }
   };
 
   const updateResultActionButtons = (): void => {
@@ -1171,6 +1194,7 @@ export function initChat(): void {
   const selectSession = async (sessionId: string, focusComposer: boolean): Promise<void> => {
     const detail = await apiRequest<ChatSessionDetail>(`/chat/sessions/${encodeURIComponent(sessionId)}/restore`, { method: 'POST' });
     activeSession = detail.session;
+    await refreshParameterEntries(detail.session);
     activeArtifacts = detail.artifacts;
     visibleResultMessageId = null;
     latestGeneratedImage = latestGeneratedImages.get(activeSession.id) || null;
@@ -1377,7 +1401,7 @@ export function initChat(): void {
     }
     const sessionId = activeSession.id;
     const context = activeSession.context;
-    const commandName = content.split(/\s+/, 1)[0].toLowerCase();
+    const commandName = content.replace(/^\/(?!\/)/, '').split(/\s+/, 1)[0].toLowerCase();
     if (commandName === 'clear') {
       renderMessages([]);
       return;
@@ -1450,6 +1474,7 @@ export function initChat(): void {
       if (activeSession?.id === sessionId) {
         activeSession = submission.session;
         activeArtifacts = submission.artifacts;
+        if (activeSession.context !== context) await refreshParameterEntries(activeSession);
         window.localStorage.setItem(storageKey, activeSession.id);
         updateSessionTitle();
       }
@@ -1560,8 +1585,10 @@ export function initChat(): void {
       }
       const submission = await response.json() as ChatSubmission;
       if (activeSession?.id === sessionId) {
+        const previousContext = activeSession.context;
         activeSession = submission.session;
         activeArtifacts = submission.artifacts;
+        if (activeSession.context !== previousContext) await refreshParameterEntries(activeSession);
         updateSessionTitle();
       }
       rememberMessages(submission.user_message, submission.assistant_message);
@@ -1617,6 +1644,7 @@ export function initChat(): void {
         commandHistoryDraft = value;
       },
       onSubmit: () => form.requestSubmit(),
+      getParameters: getParameterEntries,
       onHistory: (direction, value) => {
         if (commandHistory.length === 0) return null;
         if (direction === 'previous') {

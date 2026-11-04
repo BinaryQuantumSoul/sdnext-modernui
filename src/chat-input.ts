@@ -1,4 +1,4 @@
-import { autocompletion, completionStatus, type CompletionContext } from '@codemirror/autocomplete';
+import { autocompletion, completionStatus, type Completion, type CompletionContext } from '@codemirror/autocomplete';
 import { defaultKeymap, history, historyKeymap } from '@codemirror/commands';
 import { Compartment, EditorState, type Range } from '@codemirror/state';
 import { Decoration, drawSelection, EditorView, keymap, placeholder, ViewPlugin, type DecorationSet } from '@codemirror/view';
@@ -13,6 +13,13 @@ const chatCommands = [
 const chatCommandSet = new Set(chatCommands);
 const promptMarkers = new Set(['`', "'", '"', '>']);
 const chatCommandCompletions = chatCommands.map((label) => ({ label, type: 'keyword' }));
+interface ChatPromptCompletion extends Completion {
+  glyph: string;
+  color: string;
+  count: string;
+  category: string;
+}
+
 const commandMark = Decoration.mark({ class: 'cm-chat-command' });
 const commentMark = Decoration.mark({ class: 'cm-chat-comment' });
 const numberMark = Decoration.mark({ class: 'cm-chat-number' });
@@ -47,19 +54,73 @@ interface ChatInputCallbacks {
   onSubmit: () => void;
   onHistory: (direction: 'previous' | 'next', value: string) => string | null;
   onFiles: (files: File[]) => void;
+  getParameters: () => { name: string; type: string }[];
 }
 
-function completeChatCommand(context: CompletionContext) {
+function completeChatInput(context: CompletionContext, getParameters: ChatInputCallbacks['getParameters']) {
   const line = context.state.doc.lineAt(context.pos);
-  if (promptMarkers.has(line.text.trimStart()[0] ?? '')) return null;
-  const prefix = context.state.sliceDoc(line.from, context.pos);
-  if (prefix.trim() !== prefix || prefix.includes(' ')) return null;
-  const word = context.matchBefore(/[\w-]*/);
-  if (!word) return null;
+  const linePrefix = context.state.sliceDoc(line.from, context.pos);
+  const command = context.matchBefore(/\/[\w-]*/);
+  const promptLine = promptMarkers.has(line.text.trimStart()[0] ?? '');
+  const commandPrefix = command?.text.slice(1).toLowerCase() ?? '';
+  const commandStart = command ? context.state.sliceDoc(line.from, command.from) : '';
+  if (!promptLine && command && !commandStart.trim()
+    && chatCommands.some((name) => name.startsWith(commandPrefix))) {
+    return { from: command.from + 1, options: chatCommandCompletions, validFor: /^[\w-]*$/ };
+  }
+
+  if (!context.state.sliceDoc(0, line.from).trim() && /^\s*\/?(?:set|get)(?:\s+|$)/i.test(linePrefix)) {
+    const parameterCommand = /^\s*\/?(?:set|get)\s+([^\s=]*)$/i.exec(linePrefix);
+    if (!parameterCommand) return null;
+    const query = parameterCommand[1].toLowerCase();
+    const options = getParameters()
+      .filter((parameter) => parameter.name.toLowerCase().startsWith(query))
+      .map((parameter) => ({ label: parameter.name, type: 'property', detail: parameter.type }));
+    return { from: context.pos - parameterCommand[1].length, options, validFor: /^[\w-]*$/ };
+  }
+
+  const commandLine = /^\s*\/?([\w-]+)(?:\s|$)/.exec(linePrefix);
+  if (!promptLine && !context.state.sliceDoc(0, line.from).trim()
+    && commandLine && chatCommandSet.has(commandLine[1].toLowerCase())) return null;
+
+  const selection = context.state.selection.main;
+  const suggestions = window.chatPromptAutocomplete?.search(
+    context.state.doc.toString(),
+    selection.from,
+    selection.to,
+  );
+  if (!suggestions || suggestions.options.length === 0) return null;
   return {
-    from: word.from,
-    options: chatCommandCompletions,
-    validFor: /^[\w-]*$/,
+    from: suggestions.from,
+    to: suggestions.to,
+    filter: false,
+    getMatch(completion: Completion) {
+      const query = suggestions.query.toLowerCase().replace(/ /g, '_');
+      if (!query) return [];
+      const label = completion.label.toLowerCase().replace(/ /g, '_');
+      const match = label.indexOf(query);
+      return match < 0 ? [] : [match, match + query.length];
+    },
+    options: suggestions.options.map((suggestion) => {
+      let type = 'text';
+      if (suggestion.kind === 'lora') type = 'class';
+      else if (suggestion.kind === 'wildcard') type = 'constant';
+      else if (suggestion.kind === 'embed') type = 'type';
+      return {
+        label: suggestion.label,
+        type,
+        glyph: suggestion.glyph,
+        color: suggestion.color,
+        count: suggestion.count,
+        category: suggestion.detail,
+        apply(view: EditorView) {
+          view.dispatch({
+            changes: { from: suggestion.from, to: suggestion.to, insert: suggestion.insert },
+            selection: { anchor: suggestion.cursor },
+          });
+        },
+      };
+    }),
   };
 }
 
@@ -250,7 +311,39 @@ export class ChatInputEditor {
             },
           }),
           keymap.of([...defaultKeymap, ...historyKeymap]),
-          autocompletion({ override: [completeChatCommand], activateOnTyping: false }),
+          autocompletion({
+            override: [(context) => completeChatInput(context, callbacks.getParameters)],
+            activateOnTyping: true,
+            selectOnOpen: false,
+            maxRenderedOptions: 8,
+            icons: false,
+            addToOptions: [
+              {
+                position: 20,
+                render(completion) {
+                  const option = completion as Partial<ChatPromptCompletion>;
+                  if (!option.glyph) return null;
+                  const glyph = document.createElement('span');
+                  glyph.className = 'cm-chat-completion-glyph';
+                  glyph.textContent = option.glyph;
+                  glyph.style.color = option.color ?? '';
+                  glyph.title = option.category ?? '';
+                  return glyph;
+                },
+              },
+              {
+                position: 90,
+                render(completion) {
+                  const count = (completion as Partial<ChatPromptCompletion>).count;
+                  if (!count) return null;
+                  const element = document.createElement('span');
+                  element.className = 'cm-chat-completion-count';
+                  element.textContent = count;
+                  return element;
+                },
+              },
+            ],
+          }),
           placeholder(placeholderText),
           chatHighlightPlugin,
           EditorView.lineWrapping,

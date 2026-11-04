@@ -24,6 +24,25 @@ interface Window {
   getSettingsTabs: () => NodeListOf<Element>;
   getServerInfo: () => Promise<void>;
   getSelectedNetworks: () => Record<string, unknown> | null;
+  chatPromptAutocomplete?: {
+    search: (value: string, selectionStart: number, selectionEnd: number) => {
+      from: number;
+      to: number;
+      query: string;
+      options: {
+        label: string;
+        kind: 'tag' | 'lora' | 'embed' | 'wildcard';
+        detail: string;
+        glyph: string;
+        color: string;
+        count: string;
+        from: number;
+        to: number;
+        insert: string;
+        cursor: number;
+      }[];
+    } | null;
+  };
   requestProgress?: (id_task?: string, progressEl?: HTMLElement | null, galleryEl?: HTMLElement | null, atEnd?: (() => void) | null, onProgress?: ((progress: unknown) => void) | null, once?: boolean) => void;
   galleryClickEventHandler?: (event: MouseEvent) => void;
   chatImageViewer?: {

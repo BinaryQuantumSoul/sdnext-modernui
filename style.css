@@ -1766,13 +1766,74 @@ li.item span {
 }
 
 .chat-composer .cm-tooltip-autocomplete {
-  background: var(--sd-panel-background-color);
-  border-color: var(--sd-muted-color);
+  background: var(--sd-main-background-color);
+  border: 1px solid var(--sd-input-border-color);
+  border-radius: var(--sd-border-radius);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
   color: var(--sd-input-text-color);
+  font-family: var(--sd-body-font);
+  font-size: 13px;
+  max-height: 266px !important;
+  max-width: min(32rem, calc(100vw - 1rem));
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.chat-composer .cm-tooltip-autocomplete ul {
+  height: auto !important;
+  max-height: 264px !important;
+  padding: 4px 0;
+}
+
+.chat-composer .cm-tooltip-autocomplete ul li {
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  display: flex;
+  gap: 8px;
+  height: 32px;
+  line-height: 1.4;
+  min-height: 32px;
+  max-height: 32px;
+  overflow: hidden;
+  padding: 6px 12px;
+}
+
+.chat-composer .cm-tooltip-autocomplete ul li:nth-child(odd) {
+  background: var(--sd-panel-background-color);
+}
+
+.chat-composer .cm-completionLabel {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.chat-composer .cm-completionMatchedText {
+  font-weight: 700;
+}
+
+.chat-composer .cm-chat-completion-glyph {
+  flex: 0 0 10px;
+  font-size: 10px;
+  text-align: center;
+}
+
+.chat-composer .cm-chat-completion-count {
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 8px;
+  flex-shrink: 0;
+  font-size: 0.75em;
+  font-variant-numeric: tabular-nums;
+  min-width: 28px;
+  opacity: 0.45;
+  padding: 1px 6px;
+  text-align: right;
 }
 
 .chat-composer .cm-tooltip-autocomplete ul li[aria-selected="true"] {
-  background: color-mix(in srgb, var(--sd-main-accent-color) 20%, var(--sd-panel-background-color));
+  background: var(--sd-main-accent-color);
   color: var(--sd-input-text-color);
 }
 

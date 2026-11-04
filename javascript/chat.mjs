@@ -18756,17 +18756,63 @@ var wildcardPattern = /^__(?:(?!__).)+__/;
 function editableExtensions(disabled) {
   return [EditorState.readOnly.of(disabled), EditorView.editable.of(!disabled)];
 }
-function completeChatCommand(context) {
+function completeChatInput(context, getParameters) {
   const line = context.state.doc.lineAt(context.pos);
-  if (promptMarkers.has(line.text.trimStart()[0] ?? "")) return null;
-  const prefix = context.state.sliceDoc(line.from, context.pos);
-  if (prefix.trim() !== prefix || prefix.includes(" ")) return null;
-  const word = context.matchBefore(/[\w-]*/);
-  if (!word) return null;
+  const linePrefix = context.state.sliceDoc(line.from, context.pos);
+  const command2 = context.matchBefore(/\/[\w-]*/);
+  const promptLine = promptMarkers.has(line.text.trimStart()[0] ?? "");
+  const commandPrefix = command2?.text.slice(1).toLowerCase() ?? "";
+  const commandStart = command2 ? context.state.sliceDoc(line.from, command2.from) : "";
+  if (!promptLine && command2 && !commandStart.trim() && chatCommands.some((name2) => name2.startsWith(commandPrefix))) {
+    return { from: command2.from + 1, options: chatCommandCompletions, validFor: /^[\w-]*$/ };
+  }
+  if (!context.state.sliceDoc(0, line.from).trim() && /^\s*\/?(?:set|get)(?:\s+|$)/i.test(linePrefix)) {
+    const parameterCommand = /^\s*\/?(?:set|get)\s+([^\s=]*)$/i.exec(linePrefix);
+    if (!parameterCommand) return null;
+    const query = parameterCommand[1].toLowerCase();
+    const options = getParameters().filter((parameter) => parameter.name.toLowerCase().startsWith(query)).map((parameter) => ({ label: parameter.name, type: "property", detail: parameter.type }));
+    return { from: context.pos - parameterCommand[1].length, options, validFor: /^[\w-]*$/ };
+  }
+  const commandLine = /^\s*\/?([\w-]+)(?:\s|$)/.exec(linePrefix);
+  if (!promptLine && !context.state.sliceDoc(0, line.from).trim() && commandLine && chatCommandSet.has(commandLine[1].toLowerCase())) return null;
+  const selection = context.state.selection.main;
+  const suggestions = window.chatPromptAutocomplete?.search(
+    context.state.doc.toString(),
+    selection.from,
+    selection.to
+  );
+  if (!suggestions || suggestions.options.length === 0) return null;
   return {
-    from: word.from,
-    options: chatCommandCompletions,
-    validFor: /^[\w-]*$/
+    from: suggestions.from,
+    to: suggestions.to,
+    filter: false,
+    getMatch(completion) {
+      const query = suggestions.query.toLowerCase().replace(/ /g, "_");
+      if (!query) return [];
+      const label = completion.label.toLowerCase().replace(/ /g, "_");
+      const match = label.indexOf(query);
+      return match < 0 ? [] : [match, match + query.length];
+    },
+    options: suggestions.options.map((suggestion) => {
+      let type = "text";
+      if (suggestion.kind === "lora") type = "class";
+      else if (suggestion.kind === "wildcard") type = "constant";
+      else if (suggestion.kind === "embed") type = "type";
+      return {
+        label: suggestion.label,
+        type,
+        glyph: suggestion.glyph,
+        color: suggestion.color,
+        count: suggestion.count,
+        category: suggestion.detail,
+        apply(view) {
+          view.dispatch({
+            changes: { from: suggestion.from, to: suggestion.to, insert: suggestion.insert },
+            selection: { anchor: suggestion.cursor }
+          });
+        }
+      };
+    })
   };
 }
 function chatHighlights(view) {
@@ -18940,7 +18986,39 @@ var ChatInputEditor = class {
             }
           }),
           keymap.of([...defaultKeymap, ...historyKeymap]),
-          autocompletion({ override: [completeChatCommand], activateOnTyping: false }),
+          autocompletion({
+            override: [(context) => completeChatInput(context, callbacks.getParameters)],
+            activateOnTyping: true,
+            selectOnOpen: false,
+            maxRenderedOptions: 8,
+            icons: false,
+            addToOptions: [
+              {
+                position: 20,
+                render(completion) {
+                  const option = completion;
+                  if (!option.glyph) return null;
+                  const glyph = document.createElement("span");
+                  glyph.className = "cm-chat-completion-glyph";
+                  glyph.textContent = option.glyph;
+                  glyph.style.color = option.color ?? "";
+                  glyph.title = option.category ?? "";
+                  return glyph;
+                }
+              },
+              {
+                position: 90,
+                render(completion) {
+                  const count = completion.count;
+                  if (!count) return null;
+                  const element = document.createElement("span");
+                  element.className = "cm-chat-completion-count";
+                  element.textContent = count;
+                  return element;
+                }
+              }
+            ]
+          }),
           placeholder(placeholderText),
           chatHighlightPlugin,
           EditorView.lineWrapping,
@@ -19385,6 +19463,9 @@ function initChat() {
   let activeSession = null;
   let activeArtifacts = [];
   let activeMessages = [];
+  let parameterSessionId = null;
+  let parameterContext = null;
+  let parameterEntries = [];
   let visibleResultMessageId = null;
   let artifactSelectionUpdates = Promise.resolve();
   let renamingSession = null;
@@ -19414,6 +19495,22 @@ function initChat() {
     const results = activeArtifacts.filter((artifact) => artifact.role === "result" && artifact.media_type.startsWith("image/") && artifact.available && (!visibleResultMessageId || artifact.message_id === visibleResultMessageId));
     const selectedIds = selectedImageIds();
     return results.find((artifact) => selectedIds.includes(artifact.id)) || results[0];
+  };
+  const getParameterEntries = () => activeSession?.id === parameterSessionId && activeSession.context === parameterContext ? parameterEntries : [];
+  const refreshParameterEntries = async (session) => {
+    if (session.id === parameterSessionId && session.context === parameterContext) return;
+    try {
+      const result = await apiRequest(
+        `/chat/sessions/${encodeURIComponent(session.id)}/parameters`
+      );
+      if (activeSession?.id === session.id && activeSession.context === result.context) {
+        parameterSessionId = session.id;
+        parameterContext = result.context;
+        parameterEntries = result.parameters;
+      }
+    } catch (err) {
+      console.warn("Chat parameter autocomplete is unavailable", err);
+    }
   };
   const updateResultActionButtons = () => {
     const selected = getSelectedArtifact();
@@ -20004,6 +20101,7 @@ function initChat() {
   const selectSession = async (sessionId, focusComposer) => {
     const detail = await apiRequest(`/chat/sessions/${encodeURIComponent(sessionId)}/restore`, { method: "POST" });
     activeSession = detail.session;
+    await refreshParameterEntries(detail.session);
     activeArtifacts = detail.artifacts;
     visibleResultMessageId = null;
     latestGeneratedImage = latestGeneratedImages.get(activeSession.id) || null;
@@ -20197,7 +20295,7 @@ ${detail.restore_errors.join("\n")}`,
     }
     const sessionId = activeSession.id;
     const context = activeSession.context;
-    const commandName = content2.split(/\s+/, 1)[0].toLowerCase();
+    const commandName = content2.replace(/^\/(?!\/)/, "").split(/\s+/, 1)[0].toLowerCase();
     if (commandName === "clear") {
       renderMessages([]);
       return;
@@ -20262,6 +20360,7 @@ ${detail.restore_errors.join("\n")}`,
       if (activeSession?.id === sessionId) {
         activeSession = submission.session;
         activeArtifacts = submission.artifacts;
+        if (activeSession.context !== context) await refreshParameterEntries(activeSession);
         window.localStorage.setItem(storageKey, activeSession.id);
         updateSessionTitle();
       }
@@ -20370,8 +20469,10 @@ ${chatText("chat-endpoint-unsaved", "Result shown but could not be saved to chat
       }
       const submission = await response.json();
       if (activeSession?.id === sessionId) {
+        const previousContext = activeSession.context;
         activeSession = submission.session;
         activeArtifacts = submission.artifacts;
+        if (activeSession.context !== previousContext) await refreshParameterEntries(activeSession);
         updateSessionTitle();
       }
       rememberMessages(submission.user_message, submission.assistant_message);
@@ -20422,6 +20523,7 @@ ${chatText("chat-endpoint-unsaved", "Result shown but could not be saved to chat
         commandHistoryDraft = value;
       },
       onSubmit: () => form.requestSubmit(),
+      getParameters: getParameterEntries,
       onHistory: (direction, value) => {
         if (commandHistory.length === 0) return null;
         if (direction === "previous") {
