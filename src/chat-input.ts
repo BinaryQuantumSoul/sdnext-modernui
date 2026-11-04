@@ -1,6 +1,6 @@
 import { autocompletion, completionStatus, type CompletionContext } from '@codemirror/autocomplete';
 import { defaultKeymap, history, historyKeymap } from '@codemirror/commands';
-import { Compartment, EditorState } from '@codemirror/state';
+import { Compartment, EditorState, type Range } from '@codemirror/state';
 import { Decoration, drawSelection, EditorView, keymap, placeholder, ViewPlugin, type DecorationSet } from '@codemirror/view';
 
 const chatCommands = [
@@ -11,9 +11,32 @@ const chatCommands = [
   'storage', 'title', 'use', 'ver', 'version',
 ];
 const chatCommandSet = new Set(chatCommands);
+const promptMarkers = new Set(['`', "'", '"', '>']);
 const chatCommandCompletions = chatCommands.map((label) => ({ label, type: 'keyword' }));
 const commandMark = Decoration.mark({ class: 'cm-chat-command' });
 const commentMark = Decoration.mark({ class: 'cm-chat-comment' });
+const numberMark = Decoration.mark({ class: 'cm-chat-number' });
+const networkMark = Decoration.mark({ class: 'cm-chat-network' });
+const delimiterMark = Decoration.mark({ class: 'cm-chat-delimiter' });
+const wildcardMark = Decoration.mark({ class: 'cm-chat-wildcard' });
+const bracketClasses: Record<string, string> = {
+  '(': 'cm-chat-bracket-emphasis',
+  ')': 'cm-chat-bracket-emphasis',
+  '[': 'cm-chat-bracket-deemphasis',
+  ']': 'cm-chat-bracket-deemphasis',
+  '{': 'cm-chat-bracket-group',
+  '}': 'cm-chat-bracket-group',
+};
+const bracketContentMarks: Record<string, Decoration> = {
+  '(': Decoration.mark({ class: 'cm-chat-emphasis' }),
+  '[': Decoration.mark({ class: 'cm-chat-deemphasis' }),
+  '{': Decoration.mark({ class: 'cm-chat-grouping' }),
+};
+const bracketClosers: Record<string, string> = { '(': ')', '[': ']', '{': '}' };
+const bracketOpeners: Record<string, string> = { ')': '(', ']': '[', '}': '{' };
+const networkPattern = /^<([\w-]+):([^\s<>:]+)(?::([-+]?(?:\d+(?:\.\d+)?|\.\d+)))?>/;
+const numberPattern = /^[-+]?(?:\d+(?:\.\d+)?|\.\d+)(?![\w.])/;
+const wildcardPattern = /^__(?:(?!__).)+__/;
 
 function editableExtensions(disabled: boolean) {
   return [EditorState.readOnly.of(disabled), EditorView.editable.of(!disabled)];
@@ -28,6 +51,7 @@ interface ChatInputCallbacks {
 
 function completeChatCommand(context: CompletionContext) {
   const line = context.state.doc.lineAt(context.pos);
+  if (promptMarkers.has(line.text.trimStart()[0] ?? '')) return null;
   const prefix = context.state.sliceDoc(line.from, context.pos);
   if (prefix.trim() !== prefix || prefix.includes(' ')) return null;
   const word = context.matchBefore(/[\w-]*/);
@@ -39,23 +63,143 @@ function completeChatCommand(context: CompletionContext) {
   };
 }
 
-function commandHighlights(view: EditorView): DecorationSet {
-  const line = view.state.doc.line(1);
-  const match = /^(\s*)(\S+)/.exec(line.text);
-  if (!match) return Decoration.none;
-  const from = line.from + match[1].length;
-  const token = match[2].toLowerCase();
-  if (token.startsWith('#') || token.startsWith('//')) {
-    return Decoration.set([commentMark.range(from, line.to)]);
+function chatHighlights(view: EditorView): DecorationSet {
+  const decorations: Range<Decoration>[] = [];
+  const bracketStack: { character: string; from: number }[] = [];
+  const bracketPositions: { character: string; from: number }[] = [];
+  const bracketWarnings = new Set<number>();
+  let inHtmlComment = false;
+  const add = (mark: Decoration, from: number, to: number): void => {
+    if (to > from) decorations.push(mark.range(from, to));
+  };
+  const document = view.state.doc;
+
+  for (let lineNumber = 1; lineNumber <= document.lines; lineNumber += 1) {
+    const line = document.line(lineNumber);
+    let offset = 0;
+    if (inHtmlComment) {
+      const commentEnd = line.text.indexOf('-->');
+      if (commentEnd < 0) {
+        add(commentMark, line.from, line.to);
+        continue;
+      }
+      add(commentMark, line.from, line.from + commentEnd + 3);
+      inHtmlComment = false;
+      offset = commentEnd + 3;
+    }
+
+    const comment = /^(\s*)#/.exec(line.text);
+    if (comment) {
+      add(commentMark, line.from + comment[1].length, line.to);
+      continue;
+    }
+
+    if (lineNumber === 1) {
+      const command = /^(\s*)(\S+)/.exec(line.text);
+      if (command && !promptMarkers.has(command[2][0]) && chatCommandSet.has(command[2].toLowerCase())) {
+        const from = line.from + command[1].length;
+        add(commandMark, from, from + command[2].length);
+      }
+    }
+
+    for (; offset < line.text.length;) {
+      const remaining = line.text.slice(offset);
+      const from = line.from + offset;
+      if (remaining.startsWith('<!--')) {
+        const commentEnd = line.text.indexOf('-->', offset + 4);
+        if (commentEnd < 0) {
+          add(commentMark, from, line.to);
+          inHtmlComment = true;
+          break;
+        }
+        add(commentMark, from, line.from + commentEnd + 3);
+        offset = commentEnd + 3;
+        continue;
+      }
+      if (remaining.startsWith('//')) {
+        add(commentMark, from, line.to);
+        break;
+      }
+      const network = networkPattern.exec(remaining);
+      if (network) {
+        const token = network[0];
+        add(networkMark, from, from + token.length);
+        for (let tokenOffset = 0; tokenOffset < token.length; tokenOffset += 1) {
+          if (token[tokenOffset] === ':') add(delimiterMark, from + tokenOffset, from + tokenOffset + 1);
+        }
+        if (network[3]) {
+          const weightFrom = from + token.length - 1 - network[3].length;
+          add(numberMark, weightFrom, weightFrom + network[3].length);
+        }
+        offset += token.length;
+        continue;
+      }
+
+      const wildcard = wildcardPattern.exec(remaining);
+      if (wildcard) {
+        add(wildcardMark, from, from + wildcard[0].length);
+        offset += wildcard[0].length;
+        continue;
+      }
+
+      const character = line.text[offset];
+      if (bracketClasses[character]) {
+        bracketPositions.push({ character, from });
+        if (bracketClosers[character]) {
+          bracketStack.push({ character, from });
+        } else {
+          const expectedOpener = bracketOpeners[character];
+          let openerIndex = -1;
+          for (let stackIndex = bracketStack.length - 1; stackIndex >= 0; stackIndex -= 1) {
+            if (bracketClosers[bracketStack[stackIndex].character] === character) {
+              openerIndex = stackIndex;
+              break;
+            }
+          }
+          if (openerIndex < 0) {
+            bracketWarnings.add(from);
+          } else {
+            while (bracketStack.length - 1 > openerIndex) {
+              const unmatched = bracketStack.pop();
+              if (unmatched) bracketWarnings.add(unmatched.from);
+            }
+            const matched = bracketStack.pop();
+            if (matched) add(bracketContentMarks[matched.character], matched.from + 1, from);
+          }
+          if (!expectedOpener) bracketWarnings.add(from);
+        }
+        offset += 1;
+        continue;
+      }
+
+      if (character === ':' && bracketStack.length > 0) add(delimiterMark, from, from + 1);
+      const previousCharacter = offset > 0 ? line.text[offset - 1] : '';
+      const number = numberPattern.exec(remaining);
+      if (number && !/[\w.]/.test(previousCharacter)) {
+        add(numberMark, from, from + number[0].length);
+        offset += number[0].length;
+        continue;
+      }
+      offset += 1;
+    }
   }
-  if (!chatCommandSet.has(token)) return Decoration.none;
-  return Decoration.set([commandMark.range(from, from + match[2].length)]);
+
+  bracketStack.forEach((unmatched) => bracketWarnings.add(unmatched.from));
+  bracketPositions.forEach(({ character, from }) => {
+    const warning = bracketWarnings.has(from);
+    const mark = Decoration.mark({
+      class: `${bracketClasses[character]}${warning ? ' cm-chat-bracket-warning' : ''}`,
+      attributes: warning ? { title: 'Mismatched or unclosed bracket' } : undefined,
+    });
+    add(mark, from, from + 1);
+  });
+  return decorations.length > 0 ? Decoration.set(decorations, true) : Decoration.none;
 }
 
 const chatHighlightPlugin = ViewPlugin.define((view) => ({
-  decorations: commandHighlights(view),
+  decorations: chatHighlights(view),
   update(update) {
-    if (update.docChanged) this.decorations = commandHighlights(update.view);
+    if (update.docChanged) this.decorations = chatHighlights(update.view);
   },
 }), {
   decorations: (plugin) => plugin.decorations,

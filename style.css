@@ -1660,6 +1660,14 @@ li.item span {
   margin-top: var(--sd-extra-gap);
   background-color: var(--sd-panel-background-color);
   border-radius: var(--sd-border-radius);
+  --chat-syntax-number: #99ffbb;
+  --chat-syntax-network: #ff99ff;
+  --chat-syntax-emphasis: #ffffbb;
+  --chat-syntax-deemphasis: #eeeeaa;
+  --chat-syntax-group: #99ffff;
+  --chat-syntax-delimiter: #999999;
+  --chat-syntax-wildcard: #bb99ff;
+  --chat-syntax-warning: #ff6666;
 }
 
 .chat-composer #chat-input {
@@ -1708,6 +1716,53 @@ li.item span {
 .chat-composer .cm-chat-comment {
   color: var(--sd-muted-color);
   font-style: italic;
+}
+
+.chat-composer .cm-chat-number {
+  color: var(--chat-syntax-number);
+}
+
+.chat-composer .cm-chat-network {
+  color: var(--chat-syntax-network);
+}
+
+.chat-composer .cm-chat-bracket-emphasis {
+  color: var(--chat-syntax-emphasis);
+}
+
+.chat-composer .cm-chat-bracket-deemphasis {
+  color: var(--chat-syntax-deemphasis);
+}
+
+.chat-composer .cm-chat-bracket-group {
+  color: var(--chat-syntax-group);
+}
+
+.chat-composer .cm-chat-emphasis {
+  color: var(--chat-syntax-emphasis);
+}
+
+.chat-composer .cm-chat-deemphasis {
+  color: var(--chat-syntax-deemphasis);
+}
+
+.chat-composer .cm-chat-grouping {
+  color: var(--chat-syntax-group);
+}
+
+.chat-composer .cm-chat-delimiter {
+  color: var(--chat-syntax-delimiter);
+}
+
+.chat-composer .cm-chat-wildcard {
+  color: var(--chat-syntax-wildcard);
+}
+
+.chat-composer .cm-chat-bracket-warning {
+  background-color: color-mix(in srgb, var(--chat-syntax-warning) 14%, transparent);
+  color: var(--chat-syntax-warning);
+  text-decoration: underline wavy var(--chat-syntax-warning);
+  text-underline-offset: 2px;
 }
 
 .chat-composer .cm-tooltip-autocomplete {

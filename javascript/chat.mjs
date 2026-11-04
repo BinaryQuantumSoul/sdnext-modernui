@@ -18727,14 +18727,38 @@ var chatCommands = [
   "version"
 ];
 var chatCommandSet = new Set(chatCommands);
+var promptMarkers = /* @__PURE__ */ new Set(["`", "'", '"', ">"]);
 var chatCommandCompletions = chatCommands.map((label) => ({ label, type: "keyword" }));
 var commandMark = Decoration.mark({ class: "cm-chat-command" });
 var commentMark = Decoration.mark({ class: "cm-chat-comment" });
+var numberMark = Decoration.mark({ class: "cm-chat-number" });
+var networkMark = Decoration.mark({ class: "cm-chat-network" });
+var delimiterMark = Decoration.mark({ class: "cm-chat-delimiter" });
+var wildcardMark = Decoration.mark({ class: "cm-chat-wildcard" });
+var bracketClasses = {
+  "(": "cm-chat-bracket-emphasis",
+  ")": "cm-chat-bracket-emphasis",
+  "[": "cm-chat-bracket-deemphasis",
+  "]": "cm-chat-bracket-deemphasis",
+  "{": "cm-chat-bracket-group",
+  "}": "cm-chat-bracket-group"
+};
+var bracketContentMarks = {
+  "(": Decoration.mark({ class: "cm-chat-emphasis" }),
+  "[": Decoration.mark({ class: "cm-chat-deemphasis" }),
+  "{": Decoration.mark({ class: "cm-chat-grouping" })
+};
+var bracketClosers = { "(": ")", "[": "]", "{": "}" };
+var bracketOpeners = { ")": "(", "]": "[", "}": "{" };
+var networkPattern = /^<([\w-]+):([^\s<>:]+)(?::([-+]?(?:\d+(?:\.\d+)?|\.\d+)))?>/;
+var numberPattern = /^[-+]?(?:\d+(?:\.\d+)?|\.\d+)(?![\w.])/;
+var wildcardPattern = /^__(?:(?!__).)+__/;
 function editableExtensions(disabled) {
   return [EditorState.readOnly.of(disabled), EditorView.editable.of(!disabled)];
 }
 function completeChatCommand(context) {
   const line = context.state.doc.lineAt(context.pos);
+  if (promptMarkers.has(line.text.trimStart()[0] ?? "")) return null;
   const prefix = context.state.sliceDoc(line.from, context.pos);
   if (prefix.trim() !== prefix || prefix.includes(" ")) return null;
   const word = context.matchBefore(/[\w-]*/);
@@ -18745,22 +18769,134 @@ function completeChatCommand(context) {
     validFor: /^[\w-]*$/
   };
 }
-function commandHighlights(view) {
-  const line = view.state.doc.line(1);
-  const match = /^(\s*)(\S+)/.exec(line.text);
-  if (!match) return Decoration.none;
-  const from = line.from + match[1].length;
-  const token = match[2].toLowerCase();
-  if (token.startsWith("#") || token.startsWith("//")) {
-    return Decoration.set([commentMark.range(from, line.to)]);
+function chatHighlights(view) {
+  const decorations2 = [];
+  const bracketStack = [];
+  const bracketPositions = [];
+  const bracketWarnings = /* @__PURE__ */ new Set();
+  let inHtmlComment = false;
+  const add = (mark, from, to) => {
+    if (to > from) decorations2.push(mark.range(from, to));
+  };
+  const document2 = view.state.doc;
+  for (let lineNumber = 1; lineNumber <= document2.lines; lineNumber += 1) {
+    const line = document2.line(lineNumber);
+    let offset = 0;
+    if (inHtmlComment) {
+      const commentEnd = line.text.indexOf("-->");
+      if (commentEnd < 0) {
+        add(commentMark, line.from, line.to);
+        continue;
+      }
+      add(commentMark, line.from, line.from + commentEnd + 3);
+      inHtmlComment = false;
+      offset = commentEnd + 3;
+    }
+    const comment2 = /^(\s*)#/.exec(line.text);
+    if (comment2) {
+      add(commentMark, line.from + comment2[1].length, line.to);
+      continue;
+    }
+    if (lineNumber === 1) {
+      const command2 = /^(\s*)(\S+)/.exec(line.text);
+      if (command2 && !promptMarkers.has(command2[2][0]) && chatCommandSet.has(command2[2].toLowerCase())) {
+        const from = line.from + command2[1].length;
+        add(commandMark, from, from + command2[2].length);
+      }
+    }
+    for (; offset < line.text.length; ) {
+      const remaining = line.text.slice(offset);
+      const from = line.from + offset;
+      if (remaining.startsWith("<!--")) {
+        const commentEnd = line.text.indexOf("-->", offset + 4);
+        if (commentEnd < 0) {
+          add(commentMark, from, line.to);
+          inHtmlComment = true;
+          break;
+        }
+        add(commentMark, from, line.from + commentEnd + 3);
+        offset = commentEnd + 3;
+        continue;
+      }
+      if (remaining.startsWith("//")) {
+        add(commentMark, from, line.to);
+        break;
+      }
+      const network = networkPattern.exec(remaining);
+      if (network) {
+        const token = network[0];
+        add(networkMark, from, from + token.length);
+        for (let tokenOffset = 0; tokenOffset < token.length; tokenOffset += 1) {
+          if (token[tokenOffset] === ":") add(delimiterMark, from + tokenOffset, from + tokenOffset + 1);
+        }
+        if (network[3]) {
+          const weightFrom = from + token.length - 1 - network[3].length;
+          add(numberMark, weightFrom, weightFrom + network[3].length);
+        }
+        offset += token.length;
+        continue;
+      }
+      const wildcard = wildcardPattern.exec(remaining);
+      if (wildcard) {
+        add(wildcardMark, from, from + wildcard[0].length);
+        offset += wildcard[0].length;
+        continue;
+      }
+      const character = line.text[offset];
+      if (bracketClasses[character]) {
+        bracketPositions.push({ character, from });
+        if (bracketClosers[character]) {
+          bracketStack.push({ character, from });
+        } else {
+          const expectedOpener = bracketOpeners[character];
+          let openerIndex = -1;
+          for (let stackIndex = bracketStack.length - 1; stackIndex >= 0; stackIndex -= 1) {
+            if (bracketClosers[bracketStack[stackIndex].character] === character) {
+              openerIndex = stackIndex;
+              break;
+            }
+          }
+          if (openerIndex < 0) {
+            bracketWarnings.add(from);
+          } else {
+            while (bracketStack.length - 1 > openerIndex) {
+              const unmatched = bracketStack.pop();
+              if (unmatched) bracketWarnings.add(unmatched.from);
+            }
+            const matched = bracketStack.pop();
+            if (matched) add(bracketContentMarks[matched.character], matched.from + 1, from);
+          }
+          if (!expectedOpener) bracketWarnings.add(from);
+        }
+        offset += 1;
+        continue;
+      }
+      if (character === ":" && bracketStack.length > 0) add(delimiterMark, from, from + 1);
+      const previousCharacter = offset > 0 ? line.text[offset - 1] : "";
+      const number2 = numberPattern.exec(remaining);
+      if (number2 && !/[\w.]/.test(previousCharacter)) {
+        add(numberMark, from, from + number2[0].length);
+        offset += number2[0].length;
+        continue;
+      }
+      offset += 1;
+    }
   }
-  if (!chatCommandSet.has(token)) return Decoration.none;
-  return Decoration.set([commandMark.range(from, from + match[2].length)]);
+  bracketStack.forEach((unmatched) => bracketWarnings.add(unmatched.from));
+  bracketPositions.forEach(({ character, from }) => {
+    const warning = bracketWarnings.has(from);
+    const mark = Decoration.mark({
+      class: `${bracketClasses[character]}${warning ? " cm-chat-bracket-warning" : ""}`,
+      attributes: warning ? { title: "Mismatched or unclosed bracket" } : void 0
+    });
+    add(mark, from, from + 1);
+  });
+  return decorations2.length > 0 ? Decoration.set(decorations2, true) : Decoration.none;
 }
 var chatHighlightPlugin = ViewPlugin.define((view) => ({
-  decorations: commandHighlights(view),
+  decorations: chatHighlights(view),
   update(update) {
-    if (update.docChanged) this.decorations = commandHighlights(update.view);
+    if (update.docChanged) this.decorations = chatHighlights(update.view);
   }
 }), {
   decorations: (plugin) => plugin.decorations
