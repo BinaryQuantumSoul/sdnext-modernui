@@ -505,6 +505,7 @@ export function initChat(): void {
   let parameterSessionId: string | null = null;
   let parameterContext: ChatSession['context'] | null = null;
   let parameterEntries: ChatParameterEntry[] = [];
+  const parameterChoiceCache = new Map<string, Promise<string[]>>();
   let visibleResultMessageId: string | null = null;
   let artifactSelectionUpdates = Promise.resolve();
   let renamingSession: ChatSession | null = null;
@@ -549,6 +550,7 @@ export function initChat(): void {
 
   const refreshParameterEntries = async (session: ChatSession): Promise<void> => {
     if (session.id === parameterSessionId && session.context === parameterContext) return;
+    parameterChoiceCache.clear();
     try {
       const result = await apiRequest<{ context: ChatSession['context']; parameters: ChatParameterEntry[] }>(
         `/chat/sessions/${encodeURIComponent(session.id)}/parameters`,
@@ -561,6 +563,23 @@ export function initChat(): void {
     } catch (err) {
       console.warn('Chat parameter autocomplete is unavailable', err);
     }
+  };
+
+  const getParameterChoices = (name: string): Promise<string[]> => {
+    const session = activeSession;
+    if (!session) return Promise.resolve([]);
+    const key = `${session.id}:${session.context}:${name.toLowerCase()}`;
+    const cached = parameterChoiceCache.get(key);
+    if (cached) return cached;
+    const request = apiRequest<{ name: string; choices: string[] }>(
+      `/chat/sessions/${encodeURIComponent(session.id)}/choices?name=${encodeURIComponent(name)}`,
+    ).then((result) => result.choices).catch((err: unknown) => {
+      parameterChoiceCache.delete(key);
+      console.warn('Chat choice autocomplete is unavailable', err);
+      return [];
+    });
+    parameterChoiceCache.set(key, request);
+    return request;
   };
 
   const updateResultActionButtons = (): void => {
@@ -1645,6 +1664,7 @@ export function initChat(): void {
       },
       onSubmit: () => form.requestSubmit(),
       getParameters: getParameterEntries,
+      getChoices: getParameterChoices,
       onHistory: (direction, value) => {
         if (commandHistory.length === 0) return null;
         if (direction === 'previous') {

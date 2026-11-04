@@ -1684,6 +1684,8 @@ li.item span {
   max-height: 35dvh;
   min-height: 8.1em;
   min-width: 0;
+  overflow: hidden;
+  resize: vertical;
 }
 
 .chat-composer .cm-scroller {
@@ -1701,11 +1703,6 @@ li.item span {
 
 .chat-composer .cm-cursor {
   border-left-color: var(--sd-input-text-color);
-}
-
-.chat-composer .cm-editor.cm-focused {
-  outline: 1px solid var(--sd-main-accent-color);
-  outline-offset: -1px;
 }
 
 .chat-composer .cm-chat-command {
@@ -5955,7 +5952,7 @@ input[type="range"]::-ms-fill-upper {
 button>.mask-icon,
 button>span {
   height: 1.4em;
-  line-height: 1.2em;
+  line-height: 1.5em;
   margin: 0.7em 0 0.7em 0;
   pointer-events: none;
   vertical-align: middle;

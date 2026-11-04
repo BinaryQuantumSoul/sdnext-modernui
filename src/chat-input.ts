@@ -55,9 +55,77 @@ interface ChatInputCallbacks {
   onHistory: (direction: 'previous' | 'next', value: string) => string | null;
   onFiles: (files: File[]) => void;
   getParameters: () => { name: string; type: string }[];
+  getChoices: (name: string) => Promise<string[]>;
 }
 
-function completeChatInput(context: CompletionContext, getParameters: ChatInputCallbacks['getParameters']) {
+function normalizedChoice(value: string): string {
+  return value.toLocaleLowerCase().replace(/[^\p{L}\p{N}]/gu, '');
+}
+
+function choiceCompletion(from: number, rawValue: string, choices: string[], quoteValues = false) {
+  const comma = rawValue.lastIndexOf(',');
+  const segmentStart = comma + 1;
+  const segment = rawValue.slice(segmentStart);
+  const leading = segment.length - segment.trimStart().length;
+  const trimmed = segment.trim();
+  const quote = trimmed[0] === '"' || trimmed[0] === "'" ? trimmed[0] : '';
+  const query = trimmed.replace(/^['"]|['"]$/g, '');
+  const normalizedQuery = normalizedChoice(query);
+  const options = choices
+    .filter((choice) => !normalizedQuery || normalizedChoice(choice).includes(normalizedQuery))
+    .map((choice) => ({
+      label: choice,
+      type: 'enum',
+      apply(view: EditorView, _completion: Completion, start: number, end: number) {
+        let value = choice;
+        if (quote) value = `${quote}${choice.replaceAll('\\', '\\\\').replaceAll(quote, `\\${quote}`)}${quote}`;
+        else if (quoteValues) value = JSON.stringify(choice);
+        view.dispatch({ changes: { from: start, to: end, insert: value } });
+      },
+    }));
+  if (options.length === 0) return null;
+  return {
+    from: from + segmentStart + leading,
+    filter: false,
+    validFor: /^[^,\n]*$/,
+    options,
+  };
+}
+
+function currentShellArgument(text: string): { index: number; from: number; value: string } {
+  let index = 0;
+  let from = text.length;
+  let started = false;
+  let quote = '';
+  for (let offset = 0; offset < text.length; offset += 1) {
+    const character = text[offset];
+    if (quote) {
+      if (character === '\\') offset += 1;
+      else if (character === quote) quote = '';
+      continue;
+    }
+    if (character === '"' || character === "'") {
+      if (!started) from = offset;
+      started = true;
+      quote = character;
+    } else if (/\s/.test(character)) {
+      if (started) {
+        index += 1;
+        started = false;
+      }
+    } else {
+      if (!started) from = offset;
+      started = true;
+    }
+  }
+  return { index, from: started ? from : text.length, value: text.slice(started ? from : text.length) };
+}
+
+function completeChatInput(
+  context: CompletionContext,
+  getParameters: ChatInputCallbacks['getParameters'],
+  getChoices: ChatInputCallbacks['getChoices'],
+) {
   const line = context.state.doc.lineAt(context.pos);
   const linePrefix = context.state.sliceDoc(line.from, context.pos);
   const command = context.matchBefore(/\/[\w-]*/);
@@ -67,6 +135,38 @@ function completeChatInput(context: CompletionContext, getParameters: ChatInputC
   if (!promptLine && command && !commandStart.trim()
     && chatCommands.some((name) => name.startsWith(commandPrefix))) {
     return { from: command.from + 1, options: chatCommandCompletions, validFor: /^[\w-]*$/ };
+  }
+
+  if (!context.state.sliceDoc(0, line.from).trim()) {
+    const setCommand = /^\s*\/?set\s+/i.exec(linePrefix);
+    const optsCommand = /^\s*\/?opts\s+/i.exec(linePrefix);
+    const valueCommand = setCommand || optsCommand;
+    if (valueCommand) {
+      const args = linePrefix.slice(valueCommand[0].length);
+      const assignment = /^([^\s=:]+)(?:\s*[=:]\s*|\s+)([\s\S]*)$/.exec(args);
+      if (assignment) {
+        const name = assignment[1].toLowerCase();
+        const value = assignment[2].replace(/^to\s+/i, '');
+        const from = line.from + valueCommand[0].length + assignment[0].length - assignment[2].length
+          + (assignment[2].length - value.length);
+        return getChoices(name).then((choices) => (
+          context.aborted ? null : choiceCompletion(from, value, choices)
+        ));
+      }
+    }
+
+    const modelCommand = /^\s*\/?model(?:\s+|$)/i.exec(linePrefix);
+    if (modelCommand) {
+      const args = linePrefix.slice(modelCommand[0].length);
+      const argument = currentShellArgument(args);
+      if (argument.index <= 1) {
+        const name = argument.index === 0 ? 'model' : 'unet';
+        const from = line.from + modelCommand[0].length + argument.from;
+        return getChoices(name).then((choices) => (
+          context.aborted ? null : choiceCompletion(from, argument.value, choices, true)
+        ));
+      }
+    }
   }
 
   if (!context.state.sliceDoc(0, line.from).trim() && /^\s*\/?(?:set|get)(?:\s+|$)/i.test(linePrefix)) {
@@ -312,7 +412,7 @@ export class ChatInputEditor {
           }),
           keymap.of([...defaultKeymap, ...historyKeymap]),
           autocompletion({
-            override: [(context) => completeChatInput(context, callbacks.getParameters)],
+            override: [(context) => completeChatInput(context, callbacks.getParameters, callbacks.getChoices)],
             activateOnTyping: true,
             selectOnOpen: false,
             maxRenderedOptions: 8,

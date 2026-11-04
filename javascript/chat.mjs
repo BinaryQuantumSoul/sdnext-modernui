@@ -18756,7 +18756,65 @@ var wildcardPattern = /^__(?:(?!__).)+__/;
 function editableExtensions(disabled) {
   return [EditorState.readOnly.of(disabled), EditorView.editable.of(!disabled)];
 }
-function completeChatInput(context, getParameters) {
+function normalizedChoice(value) {
+  return value.toLocaleLowerCase().replace(/[^\p{L}\p{N}]/gu, "");
+}
+function choiceCompletion(from, rawValue, choices, quoteValues = false) {
+  const comma = rawValue.lastIndexOf(",");
+  const segmentStart = comma + 1;
+  const segment = rawValue.slice(segmentStart);
+  const leading = segment.length - segment.trimStart().length;
+  const trimmed = segment.trim();
+  const quote = trimmed[0] === '"' || trimmed[0] === "'" ? trimmed[0] : "";
+  const query = trimmed.replace(/^['"]|['"]$/g, "");
+  const normalizedQuery = normalizedChoice(query);
+  const options = choices.filter((choice) => !normalizedQuery || normalizedChoice(choice).includes(normalizedQuery)).map((choice) => ({
+    label: choice,
+    type: "enum",
+    apply(view, _completion, start, end) {
+      let value = choice;
+      if (quote) value = `${quote}${choice.replaceAll("\\", "\\\\").replaceAll(quote, `\\${quote}`)}${quote}`;
+      else if (quoteValues) value = JSON.stringify(choice);
+      view.dispatch({ changes: { from: start, to: end, insert: value } });
+    }
+  }));
+  if (options.length === 0) return null;
+  return {
+    from: from + segmentStart + leading,
+    filter: false,
+    validFor: /^[^,\n]*$/,
+    options
+  };
+}
+function currentShellArgument(text) {
+  let index = 0;
+  let from = text.length;
+  let started = false;
+  let quote = "";
+  for (let offset = 0; offset < text.length; offset += 1) {
+    const character = text[offset];
+    if (quote) {
+      if (character === "\\") offset += 1;
+      else if (character === quote) quote = "";
+      continue;
+    }
+    if (character === '"' || character === "'") {
+      if (!started) from = offset;
+      started = true;
+      quote = character;
+    } else if (/\s/.test(character)) {
+      if (started) {
+        index += 1;
+        started = false;
+      }
+    } else {
+      if (!started) from = offset;
+      started = true;
+    }
+  }
+  return { index, from: started ? from : text.length, value: text.slice(started ? from : text.length) };
+}
+function completeChatInput(context, getParameters, getChoices) {
   const line = context.state.doc.lineAt(context.pos);
   const linePrefix = context.state.sliceDoc(line.from, context.pos);
   const command2 = context.matchBefore(/\/[\w-]*/);
@@ -18765,6 +18823,31 @@ function completeChatInput(context, getParameters) {
   const commandStart = command2 ? context.state.sliceDoc(line.from, command2.from) : "";
   if (!promptLine && command2 && !commandStart.trim() && chatCommands.some((name2) => name2.startsWith(commandPrefix))) {
     return { from: command2.from + 1, options: chatCommandCompletions, validFor: /^[\w-]*$/ };
+  }
+  if (!context.state.sliceDoc(0, line.from).trim()) {
+    const setCommand = /^\s*\/?set\s+/i.exec(linePrefix);
+    const optsCommand = /^\s*\/?opts\s+/i.exec(linePrefix);
+    const valueCommand = setCommand || optsCommand;
+    if (valueCommand) {
+      const args = linePrefix.slice(valueCommand[0].length);
+      const assignment = /^([^\s=:]+)(?:\s*[=:]\s*|\s+)([\s\S]*)$/.exec(args);
+      if (assignment) {
+        const name2 = assignment[1].toLowerCase();
+        const value = assignment[2].replace(/^to\s+/i, "");
+        const from = line.from + valueCommand[0].length + assignment[0].length - assignment[2].length + (assignment[2].length - value.length);
+        return getChoices(name2).then((choices) => context.aborted ? null : choiceCompletion(from, value, choices));
+      }
+    }
+    const modelCommand = /^\s*\/?model(?:\s+|$)/i.exec(linePrefix);
+    if (modelCommand) {
+      const args = linePrefix.slice(modelCommand[0].length);
+      const argument = currentShellArgument(args);
+      if (argument.index <= 1) {
+        const name2 = argument.index === 0 ? "model" : "unet";
+        const from = line.from + modelCommand[0].length + argument.from;
+        return getChoices(name2).then((choices) => context.aborted ? null : choiceCompletion(from, argument.value, choices, true));
+      }
+    }
   }
   if (!context.state.sliceDoc(0, line.from).trim() && /^\s*\/?(?:set|get)(?:\s+|$)/i.test(linePrefix)) {
     const parameterCommand = /^\s*\/?(?:set|get)\s+([^\s=]*)$/i.exec(linePrefix);
@@ -18987,7 +19070,7 @@ var ChatInputEditor = class {
           }),
           keymap.of([...defaultKeymap, ...historyKeymap]),
           autocompletion({
-            override: [(context) => completeChatInput(context, callbacks.getParameters)],
+            override: [(context) => completeChatInput(context, callbacks.getParameters, callbacks.getChoices)],
             activateOnTyping: true,
             selectOnOpen: false,
             maxRenderedOptions: 8,
@@ -19466,6 +19549,7 @@ function initChat() {
   let parameterSessionId = null;
   let parameterContext = null;
   let parameterEntries = [];
+  const parameterChoiceCache = /* @__PURE__ */ new Map();
   let visibleResultMessageId = null;
   let artifactSelectionUpdates = Promise.resolve();
   let renamingSession = null;
@@ -19499,6 +19583,7 @@ function initChat() {
   const getParameterEntries = () => activeSession?.id === parameterSessionId && activeSession.context === parameterContext ? parameterEntries : [];
   const refreshParameterEntries = async (session) => {
     if (session.id === parameterSessionId && session.context === parameterContext) return;
+    parameterChoiceCache.clear();
     try {
       const result = await apiRequest(
         `/chat/sessions/${encodeURIComponent(session.id)}/parameters`
@@ -19511,6 +19596,22 @@ function initChat() {
     } catch (err) {
       console.warn("Chat parameter autocomplete is unavailable", err);
     }
+  };
+  const getParameterChoices = (name2) => {
+    const session = activeSession;
+    if (!session) return Promise.resolve([]);
+    const key = `${session.id}:${session.context}:${name2.toLowerCase()}`;
+    const cached = parameterChoiceCache.get(key);
+    if (cached) return cached;
+    const request = apiRequest(
+      `/chat/sessions/${encodeURIComponent(session.id)}/choices?name=${encodeURIComponent(name2)}`
+    ).then((result) => result.choices).catch((err) => {
+      parameterChoiceCache.delete(key);
+      console.warn("Chat choice autocomplete is unavailable", err);
+      return [];
+    });
+    parameterChoiceCache.set(key, request);
+    return request;
   };
   const updateResultActionButtons = () => {
     const selected = getSelectedArtifact();
@@ -20524,6 +20625,7 @@ ${chatText("chat-endpoint-unsaved", "Result shown but could not be saved to chat
       },
       onSubmit: () => form.requestSubmit(),
       getParameters: getParameterEntries,
+      getChoices: getParameterChoices,
       onHistory: (direction, value) => {
         if (commandHistory.length === 0) return null;
         if (direction === "previous") {
