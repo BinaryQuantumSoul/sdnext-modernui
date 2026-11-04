@@ -1662,18 +1662,63 @@ li.item span {
   border-radius: var(--sd-border-radius);
 }
 
-.chat-composer textarea {
-  background: unset;
-  border-radius: var(--sd-border-radius);
-  color: var(--sd-input-text-color);
+.chat-composer #chat-input {
   flex: 1 1 auto;
   max-height: 35dvh;
   min-height: 8.1em;
   min-width: 0;
-  line-height: 1.5;
+}
+
+.chat-composer .cm-editor {
+  background: unset;
+  border-radius: var(--sd-border-radius);
+  color: var(--sd-input-text-color);
+  max-height: 35dvh;
+  min-height: 8.1em;
+  min-width: 0;
+}
+
+.chat-composer .cm-scroller {
+  font-family: inherit;
+  font-size: inherit;
+  max-height: 35dvh;
   overflow-y: auto;
+}
+
+.chat-composer .cm-content {
+  caret-color: var(--sd-input-text-color);
+  line-height: 1.5;
   padding: var(--sd-panel-padding);
-  resize: vertical;
+}
+
+.chat-composer .cm-cursor {
+  border-left-color: var(--sd-input-text-color);
+}
+
+.chat-composer .cm-editor.cm-focused {
+  outline: 1px solid var(--sd-main-accent-color);
+  outline-offset: -1px;
+}
+
+.chat-composer .cm-chat-command {
+  color: var(--sd-main-accent-color);
+  font-weight: 600;
+}
+
+.chat-composer .cm-chat-comment {
+  color: var(--sd-muted-color);
+  font-style: italic;
+}
+
+.chat-composer .cm-tooltip-autocomplete {
+  background: var(--sd-panel-background-color);
+  border-color: var(--sd-muted-color);
+  color: var(--sd-input-text-color);
+}
+
+.chat-composer .cm-tooltip-autocomplete ul li[aria-selected="true"] {
+  background: color-mix(in srgb, var(--sd-main-accent-color) 20%, var(--sd-panel-background-color));
+  color: var(--sd-input-text-color);
 }
 
 .chat-composer-input-row {

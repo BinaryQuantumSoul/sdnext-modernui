@@ -1,5 +1,7 @@
 /* Session-backed deterministic chat client for ModernUI. */
 
+import { ChatInputEditor } from './chat-input';
+
 interface ChatSession {
   id: string;
   title: string;
@@ -466,7 +468,7 @@ export function initChat(): void {
   const renameLabel = document.getElementById('chat-rename-session-label');
   const renameCancel = document.getElementById('chat-rename-session-cancel');
   const renameSave = document.getElementById('chat-rename-session-save');
-  if (!(container instanceof HTMLElement) || !(form instanceof HTMLFormElement) || !(input instanceof HTMLTextAreaElement)
+  if (!(container instanceof HTMLElement) || !(form instanceof HTMLFormElement) || !(input instanceof HTMLElement)
     || !(fileButton instanceof HTMLButtonElement) || !(filePicker instanceof HTMLInputElement)
     || !(workspace instanceof HTMLElement)
     || !(help instanceof HTMLButtonElement) || !(heading instanceof HTMLElement)
@@ -506,6 +508,7 @@ export function initChat(): void {
   const commandHistory: string[] = [];
   let commandHistoryIndex = 0;
   let commandHistoryDraft = '';
+  let inputEditor: ChatInputEditor | null = null;
   let submitting = false;
   let latestGeneratedImage: string | null = null;
   const latestGeneratedImages = new Map<string, string>();
@@ -582,7 +585,7 @@ export function initChat(): void {
 
   const setBusy = (busy: boolean): void => {
     submitting = busy;
-    input.disabled = disabled || busy;
+    inputEditor?.setDisabled(disabled || busy);
     fileButton.disabled = disabled || busy;
     filePicker.disabled = disabled || busy;
     help.disabled = disabled || busy;
@@ -600,7 +603,7 @@ export function initChat(): void {
   const closePanel = (focusComposer: boolean): void => {
     sessionPanel.hidden = true;
     sessionToggle.setAttribute('aria-expanded', 'false');
-    if (focusComposer && !disabled) input.focus();
+    if (focusComposer && !disabled) inputEditor?.focus();
   };
 
   const openRenameDialog = (session: ChatSession): void => {
@@ -1200,7 +1203,7 @@ export function initChat(): void {
         created_at: new Date().toISOString(),
       });
     }
-    if (focusComposer && !disabled) input.focus();
+    if (focusComposer && !disabled) inputEditor?.focus();
   };
 
   const refreshSessionList = async (): Promise<void> => {
@@ -1246,7 +1249,7 @@ export function initChat(): void {
           .catch((err: unknown) => appendMessage(container, localErrorMessage(err)))
           .finally(() => {
             setBusy(false);
-            input.focus();
+            inputEditor?.focus();
           });
       });
 
@@ -1507,7 +1510,7 @@ export function initChat(): void {
       }
       if (!keepsComposerAvailable) setBusy(false);
       if (activeSession?.id === sessionId) {
-        input.focus();
+        inputEditor?.focus();
       }
       if (loopEnabled && isGenerationCommand && activeSession?.id === sessionId) {
         submitCommand('again').catch((err: unknown) => appendMessage(container, localErrorMessage(err)));
@@ -1575,7 +1578,7 @@ export function initChat(): void {
       replaceMessage(container, processingId, localErrorMessage(err), true);
     } finally {
       setBusy(false);
-      if (activeSession?.id === sessionId) input.focus();
+      if (activeSession?.id === sessionId) inputEditor?.focus();
     }
   };
 
@@ -1603,13 +1606,41 @@ export function initChat(): void {
     deleteSelectedArtifact().catch((err: unknown) => appendMessage(container, localErrorMessage(err)));
   });
 
-  const resizeInput = (): void => {
-    input.style.height = 'auto';
-    input.style.height = `${input.scrollHeight}px`;
-  };
+  inputEditor = new ChatInputEditor(
+    input,
+    chatText('chat-placeholder', 'Write a command...'),
+    chatText('chat-input', 'Message'),
+    disabled,
+    {
+      onChange: (value) => {
+        commandHistoryIndex = commandHistory.length;
+        commandHistoryDraft = value;
+      },
+      onSubmit: () => form.requestSubmit(),
+      onHistory: (direction, value) => {
+        if (commandHistory.length === 0) return null;
+        if (direction === 'previous') {
+          if (commandHistoryIndex === commandHistory.length) commandHistoryDraft = value;
+          commandHistoryIndex = Math.max(0, commandHistoryIndex - 1);
+          return commandHistory[commandHistoryIndex] ?? null;
+        }
+        if (commandHistoryIndex < commandHistory.length - 1) {
+          commandHistoryIndex += 1;
+          return commandHistory[commandHistoryIndex] ?? null;
+        }
+        if (commandHistoryIndex === commandHistory.length - 1) {
+          commandHistoryIndex = commandHistory.length;
+          return commandHistoryDraft;
+        }
+        return null;
+      },
+      onFiles: (files) => {
+        uploadChatFiles(files).catch((err: unknown) => appendMessage(container, localErrorMessage(err)));
+      },
+    },
+  );
 
   if (disabled) {
-    input.disabled = true;
     fileButton.disabled = true;
     filePicker.disabled = true;
     help.disabled = true;
@@ -1619,8 +1650,6 @@ export function initChat(): void {
     renameCancel.disabled = true;
     renameSave.disabled = true;
   } else {
-    input.placeholder = chatText('chat-placeholder', 'Write a command...');
-    input.setAttribute('aria-label', chatText('chat-input', 'Message'));
     fileButton.title = chatText('chat-attach-file', 'Attach file');
     fileButton.setAttribute('aria-label', fileButton.title);
     help.title = chatText('chat-help', 'Help');
@@ -1670,19 +1699,12 @@ export function initChat(): void {
       delete form.dataset.dragover;
       uploadChatFiles(files).catch((err: unknown) => appendMessage(container, localErrorMessage(err)));
     });
-    input.addEventListener('paste', (event: ClipboardEvent) => {
-      const files = Array.from(event.clipboardData?.files || []);
-      if (files.length === 0) return;
-      event.preventDefault();
-      uploadChatFiles(files).catch((err: unknown) => appendMessage(container, localErrorMessage(err)));
-    });
-
     sessionToggle.addEventListener('click', () => {
       const opening = sessionPanel.hidden;
       sessionPanel.hidden = !opening;
       sessionToggle.setAttribute('aria-expanded', String(opening));
       if (opening) refreshSessionList().catch((err: unknown) => appendMessage(container, localErrorMessage(err)));
-      else input.focus();
+      else inputEditor?.focus();
     });
     closeSessionPanel.addEventListener('click', () => closePanel(true));
     newSession.addEventListener('click', () => createSession().catch((err: unknown) => appendMessage(container, localErrorMessage(err))));
@@ -1692,50 +1714,18 @@ export function initChat(): void {
       event.preventDefault();
       saveRenameSession().catch((err: unknown) => appendMessage(container, localErrorMessage(err)));
     });
-    input.addEventListener('input', () => {
-      commandHistoryIndex = commandHistory.length;
-      commandHistoryDraft = input.value;
-      resizeInput();
-    });
-    input.addEventListener('keydown', (event: KeyboardEvent) => {
-      if ((event.key === 'ArrowUp' || event.key === 'ArrowDown')
-        && input.selectionStart === 0 && input.selectionEnd === 0 && commandHistory.length > 0) {
-        if (event.key === 'ArrowUp') {
-          if (commandHistoryIndex === commandHistory.length) commandHistoryDraft = input.value;
-          commandHistoryIndex = Math.max(0, commandHistoryIndex - 1);
-          input.value = commandHistory[commandHistoryIndex];
-        } else if (commandHistoryIndex < commandHistory.length - 1) {
-          commandHistoryIndex += 1;
-          input.value = commandHistory[commandHistoryIndex];
-        } else if (commandHistoryIndex === commandHistory.length - 1) {
-          commandHistoryIndex = commandHistory.length;
-          input.value = commandHistoryDraft;
-        } else {
-          return;
-        }
-        event.preventDefault();
-        input.setSelectionRange(0, 0);
-        resizeInput();
-        return;
-      }
-      if (event.key !== 'Enter' || event.shiftKey || event.isComposing) return;
-      event.preventDefault();
-      form.requestSubmit();
-    });
     form.addEventListener('submit', (event: SubmitEvent) => {
       event.preventDefault();
-      const text = input.value;
+      const text = inputEditor?.value || '';
       if (!text.trim()) return;
       commandHistory.push(text);
       if (commandHistory.length > 100) commandHistory.shift();
       commandHistoryIndex = commandHistory.length;
       commandHistoryDraft = '';
-      input.value = '';
-      resizeInput();
+      if (inputEditor) inputEditor.value = '';
       submitCommand(text).catch((err: unknown) => appendMessage(container, localErrorMessage(err)));
     });
     help.addEventListener('click', () => submitCommand('help').catch((err: unknown) => appendMessage(container, localErrorMessage(err))));
-    resizeInput();
     const initialize = async (): Promise<void> => {
       const loadStart = performance.now();
       const sessions = await apiRequest<ChatSession[]>('/chat/sessions?limit=100');
