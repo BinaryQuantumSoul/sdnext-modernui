@@ -19244,20 +19244,20 @@ function appendSafeHtml(target, html) {
   };
   parsed.body.childNodes.forEach((node) => copyNode(node, target));
 }
+async function getResponseErrorDetail(response) {
+  try {
+    const body = await response.json();
+    if (typeof body.detail === "string") return body.detail;
+  } catch {
+  }
+  return `${response.status} ${response.statusText}`;
+}
 async function apiRequest(path, options = {}) {
   const headers = new Headers(options.headers);
   if (options.body && !headers.has("Content-Type")) headers.set("Content-Type", "application/json");
   const response = await authFetch(`${window.api}${path}`, { ...options, headers });
   if (!response) throw new Error("The chat API did not return a response");
-  if (!response.ok) {
-    let detail = `${response.status} ${response.statusText}`;
-    try {
-      const body = await response.json();
-      if (typeof body.detail === "string") detail = body.detail;
-    } catch {
-    }
-    throw new Error(detail);
-  }
+  if (!response.ok) throw new Error(await getResponseErrorDetail(response));
   if (response.status === 204) return void 0;
   return response.json();
 }
@@ -19711,6 +19711,7 @@ function initChat() {
     metadata: { kind: "error" },
     created_at: (/* @__PURE__ */ new Date()).toISOString()
   });
+  const appendErrorMessage = (err) => appendMessage(container, localErrorMessage(err));
   const rememberGeneratedImage = (image) => {
     latestGeneratedImage = image;
     if (!activeSession) return;
@@ -19812,13 +19813,13 @@ function initChat() {
           updateArtifactSelection();
           updateResultActionButtons();
         }
-        appendMessage(container, localErrorMessage(err));
+        appendErrorMessage(err);
       }
     });
     return artifactSelectionUpdates;
   };
   const selectArtifactFromEvent = (artifactId) => {
-    selectArtifact(artifactId).catch((err) => appendMessage(container, localErrorMessage(err)));
+    selectArtifact(artifactId).catch(appendErrorMessage);
   };
   const openArtifactFolder = async (artifactId) => {
     const artifact = activeArtifacts.find((item) => item.id === artifactId && item.available);
@@ -20238,13 +20239,23 @@ function initChat() {
     } else if (savedImages) {
       showGeneratedImages(savedImages);
     }
+    const restoredSettings = Object.keys(detail.session.drafts[detail.session.context] ?? {}).length;
+    if (restoredSettings > 0) {
+      appendMessage(container, {
+        id: "restore-summary",
+        role: "assistant",
+        content: `Restored session: "${detail.session.title}" settings: ${restoredSettings}`,
+        metadata: {},
+        created_at: (/* @__PURE__ */ new Date()).toISOString()
+      });
+    }
     if (detail.restore_errors.length > 0) {
       appendMessage(container, {
-        id: "restore-notice",
+        id: "restore-error",
         role: "assistant",
-        content: `${chatText("chat-restore-failed", "Some saved settings could not be restored:")}
-${detail.restore_errors.join("\n")}`,
-        metadata: {},
+        content: `${chatText("chat-restore-failed", `Restore session: "${detail.session.title}" failed: ${detail.restore_errors.length}`)}
+${detail.restore_errors.join("  \n")}`,
+        metadata: { kind: "error" },
         created_at: (/* @__PURE__ */ new Date()).toISOString()
       });
     }
@@ -20288,7 +20299,7 @@ ${detail.restore_errors.join("\n")}`,
       selectButton.append(title, timestamps);
       selectButton.addEventListener("click", () => {
         setBusy(true);
-        selectSession(session.id, true).catch((err) => appendMessage(container, localErrorMessage(err))).finally(() => {
+        selectSession(session.id, true).catch(appendErrorMessage).finally(() => {
           setBusy(false);
           inputEditor?.focus();
         });
@@ -20305,9 +20316,7 @@ ${detail.restore_errors.join("\n")}`,
       renameIcon.className = "mask-icon icon-styles-edit";
       renameIcon.setAttribute("aria-hidden", "true");
       renameButton.append(renameIcon);
-      renameButton.addEventListener("click", () => {
-        openRenameDialog(session);
-      });
+      renameButton.addEventListener("click", () => openRenameDialog(session));
       const deleteButton = document.createElement("button");
       deleteButton.type = "button";
       deleteButton.className = "sd-button";
@@ -20321,9 +20330,7 @@ ${detail.restore_errors.join("\n")}`,
       deleteIcon.className = "mask-icon icon-delete";
       deleteIcon.setAttribute("aria-hidden", "true");
       deleteButton.append(deleteIcon);
-      deleteButton.addEventListener("click", () => {
-        deleteSessionById(session.id).catch((err) => appendMessage(container, localErrorMessage(err)));
-      });
+      deleteButton.addEventListener("click", () => deleteSessionById(session.id).catch(appendErrorMessage));
       actions.append(renameButton, deleteButton);
       row.append(selectButton, actions);
       sessionList.append(row);
@@ -20403,7 +20410,7 @@ ${detail.restore_errors.join("\n")}`,
       loopEnabled = !loopEnabled;
       updateToolbarButtons();
       if (loopEnabled && activeGenerations === 0) {
-        submitCommand("run").catch((err) => appendMessage(container, localErrorMessage(err)));
+        submitCommand("run").catch(appendErrorMessage);
       }
       return;
     }
@@ -20417,7 +20424,7 @@ ${detail.restore_errors.join("\n")}`,
     const displayContent = ["use", "file"].includes(commandName) ? chatText("chat-server-file-import", "Server file import") : content2;
     const isGenerationCommand = ["run", "generate", "start", "again", "reprocess"].includes(commandName);
     if (isGenerationCommand && activeGenerations > 0) {
-      appendMessage(container, localErrorMessage(new Error("A chat generation is already in progress")));
+      appendErrorMessage(new Error("A chat generation is already in progress"));
       return;
     }
     const keepsComposerAvailable = isGenerationCommand;
@@ -20535,7 +20542,7 @@ ${chatText("chat-endpoint-unsaved", "Result shown but could not be saved to chat
         inputEditor?.focus();
       }
       if (loopEnabled && isGenerationCommand && activeSession?.id === sessionId) {
-        submitCommand("again").catch((err) => appendMessage(container, localErrorMessage(err)));
+        submitCommand("again").catch(appendErrorMessage);
       }
     }
   };
@@ -20570,13 +20577,7 @@ ${chatText("chat-endpoint-unsaved", "Result shown but could not be saved to chat
       );
       if (!response) throw new Error("The chat API did not return a response");
       if (!response.ok) {
-        let detail = `${response.status} ${response.statusText}`;
-        try {
-          const payload = await response.json();
-          if (typeof payload.detail === "string") detail = payload.detail;
-        } catch {
-        }
-        throw new Error(`${chatText("chat-file-upload-failed", "File import failed:")} ${detail}`);
+        throw new Error(`${chatText("chat-file-upload-failed", "File import failed:")} ${await getResponseErrorDetail(response)}`);
       }
       const submission = await response.json();
       if (activeSession?.id === sessionId) {
@@ -20604,25 +20605,23 @@ ${chatText("chat-endpoint-unsaved", "Result shown but could not be saved to chat
   const uploadChatFiles = async (files) => {
     for (const file of files) await uploadChatFile(file);
   };
-  chatGenerate.addEventListener("click", () => submitCommand("run").catch((err) => appendMessage(container, localErrorMessage(err))));
-  chatSchedule.addEventListener("click", () => submitCommand("schedule").catch((err) => appendMessage(container, localErrorMessage(err))));
-  chatReprocess.addEventListener("click", () => submitCommand("reprocess").catch((err) => appendMessage(container, localErrorMessage(err))));
-  chatLoop.addEventListener("click", () => submitCommand("loop").catch((err) => appendMessage(container, localErrorMessage(err))));
-  chatSkip.addEventListener("click", () => submitCommand("skip").catch((err) => appendMessage(container, localErrorMessage(err))));
-  chatPause.addEventListener("click", () => submitCommand(generationPaused ? "resume" : "pause").catch((err) => appendMessage(container, localErrorMessage(err))));
-  chatInterrupt.addEventListener("click", () => submitCommand("cancel").catch((err) => appendMessage(container, localErrorMessage(err))));
+  chatGenerate.addEventListener("click", () => submitCommand("run").catch(appendErrorMessage));
+  chatSchedule.addEventListener("click", () => submitCommand("schedule").catch(appendErrorMessage));
+  chatReprocess.addEventListener("click", () => submitCommand("reprocess").catch(appendErrorMessage));
+  chatLoop.addEventListener("click", () => submitCommand("loop").catch(appendErrorMessage));
+  chatSkip.addEventListener("click", () => submitCommand("skip").catch(appendErrorMessage));
+  chatPause.addEventListener("click", () => submitCommand(generationPaused ? "resume" : "pause").catch(appendErrorMessage));
+  chatInterrupt.addEventListener("click", () => submitCommand("cancel").catch(appendErrorMessage));
   resultInfoButton.addEventListener("click", showSelectedArtifactInfo);
   resultOpenFolderButton.addEventListener("click", () => {
     const artifact = getSelectedArtifact();
-    if (artifact) openArtifactFolder(artifact.id).catch((err) => appendMessage(container, localErrorMessage(err)));
+    if (artifact) openArtifactFolder(artifact.id).catch(appendErrorMessage);
   });
   resultSaveButton.addEventListener("click", () => {
     const artifact = getSelectedArtifact();
-    if (artifact) saveArtifact(artifact.id).catch((err) => appendMessage(container, localErrorMessage(err)));
+    if (artifact) saveArtifact(artifact.id).catch(appendErrorMessage);
   });
-  resultDeleteButton.addEventListener("click", () => {
-    deleteSelectedArtifact().catch((err) => appendMessage(container, localErrorMessage(err)));
-  });
+  resultDeleteButton.addEventListener("click", () => deleteSelectedArtifact().catch(appendErrorMessage));
   inputEditor = new ChatInputEditor(
     input,
     chatText("chat-placeholder", "Write a command..."),
@@ -20653,9 +20652,7 @@ ${chatText("chat-endpoint-unsaved", "Result shown but could not be saved to chat
         }
         return null;
       },
-      onFiles: (files) => {
-        uploadChatFiles(files).catch((err) => appendMessage(container, localErrorMessage(err)));
-      }
+      onFiles: (files) => uploadChatFiles(files).catch(appendErrorMessage)
     }
   );
   if (disabled) {
@@ -20696,7 +20693,7 @@ ${chatText("chat-endpoint-unsaved", "Result shown but could not be saved to chat
     filePicker.addEventListener("change", () => {
       const files = Array.from(filePicker.files || []);
       filePicker.value = "";
-      uploadChatFiles(files).catch((err) => appendMessage(container, localErrorMessage(err)));
+      uploadChatFiles(files).catch(appendErrorMessage);
     });
     workspace.addEventListener("dragover", (event) => {
       if (!Array.from(event.dataTransfer?.types || []).includes("Files")) return;
@@ -20714,24 +20711,24 @@ ${chatText("chat-endpoint-unsaved", "Result shown but could not be saved to chat
       if (files.length === 0) return;
       event.preventDefault();
       delete form.dataset.dragover;
-      uploadChatFiles(files).catch((err) => appendMessage(container, localErrorMessage(err)));
+      uploadChatFiles(files).catch(appendErrorMessage);
     });
     sessionToggle.addEventListener("click", () => {
       const opening = sessionPanel.hidden;
       sessionPanel.hidden = !opening;
       sessionToggle.setAttribute("aria-expanded", String(opening));
-      if (opening) refreshSessionList().catch((err) => appendMessage(container, localErrorMessage(err)));
+      if (opening) refreshSessionList().catch(appendErrorMessage);
       else inputEditor?.focus();
     });
     closeSessionPanel.addEventListener("click", () => closePanel(true));
-    newSession.addEventListener("click", () => createSession().catch((err) => appendMessage(container, localErrorMessage(err))));
+    newSession.addEventListener("click", () => createSession().catch(appendErrorMessage));
     renameCancel.addEventListener("click", () => renameDialog.close());
     renameDialog.addEventListener("close", () => {
       renamingSession = null;
     });
     renameForm.addEventListener("submit", (event) => {
       event.preventDefault();
-      saveRenameSession().catch((err) => appendMessage(container, localErrorMessage(err)));
+      saveRenameSession().catch(appendErrorMessage);
     });
     form.addEventListener("submit", (event) => {
       event.preventDefault();
@@ -20742,9 +20739,9 @@ ${chatText("chat-endpoint-unsaved", "Result shown but could not be saved to chat
       commandHistoryIndex = commandHistory.length;
       commandHistoryDraft = "";
       if (inputEditor) inputEditor.value = "";
-      submitCommand(text).catch((err) => appendMessage(container, localErrorMessage(err)));
+      submitCommand(text).catch(appendErrorMessage);
     });
-    help.addEventListener("click", () => submitCommand("help").catch((err) => appendMessage(container, localErrorMessage(err))));
+    help.addEventListener("click", () => submitCommand("help").catch(appendErrorMessage));
     const initialize = async () => {
       const loadStart = performance.now();
       const sessions = await apiRequest("/chat/sessions?limit=100");
@@ -20762,9 +20759,7 @@ ${chatText("chat-endpoint-unsaved", "Result shown but could not be saved to chat
       });
       timer("loadChatSessions", sessionsAvailable - loadStart);
     };
-    initialize().catch((err) => {
-      appendMessage(container, localErrorMessage(err));
-    });
+    initialize().catch(appendErrorMessage);
   }
   updateSessionTitle();
   const t1 = performance.now();

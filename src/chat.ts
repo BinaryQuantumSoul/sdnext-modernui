@@ -152,21 +152,22 @@ function appendSafeHtml(target: Node, html: string): void {
   parsed.body.childNodes.forEach((node) => copyNode(node, target));
 }
 
+async function getResponseErrorDetail(response: Response): Promise<string> {
+  try {
+    const body = await response.json() as { detail?: unknown };
+    if (typeof body.detail === 'string') return body.detail;
+  } catch {
+    // Keep the HTTP status when the response is not JSON.
+  }
+  return `${response.status} ${response.statusText}`;
+}
+
 async function apiRequest<T>(path: string, options: RequestInit = {}): Promise<T> {
   const headers = new Headers(options.headers);
   if (options.body && !headers.has('Content-Type')) headers.set('Content-Type', 'application/json');
   const response = await authFetch(`${window.api}${path}`, { ...options, headers });
   if (!response) throw new Error('The chat API did not return a response');
-  if (!response.ok) {
-    let detail = `${response.status} ${response.statusText}`;
-    try {
-      const body = await response.json() as { detail?: unknown };
-      if (typeof body.detail === 'string') detail = body.detail;
-    } catch {
-      // Keep the HTTP status when the response is not JSON.
-    }
-    throw new Error(detail);
-  }
+  if (!response.ok) throw new Error(await getResponseErrorDetail(response));
   if (response.status === 204) return undefined as T;
   return response.json() as Promise<T>;
 }
@@ -612,8 +613,7 @@ export function initChat(): void {
     const canGenerate = context === 'image' || context === 'video' || Boolean(latestGeneratedImage);
     chatGenerate.disabled = isBusy || activeGenerations > 0 || !canGenerate;
     chatSchedule.disabled = isBusy || activeGenerations > 0 || !['image', 'video'].includes(String(context));
-    chatReprocess.disabled = isBusy || activeGenerations > 0
-      || !(hasSnapshot || (['process', 'caption'].includes(String(context)) && Boolean(latestGeneratedImage)));
+    chatReprocess.disabled = isBusy || activeGenerations > 0 || !(hasSnapshot || (['process', 'caption'].includes(String(context)) && Boolean(latestGeneratedImage)));
     chatLoop.disabled = isBusy || !canGenerate;
     chatSkip.disabled = isBusy || activeGenerations === 0;
     chatPause.disabled = isBusy || activeGenerations === 0;
@@ -694,6 +694,7 @@ export function initChat(): void {
     metadata: { kind: 'error' },
     created_at: new Date().toISOString(),
   });
+  const appendErrorMessage = (err: unknown): void => appendMessage(container, localErrorMessage(err));
 
   const rememberGeneratedImage = (image: string | null): void => {
     latestGeneratedImage = image;
@@ -803,14 +804,14 @@ export function initChat(): void {
           updateArtifactSelection();
           updateResultActionButtons();
         }
-        appendMessage(container, localErrorMessage(err));
+        appendErrorMessage(err);
       }
     });
     return artifactSelectionUpdates;
   };
 
   const selectArtifactFromEvent = (artifactId: string): void => {
-    selectArtifact(artifactId).catch((err: unknown) => appendMessage(container, localErrorMessage(err)));
+    selectArtifact(artifactId).catch(appendErrorMessage);
   };
 
   const openArtifactFolder = async (artifactId: string): Promise<void> => {
@@ -1251,12 +1252,22 @@ export function initChat(): void {
     } else if (savedImages) {
       showGeneratedImages(savedImages);
     }
+    const restoredSettings = Object.keys(detail.session.drafts[detail.session.context] ?? {}).length;
+    if (restoredSettings > 0) {
+      appendMessage(container, {
+        id: 'restore-summary',
+        role: 'assistant',
+        content: `Restored session: "${detail.session.title}" settings: ${restoredSettings}`,
+        metadata: {},
+        created_at: new Date().toISOString(),
+      });
+    }
     if (detail.restore_errors.length > 0) {
       appendMessage(container, {
-        id: 'restore-notice',
+        id: 'restore-error',
         role: 'assistant',
-        content: `${chatText('chat-restore-failed', 'Some saved settings could not be restored:')}\n${detail.restore_errors.join('\n')}`,
-        metadata: {},
+        content: `${chatText('chat-restore-failed', `Restore session: "${detail.session.title}" failed: ${detail.restore_errors.length}`)}\n${detail.restore_errors.join('  \n')}`,
+        metadata: { kind: 'error' },
         created_at: new Date().toISOString(),
       });
     }
@@ -1303,7 +1314,7 @@ export function initChat(): void {
       selectButton.addEventListener('click', () => {
         setBusy(true);
         selectSession(session.id, true)
-          .catch((err: unknown) => appendMessage(container, localErrorMessage(err)))
+          .catch(appendErrorMessage)
           .finally(() => {
             setBusy(false);
             inputEditor?.focus();
@@ -1322,9 +1333,7 @@ export function initChat(): void {
       renameIcon.className = 'mask-icon icon-styles-edit';
       renameIcon.setAttribute('aria-hidden', 'true');
       renameButton.append(renameIcon);
-      renameButton.addEventListener('click', () => {
-        openRenameDialog(session);
-      });
+      renameButton.addEventListener('click', () => openRenameDialog(session));
 
       const deleteButton = document.createElement('button');
       deleteButton.type = 'button';
@@ -1339,9 +1348,7 @@ export function initChat(): void {
       deleteIcon.className = 'mask-icon icon-delete';
       deleteIcon.setAttribute('aria-hidden', 'true');
       deleteButton.append(deleteIcon);
-      deleteButton.addEventListener('click', () => {
-        deleteSessionById(session.id).catch((err: unknown) => appendMessage(container, localErrorMessage(err)));
-      });
+      deleteButton.addEventListener('click', () => deleteSessionById(session.id).catch(appendErrorMessage));
 
       actions.append(renameButton, deleteButton);
       row.append(selectButton, actions);
@@ -1428,7 +1435,7 @@ export function initChat(): void {
       loopEnabled = !loopEnabled;
       updateToolbarButtons();
       if (loopEnabled && activeGenerations === 0) {
-        submitCommand('run').catch((err: unknown) => appendMessage(container, localErrorMessage(err)));
+        submitCommand('run').catch(appendErrorMessage);
       }
       return;
     }
@@ -1444,7 +1451,7 @@ export function initChat(): void {
       : content;
     const isGenerationCommand = ['run', 'generate', 'start', 'again', 'reprocess'].includes(commandName);
     if (isGenerationCommand && activeGenerations > 0) {
-      appendMessage(container, localErrorMessage(new Error('A chat generation is already in progress')));
+      appendErrorMessage(new Error('A chat generation is already in progress'));
       return;
     }
     const keepsComposerAvailable = isGenerationCommand;
@@ -1562,7 +1569,7 @@ export function initChat(): void {
         inputEditor?.focus();
       }
       if (loopEnabled && isGenerationCommand && activeSession?.id === sessionId) {
-        submitCommand('again').catch((err: unknown) => appendMessage(container, localErrorMessage(err)));
+        submitCommand('again').catch(appendErrorMessage);
       }
     }
   };
@@ -1598,14 +1605,7 @@ export function initChat(): void {
       );
       if (!response) throw new Error('The chat API did not return a response');
       if (!response.ok) {
-        let detail = `${response.status} ${response.statusText}`;
-        try {
-          const payload = await response.json() as { detail?: unknown };
-          if (typeof payload.detail === 'string') detail = payload.detail;
-        } catch {
-          // Keep the HTTP status when the response is not JSON.
-        }
-        throw new Error(`${chatText('chat-file-upload-failed', 'File import failed:')} ${detail}`);
+        throw new Error(`${chatText('chat-file-upload-failed', 'File import failed:')} ${await getResponseErrorDetail(response)}`);
       }
       const submission = await response.json() as ChatSubmission;
       if (activeSession?.id === sessionId) {
@@ -1637,25 +1637,23 @@ export function initChat(): void {
     for (const file of files) await uploadChatFile(file);
   };
 
-  chatGenerate.addEventListener('click', () => submitCommand('run').catch((err: unknown) => appendMessage(container, localErrorMessage(err))));
-  chatSchedule.addEventListener('click', () => submitCommand('schedule').catch((err: unknown) => appendMessage(container, localErrorMessage(err))));
-  chatReprocess.addEventListener('click', () => submitCommand('reprocess').catch((err: unknown) => appendMessage(container, localErrorMessage(err))));
-  chatLoop.addEventListener('click', () => submitCommand('loop').catch((err: unknown) => appendMessage(container, localErrorMessage(err))));
-  chatSkip.addEventListener('click', () => submitCommand('skip').catch((err: unknown) => appendMessage(container, localErrorMessage(err))));
-  chatPause.addEventListener('click', () => submitCommand(generationPaused ? 'resume' : 'pause').catch((err: unknown) => appendMessage(container, localErrorMessage(err))));
-  chatInterrupt.addEventListener('click', () => submitCommand('cancel').catch((err: unknown) => appendMessage(container, localErrorMessage(err))));
+  chatGenerate.addEventListener('click', () => submitCommand('run').catch(appendErrorMessage));
+  chatSchedule.addEventListener('click', () => submitCommand('schedule').catch(appendErrorMessage));
+  chatReprocess.addEventListener('click', () => submitCommand('reprocess').catch(appendErrorMessage));
+  chatLoop.addEventListener('click', () => submitCommand('loop').catch(appendErrorMessage));
+  chatSkip.addEventListener('click', () => submitCommand('skip').catch(appendErrorMessage));
+  chatPause.addEventListener('click', () => submitCommand(generationPaused ? 'resume' : 'pause').catch(appendErrorMessage));
+  chatInterrupt.addEventListener('click', () => submitCommand('cancel').catch(appendErrorMessage));
   resultInfoButton.addEventListener('click', showSelectedArtifactInfo);
   resultOpenFolderButton.addEventListener('click', () => {
     const artifact = getSelectedArtifact();
-    if (artifact) openArtifactFolder(artifact.id).catch((err: unknown) => appendMessage(container, localErrorMessage(err)));
+    if (artifact) openArtifactFolder(artifact.id).catch(appendErrorMessage);
   });
   resultSaveButton.addEventListener('click', () => {
     const artifact = getSelectedArtifact();
-    if (artifact) saveArtifact(artifact.id).catch((err: unknown) => appendMessage(container, localErrorMessage(err)));
+    if (artifact) saveArtifact(artifact.id).catch(appendErrorMessage);
   });
-  resultDeleteButton.addEventListener('click', () => {
-    deleteSelectedArtifact().catch((err: unknown) => appendMessage(container, localErrorMessage(err)));
-  });
+  resultDeleteButton.addEventListener('click', () => deleteSelectedArtifact().catch(appendErrorMessage));
 
   inputEditor = new ChatInputEditor(
     input,
@@ -1687,9 +1685,7 @@ export function initChat(): void {
         }
         return null;
       },
-      onFiles: (files) => {
-        uploadChatFiles(files).catch((err: unknown) => appendMessage(container, localErrorMessage(err)));
-      },
+      onFiles: (files) => uploadChatFiles(files).catch(appendErrorMessage),
     },
   );
 
@@ -1732,7 +1728,7 @@ export function initChat(): void {
     filePicker.addEventListener('change', () => {
       const files = Array.from(filePicker.files || []);
       filePicker.value = '';
-      uploadChatFiles(files).catch((err: unknown) => appendMessage(container, localErrorMessage(err)));
+      uploadChatFiles(files).catch(appendErrorMessage);
     });
     workspace.addEventListener('dragover', (event: DragEvent) => {
       if (!Array.from(event.dataTransfer?.types || []).includes('Files')) return;
@@ -1750,22 +1746,22 @@ export function initChat(): void {
       if (files.length === 0) return;
       event.preventDefault();
       delete form.dataset.dragover;
-      uploadChatFiles(files).catch((err: unknown) => appendMessage(container, localErrorMessage(err)));
+      uploadChatFiles(files).catch(appendErrorMessage);
     });
     sessionToggle.addEventListener('click', () => {
       const opening = sessionPanel.hidden;
       sessionPanel.hidden = !opening;
       sessionToggle.setAttribute('aria-expanded', String(opening));
-      if (opening) refreshSessionList().catch((err: unknown) => appendMessage(container, localErrorMessage(err)));
+      if (opening) refreshSessionList().catch(appendErrorMessage);
       else inputEditor?.focus();
     });
     closeSessionPanel.addEventListener('click', () => closePanel(true));
-    newSession.addEventListener('click', () => createSession().catch((err: unknown) => appendMessage(container, localErrorMessage(err))));
+    newSession.addEventListener('click', () => createSession().catch(appendErrorMessage));
     renameCancel.addEventListener('click', () => renameDialog.close());
     renameDialog.addEventListener('close', () => { renamingSession = null; });
     renameForm.addEventListener('submit', (event: SubmitEvent) => {
       event.preventDefault();
-      saveRenameSession().catch((err: unknown) => appendMessage(container, localErrorMessage(err)));
+      saveRenameSession().catch(appendErrorMessage);
     });
     form.addEventListener('submit', (event: SubmitEvent) => {
       event.preventDefault();
@@ -1776,9 +1772,9 @@ export function initChat(): void {
       commandHistoryIndex = commandHistory.length;
       commandHistoryDraft = '';
       if (inputEditor) inputEditor.value = '';
-      submitCommand(text).catch((err: unknown) => appendMessage(container, localErrorMessage(err)));
+      submitCommand(text).catch(appendErrorMessage);
     });
-    help.addEventListener('click', () => submitCommand('help').catch((err: unknown) => appendMessage(container, localErrorMessage(err))));
+    help.addEventListener('click', () => submitCommand('help').catch(appendErrorMessage));
     const initialize = async (): Promise<void> => {
       const loadStart = performance.now();
       const sessions = await apiRequest<ChatSession[]>('/chat/sessions?limit=100');
@@ -1796,9 +1792,7 @@ export function initChat(): void {
       });
       timer('loadChatSessions', sessionsAvailable - loadStart);
     };
-    initialize().catch((err: unknown) => {
-      appendMessage(container, localErrorMessage(err));
-    });
+    initialize().catch(appendErrorMessage);
   }
   updateSessionTitle();
   const t1 = performance.now();
