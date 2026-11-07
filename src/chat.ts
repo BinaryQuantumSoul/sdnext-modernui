@@ -61,6 +61,13 @@ interface ChatEndpointResult {
   metadata: Record<string, unknown>;
 }
 
+interface ChatControlImportResult {
+  session?: ChatSession;
+  imported?: string[];
+  extras?: string[];
+  error?: string;
+}
+
 interface ChatMessageSection {
   title: string;
   content: string;
@@ -498,6 +505,8 @@ export function initChat(): void {
   const filePicker = document.getElementById('chat-file-picker');
   const workspace = document.querySelector<HTMLElement>('.chat-workspace');
   const help = document.getElementById('chat-help');
+  const importControlButton = document.getElementById('chat-import-control');
+  const saveSettingsSnapshotButton = document.getElementById('chat-save-settings-snapshot');
   const heading = document.getElementById('chat-heading');
   const currentSessionLabel = document.getElementById('chat-current-session-label');
   const currentSessionName = document.getElementById('chat-current-session-name');
@@ -531,7 +540,9 @@ export function initChat(): void {
   if (!(container instanceof HTMLElement) || !(form instanceof HTMLFormElement) || !(input instanceof HTMLElement)
     || !(fileButton instanceof HTMLButtonElement) || !(filePicker instanceof HTMLInputElement)
     || !(workspace instanceof HTMLElement)
-    || !(help instanceof HTMLButtonElement) || !(heading instanceof HTMLElement)
+    || !(help instanceof HTMLButtonElement) || !(importControlButton instanceof HTMLButtonElement)
+    || !(saveSettingsSnapshotButton instanceof HTMLButtonElement)
+    || !(heading instanceof HTMLElement)
     || !(currentSessionLabel instanceof HTMLElement) || !(currentSessionName instanceof HTMLElement)
     || !(resultInfoButton instanceof HTMLButtonElement) || !(resultOpenFolderButton instanceof HTMLButtonElement)
     || !(resultSaveButton instanceof HTMLButtonElement) || !(resultDeleteButton instanceof HTMLButtonElement)
@@ -663,6 +674,8 @@ export function initChat(): void {
     chatSkip.disabled = isBusy || activeGenerations === 0;
     chatPause.disabled = isBusy || activeGenerations === 0;
     chatInterrupt.disabled = isBusy || activeGenerations === 0;
+    importControlButton.disabled = isBusy;
+    saveSettingsSnapshotButton.disabled = isBusy;
     updateResultActionButtons();
     if (activeGenerations === 0) setGenerateLabel(initialGenerateLabel);
     chatLoop.setAttribute('aria-pressed', String(loopEnabled));
@@ -1487,7 +1500,7 @@ export function initChat(): void {
     const sessionId = activeSession.id;
     const context = activeSession.context;
     const commandName = content.replace(/^\/(?!\/)/, '').split(/\s+/, 1)[0].toLowerCase();
-    if (commandName === 'clear') {
+    if (commandName === 'clear' && /^\/?clear$/i.test(content)) {
       renderMessages([]);
       return;
     }
@@ -1738,6 +1751,8 @@ export function initChat(): void {
     fileButton.disabled = true;
     filePicker.disabled = true;
     help.disabled = true;
+    importControlButton.disabled = true;
+    saveSettingsSnapshotButton.disabled = true;
     sessionToggle.disabled = true;
     newSession.disabled = true;
     renameInput.disabled = true;
@@ -1748,6 +1763,12 @@ export function initChat(): void {
     fileButton.setAttribute('aria-label', fileButton.title);
     help.title = chatText('chat-help', 'Help');
     help.setAttribute('aria-label', help.title);
+    importControlButton.title = chatText('chat-import-control', 'Import Control');
+    importControlButton.setAttribute('aria-label', importControlButton.title);
+    setChatHint(importControlButton, 'chat-import-control');
+    saveSettingsSnapshotButton.title = chatText('chat-save-settings-snapshot', 'Save settings snapshot');
+    saveSettingsSnapshotButton.setAttribute('aria-label', saveSettingsSnapshotButton.title);
+    setChatHint(saveSettingsSnapshotButton, 'chat-save-settings-snapshot');
     newSession.title = chatText('chat-new-session', 'New chat');
     newSession.setAttribute('aria-label', newSession.title);
     closeSessionPanel.title = chatText('chat-close-sessions', 'Close sessions');
@@ -1770,6 +1791,7 @@ export function initChat(): void {
     });
 
     fileButton.addEventListener('click', () => filePicker.click());
+    saveSettingsSnapshotButton.addEventListener('click', () => submitCommand('snapshot save').catch(appendErrorMessage));
     filePicker.addEventListener('change', () => {
       const files = Array.from(filePicker.files || []);
       filePicker.value = '';
@@ -1820,6 +1842,80 @@ export function initChat(): void {
       submitCommand(text).catch(appendErrorMessage);
     });
     help.addEventListener('click', () => submitCommand('help').catch(appendErrorMessage));
+    importControlButton.addEventListener('click', async () => {
+      if (!activeSession) return;
+      if (activeSession.context !== 'image') {
+        appendMessage(container, {
+          id: `not-implemented-${Date.now()}`,
+          role: 'assistant',
+          content: `${chatText('chat-not-yet-implemented', 'Not yet implemented')} for ${activeSession.context} context.`,
+          metadata: {},
+          created_at: new Date().toISOString(),
+        });
+        return;
+      }
+      const captureElement = document.getElementById('control-chat-import');
+      const captureButton = captureElement instanceof HTMLButtonElement
+        ? captureElement
+        : captureElement?.querySelector<HTMLButtonElement>('button') ?? null;
+      if (!captureButton) {
+        appendErrorMessage(new Error('Control settings capture is unavailable'));
+        return;
+      }
+      const sessionId = activeSession.id;
+      const sessionInput = document.querySelector<HTMLTextAreaElement>('#control-chat-session-id textarea');
+      const setSessionValue = Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, 'value')?.set;
+      if (!sessionInput || !setSessionValue) {
+        appendErrorMessage(new Error('Control settings session input is unavailable'));
+        return;
+      }
+      setSessionValue.call(sessionInput, sessionId);
+      sessionInput.dispatchEvent(new Event('input', { bubbles: true }));
+      sessionInput.dispatchEvent(new Event('change', { bubbles: true }));
+      importControlButton.disabled = true;
+      try {
+        const result = await new Promise<ChatControlImportResult>((resolve, reject) => {
+          let timeout: number;
+          const handleCapture = (event: Event): void => {
+            window.clearTimeout(timeout);
+            const detail = (event as CustomEvent<ChatControlImportResult>).detail;
+            if (detail?.error) reject(new Error(detail.error));
+            else resolve(detail);
+          };
+          timeout = window.setTimeout(() => {
+            window.removeEventListener('sdnext-chat-control-imported', handleCapture);
+            reject(new Error('Control settings capture timed out'));
+          }, 15000);
+          window.addEventListener('sdnext-chat-control-imported', handleCapture, { once: true });
+          captureButton.click();
+        });
+        if (!result.session || !Array.isArray(result.imported)) throw new Error('Invalid Control import response');
+        if (result.session.id !== sessionId) throw new Error('The active Chat session changed during import');
+        activeSession = result.session;
+        parameterSessionId = null;
+        parameterContext = null;
+        await refreshParameterEntries(result.session);
+        updateSessionTitle();
+        const importedSettings = [
+          ...result.imported,
+          ...(result.extras ?? []).map((name) => `Extra: ${name}`),
+        ];
+        const text = importedSettings.length > 0
+          ? `${chatText('chat-import-control-success', 'Imported settings:')} ${importedSettings.join(', ')}`
+          : chatText('chat-import-control-empty', 'settings match their defaults; nothing was imported.');
+        appendMessage(container, {
+          id: `control-import-${Date.now()}`,
+          role: 'assistant',
+          content: text,
+          metadata: {},
+          created_at: new Date().toISOString(),
+        });
+      } catch (err) {
+        appendErrorMessage(err);
+      } finally {
+        updateToolbarButtons();
+      }
+    });
     const initialize = async (): Promise<void> => {
       const loadStart = performance.now();
       const sessions = await apiRequest<ChatSession[]>('/chat/sessions?limit=100');

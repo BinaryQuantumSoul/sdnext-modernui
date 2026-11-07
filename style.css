@@ -1245,6 +1245,10 @@ li.item span {
   overflow: hidden;
 }
 
+.chat-control-capture {
+  display: none !important;
+}
+
 .chat-workspace {
   display: flex;
   flex: 1 1 0;
@@ -1308,7 +1312,7 @@ li.item span {
 .chat-header-controls {
   align-items: center;
   display: flex;
-  gap: 0.75em;
+  gap: var(--sd-gap-size-val);
   margin-left: auto;
 }
 
@@ -3446,6 +3450,18 @@ div#layout-3 {
 
 .icon-plus {
   mask-image: url(./html/svg/plus.svg);
+}
+
+.icon-circle-plus {
+  mask-image: url(./html/svg/circle-plus.svg);
+}
+
+.icon-circle-bookmark {
+  mask-image: url(./html/svg/circle-bookmark.svg);
+}
+
+.icon-circle-down {
+  mask-image: url(./html/svg/circle-down.svg);
 }
 
 .icon-loop {
