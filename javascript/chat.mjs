@@ -19353,6 +19353,47 @@ function setMessageContent(content2, message) {
     content2.textContent = message.content;
   }
 }
+function setMessageCopyButton(article, message, content2) {
+  const existing = article.querySelector(".chat-message-copy");
+  if (message.role !== "assistant" || message.metadata.kind === "processing") {
+    existing?.remove();
+    return;
+  }
+  if (existing) return;
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "chat-message-copy";
+  const label = chatText("chat-copy-response", "Copy response");
+  button.title = label;
+  button.setAttribute("aria-label", label);
+  const icon = document.createElement("span");
+  icon.className = "mask-icon icon-copy";
+  icon.setAttribute("aria-hidden", "true");
+  button.append(icon);
+  button.addEventListener("click", async (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    let copied = false;
+    try {
+      await navigator.clipboard.writeText(content2.innerText);
+      copied = true;
+    } catch {
+      copied = false;
+    }
+    const status = chatText(
+      copied ? "chat-response-copied" : "chat-copy-failed",
+      copied ? "Response copied" : "Copy failed"
+    );
+    button.title = status;
+    button.setAttribute("aria-label", status);
+    window.setTimeout(() => {
+      if (!button.isConnected) return;
+      button.title = label;
+      button.setAttribute("aria-label", label);
+    }, 1500);
+  });
+  article.append(button);
+}
 function appendMessage(container, message) {
   document.getElementById("chat-empty-state")?.remove();
   const article = document.createElement("article");
@@ -19374,6 +19415,7 @@ function appendMessage(container, message) {
   content2.className = "chat-message-content";
   setMessageContent(content2, message);
   article.append(author, content2);
+  setMessageCopyButton(article, message, content2);
   container.append(article);
   container.scrollTop = container.scrollHeight;
 }
@@ -19394,6 +19436,7 @@ function replaceMessage(container, previousId, message, moveToEnd = false) {
   const content2 = article.querySelector(".chat-message-content");
   if (!content2) return false;
   setMessageContent(content2, message);
+  setMessageCopyButton(article, message, content2);
   if (moveToEnd) container.append(article);
   container.scrollTop = container.scrollHeight;
   return true;

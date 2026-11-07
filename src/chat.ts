@@ -269,6 +269,49 @@ function setMessageContent(content: HTMLElement, message: ChatMessage): void {
   }
 }
 
+function setMessageCopyButton(article: HTMLElement, message: ChatMessage, content: HTMLElement): void {
+  const existing = article.querySelector<HTMLButtonElement>('.chat-message-copy');
+  if (message.role !== 'assistant' || message.metadata.kind === 'processing') {
+    existing?.remove();
+    return;
+  }
+  if (existing) return;
+
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.className = 'chat-message-copy';
+  const label = chatText('chat-copy-response', 'Copy response');
+  button.title = label;
+  button.setAttribute('aria-label', label);
+  const icon = document.createElement('span');
+  icon.className = 'mask-icon icon-copy';
+  icon.setAttribute('aria-hidden', 'true');
+  button.append(icon);
+  button.addEventListener('click', async (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    let copied = false;
+    try {
+      await navigator.clipboard.writeText(content.innerText);
+      copied = true;
+    } catch {
+      copied = false;
+    }
+    const status = chatText(
+      copied ? 'chat-response-copied' : 'chat-copy-failed',
+      copied ? 'Response copied' : 'Copy failed',
+    );
+    button.title = status;
+    button.setAttribute('aria-label', status);
+    window.setTimeout(() => {
+      if (!button.isConnected) return;
+      button.title = label;
+      button.setAttribute('aria-label', label);
+    }, 1500);
+  });
+  article.append(button);
+}
+
 function appendMessage(container: HTMLElement, message: ChatMessage): void {
   document.getElementById('chat-empty-state')?.remove();
   const article = document.createElement('article');
@@ -293,6 +336,7 @@ function appendMessage(container: HTMLElement, message: ChatMessage): void {
   content.className = 'chat-message-content';
   setMessageContent(content, message);
   article.append(author, content);
+  setMessageCopyButton(article, message, content);
   container.append(article);
   container.scrollTop = container.scrollHeight;
 }
@@ -315,6 +359,7 @@ function replaceMessage(container: HTMLElement, previousId: string, message: Cha
   const content = article.querySelector<HTMLElement>('.chat-message-content');
   if (!content) return false;
   setMessageContent(content, message);
+  setMessageCopyButton(article, message, content);
   if (moveToEnd) container.append(article);
   container.scrollTop = container.scrollHeight;
   return true;

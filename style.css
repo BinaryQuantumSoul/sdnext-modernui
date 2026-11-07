@@ -1521,6 +1521,40 @@ li.item span {
 .chat-message[data-role="assistant"] {
   align-self: flex-start;
   background: var(--sd-button-normal-color);
+  position: relative;
+}
+
+.chat-message[data-role="assistant"] .chat-message-author {
+  padding-right: 2em;
+}
+
+.chat-message-copy {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  border-radius: var(--sd-border-radius);
+  display: flex;
+  justify-content: center;
+  min-height: 0;
+  min-width: 0;
+  padding: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.chat-message-copy .mask-icon {
+  height: 0.85em;
+  max-height: 0.85em;
+  max-width: 0.85em;
+  padding: 0;
+  width: 0.85em;
+  opacity: 0.85;
+}
+
+.chat-message-copy:focus-visible {
+  outline: 2px solid var(--sd-main-accent-color);
+  outline-offset: 1px;
 }
 
 .chat-message[data-kind="processing"] {
