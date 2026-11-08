@@ -144,12 +144,40 @@ function completeChatInput(
     const valueCommand = setCommand || optsCommand;
     if (valueCommand) {
       const args = linePrefix.slice(valueCommand[0].length);
-      const assignment = /^([^\s=:]+)(?:\s*[=:]\s*|\s+)([\s\S]*)$/.exec(args);
-      if (assignment) {
-        const name = assignment[1].toLowerCase();
-        const value = assignment[2].replace(/^to\s+/i, '');
-        const from = line.from + valueCommand[0].length + assignment[0].length - assignment[2].length
-          + (assignment[2].length - value.length);
+      const parameterNames = getParameters().map((parameter) => parameter.name);
+      const namespacedParameter = parameterNames
+        .filter((name) => name.includes(':'))
+        .sort((left, right) => right.length - left.length)
+        .find((name) => (
+          args.slice(0, name.length).toLowerCase() === name.toLowerCase()
+          && /^(?:\s+|[=:])/.test(args.slice(name.length))
+        ));
+      const namespacePrefix = /^([^\s:]+):/.exec(args)?.[1];
+      const incompleteNamespace = namespacePrefix !== undefined && parameterNames.some((name) => (
+        name.toLowerCase().startsWith(`${namespacePrefix.toLowerCase()}:`)
+      ));
+      let name: string | undefined;
+      let rawValue: string | undefined;
+      let valueFrom: number | undefined;
+      if (namespacedParameter) {
+        const remainder = args.slice(namespacedParameter.length);
+        const separator = /^(?:\s*[=:]\s*|\s+)/.exec(remainder);
+        if (separator) {
+          name = namespacedParameter.toLowerCase();
+          rawValue = remainder.slice(separator[0].length);
+          valueFrom = line.from + valueCommand[0].length + namespacedParameter.length + separator[0].length;
+        }
+      } else if (!incompleteNamespace) {
+        const assignment = /^([^\s=:]+)(?:\s*[=:]\s*|\s+)([\s\S]*)$/.exec(args);
+        if (assignment) {
+          name = assignment[1].toLowerCase();
+          rawValue = assignment[2];
+          valueFrom = line.from + valueCommand[0].length + assignment[0].length - assignment[2].length;
+        }
+      }
+      if (name !== undefined && rawValue !== undefined && valueFrom !== undefined) {
+        const value = rawValue.replace(/^to\s+/i, '');
+        const from = valueFrom + rawValue.length - value.length;
         return getChoices(name).then((choices) => (
           context.aborted ? null : choiceCompletion(from, value, choices)
         ));

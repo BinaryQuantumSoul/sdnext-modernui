@@ -39,7 +39,6 @@ gallery-folder:hover {
   color: var(--sd-input-hover-text-color);
 }
 
-
 #video_gallery {
   min-height: 50vh;
 }

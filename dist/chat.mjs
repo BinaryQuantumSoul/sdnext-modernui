@@ -18835,11 +18835,32 @@ function completeChatInput(context, getParameters, getChoices) {
     const valueCommand = setCommand || optsCommand;
     if (valueCommand) {
       const args = linePrefix.slice(valueCommand[0].length);
-      const assignment = /^([^\s=:]+)(?:\s*[=:]\s*|\s+)([\s\S]*)$/.exec(args);
-      if (assignment) {
-        const name2 = assignment[1].toLowerCase();
-        const value = assignment[2].replace(/^to\s+/i, "");
-        const from = line.from + valueCommand[0].length + assignment[0].length - assignment[2].length + (assignment[2].length - value.length);
+      const parameterNames = getParameters().map((parameter) => parameter.name);
+      const namespacedParameter = parameterNames.filter((name3) => name3.includes(":")).sort((left, right) => right.length - left.length).find((name3) => args.slice(0, name3.length).toLowerCase() === name3.toLowerCase() && /^(?:\s+|[=:])/.test(args.slice(name3.length)));
+      const namespacePrefix = /^([^\s:]+):/.exec(args)?.[1];
+      const incompleteNamespace = namespacePrefix !== void 0 && parameterNames.some((name3) => name3.toLowerCase().startsWith(`${namespacePrefix.toLowerCase()}:`));
+      let name2;
+      let rawValue;
+      let valueFrom;
+      if (namespacedParameter) {
+        const remainder = args.slice(namespacedParameter.length);
+        const separator = /^(?:\s*[=:]\s*|\s+)/.exec(remainder);
+        if (separator) {
+          name2 = namespacedParameter.toLowerCase();
+          rawValue = remainder.slice(separator[0].length);
+          valueFrom = line.from + valueCommand[0].length + namespacedParameter.length + separator[0].length;
+        }
+      } else if (!incompleteNamespace) {
+        const assignment = /^([^\s=:]+)(?:\s*[=:]\s*|\s+)([\s\S]*)$/.exec(args);
+        if (assignment) {
+          name2 = assignment[1].toLowerCase();
+          rawValue = assignment[2];
+          valueFrom = line.from + valueCommand[0].length + assignment[0].length - assignment[2].length;
+        }
+      }
+      if (name2 !== void 0 && rawValue !== void 0 && valueFrom !== void 0) {
+        const value = rawValue.replace(/^to\s+/i, "");
+        const from = valueFrom + rawValue.length - value.length;
         return getChoices(name2).then((choices) => context.aborted ? null : choiceCompletion(from, value, choices));
       }
     }
