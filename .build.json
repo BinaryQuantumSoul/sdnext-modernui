@@ -33,14 +33,14 @@
       {
         "name": "build module",
         "input": "src/index.ts",
-        "output": "javascript/modernui.mjs",
+        "output": "dist/modernui.mjs",
         "platform": "node",
         "external": ["typedoc", "typescript", "eslint", "esbuild", "fsevents"]
       },
       {
         "name": "build scheduler",
         "input": "src/scheduler.ts",
-        "output": "javascript/scheduler.mjs",
+        "output": "dist/scheduler.mjs",
         "platform": "node",
         "format": "esm",
         "external": ["typedoc", "typescript", "eslint", "esbuild", "fsevents"]
@@ -48,10 +48,20 @@
       {
         "name": "build chat",
         "input": "src/chat.ts",
-        "output": "javascript/chat.mjs",
+        "output": "dist/chat.mjs",
         "platform": "node",
         "format": "esm",
         "external": ["typedoc", "typescript", "eslint", "esbuild", "fsevents"]
+      },
+      {
+        "name": "build style",
+        "input": "css/index.css",
+        "output": "dist/style.css",
+        "format": "esm",
+        "loader": {
+          ".svg": "dataurl",
+          ".ttf": "file"
+        }
       }
     ]
   },

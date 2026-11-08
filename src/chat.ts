@@ -48,7 +48,7 @@ interface ChatSubmission {
   user_message: ChatMessage;
   assistant_message: ChatMessage;
   result: {
-    kind: 'text' | 'operation' | 'schedule' | 'endpoint' | 'error';
+    kind: 'text' | 'operation' | 'schedule' | 'endpoint' | 'error' | 'session' | 'import-control';
     text: string;
     data: Record<string, unknown>;
     sections?: ChatMessageSection[];
@@ -1415,10 +1415,10 @@ export function initChat(): void {
     setBusy(submitting);
   };
 
-  const createSession = async (): Promise<void> => {
+  const createSession = async (title?: string): Promise<void> => {
     const session = await apiRequest<ChatSession>('/chat/sessions', {
       method: 'POST',
-      body: JSON.stringify({ context: 'image' }),
+      body: JSON.stringify({ title: title || undefined, context: 'image' }),
     });
     await selectSession(session.id, true);
     await refreshSessionList();
@@ -1483,6 +1483,56 @@ export function initChat(): void {
     } finally {
       setBusy(false);
       sessionList.querySelector<HTMLButtonElement>('.chat-session-item')?.focus();
+    }
+  };
+
+  const importControlSettings = async (sessionId: string): Promise<string> => {
+    if (!activeSession || activeSession.id !== sessionId) throw new Error('The active Chat session changed before import');
+    if (activeSession.context !== 'image') throw new Error(`Not yet implemented for ${activeSession.context} context`);
+    const captureElement = document.getElementById('control-chat-import');
+    const captureButton = captureElement instanceof HTMLButtonElement
+      ? captureElement
+      : captureElement?.querySelector<HTMLButtonElement>('button') ?? null;
+    if (!captureButton) throw new Error('Control settings capture is unavailable');
+    const sessionInput = document.querySelector<HTMLTextAreaElement>('#control-chat-session-id textarea');
+    const setSessionValue = Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, 'value')?.set;
+    if (!sessionInput || !setSessionValue) throw new Error('Control settings session input is unavailable');
+    setSessionValue.call(sessionInput, sessionId);
+    sessionInput.dispatchEvent(new Event('input', { bubbles: true }));
+    sessionInput.dispatchEvent(new Event('change', { bubbles: true }));
+    importControlButton.disabled = true;
+    try {
+      const result = await new Promise<ChatControlImportResult>((resolve, reject) => {
+        let timeout: number;
+        const handleCapture = (event: Event): void => {
+          window.clearTimeout(timeout);
+          const detail = (event as CustomEvent<ChatControlImportResult>).detail;
+          if (detail?.error) reject(new Error(detail.error));
+          else resolve(detail);
+        };
+        timeout = window.setTimeout(() => {
+          window.removeEventListener('sdnext-chat-control-imported', handleCapture);
+          reject(new Error('Control settings capture timed out'));
+        }, 15000);
+        window.addEventListener('sdnext-chat-control-imported', handleCapture, { once: true });
+        captureButton.click();
+      });
+      if (!result.session || !Array.isArray(result.imported)) throw new Error('Invalid Control import response');
+      if (result.session.id !== sessionId) throw new Error('The active Chat session changed during import');
+      activeSession = result.session;
+      parameterSessionId = null;
+      parameterContext = null;
+      await refreshParameterEntries(result.session);
+      updateSessionTitle();
+      const importedSettings = [
+        ...result.imported,
+        ...(result.extras ?? []).map((name) => `Extra: ${name}`),
+      ];
+      return importedSettings.length > 0
+        ? `${chatText('chat-import-control-success', 'Imported settings:')} ${importedSettings.join(', ')}`
+        : chatText('chat-import-control-empty', 'settings match their defaults; nothing was imported.');
+    } finally {
+      updateToolbarButtons();
     }
   };
 
@@ -1571,7 +1621,38 @@ export function initChat(): void {
       await renderInputAttachments(submission.artifacts, sessionId);
       updateArtifactSelection();
       let assistantMessage = submission.assistant_message;
-      if (submission.result.kind === 'operation') {
+      if (submission.result.kind === 'session') {
+        const action = submission.result.data.action;
+        if (action === 'activate' && typeof submission.result.data.session_id === 'string') {
+          await selectSession(submission.result.data.session_id, true);
+          await refreshSessionList();
+        } else if (action === 'create') {
+          await createSession(typeof submission.result.data.title === 'string' ? submission.result.data.title : undefined);
+        } else if (action === 'delete' && submission.result.data.session_id === sessionId) {
+          await deleteSessionById(sessionId);
+        } else {
+          throw new Error('Invalid session command response');
+        }
+      } else if (submission.result.kind === 'import-control') {
+        try {
+          const importedContent = await importControlSettings(sessionId);
+          assistantMessage = await apiRequest<ChatMessage>(
+            `/chat/sessions/${encodeURIComponent(sessionId)}/messages/${encodeURIComponent(assistantMessage.id)}`,
+            { method: 'PATCH', body: JSON.stringify({ content: importedContent, metadata: { kind: 'text' } }) },
+          );
+        } catch (err) {
+          const failure = localErrorMessage(err);
+          assistantMessage = { ...assistantMessage, content: failure.content, metadata: failure.metadata };
+          try {
+            assistantMessage = await apiRequest<ChatMessage>(
+              `/chat/sessions/${encodeURIComponent(sessionId)}/messages/${encodeURIComponent(assistantMessage.id)}`,
+              { method: 'PATCH', body: JSON.stringify({ content: failure.content, metadata: failure.metadata }) },
+            );
+          } catch {
+            // Keep the local error visible if the result cannot be saved.
+          }
+        }
+      } else if (submission.result.kind === 'operation') {
         if (activeSession?.id === sessionId) {
           if (context === 'video') showGeneratedVideo(submission.result.data);
           else if (submission.artifacts.some((artifact) => (
@@ -1854,66 +1935,18 @@ export function initChat(): void {
         });
         return;
       }
-      const captureElement = document.getElementById('control-chat-import');
-      const captureButton = captureElement instanceof HTMLButtonElement
-        ? captureElement
-        : captureElement?.querySelector<HTMLButtonElement>('button') ?? null;
-      if (!captureButton) {
-        appendErrorMessage(new Error('Control settings capture is unavailable'));
-        return;
-      }
       const sessionId = activeSession.id;
-      const sessionInput = document.querySelector<HTMLTextAreaElement>('#control-chat-session-id textarea');
-      const setSessionValue = Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, 'value')?.set;
-      if (!sessionInput || !setSessionValue) {
-        appendErrorMessage(new Error('Control settings session input is unavailable'));
-        return;
-      }
-      setSessionValue.call(sessionInput, sessionId);
-      sessionInput.dispatchEvent(new Event('input', { bubbles: true }));
-      sessionInput.dispatchEvent(new Event('change', { bubbles: true }));
-      importControlButton.disabled = true;
       try {
-        const result = await new Promise<ChatControlImportResult>((resolve, reject) => {
-          let timeout: number;
-          const handleCapture = (event: Event): void => {
-            window.clearTimeout(timeout);
-            const detail = (event as CustomEvent<ChatControlImportResult>).detail;
-            if (detail?.error) reject(new Error(detail.error));
-            else resolve(detail);
-          };
-          timeout = window.setTimeout(() => {
-            window.removeEventListener('sdnext-chat-control-imported', handleCapture);
-            reject(new Error('Control settings capture timed out'));
-          }, 15000);
-          window.addEventListener('sdnext-chat-control-imported', handleCapture, { once: true });
-          captureButton.click();
-        });
-        if (!result.session || !Array.isArray(result.imported)) throw new Error('Invalid Control import response');
-        if (result.session.id !== sessionId) throw new Error('The active Chat session changed during import');
-        activeSession = result.session;
-        parameterSessionId = null;
-        parameterContext = null;
-        await refreshParameterEntries(result.session);
-        updateSessionTitle();
-        const importedSettings = [
-          ...result.imported,
-          ...(result.extras ?? []).map((name) => `Extra: ${name}`),
-        ];
-        const text = importedSettings.length > 0
-          ? `${chatText('chat-import-control-success', 'Imported settings:')} ${importedSettings.join(', ')}`
-          : chatText('chat-import-control-empty', 'settings match their defaults; nothing was imported.');
+        const content = await importControlSettings(sessionId);
         appendMessage(container, {
           id: `control-import-${Date.now()}`,
           role: 'assistant',
-          content: text,
+          content,
           metadata: {},
           created_at: new Date().toISOString(),
         });
       } catch (err) {
         appendErrorMessage(err);
-      } finally {
-        updateToolbarButtons();
       }
     });
     const initialize = async (): Promise<void> => {

@@ -7,8 +7,9 @@ const chatCommands = [
   'abort', 'again', 'args', 'cancel', 'caption', 'captioning', 'clear', 'context', 'db', 'details', 'exif', 'file',
   'generate', 'get', 'gpu', 'help', 'history', 'image', 'info', 'interrupt', 'last', 'list', 'mem', 'memory',
   'meta', 'metadata', 'model', 'negative', 'opts', 'p', 'params', 'pause', 'prompt',
-  'reprocess', 'reset', 'resume', 'run', 'schedule', 'set', 'skip', 'snap', 'snapshot', 'smi', 'start', 'status', 'stop',
+  'reprocess', 'reset', 'resume', 'run', 'schedule', 'session', 'set', 'skip', 'snap', 'snapshot', 'smi', 'start', 'status', 'stop',
   'storage', 'title', 'use', 'ver', 'version',
+  'import',
 ];
 const chatCommandSet = new Set(chatCommands);
 const promptMarkers = new Set(['`', "'", '"', '>']);
