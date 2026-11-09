@@ -135,9 +135,8 @@ function appendSafeHtml(target: Node, html: string): void {
       return;
     }
     const safeElement = document.createElement(tagName);
-    if (tagName === 'span' && element.classList.contains('chat-file-line')) {
-      safeElement.classList.add('chat-file-line');
-    }
+    const className = element.getAttribute('class');
+    if (className) safeElement.setAttribute('class', className);
     if (tagName === 'a') {
       const href = element.getAttribute('href');
       if (href) {
@@ -639,7 +638,10 @@ export function initChat(): void {
   const getParameterChoices = (name: string): Promise<string[]> => {
     const session = activeSession;
     if (!session) return Promise.resolve([]);
-    const key = `${session.id}:${session.context}:${name.toLowerCase()}`;
+    const videoEngine = session.context === 'video' && name.toLowerCase() === 'model'
+      ? String(session.drafts.video?.engine ?? '')
+      : '';
+    const key = `${session.id}:${session.context}:${name.toLowerCase()}:${videoEngine}`;
     const cached = parameterChoiceCache.get(key);
     if (cached) return cached;
     const request = apiRequest<{ name: string; choices: string[] }>(

@@ -5974,6 +5974,9 @@ div#gallery_results_mobile_tabitem {
   color: var(--sd-main-accent-color);
   font-weight: 600;
 }
+.chat-processed {
+  color: var(--sd-main-accent-color);
+}
 .chat-composer .cm-chat-comment {
   color: var(--sd-muted-color);
   font-style: italic;
