@@ -495,7 +495,17 @@ function emptyMessageList(container: HTMLElement): void {
   container.append(empty);
 }
 
-export function initChat(): void {
+export async function initChat(): Promise<void> {
+  let disabled = window.opts.chat_enabled !== true;
+  if (!disabled) {
+    try {
+      const status = await apiRequest<{ available: boolean }>('/chat/status');
+      disabled = status.available !== true;
+    } catch (err) {
+      disabled = true;
+      error('chatStatus', err);
+    }
+  }
   const t0 = performance.now();
   const container = document.getElementById('chat-messages');
   const form = document.getElementById('chat-composer');
@@ -591,7 +601,6 @@ export function initChat(): void {
   let activeGenerations = 0;
   let loopEnabled = false;
   let generationPaused = false;
-  const disabled = window.opts.chat_enabled !== true;
   const storageKey = `sdnext-chat-session:${window.subpath || ''}`;
   setChatHint(input, 'chat-input');
   setChatHint(renameInput, 'chat-rename-session-input');

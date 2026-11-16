@@ -19575,7 +19575,17 @@ function emptyMessageList(container) {
   empty.append(icon, title, prompt);
   container.append(empty);
 }
-function initChat() {
+async function initChat() {
+  let disabled = window.opts.chat_enabled !== true;
+  if (!disabled) {
+    try {
+      const status = await apiRequest("/chat/status");
+      disabled = status.available !== true;
+    } catch (err) {
+      disabled = true;
+      error("chatStatus", err);
+    }
+  }
   const t0 = performance.now();
   const container = document.getElementById("chat-messages");
   const form = document.getElementById("chat-composer");
@@ -19648,7 +19658,6 @@ function initChat() {
   let activeGenerations = 0;
   let loopEnabled = false;
   let generationPaused = false;
-  const disabled = window.opts.chat_enabled !== true;
   const storageKey = `sdnext-chat-session:${window.subpath || ""}`;
   setChatHint(input, "chat-input");
   setChatHint(renameInput, "chat-rename-session-input");
