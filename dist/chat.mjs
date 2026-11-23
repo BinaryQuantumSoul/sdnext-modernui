@@ -19577,10 +19577,12 @@ function emptyMessageList(container) {
   container.append(empty);
 }
 async function initChat() {
+  let chatStatus = { available: false };
   try {
-    const status = await apiRequest("/chat/status");
+    chatStatus = await apiRequest("/chat/status");
   } catch (err) {
     error("chatStatus", err);
+    return;
   }
   const t0 = performance.now();
   const container = document.getElementById("chat-messages");
@@ -20937,7 +20939,7 @@ ${chatText("chat-endpoint-unsaved", "Result shown but could not be saved to chat
   initialize().catch(appendErrorMessage);
   updateSessionTitle();
   const t1 = performance.now();
-  log("initChat", Math.round(t1 - t0));
+  log("initChat", { status: chatStatus, time: Math.round(t1 - t0) });
   timer("initChat", t1 - t0);
 }
 export {

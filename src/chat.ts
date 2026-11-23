@@ -496,10 +496,12 @@ function emptyMessageList(container: HTMLElement): void {
 }
 
 export async function initChat(): Promise<void> {
+  let chatStatus = { available: false };
   try {
-    const status = await apiRequest<{ available: boolean }>('/chat/status');
+    chatStatus = await apiRequest<{ available: boolean }>('/chat/status');
   } catch (err) {
     error('chatStatus', err);
+    return;
   }
   const t0 = performance.now();
   const container = document.getElementById('chat-messages');
@@ -1959,6 +1961,6 @@ export async function initChat(): Promise<void> {
   initialize().catch(appendErrorMessage);
   updateSessionTitle();
   const t1 = performance.now();
-  log('initChat', Math.round(t1 - t0));
+  log('initChat', { status: chatStatus, time: Math.round(t1 - t0) });
   timer('initChat', t1 - t0);
 }
