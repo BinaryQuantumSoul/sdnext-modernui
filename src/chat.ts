@@ -496,15 +496,10 @@ function emptyMessageList(container: HTMLElement): void {
 }
 
 export async function initChat(): Promise<void> {
-  let disabled = window.opts.chat_enabled !== true;
-  if (!disabled) {
-    try {
-      const status = await apiRequest<{ available: boolean }>('/chat/status');
-      disabled = status.available !== true;
-    } catch (err) {
-      disabled = true;
-      error('chatStatus', err);
-    }
+  try {
+    const status = await apiRequest<{ available: boolean }>('/chat/status');
+  } catch (err) {
+    error('chatStatus', err);
   }
   const t0 = performance.now();
   const container = document.getElementById('chat-messages');
@@ -666,7 +661,7 @@ export async function initChat(): Promise<void> {
 
   const updateResultActionButtons = (): void => {
     const selected = getSelectedArtifact();
-    const actionDisabled = disabled || submitting || !selected;
+    const actionDisabled = submitting || !selected;
     resultInfoButton.disabled = actionDisabled;
     resultOpenFolderButton.disabled = actionDisabled;
     resultSaveButton.disabled = actionDisabled;
@@ -675,7 +670,7 @@ export async function initChat(): Promise<void> {
 
   const updateToolbarButtons = (): void => {
     const context = activeSession?.context;
-    const isBusy = disabled || submitting;
+    const isBusy = submitting;
     const hasSnapshot = Boolean(activeSession?.last_generation_snapshot);
     const canGenerate = context === 'image' || context === 'video' || Boolean(latestGeneratedImage);
     chatGenerate.disabled = isBusy || activeGenerations > 0 || !canGenerate;
@@ -700,9 +695,7 @@ export async function initChat(): Promise<void> {
     sessionToggle.setAttribute('aria-label', sessionToggle.title);
     setChatHint(sessionToggle, 'chat-session-toggle');
     currentSessionLabel.textContent = `${chatText('chat-session', 'Session')}:`;
-    currentSessionName.textContent = disabled
-      ? chatText('chat-disabled', 'Disabled')
-      : activeSession?.title || chatText('chat-new-session', 'New chat');
+    currentSessionName.textContent = activeSession?.title || chatText('chat-new-session', 'New chat');
     updateToolbarButtons();
   };
 
@@ -710,17 +703,17 @@ export async function initChat(): Promise<void> {
 
   const setBusy = (busy: boolean): void => {
     submitting = busy;
-    inputEditor?.setDisabled(disabled || busy);
-    fileButton.disabled = disabled || busy;
-    filePicker.disabled = disabled || busy;
-    help.disabled = disabled || busy;
-    sessionToggle.disabled = disabled || busy;
-    newSession.disabled = disabled || busy;
-    renameInput.disabled = disabled || busy;
-    renameCancel.disabled = disabled || busy;
-    renameSave.disabled = disabled || busy;
+    inputEditor?.setDisabled(busy);
+    fileButton.disabled = busy;
+    filePicker.disabled = busy;
+    help.disabled = busy;
+    sessionToggle.disabled = busy;
+    newSession.disabled = busy;
+    renameInput.disabled = busy;
+    renameCancel.disabled = busy;
+    renameSave.disabled = busy;
     sessionList.querySelectorAll<HTMLButtonElement>('button').forEach((button) => {
-      button.disabled = disabled || busy;
+      button.disabled = busy;
     });
     updateToolbarButtons();
   };
@@ -728,7 +721,7 @@ export async function initChat(): Promise<void> {
   const closePanel = (focusComposer: boolean): void => {
     sessionPanel.hidden = true;
     sessionToggle.setAttribute('aria-expanded', 'false');
-    if (focusComposer && !disabled) inputEditor?.focus();
+    if (focusComposer) inputEditor?.focus();
   };
 
   const openRenameDialog = (session: ChatSession): void => {
@@ -1340,7 +1333,7 @@ export async function initChat(): Promise<void> {
         created_at: new Date().toISOString(),
       });
     }
-    if (focusComposer && !disabled) inputEditor?.focus();
+    if (focusComposer) inputEditor?.focus();
   };
 
   const refreshSessionList = async (): Promise<void> => {
@@ -1549,7 +1542,7 @@ export async function initChat(): Promise<void> {
 
   const submitCommand = async (text: string): Promise<void> => {
     const content = text.trim();
-    if (!content || disabled || submitting || !activeSession) return;
+    if (!content || submitting || !activeSession) return;
     if (content.toLowerCase() === 'loop') {
       loopEnabled = !loopEnabled;
       updateToolbarButtons();
@@ -1725,7 +1718,7 @@ export async function initChat(): Promise<void> {
   };
 
   const uploadChatFile = async (file: File): Promise<void> => {
-    if (disabled || submitting || !activeSession) return;
+    if (submitting || !activeSession) return;
     const sessionId = activeSession.id;
     const displayName = file.name.replace(/\\/g, '/').split('/').pop() || 'upload';
     const userMessage: ChatMessage = {
@@ -1809,7 +1802,6 @@ export async function initChat(): Promise<void> {
     input,
     chatText('chat-placeholder', 'Write a command...'),
     chatText('chat-input', 'Message'),
-    disabled,
     {
       onChange: (value) => {
         commandHistoryIndex = commandHistory.length;
@@ -1838,147 +1830,133 @@ export async function initChat(): Promise<void> {
       onFiles: (files) => uploadChatFiles(files).catch(appendErrorMessage),
     },
   );
+  fileButton.title = chatText('chat-attach-file', 'Attach file');
+  fileButton.setAttribute('aria-label', fileButton.title);
+  help.title = chatText('chat-help', 'Help');
+  help.setAttribute('aria-label', help.title);
+  importControlButton.title = chatText('chat-import-control', 'Import Control');
+  importControlButton.setAttribute('aria-label', importControlButton.title);
+  setChatHint(importControlButton, 'chat-import-control');
+  saveSettingsSnapshotButton.title = chatText('chat-save-settings-snapshot', 'Save settings snapshot');
+  saveSettingsSnapshotButton.setAttribute('aria-label', saveSettingsSnapshotButton.title);
+  setChatHint(saveSettingsSnapshotButton, 'chat-save-settings-snapshot');
+  newSession.title = chatText('chat-new-session', 'New chat');
+  newSession.setAttribute('aria-label', newSession.title);
+  closeSessionPanel.title = chatText('chat-close-sessions', 'Close sessions');
+  closeSessionPanel.setAttribute('aria-label', closeSessionPanel.title);
+  renameHeading.textContent = chatText('chat-rename-session', 'Rename session');
+  renameLabel.textContent = chatText('chat-session-name', 'Session name');
+  renameCancel.textContent = chatText('chat-rename-cancel', 'Cancel');
+  renameSave.textContent = chatText('chat-rename-save', 'Save');
+  resultActionToolbar.setAttribute('aria-label', chatText('chat-image-actions', 'Image actions'));
+  [
+    [resultInfoButton, 'chat-image-info', 'Info'],
+    [resultOpenFolderButton, 'chat-image-open-folder', 'Open folder'],
+    [resultSaveButton, 'chat-image-save', 'Save image'],
+    [resultDeleteButton, 'chat-image-delete', 'Delete'],
+  ].forEach(([button, id, label]) => {
+    if (!(button instanceof HTMLButtonElement) || typeof id !== 'string' || typeof label !== 'string') return;
+    const localized = chatText(id, label);
+    button.title = localized;
+    button.setAttribute('aria-label', localized);
+  });
 
-  if (disabled) {
-    fileButton.disabled = true;
-    filePicker.disabled = true;
-    help.disabled = true;
-    importControlButton.disabled = true;
-    saveSettingsSnapshotButton.disabled = true;
-    sessionToggle.disabled = true;
-    newSession.disabled = true;
-    renameInput.disabled = true;
-    renameCancel.disabled = true;
-    renameSave.disabled = true;
-  } else {
-    fileButton.title = chatText('chat-attach-file', 'Attach file');
-    fileButton.setAttribute('aria-label', fileButton.title);
-    help.title = chatText('chat-help', 'Help');
-    help.setAttribute('aria-label', help.title);
-    importControlButton.title = chatText('chat-import-control', 'Import Control');
-    importControlButton.setAttribute('aria-label', importControlButton.title);
-    setChatHint(importControlButton, 'chat-import-control');
-    saveSettingsSnapshotButton.title = chatText('chat-save-settings-snapshot', 'Save settings snapshot');
-    saveSettingsSnapshotButton.setAttribute('aria-label', saveSettingsSnapshotButton.title);
-    setChatHint(saveSettingsSnapshotButton, 'chat-save-settings-snapshot');
-    newSession.title = chatText('chat-new-session', 'New chat');
-    newSession.setAttribute('aria-label', newSession.title);
-    closeSessionPanel.title = chatText('chat-close-sessions', 'Close sessions');
-    closeSessionPanel.setAttribute('aria-label', closeSessionPanel.title);
-    renameHeading.textContent = chatText('chat-rename-session', 'Rename session');
-    renameLabel.textContent = chatText('chat-session-name', 'Session name');
-    renameCancel.textContent = chatText('chat-rename-cancel', 'Cancel');
-    renameSave.textContent = chatText('chat-rename-save', 'Save');
-    resultActionToolbar.setAttribute('aria-label', chatText('chat-image-actions', 'Image actions'));
-    [
-      [resultInfoButton, 'chat-image-info', 'Info'],
-      [resultOpenFolderButton, 'chat-image-open-folder', 'Open folder'],
-      [resultSaveButton, 'chat-image-save', 'Save image'],
-      [resultDeleteButton, 'chat-image-delete', 'Delete'],
-    ].forEach(([button, id, label]) => {
-      if (!(button instanceof HTMLButtonElement) || typeof id !== 'string' || typeof label !== 'string') return;
-      const localized = chatText(id, label);
-      button.title = localized;
-      button.setAttribute('aria-label', localized);
-    });
-
-    fileButton.addEventListener('click', () => filePicker.click());
-    saveSettingsSnapshotButton.addEventListener('click', () => submitCommand('snapshot save').catch(appendErrorMessage));
-    filePicker.addEventListener('change', () => {
-      const files = Array.from(filePicker.files || []);
-      filePicker.value = '';
-      uploadChatFiles(files).catch(appendErrorMessage);
-    });
-    workspace.addEventListener('dragover', (event: DragEvent) => {
-      if (!Array.from(event.dataTransfer?.types || []).includes('Files')) return;
-      event.preventDefault();
-      form.dataset.dragover = 'true';
-      if (event.dataTransfer) event.dataTransfer.dropEffect = 'copy';
-    });
-    workspace.addEventListener('dragleave', (event: DragEvent) => {
-      if (!(event.relatedTarget instanceof Node) || !workspace.contains(event.relatedTarget)) {
-        delete form.dataset.dragover;
-      }
-    });
-    workspace.addEventListener('drop', (event: DragEvent) => {
-      const files = Array.from(event.dataTransfer?.files || []);
-      if (files.length === 0) return;
-      event.preventDefault();
+  fileButton.addEventListener('click', () => filePicker.click());
+  saveSettingsSnapshotButton.addEventListener('click', () => submitCommand('snapshot save').catch(appendErrorMessage));
+  filePicker.addEventListener('change', () => {
+    const files = Array.from(filePicker.files || []);
+    filePicker.value = '';
+    uploadChatFiles(files).catch(appendErrorMessage);
+  });
+  workspace.addEventListener('dragover', (event: DragEvent) => {
+    if (!Array.from(event.dataTransfer?.types || []).includes('Files')) return;
+    event.preventDefault();
+    form.dataset.dragover = 'true';
+    if (event.dataTransfer) event.dataTransfer.dropEffect = 'copy';
+  });
+  workspace.addEventListener('dragleave', (event: DragEvent) => {
+    if (!(event.relatedTarget instanceof Node) || !workspace.contains(event.relatedTarget)) {
       delete form.dataset.dragover;
-      uploadChatFiles(files).catch(appendErrorMessage);
-    });
-    sessionToggle.addEventListener('click', () => {
-      const opening = sessionPanel.hidden;
-      sessionPanel.hidden = !opening;
-      sessionToggle.setAttribute('aria-expanded', String(opening));
-      if (opening) refreshSessionList().catch(appendErrorMessage);
-      else inputEditor?.focus();
-    });
-    closeSessionPanel.addEventListener('click', () => closePanel(true));
-    newSession.addEventListener('click', () => createSession().catch(appendErrorMessage));
-    renameCancel.addEventListener('click', () => renameDialog.close());
-    renameDialog.addEventListener('close', () => { renamingSession = null; });
-    renameForm.addEventListener('submit', (event: SubmitEvent) => {
-      event.preventDefault();
-      saveRenameSession().catch(appendErrorMessage);
-    });
-    form.addEventListener('submit', (event: SubmitEvent) => {
-      event.preventDefault();
-      const text = inputEditor?.value || '';
-      if (!text.trim()) return;
-      commandHistory.push(text);
-      if (commandHistory.length > 100) commandHistory.shift();
-      commandHistoryIndex = commandHistory.length;
-      commandHistoryDraft = '';
-      if (inputEditor) inputEditor.value = '';
-      submitCommand(text).catch(appendErrorMessage);
-    });
-    help.addEventListener('click', () => submitCommand('help').catch(appendErrorMessage));
-    importControlButton.addEventListener('click', async () => {
-      if (!activeSession) return;
-      if (activeSession.context !== 'image') {
-        appendMessage(container, {
-          id: `not-implemented-${Date.now()}`,
-          role: 'assistant',
-          content: `${chatText('chat-not-yet-implemented', 'Not yet implemented')} for ${activeSession.context} context.`,
-          metadata: {},
-          created_at: new Date().toISOString(),
-        });
-        return;
-      }
-      const sessionId = activeSession.id;
-      try {
-        const content = await importControlSettings(sessionId);
-        appendMessage(container, {
-          id: `control-import-${Date.now()}`,
-          role: 'assistant',
-          content,
-          metadata: {},
-          created_at: new Date().toISOString(),
-        });
-      } catch (err) {
-        appendErrorMessage(err);
-      }
-    });
-    const initialize = async (): Promise<void> => {
-      const loadStart = performance.now();
-      const sessions = await apiRequest<ChatSession[]>('/chat/sessions?limit=100');
-      const sessionsLoaded = performance.now();
-      const preferredId = window.localStorage.getItem(storageKey);
-      const preferred = sessions.find((session) => session.id === preferredId);
-      if (preferred) await selectSession(preferred.id, false);
-      else if (sessions.length > 0) await selectSession(sessions[0].id, false);
-      else await createSession();
-      const sessionsAvailable = performance.now();
-      log('loadChatSessions', {
-        count: sessions.length,
-        loaded: Math.round(sessionsLoaded - loadStart),
-        available: Math.round(sessionsAvailable - loadStart),
+    }
+  });
+  workspace.addEventListener('drop', (event: DragEvent) => {
+    const files = Array.from(event.dataTransfer?.files || []);
+    if (files.length === 0) return;
+    event.preventDefault();
+    delete form.dataset.dragover;
+    uploadChatFiles(files).catch(appendErrorMessage);
+  });
+  sessionToggle.addEventListener('click', () => {
+    const opening = sessionPanel.hidden;
+    sessionPanel.hidden = !opening;
+    sessionToggle.setAttribute('aria-expanded', String(opening));
+    if (opening) refreshSessionList().catch(appendErrorMessage);
+    else inputEditor?.focus();
+  });
+  closeSessionPanel.addEventListener('click', () => closePanel(true));
+  newSession.addEventListener('click', () => createSession().catch(appendErrorMessage));
+  renameCancel.addEventListener('click', () => renameDialog.close());
+  renameDialog.addEventListener('close', () => { renamingSession = null; });
+  renameForm.addEventListener('submit', (event: SubmitEvent) => {
+    event.preventDefault();
+    saveRenameSession().catch(appendErrorMessage);
+  });
+  form.addEventListener('submit', (event: SubmitEvent) => {
+    event.preventDefault();
+    const text = inputEditor?.value || '';
+    if (!text.trim()) return;
+    commandHistory.push(text);
+    if (commandHistory.length > 100) commandHistory.shift();
+    commandHistoryIndex = commandHistory.length;
+    commandHistoryDraft = '';
+    if (inputEditor) inputEditor.value = '';
+    submitCommand(text).catch(appendErrorMessage);
+  });
+  help.addEventListener('click', () => submitCommand('help').catch(appendErrorMessage));
+  importControlButton.addEventListener('click', async () => {
+    if (!activeSession) return;
+    if (activeSession.context !== 'image') {
+      appendMessage(container, {
+        id: `not-implemented-${Date.now()}`,
+        role: 'assistant',
+        content: `${chatText('chat-not-yet-implemented', 'Not yet implemented')} for ${activeSession.context} context.`,
+        metadata: {},
+        created_at: new Date().toISOString(),
       });
-      timer('loadChatSessions', sessionsAvailable - loadStart);
-    };
-    initialize().catch(appendErrorMessage);
-  }
+      return;
+    }
+    const sessionId = activeSession.id;
+    try {
+      const content = await importControlSettings(sessionId);
+      appendMessage(container, {
+        id: `control-import-${Date.now()}`,
+        role: 'assistant',
+        content,
+        metadata: {},
+        created_at: new Date().toISOString(),
+      });
+    } catch (err) {
+      appendErrorMessage(err);
+    }
+  });
+  const initialize = async (): Promise<void> => {
+    const loadStart = performance.now();
+    const sessions = await apiRequest<ChatSession[]>('/chat/sessions?limit=100');
+    const sessionsLoaded = performance.now();
+    const preferredId = window.localStorage.getItem(storageKey);
+    const preferred = sessions.find((session) => session.id === preferredId);
+    if (preferred) await selectSession(preferred.id, false);
+    else if (sessions.length > 0) await selectSession(sessions[0].id, false);
+    else await createSession();
+    const sessionsAvailable = performance.now();
+    log('loadChatSessions', {
+      count: sessions.length,
+      loaded: Math.round(sessionsLoaded - loadStart),
+      available: Math.round(sessionsAvailable - loadStart),
+    });
+    timer('loadChatSessions', sessionsAvailable - loadStart);
+  };
+  initialize().catch(appendErrorMessage);
   updateSessionTitle();
   const t1 = performance.now();
   log('initChat', Math.round(t1 - t0));

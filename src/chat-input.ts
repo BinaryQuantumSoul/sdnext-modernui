@@ -3,6 +3,7 @@ import { defaultKeymap, history, historyKeymap } from '@codemirror/commands';
 import { Compartment, EditorState, type Range } from '@codemirror/state';
 import { Decoration, drawSelection, EditorView, keymap, placeholder, ViewPlugin, type DecorationSet } from '@codemirror/view';
 
+const disabled = false;
 const chatCommands = [
   'abort', 'again', 'args', 'cancel', 'caption', 'captioning', 'clear', 'context', 'db', 'details', 'exif', 'file',
   'generate', 'get', 'gpu', 'help', 'history', 'image', 'info', 'interrupt', 'last', 'list', 'mem', 'memory',
@@ -20,7 +21,6 @@ interface ChatPromptCompletion extends Completion {
   count: string;
   category: string;
 }
-
 const commandMark = Decoration.mark({ class: 'cm-chat-command' });
 const commentMark = Decoration.mark({ class: 'cm-chat-comment' });
 const numberMark = Decoration.mark({ class: 'cm-chat-number' });
@@ -46,8 +46,8 @@ const networkPattern = /^<([\w-]+):([^\s<>:]+)(?::([-+]?(?:\d+(?:\.\d+)?|\.\d+))
 const numberPattern = /^[-+]?(?:\d+(?:\.\d+)?|\.\d+)(?![\w.])/;
 const wildcardPattern = /^__(?:(?!__).)+__/;
 
-function editableExtensions(disabled: boolean) {
-  return [EditorState.readOnly.of(disabled), EditorView.editable.of(!disabled)];
+function editableExtensions(localDisabled: boolean) {
+  return [EditorState.readOnly.of(localDisabled), EditorView.editable.of(!localDisabled)];
 }
 
 interface ChatInputCallbacks {
@@ -402,7 +402,7 @@ export class ChatInputEditor {
 
   private suppressChange = false;
 
-  constructor(parent: HTMLElement, placeholderText: string, ariaLabel: string, disabled: boolean, callbacks: ChatInputCallbacks) {
+  constructor(parent: HTMLElement, placeholderText: string, ariaLabel: string, callbacks: ChatInputCallbacks) {
     this.view = new EditorView({
       parent,
       state: EditorState.create({
@@ -503,9 +503,9 @@ export class ChatInputEditor {
     this.view.focus();
   }
 
-  setDisabled(disabled: boolean): void {
-    this.view.dispatch({ effects: this.editable.reconfigure(editableExtensions(disabled)) });
-    this.view.contentDOM.setAttribute('aria-disabled', String(disabled));
+  setDisabled(busy: boolean): void {
+    this.view.dispatch({ effects: this.editable.reconfigure(editableExtensions(busy)) });
+    this.view.contentDOM.setAttribute('aria-disabled', String(busy));
   }
 
   private setValue(value: string, cursor: number): void {
